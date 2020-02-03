@@ -1,0 +1,47 @@
+import React from "react";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+
+import Intro from "./pages/auth/Intro";
+import Login from "./pages/auth/Login";
+import SignupBasic from "./pages/auth/SignupBasic";
+import SignupCompany from "./pages/auth/SignupCompany";
+import SignupIdcard from "./pages/auth/SignupIdcard";
+import SignupPic from "./pages/auth/SignupPic";
+import SignupTag from "./pages/auth/SignupTag";
+import TabNav from "./pages/main/Main";
+
+const AuthStack = createStackNavigator({
+  Intro: {
+    screen: Intro,
+  },
+  Login: {
+    screen: Login,
+  },
+  SignupBasic: {
+    screen: SignupBasic,
+  },
+  SignupCompany: {
+    screen: SignupCompany,
+  },
+  SignupIdcard: {
+    screen: SignupIdcard,
+  },
+  SignupPic: {
+    screen: SignupPic,
+  },
+  SignupTag: {
+    screen: SignupTag,
+  },
+});
+
+const MainStack = createStackNavigator({
+  AuthStack: {
+    screen: AuthStack,
+  },
+  TabNav: {
+    screen: TabNav,
+  },
+});
+
+export default createAppContainer(MainStack);
