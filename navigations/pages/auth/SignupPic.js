@@ -1,10 +1,21 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const SignupPic = ({ params }) => (
-  <View>
-    <Text>SignupPic</Text>
-  </View>
-);
+class SignupPic extends React.Component {
+  _doNext() {
+    this.props.navigation.replace("SignupTag");
+  }
+
+  render() {
+    return (
+      <View>
+        <Text>SignupCompany</Text>
+        <TouchableOpacity onPress={this._doNext.bind(this)}>
+          <Text style={{ fontSize: 30, backgroundColor: "blue" }}>Next</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
 
 export default SignupPic;
