@@ -1,5 +1,5 @@
 import React from "react";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import Intro from "./pages/auth/Intro";
@@ -12,9 +12,9 @@ import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
 
 const AuthStack = createStackNavigator({
-  Intro: {
-    screen: Intro,
-  },
+  // Intro: {
+  //   screen: Intro,
+  // },
   Login: {
     screen: Login,
   },
@@ -35,13 +35,19 @@ const AuthStack = createStackNavigator({
   },
 });
 
-const MainStack = createStackNavigator({
-  AuthStack: {
-    screen: AuthStack,
+const MainStack = createSwitchNavigator(
+  {
+    Intro: Intro,
+    AuthStack: {
+      screen: AuthStack,
+    },
+    TabNav: {
+      screen: TabNav,
+    },
   },
-  TabNav: {
-    screen: TabNav,
+  {
+    initialRouteName: "Intro",
   },
-});
+);
 
 export default createAppContainer(MainStack);
