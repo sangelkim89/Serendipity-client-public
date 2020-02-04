@@ -4,14 +4,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-// pop 하기 위함
-import { StackActions } from "@react-navigation/routers";
+import { observer, inject } from "mobx-react";
 
+@inject("signupStore")
+@observer
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
 
   _doLogin() {
     this.props.navigation.replace("TabNav");
@@ -22,14 +20,27 @@ class Login extends Component {
   }
 
   render() {
+    const { signupStore } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.titleArea}>
           <Text style={styles.title}>LOGIN</Text>
         </View>
         <View style={styles.formArea}>
-          <TextInput style={styles.textForm} placeholder={"ID"} />
-          <TextInput style={styles.textForm} placeholder={"Password"} />
+          <TextInput
+            style={styles.textForm}
+            placeholder={"ID"}
+            onChangeText={value => {
+              signupStore.inputId(value);
+            }}
+          />
+          <TextInput
+            style={styles.textForm}
+            placeholder={"Password"}
+            onChangeText={potato => {
+              signupStore.inputPW(potato);
+            }}
+          />
         </View>
         <View style={styles.buttonArea}>
           <TouchableOpacity style={styles.button} onPress={this._doLogin.bind(this)}>
