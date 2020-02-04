@@ -3,25 +3,26 @@ import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 
-import Hunt from "./Hunt";
-import Matches from "./Matches";
-import Myprofile from "./Myprofile";
+// 수정되어야 함
+import HuntPageStack from "./Hunt/Hunt";
+import MatchPageStack from "./Matches/Matches";
+import MyProfilePageStack from "./MyProfile/MyProfile";
 
 const HuntStack = createStackNavigator({
   Hunt: {
-    screen: Hunt,
+    screen: HuntPageStack,
   },
 });
 
 const MatchesStack = createStackNavigator({
   Matches: {
-    screen: Matches,
+    screen: MatchPageStack,
   },
 });
 
 const MyprofileStack = createStackNavigator({
   Myprofile: {
-    screen: Myprofile,
+    screen: MyProfilePageStack,
   },
 });
 
@@ -31,4 +32,6 @@ const TabNav = createBottomTabNavigator({
   Myprofile: MyprofileStack,
 });
 
-export default createAppContainer(TabNav);
+// export default createAppContainer(createStackNavigator({ TabNav }));
+// export default createStackNavigator({ TabNav });
+export default TabNav;

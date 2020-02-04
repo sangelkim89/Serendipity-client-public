@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const Matches = ({ params }) => (
+const HuntPage = ({ params }) => (
   <View>
-    <Text>Matches</Text>
+    <Text>HuntPage</Text>
   </View>
 );
 
-export default Matches;
+export default HuntPage;
