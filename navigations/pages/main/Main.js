@@ -7,6 +7,12 @@ import Hunt from "./Hunt";
 import Matches from "./Matches";
 import Myprofile from "./Myprofile";
 
+const HuntStack = createStackNavigator({
+  Hunt: {
+    screen: Hunt,
+  },
+});
+
 const MatchesStack = createStackNavigator({
   Matches: {
     screen: Matches,
@@ -16,12 +22,6 @@ const MatchesStack = createStackNavigator({
 const MyprofileStack = createStackNavigator({
   Myprofile: {
     screen: Myprofile,
-  },
-});
-
-const HuntStack = createStackNavigator({
-  Hunt: {
-    screen: Hunt,
   },
 });
 
