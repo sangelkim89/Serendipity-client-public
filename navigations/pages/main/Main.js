@@ -32,6 +32,4 @@ const TabNav = createBottomTabNavigator({
   Myprofile: MyprofileStack,
 });
 
-// export default createAppContainer(createStackNavigator({ TabNav }));
-// export default createStackNavigator({ TabNav });
 export default TabNav;

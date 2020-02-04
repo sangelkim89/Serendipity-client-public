@@ -12,7 +12,7 @@ class Login extends Component {
   state = {};
 
   _doLogin() {
-    this.props.navigation.replace("TabNav");
+    this.props.navigation.navigate("TabNav");
   }
 
   _doSignUp() {
