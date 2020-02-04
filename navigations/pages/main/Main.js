@@ -3,15 +3,9 @@ import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 
-import Hunt from "./pages/main/Hunt";
-import Matches from "./pages/main/Matches";
-import Myprofile from "./pages/main/Myprofile";
-
-const HuntStack = createStackNavigator({
-  Hunt: {
-    screen: Hunt,
-  },
-});
+import Hunt from "./Hunt";
+import Matches from "./Matches";
+import Myprofile from "./Myprofile";
 
 const MatchesStack = createStackNavigator({
   Matches: {
@@ -22,6 +16,12 @@ const MatchesStack = createStackNavigator({
 const MyprofileStack = createStackNavigator({
   Myprofile: {
     screen: Myprofile,
+  },
+});
+
+const HuntStack = createStackNavigator({
+  Hunt: {
+    screen: Hunt,
   },
 });
 
