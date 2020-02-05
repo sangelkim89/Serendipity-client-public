@@ -12,9 +12,6 @@ import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
 
 const AuthStack = createStackNavigator({
-  // Intro: {
-  //   screen: Intro,
-  // },
   Login: {
     screen: Login,
   },

@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, toJS } from "mobx";
 
 class SignupStore {
   // (StoreIndex)
@@ -26,10 +26,22 @@ class SignupStore {
   @observable loginId = "";
   @observable loginPW = "";
 
+  @observable marker = {};
+
   // 메소드
   @action
-  profileExer = () => {
-    console.log("사인업 메소드 작동");
+  markerClick = async item => {
+    console.log("마커", item);
+    let coord = item;
+    this.marker = coord;
+    console.log(this.marker);
+  };
+
+  @action
+  inputCompanyName = e => {
+    console.log("CompanyName", e);
+    this.companyName = e;
+    console.log("CN_STATE", this.companyName);
   };
 
   @action
