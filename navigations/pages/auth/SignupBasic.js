@@ -8,7 +8,7 @@ class SignupBasic extends Component {
   state = {};
 
   _doNext() {
-    this.props.navigation.replace("SignupCompany");
+    this.props.navigation.navigate("SignupCompany");
   }
 
   render() {
