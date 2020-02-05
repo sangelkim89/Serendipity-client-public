@@ -8,6 +8,7 @@ import SignupBasic from "./pages/auth/SignupBasic";
 import SignupCompany from "./pages/auth/SignupCompany";
 import SignupIdcard from "./pages/auth/SignupIdcard";
 import SignupPic from "./pages/auth/SignupPic";
+import TakeCamera from "./pages/auth/TakeCamera";
 import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
 
@@ -21,14 +22,17 @@ const AuthStack = createStackNavigator({
   SignupCompany: {
     screen: SignupCompany,
   },
-  SignupIdcard: {
-    screen: SignupIdcard,
+  SignupTag: {
+    screen: SignupTag,
   },
   SignupPic: {
     screen: SignupPic,
   },
-  SignupTag: {
-    screen: SignupTag,
+  SignupIdcard: {
+    screen: SignupIdcard,
+  },
+  TakeCamera: {
+    screen: TakeCamera,
   },
 });
 
