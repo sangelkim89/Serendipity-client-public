@@ -10,11 +10,12 @@ class SignupCompany extends React.Component {
   static navigationOptions = { headerShown: false };
 
   _doNext() {
-    this.props.navigation.replace("SignupIdcard");
+    this.props.navigation.navigate("SignupIdcard");
   }
+
   render() {
     const { signupStore } = this.props;
-
+    console.log("마커_스토어", signupStore.marker);
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#ecf0f1" }}>
         <Text>SignupCompany</Text>
@@ -22,14 +23,14 @@ class SignupCompany extends React.Component {
           style={styles.input}
           placeholder="회사명"
           onChangeText={value => {
-            signupStore.inputId(value);
+            signupStore.inputCompanyName(value);
           }}
         ></TextInput>
         <TextInput
           style={styles.input}
           placeholder="업종"
           onChangeText={value => {
-            signupStore.inputId(value);
+            signupStore.inputCompanySort(value);
           }}
         ></TextInput>
         <MapView

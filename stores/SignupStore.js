@@ -26,15 +26,18 @@ class SignupStore {
   @observable loginId = "";
   @observable loginPW = "";
 
-  @observable marker = {};
+  @observable marker = { lat: null, lon: null };
 
   // 메소드
   @action
   markerClick = async item => {
     console.log("마커", item);
-    let coord = item;
-    this.marker = coord;
-    console.log(this.marker);
+    let lat = item.latitude;
+    let lon = item.longitude;
+    this.marker.lat = lat;
+    this.marker.lon = lon;
+    console.log("MARKER_STATE", this.marker);
+    console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
   };
 
   @action
@@ -42,6 +45,13 @@ class SignupStore {
     console.log("CompanyName", e);
     this.companyName = e;
     console.log("CN_STATE", this.companyName);
+  };
+
+  @action
+  inputCompanySort = e => {
+    console.log("companySort", e);
+    this.companySort = e;
+    console.log("CS_STATE", this.companySort);
   };
 
   @action
