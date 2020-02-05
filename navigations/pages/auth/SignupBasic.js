@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, Button } from "react-native";
 import { observer, inject } from "mobx-react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from "react-native-simple-radio-button";
+import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
 
 @inject("signupStore")

@@ -18,7 +18,7 @@ class SignupStore {
   @observable birth = "";
   @observable companyName = ""; // 회사명
   @observable companySort = ""; // 업종
-  @observable geoLocation = "";
+  @observable geoLocation = { lat: null, lon: null };
   @observable tags = [];
   @observable imgProfile = null;
   @observable imgIdCard = null;
@@ -114,6 +114,8 @@ class SignupStore {
     let lon = item.longitude;
     this.marker.lat = lat;
     this.marker.lon = lon;
+    this.geoLocation.lat = lat;
+    this.geoLocation.lon = lon;
     console.log("MARKER_STATE", this.marker);
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
   };
