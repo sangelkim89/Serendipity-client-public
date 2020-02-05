@@ -27,17 +27,18 @@ class TakeCamera extends Component {
   takePicture = async () => {
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
+      console.log("camera image : ", photo.uri);
       this.props.signupStore.imgProfile = photo;
     }
-    console.log("imgProfile : ", signupStore.imgProfile);
   };
 
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
-    this.props.signupStore.imgProfile = result;
-    this.props.navigation.replace("SignupPic");
+    console.log("pick image : ", result.uri);
+    this.props.signupStore.imgProfile = result.uri;
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -74,7 +75,7 @@ class TakeCamera extends Component {
               }}
               onPress={() => {
                 this.takePicture();
-                this.props.navigation.replace("SignupPic");
+                this.props.navigation.pop(1);
               }}
             >
               <FontAwesome name="camera" style={{ color: "#fff", fontSize: 40 }} />

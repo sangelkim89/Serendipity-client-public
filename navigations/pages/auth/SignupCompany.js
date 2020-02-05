@@ -11,7 +11,7 @@ class SignupCompany extends React.Component {
   static navigationOptions = { headerShown: false };
 
   _doNext() {
-    this.props.navigation.navigate("SignupIdcard");
+    this.props.navigation.navigate("SignupTag");
   }
 
   render() {

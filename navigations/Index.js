@@ -22,14 +22,14 @@ const AuthStack = createStackNavigator({
   SignupCompany: {
     screen: SignupCompany,
   },
-  SignupIdcard: {
-    screen: SignupIdcard,
+  SignupTag: {
+    screen: SignupTag,
   },
   SignupPic: {
     screen: SignupPic,
   },
-  SignupTag: {
-    screen: SignupTag,
+  SignupIdcard: {
+    screen: SignupIdcard,
   },
   TakeCamera: {
     screen: TakeCamera,

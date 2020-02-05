@@ -66,6 +66,24 @@ class SignupStore {
     this.loginPW = e;
     console.log("패스워드", this.loginPW);
   };
+
+  @action
+  submitSigninData = () => {
+    const signinData = {
+      gender: this.gender,
+      email: this.email,
+      phone: this.phone,
+      userId: this.userId,
+      birth: this.birth,
+      companyName: this.companyName,
+      companySort: this.companySort,
+      geoLocation: this.geoLocation,
+      tags: this.tags,
+      imgProfile: this.imgProfile,
+      imgIdCard: this.imgIdCard,
+    };
+    console.log("signinData : ", signinData); // 제출 기능 구현 필요
+  };
 }
 
 export default SignupStore;

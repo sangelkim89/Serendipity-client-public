@@ -12,7 +12,7 @@ class SignupPic extends React.Component {
   };
 
   _doNext() {
-    this.props.navigation.replace("SignupTag");
+    this.props.navigation.navigate("SignupIdcard");
   }
 
   async permitCamera() {
@@ -20,14 +20,12 @@ class SignupPic extends React.Component {
     if (status !== "granted") {
       const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA);
       if (status === "granted") {
-        // this.setState({ status });
-        this.props.navigation.replace("TakeCamera");
+        this.props.navigation.navigate("TakeCamera");
       } else {
-        console.log("Galery permission is not granted!");
+        console.log("Gallery permission is not granted!");
       }
     } else {
-      // this.setState({ status });
-      this.props.navigation.replace("TakeCamera");
+      this.props.navigation.navigate("TakeCamera");
     }
   }
 
@@ -73,9 +71,6 @@ class SignupPic extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity onPress={this._doNext.bind(this)}>
           <Text style={{ fontSize: 30, backgroundColor: "blue" }}>Next page</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={signupStore.profileExer}>
-          <Text style={{ fontSize: 15, backgroundColor: "green" }}>Next</Text>
         </TouchableOpacity>
       </View>
     );
