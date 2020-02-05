@@ -20,8 +20,8 @@ class SignupStore {
   @observable companySort = ""; // 업종
   @observable geoLocation = "";
   @observable tags = [];
-  @observable imgProfile = "";
-  @observable imgIdCard = "";
+  @observable imgProfile = null;
+  @observable imgIdCard = null;
 
   @observable loginId = "";
   @observable loginPW = "";
