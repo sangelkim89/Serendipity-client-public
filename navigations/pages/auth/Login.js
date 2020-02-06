@@ -31,7 +31,7 @@ class Login extends Component {
             style={styles.textForm}
             placeholder={"ID"}
             onChangeText={value => {
-              signupStore.inputId(value);
+              signupStore.inputCompanyName(value);
             }}
           />
           <TextInput

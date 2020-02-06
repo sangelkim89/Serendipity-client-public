@@ -6,14 +6,14 @@ import { observer, inject } from "mobx-react";
 @observer
 class SignupIdcard extends React.Component {
   _doNext() {
-    this.props.navigation.replace("SignupPic");
+    this.props.navigation.replace("Login");
   }
 
   render() {
     const { signupStore } = this.props;
     return (
       <View>
-        <Text>SignupCompany</Text>
+        <Text>SignupIdcard</Text>
         <TouchableOpacity onPress={this._doNext.bind(this)}>
           <Text style={{ fontSize: 30, backgroundColor: "blue" }}>Next</Text>
         </TouchableOpacity>

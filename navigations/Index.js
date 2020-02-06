@@ -10,11 +10,9 @@ import SignupIdcard from "./pages/auth/SignupIdcard";
 import SignupPic from "./pages/auth/SignupPic";
 import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
+import TagTest from "./pages/auth/TagTest";
 
 const AuthStack = createStackNavigator({
-  // Intro: {
-  //   screen: Intro,
-  // },
   Login: {
     screen: Login,
   },
@@ -32,6 +30,9 @@ const AuthStack = createStackNavigator({
   },
   SignupTag: {
     screen: SignupTag,
+  },
+  TagTest: {
+    screen: TagTest,
   },
 });
 

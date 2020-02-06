@@ -10,7 +10,7 @@ class MyProfileStore {
   @observable userId = "";
   @observable birth = "";
   @observable companyName = ""; // 회사명
-  @observable companySort = ""; // 업종
+  @observable companySort = ""; // 업종 룰러
   @observable selectedTags = [];
   @observable allTags = [];
   @observable imgProfile = ""; // 기기경로X S3경로
