@@ -212,4 +212,19 @@ const styles = StyleSheet.create({
   },
 });
 
+// export default inject(({ signupStore }) => ({
+//   genderBtn: signupStore.genderBtn,
+//   inputEmail: signupStore.inputEmail,
+//   sendEmail: signupStore.sendEmail,
+//   inputEmailKey: signupStore.inputEmailKey,
+//   sendEmailKey: signupStore.sendEmailKey,
+//   inputPhone: signupStore.inputPhone,
+//   sendPhone: signupStore.sendPhone,
+//   inputPhoneKey: signupStore.inputPhoneKey,
+//   inputID: signupStore.inputID,
+//   sendID: signupStore.sendID,
+//   inputPassWord: signupStore.inputPassWord,
+//   handleConfirm: signupStore.handleConfirm,
+// }))(observer(SignupBasic));
+
 export default SignupBasic;
