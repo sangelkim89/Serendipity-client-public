@@ -9,6 +9,7 @@ class SignupStore {
   // 스테이트
   @observable gender = ""; // 들어오는 값 확인하고 변경할 것
   @observable email = "";
+  @observable password = "";
   @observable emailSecretKey = "";
   @observable emailBoolean = "";
   @observable phone = "";
@@ -104,6 +105,14 @@ class SignupStore {
   sendID = () => {
     this.userId = "";
     console.log("아이디", this.userId);
+  };
+
+  // 비밀번호 메소드
+  @action
+  inputPassWord = e => {
+    console.log(e);
+    this.password = e;
+    console.log("비밀번호", this.password);
   };
 
   // 맵관련 메소드

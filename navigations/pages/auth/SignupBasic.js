@@ -134,6 +134,17 @@ class SignupBasic extends Component {
           <Text style={styles.confirmID}>사용하셔도 좋습니다</Text>
         </View>
 
+        <View style={styles.emailPhone}>
+          <TextInput
+            style={styles.inputEmailPhone}
+            placeholder="PassWord"
+            value={signupStore.password}
+            onChangeText={e => {
+              signupStore.inputPassWord(e);
+            }}
+          />
+        </View>
+
         <DatePicker
           style={styles.date}
           date={signupStore.birth}
