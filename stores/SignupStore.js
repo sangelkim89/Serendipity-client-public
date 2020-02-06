@@ -18,10 +18,12 @@ class SignupStore {
   @observable birth = "";
   @observable companyName = ""; // 회사명
   @observable companySort = ""; // 업종
-  @observable geoLocation = "";
+  @observable geoLocation = { lat: null, lon: null };
   @observable tags = [];
   @observable imgProfile = null;
+  @observable imgProfileUri = null;
   @observable imgIdCard = null;
+  @observable imgIdCardUri = null;
 
   @observable isDatePickerVisible = false;
 
@@ -114,6 +116,8 @@ class SignupStore {
     let lon = item.longitude;
     this.marker.lat = lat;
     this.marker.lon = lon;
+    this.geoLocation.lat = lat;
+    this.geoLocation.lon = lon;
     console.log("MARKER_STATE", this.marker);
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
   };
@@ -155,6 +159,7 @@ class SignupStore {
     console.log("패스워드", this.loginPW);
   };
 
+  // 전체 signup data 제출
   @action
   submitSigninData = () => {
     const signinData = {
@@ -167,10 +172,36 @@ class SignupStore {
       companySort: this.companySort,
       geoLocation: this.geoLocation,
       tags: this.tags,
-      imgProfile: this.imgProfile,
-      imgIdCard: this.imgIdCard,
+      imgProfileUri: this.imgProfileUri,
+      imgIdCardUri: this.imgIdCardUri,
     };
     console.log("signinData : ", signinData); // 제출 기능 구현 필요
+    this.gender = "";
+    this.email = "";
+    this.emailSecretKey = "";
+    this.emailBoolean = "";
+    this.phone = "";
+    this.phoneVerifyKey = "";
+    this.phoneBoolean = "";
+    this.userId = "";
+    this.birth = "";
+    this.companyName = "";
+    this.companySort = "";
+    this.geoLocation.lat = null;
+    this.geoLocation.lon = null;
+    this.tags = [];
+    this.imgProfile = null;
+    this.imgProfileUri = null;
+    this.imgIdCard = null;
+    this.imgIdCardUri = null;
+
+    this.isDatePickerVisible = false;
+
+    this.loginId = "";
+    this.loginPW = "";
+
+    this.marker.lat = null;
+    this.marker.lon = null;
   };
 }
 

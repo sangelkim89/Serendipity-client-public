@@ -1,5 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { observer, inject } from "mobx-react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -7,10 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 @inject("signupStore")
 @observer
 class SignupIdcard extends React.Component {
-  state = {
-    path: null,
-  };
-
+  static navigationOptions = { headerShown: false };
   _doNext() {
     this.props.navigation.navigate("Login");
     this.props.signupStore.submitSigninData();
@@ -21,12 +23,16 @@ class SignupIdcard extends React.Component {
     if (status !== "granted") {
       const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA);
       if (status === "granted") {
-        this.props.navigation.navigate("TakeCamera");
+        this.props.navigation.navigate("TakeCamera", {
+          from: "idcard",
+        });
       } else {
         console.log("Gallery permission is not granted!");
       }
     } else {
-      this.props.navigation.navigate("TakeCamera");
+      this.props.navigation.navigate("TakeCamera", {
+        from: "idcard",
+      });
     }
   }
 
@@ -52,29 +58,86 @@ class SignupIdcard extends React.Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
     this.props.signupStore.imgIdCard = result;
+    this.props.signupStore.imgIdCardUri = result.uri;
     console.log("this.props.signupStore.imgProfile : ", this.props.signupStore.imgProfile);
   };
 
   render() {
     const { signupStore } = this.props;
     return (
-      <View>
-        <Text>SignupCompany</Text>
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text>SignupCompany</Text>
+        </View>
+        <View style={styles.picButtonContainer}>
+          <TouchableOpacity onPress={this.permitCamera.bind(this)} style={styles.picButton}>
+            <Text style={styles.text}>Camera</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.permitGallery()} style={styles.picButton}>
+            <Text style={styles.text}>Gallery</Text>
+          </TouchableOpacity>
+        </View>
         {signupStore.imgIdCard ? (
-          <Image source={signupStore.imgIdCard} style={{ width: 305, height: 159 }} />
-        ) : null}
-        <TouchableOpacity onPress={this.permitCamera.bind(this)}>
-          <Text>Camera</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.permitGallery()}>
-          <Text>Galery</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this._doNext.bind(this)}>
-          <Text style={{ fontSize: 30, backgroundColor: "blue" }}>Submit</Text>
-        </TouchableOpacity>
-      </View>
+          <Image source={signupStore.imgIdCard} style={styles.picContainer} />
+        ) : (
+          <View style={styles.picContainer}>
+            <Text>choose your Idcard</Text>
+          </View>
+        )}
+        <View style={styles.submitButtonContainer}>
+          <TouchableOpacity onPress={this._doNext.bind(this)} style={styles.submitButton}>
+            <Text style={styles.text}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingLeft: wp("10%"),
+    paddingRight: wp("10%"),
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "yellow",
+  },
+  picContainer: {
+    flex: 7,
+    width: "100%",
+    backgroundColor: "orange",
+  },
+  picButtonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    padding: 10,
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "black",
+  },
+  submitButtonContainer: {
+    flex: 1,
+    backgroundColor: "violet",
+    padding: 10,
+  },
+  picButton: {
+    backgroundColor: "green",
+    padding: 5,
+  },
+  submitButton: {
+    backgroundColor: "blue",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "brown",
+  },
+  text: {
+    fontSize: 15,
+    color: "white",
+  },
+});
 
 export default SignupIdcard;
