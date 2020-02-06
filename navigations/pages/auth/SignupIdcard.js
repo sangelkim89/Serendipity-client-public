@@ -16,6 +16,28 @@ class SignupIdcard extends React.Component {
   _doNext() {
     this.props.navigation.navigate("Login");
     this.props.signupStore.submitSigninData();
+
+    // 사인업 시 사진 업로드 - 노마드 코더 강의 코드
+    // const formData = new FormData();
+    // const name = photo.filename;
+    // const [, type] = name.split(".");
+    // formData.append("file", {
+    //   name,
+    //   type: type.toLowerCase(),
+    //   uri: photo.uri
+    // });
+    // try {
+    //   const {
+    //     data: { path }
+    //   } = await axios.post("http://localhost:4000/api/upload", formData, {
+    //     headers: {
+    //       "content-type": "multipart/form-data"
+    //     }
+    //   });
+    //   setFileUrl(path);
+    // } catch (e) {
+    //   Alert.alert("Cant upload", "Try later");
+    // }
   }
 
   async permitCamera() {
