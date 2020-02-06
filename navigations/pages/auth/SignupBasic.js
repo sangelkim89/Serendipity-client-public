@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, Button } from "react-native";
 import { observer, inject } from "mobx-react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from "react-native-simple-radio-button";
+import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
 
 @inject("signupStore")
@@ -136,6 +132,17 @@ class SignupBasic extends Component {
             </TouchableOpacity>
           </View>
           <Text style={styles.confirmID}>사용하셔도 좋습니다</Text>
+        </View>
+
+        <View style={styles.emailPhone}>
+          <TextInput
+            style={styles.inputEmailPhone}
+            placeholder="PassWord"
+            value={signupStore.password}
+            onChangeText={e => {
+              signupStore.inputPassWord(e);
+            }}
+          />
         </View>
 
         <DatePicker
