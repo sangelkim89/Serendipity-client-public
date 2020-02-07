@@ -1,9 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { inject, observer } from "mobx-react"; // 불러오기
-
-export default inject(({ signupStore }) => ({}))(observer(Login));
-
 const DATA = [
   //DATA를 ARRAY로 선언을 합니다.
   "태그1",
