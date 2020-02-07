@@ -16,7 +16,7 @@ import {
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import LOG_IN from "../../mutation";
+// import LOG_IN from "../../mutation";
 
 function Login(props) {
   // console.log("props : ", props);

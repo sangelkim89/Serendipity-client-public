@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import { observer, inject } from "mobx-react";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
@@ -10,7 +12,6 @@ function SignupBasic(props) {
   const {
     genderBtn,
     inputEmail,
-    sendEmail,
     inputEmailKey,
     sendEmailKey,
     inputPhone,
@@ -27,10 +28,58 @@ function SignupBasic(props) {
     userId,
     password,
     birth,
+    setSecretKey,
+    setSecretMobileKey,
   } = props;
 
   function _doNext() {
     props.navigation.navigate("SignupCompany");
+  }
+
+  // 이메일키 발급을 위한 전송 mutate
+  const SEND_EMAIL = gql`
+    mutation confirmEmail($email: String!) {
+      confirmEmail(email: $email)
+    }
+  `;
+  const [sendEmailSecretKey, { data }] = useMutation(SEND_EMAIL);
+
+  // 이메일 전송
+  async function sendEmail() {
+    try {
+      let sendKey = await sendEmailSecretKey({
+        variables: {
+          email: email,
+        },
+      });
+      await setSecretKey(data);
+      await console.log("이메일요청후", data);
+    } catch (err) {
+      console.log("트라이캐치에러", err);
+    }
+  }
+
+  // 휴대폰키 발급을 위한 전송 mutate
+  const SEND_MOBILE = gql`
+    mutation confirmEmail($phone: String!) {
+      confirmEmail(phone: $phone)
+    }
+  `;
+  const [sendMobileSecretKey, { mobileData }] = useMutation(SEND_MOBILE);
+
+  // 휴대폰 전송
+  async function sendMobile() {
+    try {
+      let sendKey = await sendMobileSecretKey({
+        variables: {
+          phone: phone,
+        },
+      });
+      await setSecretMobileKey(data);
+      await console.log("이메일요청후", mobileData);
+    } catch (err) {
+      console.log("트라이캐치에러", err);
+    }
   }
 
   var radio_props = [
@@ -103,7 +152,7 @@ function SignupBasic(props) {
         <TouchableOpacity
           style={styles.btn}
           onPress={() => {
-            sendPhone();
+            sendMobile();
           }}
         >
           <Text>핸드폰전송</Text>
@@ -239,7 +288,6 @@ export default inject(({ signupStore }) => ({
   phone: signupStore.phone,
   genderBtn: signupStore.genderBtn,
   inputEmail: signupStore.inputEmail,
-  sendEmail: signupStore.sendEmail,
   inputEmailKey: signupStore.inputEmailKey,
   sendEmailKey: signupStore.sendEmailKey,
   inputPhone: signupStore.inputPhone,
@@ -251,6 +299,8 @@ export default inject(({ signupStore }) => ({
   handleConfirm: signupStore.handleConfirm,
   password: signupStore.password,
   birth: signupStore.birth,
+  setSecretKey: signupStore.setSecretKey,
+  setSecretMobileKey: signupStore.setSecretMobileKey,
 }))(observer(SignupBasic));
 
 // export default SignupBasic;

@@ -1,4 +1,4 @@
-import { observable, action, computed, toJS } from "mobx";
+import { observable, action } from "mobx";
 
 class SignupStore {
   // (StoreIndex)
@@ -11,9 +11,11 @@ class SignupStore {
   @observable email = "";
   @observable password = "";
   @observable emailSecretKey = "";
+  @observable resEmailSecretKey = "";
   @observable emailBoolean = "";
   @observable phone = "";
   @observable phoneVerifyKey = "";
+  @observable resMobileSecretKey = "";
   @observable phoneBoolean = "";
   @observable userId = "";
   @observable birth = "";
@@ -35,6 +37,7 @@ class SignupStore {
 
   // 메소드
 
+  // 남녀 라디오 버튼
   @action
   genderBtn = val => {
     console.log(val);
@@ -50,11 +53,25 @@ class SignupStore {
     console.log("이메일", this.email);
   };
 
-  @action
-  sendEmail = () => {
-    this.email = "";
-    console.log("이메일", this.email);
-  };
+  // // 이메일 전송
+  // @action
+  // sendEmail() {
+  //   // 이메일키 발급을 위한 전송 mutate
+  //   const SEND_EMAIL = gql`
+  //     mutation confirmEmail($email: String!) {
+  //       confirmEmail(email: $email)
+  //     }
+  //   `;
+  //   const [sendEmailSecretKey, { data }] = useMutation(SEND_EMAIL);
+
+  //   sendEmailSecretKey({
+  //     variables: {
+  //       email: this.email,
+  //     },
+  //   });
+  //   console.log("이메일요청후", data);
+  //   console.log("이메일", this.email);
+  // }
 
   @action
   inputEmailKey = e => {
@@ -64,8 +81,15 @@ class SignupStore {
   };
 
   @action
+  setSecretKey = data => {
+    console.log("스토어시크릿키데이타", data);
+    this.resEmailSecretKey = data;
+    console.log("이메일시크릿", this.resEmailSecretKey);
+  };
+
+  @action
   sendEmailKey = e => {
-    this.emailSecretKey = "";
+    // if(this.emailSecretKey === )
     console.log("이메일시크릿", this.emailSecretKey);
   };
 
@@ -94,6 +118,13 @@ class SignupStore {
   sendPhoneKey = () => {
     this.phoneVerifyKey = "";
     console.log("폰시크릿", this.phoneVerifyKey);
+  };
+
+  @action
+  setSecretMobileKey = data => {
+    console.log("스토어시크릿키데이타", data);
+    this.resMobileSecretKey = data;
+    console.log("이메일시크릿", this.resMobileSecretKey);
   };
 
   // ID입력
