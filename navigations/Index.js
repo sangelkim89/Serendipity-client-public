@@ -11,6 +11,7 @@ import SignupPic from "./pages/auth/SignupPic";
 import TakeCamera from "./pages/auth/TakeCamera";
 import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
+import App from "../App";
 
 const AuthStack = createStackNavigator({
   Login: {

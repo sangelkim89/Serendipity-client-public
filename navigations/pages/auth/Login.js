@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,18 @@ function Login(props) {
   // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
 
+  // useEffect
+  useEffect(() => {
+    async function getLogInfo() {
+      const logInfo = await AsyncStorage.getItem("isLoggedIn");
+      console.log("logInfo in login comp : ", logInfo);
+    }
+    getLogInfo();
+  }, []);
+
+  // useState
+  const [isLoggedIn, doLogin] = useState("false");
+
   const LOG_IN = gql`
     mutation signIn($email: String!, $password: String!) {
       signIn(email: $email, password: $password)
@@ -40,8 +52,16 @@ function Login(props) {
           password: loginPW,
         },
       });
-      console.log("signIn : ", signIn);
       console.log("data : ", data);
+      if (signIn) {
+        doLogin("true");
+        AsyncStorage.setItem("jwt", signIn);
+        AsyncStorage.setItem("isLoggedIn", "true");
+        console.log("로그인됐니_성공?", isLoggedIn);
+      } else {
+        doLogin("false");
+        console.log("로그인됐니_실패?", isLoggedIn);
+      }
     } catch {
       e => {
         console.log("useMutation error in Login.js", e);
@@ -49,29 +69,19 @@ function Login(props) {
     } finally {
       console.log("login data from server : ", data);
     }
-    const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-    console.log("loginId : ", loginId);
-    console.log("isLoggedIn(local storage) in Login.js : ", isLoggedIn);
-    if (isLoggedIn === "true") {
+
+    const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+    console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
+    if (asyncIsLoggedIn === "true") {
       props.navigation.navigate("TabNav");
     } else {
       Alert.alert("isLoggedIn is falsy!!!");
     }
-    // 서버에 로그인 정보 송신 기능 추가 요
-    console.log("logInRes : ", logInRes);
   }
 
   _doSignUp = () => {
     props.navigation.navigate("SignupBasic");
   };
-
-  useEffect(() => {
-    async function getLogInfo() {
-      const logInfo = await AsyncStorage.getItem("isLoggedIn");
-      console.log("logInfo in login comp : ", logInfo);
-    }
-    getLogInfo();
-  }, []);
 
   return (
     <View style={styles.container}>
