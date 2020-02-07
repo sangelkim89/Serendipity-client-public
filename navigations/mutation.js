@@ -1,7 +1,10 @@
 import { gql } from "apollo-boost";
+// import gql from "graphql-tag"; // ???
 
-export default LOG_IN = gql`
-  mutation requestSecret($email: String!) {
-    requestSecret(email: $email)
+export const LOG_IN = gql`
+  mutation signIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password)
   }
 `;
+
+// export const ???

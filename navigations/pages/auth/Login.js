@@ -19,11 +19,10 @@ import { useMutation } from "@apollo/react-hooks";
 import LOG_IN from "../../mutation";
 
 function Login(props) {
-  console.log("props : ", props);
+  // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
 
   const [logInRes, { loading, error }] = useMutation(LOG_IN);
-
   async function _doLogin() {
     try {
       await logInRes({
@@ -34,7 +33,7 @@ function Login(props) {
       });
     } catch {
       e => {
-        console.log(e);
+        console.log("useMutation error in Login.js", e);
       };
     }
     const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
