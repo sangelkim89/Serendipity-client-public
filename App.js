@@ -9,7 +9,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import options from "./apollo";
 import { AppLoading } from "expo";
 
-import Main from "./navigations/pages/auth/Main";
+import MainStack from "./navigations/Index";
 import StoreIndex from "./stores/StoreIndex";
 
 const store = new StoreIndex();
@@ -52,15 +52,13 @@ class App extends Component {
   };
 
   render() {
-    console.log("options : ", options);
     console.log("re-started!!!");
     const { loaded, client, isLoggedIn } = this.state;
-    // console.log("client in app.js : ", client);
     return client ? (
       <ApolloProvider client={client}>
-        {/* <Provider {...store}> */}
-        <Main />
-        {/* </Provider> */}
+        <Provider {...store}>
+          <MainStack />
+        </Provider>
       </ApolloProvider>
     ) : (
       <AppLoading />
