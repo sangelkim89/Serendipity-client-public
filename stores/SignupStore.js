@@ -34,6 +34,7 @@ class SignupStore {
   @observable marker = { lat: null, lon: null };
 
   // 메소드
+
   @action
   genderBtn = val => {
     console.log(val);
@@ -167,6 +168,46 @@ class SignupStore {
     this.loginPW = e;
     console.log("패스워드", this.loginPW);
   };
+
+  // // DoLogin
+  // @action
+  // doLogin = async () => {
+  //   const LOG_IN = gql`
+  //     mutation signIn($email: String!, $password: String!) {
+  //       signIn(email: $email, password: $password)
+  //     }
+  //   `;
+
+  //   const [logInRes, { data }] = useMutation(LOG_IN);
+  //   try {
+  //     const {
+  //       data: { signIn },
+  //     } = await logInRes({
+  //       variables: {
+  //         email: loginId,
+  //         password: loginPW,
+  //       },
+  //     });
+  //     console.log("signIn : ", signIn);
+  //     console.log("data : ", data);
+  //   } catch {
+  //     e => {
+  //       console.log("useMutation error in Login.js", e);
+  //     };
+  //   } finally {
+  //     console.log("login data from server : ", data);
+  //   }
+  //   const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+  //   console.log("loginId : ", loginId);
+  //   console.log("isLoggedIn(local storage) in Login.js : ", isLoggedIn);
+  //   if (isLoggedIn === "true") {
+  //     props.navigation.navigate("TabNav");
+  //   } else {
+  //     Alert.alert("isLoggedIn is falsy!!!");
+  //   }
+  //   // 서버에 로그인 정보 송신 기능 추가 요
+  //   console.log("logInRes : ", logInRes);
+  // };
 
   // 전체 signup data 제출
   @action
