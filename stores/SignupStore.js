@@ -119,7 +119,7 @@ class SignupStore {
 
   // 맵관련 메소드
   @action
-  markerClick = async item => {
+  markerClick = item => {
     console.log("마커", item);
     let lat = item.latitude;
     let lon = item.longitude;

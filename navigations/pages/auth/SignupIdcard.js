@@ -8,6 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { observer, inject } from "mobx-react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
 
 @inject("signupStore")
 @observer
@@ -16,6 +17,7 @@ class SignupIdcard extends React.Component {
   _doNext() {
     this.props.navigation.navigate("Login");
     this.props.signupStore.submitSigninData();
+    // axios로 요청 날려야 함
 
     // 사인업 시 사진 업로드 - 노마드 코더 강의 코드
     // const formData = new FormData();

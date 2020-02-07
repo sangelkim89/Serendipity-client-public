@@ -1,62 +1,99 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  AsyncStorage,
+} from "react-native";
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { observer, inject } from "mobx-react";
+import { useMutation } from "@apollo/react-hooks";
 
-@inject("signupStore")
-@observer
-class Login extends Component {
-  state = {};
+import LOG_IN from "../../mutation";
 
-  _doLogin() {
-    this.props.navigation.navigate("TabNav");
+function Login(props) {
+  // console.log("props : ", props);
+  const { ID, PW, loginId, loginPW } = props;
+
+  const [logInRes, { loading, error }] = useMutation(LOG_IN);
+  async function _doLogin() {
+    try {
+      await logInRes({
+        variables: {
+          email: loginId,
+          password: loginPW,
+        },
+      });
+    } catch {
+      e => {
+        console.log("useMutation error in Login.js", e);
+      };
+    }
+    const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+    console.log("loginId : ", loginId);
+    console.log("isLoggedIn(local storage) in Login.js : ", isLoggedIn);
+    if (isLoggedIn === "true") {
+      props.navigation.navigate("TabNav");
+    } else {
+      Alert.alert("isLoggedIn is falsy!!!");
+    }
+    // 서버에 로그인 정보 송신 기능 추가 요
+    console.log("logInRes : ", logInRes);
   }
 
-  _doSignUp() {
-    this.props.navigation.navigate("SignupBasic");
-  }
+  _doSignUp = () => {
+    props.navigation.navigate("SignupBasic");
+  };
 
-  render() {
-    const { signupStore } = this.props;
-    return (
-      <View style={styles.container}>
-        <View style={styles.titleArea}>
-          <Text style={styles.title}>LOGIN</Text>
-        </View>
-        <View style={styles.formArea}>
-          <TextInput
-            style={styles.textForm}
-            placeholder={"ID"}
-            onChangeText={value => {
-              signupStore.inputCompanyName(value);
-            }}
-          />
-          <TextInput
-            style={styles.textForm}
-            placeholder={"Password"}
-            onChangeText={potato => {
-              signupStore.inputPW(potato);
-            }}
-          />
-        </View>
-        <View style={styles.buttonArea}>
-          <TouchableOpacity style={styles.button} onPress={this._doLogin.bind(this)}>
-            <Text style={styles.buttonTitle}>Login</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonArea}>
-          <TouchableOpacity style={styles.button} onPress={this._doSignUp.bind(this)}>
-            <Text style={styles.buttonTitle}>SignUp</Text>
-          </TouchableOpacity>
-        </View>
+  useEffect(() => {
+    async function getLogInfo() {
+      const logInfo = await AsyncStorage.getItem("isLoggedIn");
+      console.log("logInfo in login comp : ", logInfo);
+    }
+    getLogInfo();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.titleArea}>
+        <Text style={styles.title}>LOGIN</Text>
       </View>
-    );
-  }
+      <View style={styles.formArea}>
+        <TextInput
+          style={styles.textForm}
+          placeholder={"ID"}
+          onChangeText={value => {
+            ID(value);
+          }}
+        />
+        <TextInput
+          style={styles.textForm}
+          placeholder={"Password"}
+          onChangeText={potato => {
+            PW(potato);
+          }}
+        />
+      </View>
+      <View style={styles.buttonArea}>
+        <TouchableOpacity style={styles.button} onPress={_doLogin}>
+          <Text style={styles.buttonTitle}>Login</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonArea}>
+        <TouchableOpacity style={styles.button} onPress={_doSignUp}>
+          <Text style={styles.buttonTitle}>SignUp</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
-export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -102,3 +139,10 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
+
+export default inject(({ signupStore }) => ({
+  ID: signupStore.inputId,
+  PW: signupStore.inputPW,
+  loginId: signupStore.loginId,
+  loginPW: signupStore.loginPW,
+}))(observer(Login));
