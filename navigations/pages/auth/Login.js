@@ -15,26 +15,39 @@ import {
 } from "react-native-responsive-screen";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
-
+import { gql } from "apollo-boost";
 import LOG_IN from "../../mutation";
 
 function Login(props) {
   // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
 
-  const [logInRes, { loading, error }] = useMutation(LOG_IN);
+  const LOG_IN = gql`
+    mutation signIn($email: String!, $password: String!) {
+      signIn(email: $email, password: $password)
+    }
+  `;
+
+  const [logInRes, { data }] = useMutation(LOG_IN);
+
   async function _doLogin() {
     try {
-      await logInRes({
+      const {
+        data: { signIn },
+      } = await logInRes({
         variables: {
           email: loginId,
           password: loginPW,
         },
       });
+      console.log("signIn : ", signIn);
+      console.log("data : ", data);
     } catch {
       e => {
         console.log("useMutation error in Login.js", e);
       };
+    } finally {
+      console.log("login data from server : ", data);
     }
     const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
     console.log("loginId : ", loginId);
