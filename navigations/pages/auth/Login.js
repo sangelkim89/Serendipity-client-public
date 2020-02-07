@@ -16,7 +16,7 @@ class Login extends Component {
   }
 
   _doSignUp() {
-    this.props.navigation.replace("SignupBasic");
+    this.props.navigation.navigate("SignupBasic");
   }
 
   render() {

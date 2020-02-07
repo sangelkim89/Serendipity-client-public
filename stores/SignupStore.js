@@ -9,6 +9,7 @@ class SignupStore {
   // 스테이트
   @observable gender = ""; // 들어오는 값 확인하고 변경할 것
   @observable email = "";
+  @observable password = "";
   @observable emailSecretKey = "";
   @observable emailBoolean = "";
   @observable phone = "";
@@ -18,19 +19,105 @@ class SignupStore {
   @observable birth = "";
   @observable companyName = ""; // 회사명
   @observable companySort = ""; // 업종
-  @observable geoLocation = "";
+  @observable geoLocation = { lat: null, lon: null };
   @observable tags = [];
-  @observable imgProfile = "";
-  @observable imgIdCard = "";
+  @observable imgProfile = null;
+  @observable imgProfileUri = null;
+  @observable imgIdCard = null;
+  @observable imgIdCardUri = null;
+
+  @observable isDatePickerVisible = false;
 
   @observable loginId = "";
   @observable loginPW = "";
 
   @observable marker = { lat: null, lon: null };
 
-  @observable selectedItems = []; //태그
-
   // 메소드
+  @action
+  genderBtn = val => {
+    console.log(val);
+    this.gender = val;
+    console.log("GENDER_STATE", this.gender);
+  };
+
+  // 이메일 관련 메소드
+  @action
+  inputEmail = e => {
+    console.log(e);
+    this.email = e;
+    console.log("이메일", this.email);
+  };
+
+  @action
+  sendEmail = () => {
+    this.email = "";
+    console.log("이메일", this.email);
+  };
+
+  @action
+  inputEmailKey = e => {
+    console.log(e);
+    this.emailSecretKey = e;
+    console.log("이메일시크릿", this.emailSecretKey);
+  };
+
+  @action
+  sendEmailKey = e => {
+    this.emailSecretKey = "";
+    console.log("이메일시크릿", this.emailSecretKey);
+  };
+
+  // 핸드폰 관련 메소드
+  @action
+  inputPhone = e => {
+    console.log(e);
+    this.phone = e;
+    console.log("폰", this.phone);
+  };
+
+  @action
+  sendPhone = () => {
+    this.phone = "";
+    console.log("폰", this.phone);
+  };
+
+  @action
+  inputPhoneKey = e => {
+    console.log(e);
+    this.phoneVerifyKey = e;
+    console.log("폰시크릿", this.phoneVerifyKey);
+  };
+
+  @action
+  sendPhoneKey = () => {
+    this.phoneVerifyKey = "";
+    console.log("폰시크릿", this.phoneVerifyKey);
+  };
+
+  // ID입력
+  @action
+  inputID = e => {
+    console.log(e);
+    this.userId = e;
+    console.log("아이디", this.userId);
+  };
+
+  @action
+  sendID = () => {
+    this.userId = "";
+    console.log("아이디", this.userId);
+  };
+
+  // 비밀번호 메소드
+  @action
+  inputPassWord = e => {
+    console.log(e);
+    this.password = e;
+    console.log("비밀번호", this.password);
+  };
+
+  // 맵관련 메소드
   @action
   markerClick = async item => {
     console.log("마커", item);
@@ -38,10 +125,13 @@ class SignupStore {
     let lon = item.longitude;
     this.marker.lat = lat;
     this.marker.lon = lon;
+    this.geoLocation.lat = lat;
+    this.geoLocation.lon = lon;
     console.log("MARKER_STATE", this.marker);
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
   };
 
+  // 회사정보 입력 메소드
   @action
   inputCompanyName = e => {
     console.log("CompanyName", e);
@@ -56,6 +146,15 @@ class SignupStore {
     console.log("CS_STATE", this.companySort);
   };
 
+  // 생년월일 달력 메소드
+
+  handleConfirm = date => {
+    // this.birth = date;  2020-02-05T12:21:14.845Z
+    this.birth = date;
+    console.log("BIRTH", this.birth);
+  };
+
+  // 로그인 관련 메소드
   @action
   inputId = e => {
     console.log(e);
@@ -67,6 +166,51 @@ class SignupStore {
   inputPW = e => {
     this.loginPW = e;
     console.log("패스워드", this.loginPW);
+  };
+
+  // 전체 signup data 제출
+  @action
+  submitSigninData = () => {
+    const signinData = {
+      gender: this.gender,
+      email: this.email,
+      phone: this.phone,
+      userId: this.userId,
+      birth: this.birth,
+      companyName: this.companyName,
+      companySort: this.companySort,
+      geoLocation: this.geoLocation,
+      tags: this.tags,
+      imgProfileUri: this.imgProfileUri,
+      imgIdCardUri: this.imgIdCardUri,
+    };
+    console.log("signinData : ", signinData); // 제출 기능 구현 필요
+    this.gender = "";
+    this.email = "";
+    this.emailSecretKey = "";
+    this.emailBoolean = "";
+    this.phone = "";
+    this.phoneVerifyKey = "";
+    this.phoneBoolean = "";
+    this.userId = "";
+    this.birth = "";
+    this.companyName = "";
+    this.companySort = "";
+    this.geoLocation.lat = null;
+    this.geoLocation.lon = null;
+    this.tags = [];
+    this.imgProfile = null;
+    this.imgProfileUri = null;
+    this.imgIdCard = null;
+    this.imgIdCardUri = null;
+
+    this.isDatePickerVisible = false;
+
+    this.loginId = "";
+    this.loginPW = "";
+
+    this.marker.lat = null;
+    this.marker.lon = null;
   };
 
   //태그 스토어
@@ -104,5 +248,40 @@ class SignupStore {
     },
   ];
 }
+
+TagData = [
+  {
+    id: "태그1",
+    title: "태그1",
+  },
+  {
+    id: "태그2",
+    title: "태그2",
+  },
+  {
+    id: "태그3",
+    title: "태그3",
+  },
+  {
+    id: "태그4",
+    title: "태그4",
+  },
+  {
+    id: "태그5",
+    title: "태그5",
+  },
+  {
+    id: "태그6",
+    title: "태그6",
+  },
+  {
+    id: "태그7",
+    title: "태그7",
+  },
+  {
+    id: "태그8",
+    title: "태그8",
+  },
+];
 
 export default SignupStore;

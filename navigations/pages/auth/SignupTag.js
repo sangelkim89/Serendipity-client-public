@@ -9,19 +9,14 @@ import { inject, observer } from "mobx-react"; // 불러오기
 class SignupTag extends Component {
   state = {};
   _doNext() {
-    this.props.navigation.replace("TagTest");
+    this.props.navigation.replace("SignupPic");
   }
 
   _doBefore() {
-    this.props.navigation.replace("SignupCompany");
+    this.props.navigation.replace("TagTest");
   }
 
   render() {
-    const { signupStore } = this.props;
-    const itemList = signupStore.items.map(item => {
-      return <Tags {...item} key={item.name} onPut={signupStore.put} />;
-    });
-
     return (
       <View>
         <View>
@@ -32,12 +27,6 @@ class SignupTag extends Component {
           <TouchableOpacity onPress={this._doBefore.bind(this)}>
             <Text style={{ fontSize: 30, backgroundColor: "green" }}>이전페이지</Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.container}>
-          <View style={styles.TagTemplate}>
-            <Text style={styles.items}>태그</Text>
-            <View>{<View style={styles.UnselectedTags}>{itemList}</View>}</View>
-          </View>
         </View>
       </View>
     );

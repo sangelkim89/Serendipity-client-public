@@ -37,7 +37,6 @@ class SignupCompany extends React.Component {
             signupStore.inputCompanyName(value);
           }}
         ></TextInput>
-
         <TextInput
           style={styles.input}
           placeholder="업종"
