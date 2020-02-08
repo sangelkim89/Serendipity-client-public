@@ -194,46 +194,6 @@ class SignupStore {
     console.log("패스워드", this.loginPW);
   };
 
-  // // DoLogin
-  // @action
-  // doLogin = async () => {
-  //   const LOG_IN = gql`
-  //     mutation signIn($email: String!, $password: String!) {
-  //       signIn(email: $email, password: $password)
-  //     }
-  //   `;
-
-  //   const [logInRes, { data }] = useMutation(LOG_IN);
-  //   try {
-  //     const {
-  //       data: { signIn },
-  //     } = await logInRes({
-  //       variables: {
-  //         email: loginId,
-  //         password: loginPW,
-  //       },
-  //     });
-  //     console.log("signIn : ", signIn);
-  //     console.log("data : ", data);
-  //   } catch {
-  //     e => {
-  //       console.log("useMutation error in Login.js", e);
-  //     };
-  //   } finally {
-  //     console.log("login data from server : ", data);
-  //   }
-  //   const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-  //   console.log("loginId : ", loginId);
-  //   console.log("isLoggedIn(local storage) in Login.js : ", isLoggedIn);
-  //   if (isLoggedIn === "true") {
-  //     props.navigation.navigate("TabNav");
-  //   } else {
-  //     Alert.alert("isLoggedIn is falsy!!!");
-  //   }
-  //   // 서버에 로그인 정보 송신 기능 추가 요
-  //   console.log("logInRes : ", logInRes);
-  // };
-
   // 전체 signup data 제출
   @action
   submitSignupData = () => {
@@ -259,7 +219,7 @@ class SignupStore {
     signupData.append("birth", this.birth);
     signupData.append("companyName", this.companyName);
     signupData.append("companyRole", this.companySort); // 서버는 companyRole, 클라는 companySort
-    signupData.append("geoLocation", this.geoLocation);
+    signupData.append("geoLocation", { lat: this.geoLocation.lat, lon: this.geoLocation.lon }); // 프록시로 전달되는것 수정
     signupData.append("tags", JSON.stringify(this.tags));
     // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
 
