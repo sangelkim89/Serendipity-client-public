@@ -53,49 +53,38 @@ class SignupStore {
   // 이메일 관련 메소드
   @action
   inputEmail = e => {
-    console.log(e);
+    // console.log(e);
     this.email = e;
-    console.log("이메일", this.email);
+    // console.log("이메일", this.email);
   };
 
-  // // 이메일 전송
-  // @action
-  // sendEmail() {
-  //   // 이메일키 발급을 위한 전송 mutate
-  //   const SEND_EMAIL = gql`
-  //     mutation confirmEmail($email: String!) {
-  //       confirmEmail(email: $email)
-  //     }
-  //   `;
-  //   const [sendEmailSecretKey, { data }] = useMutation(SEND_EMAIL);
-
-  //   sendEmailSecretKey({
-  //     variables: {
-  //       email: this.email,
-  //     },
-  //   });
-  //   console.log("이메일요청후", data);
-  //   console.log("이메일", this.email);
-  // }
-
+  // 이메일키를 입력하는 메소드
   @action
   inputEmailKey = e => {
-    console.log(e);
+    // console.log(e);
     this.emailSecretKey = e;
-    console.log("이메일시크릿", this.emailSecretKey);
+    // console.log("이메일시크릿", this.emailSecretKey);
   };
 
+  // 받아온 이메일키를 스토어에 저장
   @action
   setSecretKey = data => {
-    console.log("스토어시크릿키데이타", data);
+    console.log("이메일시크릿", data);
     this.resEmailSecretKey = data;
-    console.log("이메일시크릿", this.resEmailSecretKey);
+    console.log("스토어시크릿키데이타", this.resEmailSecretKey);
   };
 
+  // emailSecretKey랑 resEmailSecretKey랑 같은지 판단하는 이벤트
   @action
-  sendEmailKey = e => {
-    // if(this.emailSecretKey === )
-    console.log("이메일시크릿", this.emailSecretKey);
+  sendEmailKey = () => {
+    if (this.emailSecretKey === this.resEmailSecretKey) {
+      this.emailBoolean = true;
+      alert("이메일 인증에 성공하였습니다.");
+    } else {
+      this.emailBoolean = false;
+      alert("이메일 인증에 실패하였습니다.");
+    }
+    console.log("인증완료", this.emailBoolean);
   };
 
   // 핸드폰 관련 메소드

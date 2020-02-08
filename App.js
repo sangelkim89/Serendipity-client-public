@@ -24,7 +24,7 @@ class App extends React.Component {
   };
 
   async componentDidMount() {
-    console.log("APP_COMPONENTDIDMOUNT");
+    console.log("APPCOMPONENTDIDMOUNT");
     await this.preLoad();
   }
 
@@ -54,9 +54,9 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("re-started!!!", store);
+    console.log("re-started!!!");
     const { loaded, client, isLoggedIn } = this.state;
-    console.log("스토어_로그인", isLoggedIn);
+    console.log("스토어_로그인");
     return client ? (
       <ApolloProvider client={client}>
         <Provider {...store}>
