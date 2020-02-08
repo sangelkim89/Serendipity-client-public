@@ -110,8 +110,14 @@ class SignupStore {
 
   @action
   sendPhoneKey = () => {
-    this.phoneVerifyKey = "";
-    console.log("폰시크릿", this.phoneVerifyKey);
+    if (this.phoneVerifyKey === this.resMobileSecretKey) {
+      this.phoneBoolean = true;
+      alert("휴대폰 인증에 성공하였습니다.");
+    } else {
+      this.phoneBoolean = false;
+      alert("휴대폰 인증에 실패하였습니다.");
+    }
+    console.log("인증완료", this.phoneBoolean);
   };
 
   @action

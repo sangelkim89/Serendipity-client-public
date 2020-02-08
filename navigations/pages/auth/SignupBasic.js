@@ -32,13 +32,15 @@ function SignupBasic(props) {
     setSecretKey,
     setSecretMobileKey,
     emailBoolean,
+    sendPhoneKey,
+    phoneBoolean,
   } = props;
 
   function _doNext() {
-    if (emailBoolean === true) {
+    if (emailBoolean === true && phoneBoolean === true) {
       props.navigation.navigate("SignupCompany");
     } else {
-      Alert.alert("이메일 인증이 안되었습니다.");
+      Alert.alert("이메일 인증 및 휴대폰인증이 안되었습니다.");
     }
   }
 
@@ -78,13 +80,13 @@ function SignupBasic(props) {
   async function sendMobile() {
     console.log(phone);
     try {
-      let sendKey = await sendMobileSecretKey({
+      let secretKey = await sendMobileSecretKey({
         variables: {
           phone: phone,
         },
       });
-      await setSecretMobileKey(data);
-      await console.log("이메일요청후", mobileData);
+      await setSecretMobileKey(secretKey.data.confirmText);
+      await console.log("휴대폰요청후", secretKey.data.confirmText);
     } catch (err) {
       console.log("트라이캐치에러", err);
     }
@@ -308,6 +310,8 @@ export default inject(({ signupStore }) => ({
   setSecretKey: signupStore.setSecretKey,
   setSecretMobileKey: signupStore.setSecretMobileKey,
   emailBoolean: signupStore.emailBoolean,
+  sendPhoneKey: signupStore.sendPhoneKey,
+  phoneBoolean: signupStore.phoneBoolean,
 }))(observer(SignupBasic));
 
 // export default SignupBasic;

@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/apollo.js" beforeDir="false" afterPath="$PROJECT_DIR$/apollo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/Hunt.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/Hunt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/mockup.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/mockup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,8 +17,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="-210" />
+  <component name="ProjectFrameBounds">
     <option name="y" value="144" />
     <option name="width" value="1384" />
     <option name="height" value="837" />
@@ -24,9 +27,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -60,7 +63,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="46" y="43" width="1384" height="837" extended-state="0" />
+    <frame x="0" y="144" width="1384" height="837" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3293944" />
