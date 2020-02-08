@@ -7,6 +7,8 @@ class SignupStore {
   }
 
   // 스테이트
+  @observable Tags = "";
+
   @observable gender = ""; // 들어오는 값 확인하고 변경할 것
   @observable email = "";
   @observable password = "";
@@ -32,7 +34,6 @@ class SignupStore {
   @observable loginPW = "";
 
   @observable marker = { lat: null, lon: null };
-
   // 메소드
   @action
   genderBtn = val => {
@@ -213,75 +214,60 @@ class SignupStore {
     this.marker.lon = null;
   };
 
-  //태그 스토어
   @action
-  put = name => {
-    console.log("태그에서 : ", name);
-    // 존재하는지 찾고
-    const exists = this.selectedItems.find(item => item.name === name);
-    if (!exists) {
-      // 존재하지 않는다면 새로 집어넣고
-      this.selectedItems.push({
-        name,
-      });
-      console.log("담겨진 태그 : ", this.selectedItems);
-      return;
+  addtagState = f => {
+    if (this.tags.indexOf(this.tagDATA[f]) === -1) {
+      if (this.tags.length < 5) {
+        this.tags.push(this.tagDATA[f]);
+      }
+    } else {
+      this.tags.splice(this.tags.indexOf(this.tagDATA[f]), 1);
     }
-    // 존재한다면
-  };
 
-  items = [
-    {
-      name: "태그1",
-    },
-    {
-      name: "태그2",
-    },
-    {
-      name: "태그3",
-    },
-    {
-      name: "태그4",
-    },
-    {
-      name: "태그5",
-    },
+    //  else {
+    //   this.tags.splice(this.tags.indexOf(this.tagDATA[f]), 1, this.tagDATA[f]);
+    // }
+
+    // && this.tagDATA[f].indexOf(this.tags) === -1
+
+    console.log(
+      "tags 는 뭐가 뜨니? : ",
+      this.tags,
+      "/tags 에 뭐가 클릭됐니? : ",
+      this.tagDATA[f],
+      "/tags.length : ",
+      this.tags.length,
+      "/indexOf : ",
+      this.tags.indexOf(this.tagDATA[f]),
+    );
+  };
+  /*
+var names = ["Mike","Matt","Nancy","Adam","Jenny","Nancy","Carl"];
+
+var uniq = names.reduce(function(a,b){
+	if (a.indexOf(b) < 0 ) a.push(b);
+	return a;
+  },[]);
+*/
+
+  tagDATA = [
+    //DATA를 ARRAY로 선언을 합니다.
+    "태그1",
+    "태그2",
+    "태그3",
+    "태그4",
+    "태그5",
+    "태그6",
+    "태그7",
+    "태그8",
+    "태그9",
+    "태그10",
+    "태그11",
+    "태그12",
+    "태그13",
+    "태그14",
+    "태그15",
   ];
 }
-
-TagData = [
-  {
-    id: "태그1",
-    title: "태그1",
-  },
-  {
-    id: "태그2",
-    title: "태그2",
-  },
-  {
-    id: "태그3",
-    title: "태그3",
-  },
-  {
-    id: "태그4",
-    title: "태그4",
-  },
-  {
-    id: "태그5",
-    title: "태그5",
-  },
-  {
-    id: "태그6",
-    title: "태그6",
-  },
-  {
-    id: "태그7",
-    title: "태그7",
-  },
-  {
-    id: "태그8",
-    title: "태그8",
-  },
-];
 
 export default SignupStore;

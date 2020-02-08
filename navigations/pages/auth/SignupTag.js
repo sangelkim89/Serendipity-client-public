@@ -1,61 +1,160 @@
-import React, { Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-//리액트 네이티브로부터 {뷰, 텍스트, 터쳐블오파시티, 버튼,스타일시트} 가져온다.
-import Tags from "./TagBox/Tags";
-import { inject, observer } from "mobx-react"; // 불러오기
+import React from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-@inject("signupStore")
-@observer
-class SignupTag extends Component {
-  state = {};
-  _doNext() {
-    this.props.navigation.replace("SignupPic");
-  }
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { observer, inject } from "mobx-react";
 
-  _doBefore() {
-    this.props.navigation.replace("TagTest");
-  }
+function SignupTag(props) {
+  const { Tag, tagDATA } = props;
 
-  render() {
-    return (
+  //Tag, tagDATA를 props로 사용합니다.
+  _doNextPage = () => {
+    props.navigation.navigate("SignupPic");
+    console.log("tag에서 pic로 이동합니다.");
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.titleArea}>
+        <Text style={styles.title}>TagBox</Text>
+      </View>
       <View>
+        <Text> 여기는 테스트 </Text>
         <View>
-          <Text> 넌 필요없지 않냐 </Text>
-          <TouchableOpacity onPress={this._doNext.bind(this)}>
-            <Text style={{ fontSize: 30, backgroundColor: "blue" }}>다음페이지</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this._doBefore.bind(this)}>
-            <Text style={{ fontSize: 30, backgroundColor: "green" }}>이전페이지</Text>
-          </TouchableOpacity>
+          {tagDATA.map((tag, f) => {
+            console.log("map이후 tag", tag);
+            return (
+              <TouchableOpacity
+                key={f}
+                tag={tag}
+                onPress={() => {
+                  Tag(f);
+                }}
+              >
+                <Text>{tag}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
-    );
-  }
-}
 
-export default SignupTag;
+      <View style={styles.buttonArea}>
+        <TouchableOpacity style={styles.button} onPress={_doNextPage}>
+          <Text style={styles.buttonTitle}>next</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    flex: 1,
+    backgroundColor: "grey",
+    paddingLeft: wp("10%"),
+    paddingRight: wp("10%"),
+    justifyContent: "center",
   },
-  item: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+  titleArea: {
+    width: "100%",
+    padding: wp("10%"),
+    alignItems: "center",
   },
   title: {
-    fontSize: 32,
+    fontSize: wp("10%"),
   },
-  UnselectedTags: {
-    backgroundColor: "grey",
+  buttonArea: {
+    backgroundColor: "#46c3ad",
+    width: "100%",
+    height: hp("5%"),
   },
-  TagTemplate: {
-    backgroundColor: "green",
+  button: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  items: {
-    fontSize: 18,
-    marginBottom: 20,
+  buttonTitle: {
+    color: "white",
   },
 });
+
+export default inject(({ signupStore }) => ({
+  Tag: signupStore.addtagState,
+  tagDATA: signupStore.tagDATA,
+  selectedTag: signupStore.selectedArray,
+}))(observer(SignupTag));
+
+// function Itemanyname({ idanyname, selectanyname, Clickanyname }) {
+//   //ITEM 이라는 함수에 {idanyname, selected, Clickanyname}를 넣어서 실행하면
+//   return (
+//     <TouchableOpacity
+//       onPress={() => Clickanyname(idanyname)}
+//       style={[styles.itemanyname, { backgroundColor: selectanyname ? "red" : "pink" }]}
+//     >
+//       <Text style={styles.title}>{idanyname}</Text>
+//     </TouchableOpacity>
+//   );
+//   //<TouchableOpacity>안에 담겨져 있는 것을 리턴합니다.
+//   //누르면 Clickanyname(idanyname)가 실행이 되고,
+//   //style은 style.item 스타일을 따르는데, 선택 되면 색이 바뀝니다.
+//   //Text 스타일은 styles.title을 따르고 title을 넣어줍니다.
+//   //</TouchableOpacity>를 닫아줍니다.
+// }
+
+// //할일 :
+// //selectanyname 가 state로 들어가야해요
+// // state는 다시 모벡스의 state로 들어가야해요
+// // setSelected를 스토어의 메소드(@action)알고리즘으로 바꾼다.
+
+// export default function SignupTag() {
+//   const [selectanyname, setSelected] = useState([]); //셀렉트에니네임은 빈 어레이가 되어있다.
+
+//   const Clickanyname = useCallback(
+//     idanyname => {
+//       const newSelected = selectanyname;
+//       newSelected.set(idanyname, !selectanyname.push(idanyname));
+
+//       setSelected(newSelected);
+//     },
+//     [selectanyname],
+//   );
+
+//   //여기는 class 여도 안바꿔도 됨
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <FlatList
+//         data={DATAanyname}
+//         // data는 메소드
+//         renderItem={({ item }) => (
+//           <Itemanyname
+//             idanyname={item.idanyname}
+//             selectanyname={selectanyname.push(item.idanyname)}
+//             Clickanyname={Clickanyname}
+//           />
+//         )}
+//         keyExtractor={item => item.idanyname}
+//         extraData={selectanyname}
+//       />
+//     </SafeAreaView>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     marginTop: Constants.statusBarHeight,
+//   },
+//   itemanyname: {
+//     backgroundColor: "pink",
+//     padding: 5,
+//     marginVertical: 8,
+//     marginHorizontal: 16,
+//   },
+//   title: {
+//     fontSize: 10,
+//   },
+// });
