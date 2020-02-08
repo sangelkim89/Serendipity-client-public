@@ -1,8 +1,7 @@
 import { HttpLink } from "apollo-link-http";
-require("dotenv").config();
 
 const link = new HttpLink({
-  uri: `http://${IP_ADDRESS}:4000`,
+  uri: "http://192.168.0.33:4000",
 });
 
 const options = {
