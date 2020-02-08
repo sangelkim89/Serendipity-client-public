@@ -60,9 +60,16 @@ class SignupPic extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
+    console.log("pickImg result : ", result);
     this.props.signupStore.imgProfile = result;
+    this.props.signupStore.imgProfileName = result.uri.substr(-10);
     this.props.signupStore.imgProfileUri = result.uri;
-    console.log("this.props.signupStore.imgProfile : ", this.props.signupStore.imgProfile);
+    if (result.uri.substr(-4)[0] === ".") {
+      this.props.signupStore.imgProfileType = result.uri.substr(-3);
+    } else {
+      this.props.signupStore.imgProfileUri = result.uri.substr(-4);
+    }
+    console.log("this.props.signupStore.imgProfileUri : ", this.props.signupStore.imgProfileUri);
   };
 
   render() {
