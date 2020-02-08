@@ -7,7 +7,7 @@ class SignupStore {
   }
 
   // 스테이트
-  @observable gender = ""; // 들어오는 값 확인하고 변경할 것
+  @observable gender = "man"; // 들어오는 값 확인하고 변경할 것
   @observable email = "";
   @observable password = "";
   @observable emailSecretKey = "";

@@ -9,6 +9,7 @@ import DatePicker from "react-native-datepicker";
 
 function SignupBasic(props) {
   // static navigationOptions = { headerShown: false };
+
   const {
     genderBtn,
     inputEmail,
@@ -61,14 +62,15 @@ function SignupBasic(props) {
 
   // 휴대폰키 발급을 위한 전송 mutate
   const SEND_MOBILE = gql`
-    mutation confirmEmail($phone: String!) {
-      confirmEmail(phone: $phone)
+    mutation confirmText($phone: String!) {
+      confirmText(phone: $phone)
     }
   `;
   const [sendMobileSecretKey, { mobileData }] = useMutation(SEND_MOBILE);
 
   // 휴대폰 전송
   async function sendMobile() {
+    console.log(phone);
     try {
       let sendKey = await sendMobileSecretKey({
         variables: {
@@ -279,6 +281,10 @@ const styles = StyleSheet.create({
     margin: 15,
   },
 });
+
+SignupBasic.navigationOptions = () => {
+  (title: "hello");
+};
 
 export default inject(({ signupStore }) => ({
   phoneVerifyKey: signupStore.phoneVerifyKey,
