@@ -1,4 +1,5 @@
-import { observable, action } from "mobx";
+import { observable, action, computed, toJS } from "mobx";
+import axios from "axios";
 
 class SignupStore {
   // (StoreIndex)
@@ -22,10 +23,14 @@ class SignupStore {
   @observable companyName = ""; // 회사명
   @observable companySort = ""; // 업종
   @observable geoLocation = { lat: null, lon: null };
-  @observable tags = [];
+  @observable tags = ["ex_tag1", "ex_tag2", "ex_tag3"];
   @observable imgProfile = null;
+  @observable imgProfileType = null;
+  @observable imgProfileName = null;
   @observable imgProfileUri = null;
   @observable imgIdCard = null;
+  @observable imgIdCardType = null;
+  @observable imgIdCardName = null;
   @observable imgIdCardUri = null;
 
   @observable isDatePickerVisible = false;
@@ -242,21 +247,53 @@ class SignupStore {
 
   // 전체 signup data 제출
   @action
-  submitSigninData = () => {
-    const signinData = {
-      gender: this.gender,
-      email: this.email,
-      phone: this.phone,
-      userId: this.userId,
-      birth: this.birth,
-      companyName: this.companyName,
-      companySort: this.companySort,
-      geoLocation: this.geoLocation,
-      tags: this.tags,
-      imgProfileUri: this.imgProfileUri,
-      imgIdCardUri: this.imgIdCardUri,
-    };
-    console.log("signinData : ", signinData); // 제출 기능 구현 필요
+  submitSignupData = () => {
+    // 폼데이터 생성
+    const signupData = new FormData();
+    // 폼데이터에 이미지 추가
+    signupData.append("cardImg", {
+      name: this.imgIdCardName,
+      type: `image/${this.imgIdCardType}`,
+      uri: this.imgIdCardUri,
+    });
+    signupData.append("profileImg", {
+      name: this.imgProfileName,
+      type: `image/${this.imgProfileType}`,
+      uri: this.imgProfileUri,
+    });
+    // 폼데이터에 데이터 추가
+    signupData.append("gender", this.gender);
+    signupData.append("email", this.email);
+    signupData.append("phone", this.phone);
+    signupData.append("name", this.userId); // 서버는 name, 클라는 userId
+    signupData.append("password", this.password);
+    signupData.append("birth", this.birth);
+    signupData.append("companyName", this.companyName);
+    signupData.append("companyRole", this.companySort); // 서버는 companyRole, 클라는 companySort
+    signupData.append("geoLocation", this.geoLocation);
+    signupData.append("tags", JSON.stringify(this.tags));
+    // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
+
+    // 생성된 폼데이터 확인
+    console.log("formdata not send yet : ", signupData);
+
+    const endPoint = "http://192.168.0.33:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+
+    axios
+      .post(endPoint, signupData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(res => {
+        console.log("axios response : ", res);
+        Alert.alert("회원가입이 완료되었습니다.");
+      })
+      .catch(e => {
+        console.log("axios error issued!");
+        console.log(e);
+      });
+    // 스토어 초기화
     this.gender = "";
     this.email = "";
     this.emailSecretKey = "";
