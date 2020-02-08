@@ -16,7 +16,7 @@ import {
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import LOG_IN from "../../mutation";
+// import LOG_IN from "../../mutation";
 
 function Login(props) {
   // console.log("props : ", props);
@@ -34,6 +34,7 @@ function Login(props) {
   // useState
   const [isLoggedIn, doLogin] = useState("false");
 
+  // useMutate
   const LOG_IN = gql`
     mutation signIn($email: String!, $password: String!) {
       signIn(email: $email, password: $password)
