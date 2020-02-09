@@ -40,7 +40,7 @@ const MyProfilePage = ({ navigation }) => (
           alignItems: "center",
         }}
       >
-        <Image style={{ width: 400, height: 493.5 }} source={require("../../../../testpic.png")} />
+        <Image style={{ width: 400, height: 493.5 }} source={require("../../../testpic.png")} />
         <View
           style={{
             width: 200,

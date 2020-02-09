@@ -16,13 +16,13 @@ import {
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 
-import LOG_IN from "../../mutation";
+// import LOG_IN from "../../mutation";
 
 function Login(props) {
   // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
 
-  const [logInRes, { loading, error }] = useMutation(LOG_IN);
+  // const [logInRes, { loading, error }] = useMutation(LOG_IN);
   async function _doLogin() {
     try {
       await logInRes({
@@ -50,6 +50,10 @@ function Login(props) {
 
   _doSignUp = () => {
     props.navigation.navigate("SignupBasic");
+  };
+
+  _goMyprofile = () => {
+    props.navigation.navigate("MyProfileLayout");
   };
 
   useEffect(() => {
@@ -89,6 +93,11 @@ function Login(props) {
       <View style={styles.buttonArea}>
         <TouchableOpacity style={styles.button} onPress={_doSignUp}>
           <Text style={styles.buttonTitle}>SignUp</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonArea}>
+        <TouchableOpacity style={styles.button} onPress={_goMyprofile}>
+          <Text style={styles.buttonTitle}>GotoMyProfileLayout</Text>
         </TouchableOpacity>
       </View>
     </View>
