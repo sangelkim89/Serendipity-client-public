@@ -1,13 +1,95 @@
-import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { useRef, useState } from "react";
+import { Text, View, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Swiper from "react-native-deck-swiper";
 
-import HuntSwipe from "./HuntSwipe";
+import Card from "./Card";
+import OverlayLabel from "./OverlayLabel";
+import IconButton from "./IconBtn";
+import data from "./mockup";
 
 function HuntPage() {
+  const useSwiper = useRef(null).current;
+  const handleOnSwipedLeft = () => {
+    console.log("왼쪽버튼");
+  };
+  const handleOnSwipedTop = () => {
+    console.log("위쪽버튼");
+  };
+  const handleOnSwipedRight = () => {
+    console.log("오른쪽버튼");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <HuntSwipe />
+      <Swiper
+        useViewOverflow={Platform.OS === "ios"}
+        ref={useSwiper}
+        animateCardOpacity
+        containerStyle={styles.container}
+        cards={data}
+        renderCard={data => <Card data={data} />}
+        cardIndex={0}
+        backgroundColor="black"
+        stackSize={2}
+        onSwipedLeft={item => {
+          // 동작할때 그래프큐엘문 전송
+          console.log("LEFT", data[item]);
+        }}
+        onSwipedRight={item => {
+          // 동작할때 그래프큐엘문 전송
+          console.log("RIGHT", data[item]);
+        }}
+        infinite
+        showSecondCard
+        animateOverlayLabelsOpacity
+        overlayLabels={{
+          left: {
+            title: "NOPE",
+            element: <OverlayLabel label="NOPE" color="red" />,
+            style: {
+              wrapper: {
+                ...styles.overlayWrapper,
+                alignItems: "flex-start",
+                marginLeft: 160,
+                padding: 30,
+              },
+            },
+          },
+          right: {
+            title: "LIKE",
+            element: <OverlayLabel label="LIKE" color="#44bd32" />,
+            style: {
+              wrapper: {
+                ...styles.overlayWrapper,
+                alignItems: "flex-start",
+                marginLeft: 10,
+                padding: 30,
+              },
+            },
+          },
+        }}
+      />
+      <View style={styles.buttonsContainer}>
+        <IconButton
+          name="close"
+          onPress={handleOnSwipedLeft}
+          color="white"
+          backgroundColor="#E5566D"
+        />
+        <IconButton
+          name="star"
+          onPress={handleOnSwipedTop}
+          color="white"
+          backgroundColor="#3CA3FF"
+        />
+        <IconButton
+          name="heart"
+          onPress={handleOnSwipedRight}
+          color="white"
+          backgroundColor="#4CCC93"
+        />
+      </View>
     </SafeAreaView>
   );
 }
@@ -15,18 +97,16 @@ function HuntPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f7d794",
     alignItems: "center",
     justifyContent: "center",
+  },
+  buttonsContainer: {
+    width: "70%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 530,
   },
 });
 
 export default HuntPage;
-
-/**
- * 카드더미를 가지고 있는데 카드리스트 구성요소가 된다.
- * 왼쪽으로 스와이프, 오른쪽으로 스와이프
- * 카드를 스와이프하면 카드 묶음이 자동으로 올라간다.
- * 컨텐츠를 삽입할 수 있는 재사용 가능한 컴포넌트를 만드려고 한다.
- * 스와이프 컴포넌트를 보유한 상위 컴포넌트의 컨텐츠 렌더링을 처리한다.
- */
