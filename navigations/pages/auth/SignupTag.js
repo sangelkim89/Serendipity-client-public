@@ -8,7 +8,7 @@ import {
 import { observer, inject } from "mobx-react";
 
 function SignupTag(props) {
-  const { Tag, tagDATA } = props;
+  const { Tag, tagDATA, changeColor } = props;
 
   //Tag, tagDATA를 props로 사용합니다.
   _doNextPage = () => {
@@ -22,10 +22,17 @@ function SignupTag(props) {
         <Text style={styles.title}>TagBox</Text>
       </View>
       <View>
-        <Text> 여기는 테스트 </Text>
         <View>
           {tagDATA.map((tag, f) => {
             console.log("map이후 tag", tag);
+
+            //     <TouchableOpacity
+            //       onPress={() => Clickanyname(idanyname)}
+            //       style={[styles.itemanyname, { backgroundColor: selectanyname ? "red" : "pink" }]}
+            //     >
+            //       <Text style={styles.title}>{idanyname}</Text>
+            //     </TouchableOpacity>
+
             return (
               <TouchableOpacity
                 key={f}
@@ -33,6 +40,7 @@ function SignupTag(props) {
                 onPress={() => {
                   Tag(f);
                 }}
+                style={[styles.tagColor, { backgroundColor: changeColor ? "red" : "pink" }]}
               >
                 <Text>{tag}</Text>
               </TouchableOpacity>
@@ -79,6 +87,12 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     color: "white",
+  },
+  tagColor: {
+    backgroundColor: "pink",
+    padding: 1,
+    marginVertical: 1,
+    marginHorizontal: 100,
   },
 });
 

@@ -213,7 +213,6 @@ class SignupStore {
     this.marker.lat = null;
     this.marker.lon = null;
   };
-
   @action
   addtagState = f => {
     if (this.tags.indexOf(this.tagDATA[f]) === -1) {
@@ -241,14 +240,6 @@ class SignupStore {
       this.tags.indexOf(this.tagDATA[f]),
     );
   };
-  /*
-var names = ["Mike","Matt","Nancy","Adam","Jenny","Nancy","Carl"];
-
-var uniq = names.reduce(function(a,b){
-	if (a.indexOf(b) < 0 ) a.push(b);
-	return a;
-  },[]);
-*/
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
