@@ -32,6 +32,8 @@
     "react-geocode": "^0.2.1",
     "react-native": "~0.61.4",
     "react-native-datepicker": "^1.7.2",
+    "react-native-element": "^1.2.1",
+    "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.5.6",
     "react-native-maps": "^0.26.1",
     "react-native-modal-datetime-picker": "^8.1.2",

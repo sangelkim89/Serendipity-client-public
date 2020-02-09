@@ -31,26 +31,26 @@ class TakeCamera extends Component {
       console.log("camera image : ", photo.uri);
       console.log("route? : ", this.props.navigation.state.params.from);
       if (this.props.navigation.state.params.from === "idcard") {
-        console.log("pickImg result : ", result);
-        this.props.signupStore.imgIdCard = result;
-        this.props.signupStore.imgIdCardName = result.uri.substr(-10);
-        this.props.signupStore.imgIdCardUri = result.uri;
+        console.log("pickImg result : ", photo);
+        this.props.signupStore.imgIdCard = photo;
+        this.props.signupStore.imgIdCardName = photo.uri.substr(-10);
+        this.props.signupStore.imgIdCardUri = photo.uri;
         if (result.uri.substr(-4)[0] === ".") {
-          this.props.signupStore.imgIdCardType = result.uri.substr(-3);
+          this.props.signupStore.imgIdCardType = photo.uri.substr(-3);
         } else {
-          this.props.signupStore.imgIdCardUri = result.uri.substr(-4);
+          this.props.signupStore.imgIdCardUri = photo.uri.substr(-4);
         }
         console.log("this.props.signupStore.imgIdCardUri : ", this.props.signupStore.imgIdCardUri);
       }
       if (this.props.navigation.state.params.from === "pic") {
-        console.log("pickImg result : ", result);
-        this.props.signupStore.imgProfile = result;
-        this.props.signupStore.imgProfileName = result.uri.substr(-10);
-        this.props.signupStore.imgProfileUri = result.uri;
+        console.log("pickImg result : ", photo);
+        this.props.signupStore.imgProfile = photo;
+        this.props.signupStore.imgProfileName = photo.uri.substr(-10);
+        this.props.signupStore.imgProfileUri = photo.uri;
         if (result.uri.substr(-4)[0] === ".") {
-          this.props.signupStore.imgProfileType = result.uri.substr(-3);
+          this.props.signupStore.imgProfileType = photo.uri.substr(-3);
         } else {
-          this.props.signupStore.imgProfileUri = result.uri.substr(-4);
+          this.props.signupStore.imgProfileUri = photo.uri.substr(-4);
         }
         console.log(
           "this.props.signupStore.imgProfileUri : ",

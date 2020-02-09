@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, Alert } from "react-native";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -31,10 +31,17 @@ function SignupBasic(props) {
     birth,
     setSecretKey,
     setSecretMobileKey,
+    emailBoolean,
+    sendPhoneKey,
+    phoneBoolean,
   } = props;
 
   function _doNext() {
-    props.navigation.navigate("SignupCompany");
+    if (emailBoolean === true && phoneBoolean === true) {
+      props.navigation.navigate("SignupCompany");
+    } else {
+      Alert.alert("이메일 인증 및 휴대폰인증이 안되었습니다.");
+    }
   }
 
   // 이메일키 발급을 위한 전송 mutate
@@ -47,16 +54,17 @@ function SignupBasic(props) {
 
   // 이메일 전송
   async function sendEmail() {
+    console.log("이메일전송");
     try {
-      let sendKey = await sendEmailSecretKey({
+      let secretSend = await sendEmailSecretKey({
         variables: {
           email: email,
         },
       });
-      await setSecretKey(data);
-      await console.log("이메일요청후", data);
+      console.log("SECRET_KEY", secretSend.data.confirmEmail);
+      setSecretKey(secretSend.data.confirmEmail);
     } catch (err) {
-      console.log("트라이캐치에러", err);
+      console.log("SECRET_KEY_ERR", err);
     }
   }
 
@@ -72,13 +80,13 @@ function SignupBasic(props) {
   async function sendMobile() {
     console.log(phone);
     try {
-      let sendKey = await sendMobileSecretKey({
+      let secretKey = await sendMobileSecretKey({
         variables: {
           phone: phone,
         },
       });
-      await setSecretMobileKey(data);
-      await console.log("이메일요청후", mobileData);
+      await setSecretMobileKey(secretKey.data.confirmText);
+      await console.log("휴대폰요청후", secretKey.data.confirmText);
     } catch (err) {
       console.log("트라이캐치에러", err);
     }
@@ -91,8 +99,6 @@ function SignupBasic(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ecf0f1" }}>
-      <Text> SignupBasic??????????? </Text>
-
       <RadioForm
         style={styles.radio}
         radio_props={radio_props}
@@ -282,10 +288,6 @@ const styles = StyleSheet.create({
   },
 });
 
-SignupBasic.navigationOptions = () => {
-  (title: "hello");
-};
-
 export default inject(({ signupStore }) => ({
   phoneVerifyKey: signupStore.phoneVerifyKey,
   userId: signupStore.userId,
@@ -307,6 +309,9 @@ export default inject(({ signupStore }) => ({
   birth: signupStore.birth,
   setSecretKey: signupStore.setSecretKey,
   setSecretMobileKey: signupStore.setSecretMobileKey,
+  emailBoolean: signupStore.emailBoolean,
+  sendPhoneKey: signupStore.sendPhoneKey,
+  phoneBoolean: signupStore.phoneBoolean,
 }))(observer(SignupBasic));
 
 // export default SignupBasic;

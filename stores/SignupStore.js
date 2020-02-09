@@ -53,49 +53,38 @@ class SignupStore {
   // 이메일 관련 메소드
   @action
   inputEmail = e => {
-    console.log(e);
+    // console.log(e);
     this.email = e;
-    console.log("이메일", this.email);
+    // console.log("이메일", this.email);
   };
 
-  // // 이메일 전송
-  // @action
-  // sendEmail() {
-  //   // 이메일키 발급을 위한 전송 mutate
-  //   const SEND_EMAIL = gql`
-  //     mutation confirmEmail($email: String!) {
-  //       confirmEmail(email: $email)
-  //     }
-  //   `;
-  //   const [sendEmailSecretKey, { data }] = useMutation(SEND_EMAIL);
-
-  //   sendEmailSecretKey({
-  //     variables: {
-  //       email: this.email,
-  //     },
-  //   });
-  //   console.log("이메일요청후", data);
-  //   console.log("이메일", this.email);
-  // }
-
+  // 이메일키를 입력하는 메소드
   @action
   inputEmailKey = e => {
-    console.log(e);
+    // console.log(e);
     this.emailSecretKey = e;
-    console.log("이메일시크릿", this.emailSecretKey);
+    // console.log("이메일시크릿", this.emailSecretKey);
   };
 
+  // 받아온 이메일키를 스토어에 저장
   @action
   setSecretKey = data => {
-    console.log("스토어시크릿키데이타", data);
+    console.log("이메일시크릿", data);
     this.resEmailSecretKey = data;
-    console.log("이메일시크릿", this.resEmailSecretKey);
+    console.log("스토어시크릿키데이타", this.resEmailSecretKey);
   };
 
+  // emailSecretKey랑 resEmailSecretKey랑 같은지 판단하는 이벤트
   @action
-  sendEmailKey = e => {
-    // if(this.emailSecretKey === )
-    console.log("이메일시크릿", this.emailSecretKey);
+  sendEmailKey = () => {
+    if (this.emailSecretKey === this.resEmailSecretKey) {
+      this.emailBoolean = true;
+      alert("이메일 인증에 성공하였습니다.");
+    } else {
+      this.emailBoolean = false;
+      alert("이메일 인증에 실패하였습니다.");
+    }
+    console.log("인증완료", this.emailBoolean);
   };
 
   // 핸드폰 관련 메소드
@@ -121,8 +110,14 @@ class SignupStore {
 
   @action
   sendPhoneKey = () => {
-    this.phoneVerifyKey = "";
-    console.log("폰시크릿", this.phoneVerifyKey);
+    if (this.phoneVerifyKey === this.resMobileSecretKey) {
+      this.phoneBoolean = true;
+      alert("휴대폰 인증에 성공하였습니다.");
+    } else {
+      this.phoneBoolean = false;
+      alert("휴대폰 인증에 실패하였습니다.");
+    }
+    console.log("인증완료", this.phoneBoolean);
   };
 
   @action
@@ -205,46 +200,6 @@ class SignupStore {
     console.log("패스워드", this.loginPW);
   };
 
-  // // DoLogin
-  // @action
-  // doLogin = async () => {
-  //   const LOG_IN = gql`
-  //     mutation signIn($email: String!, $password: String!) {
-  //       signIn(email: $email, password: $password)
-  //     }
-  //   `;
-
-  //   const [logInRes, { data }] = useMutation(LOG_IN);
-  //   try {
-  //     const {
-  //       data: { signIn },
-  //     } = await logInRes({
-  //       variables: {
-  //         email: loginId,
-  //         password: loginPW,
-  //       },
-  //     });
-  //     console.log("signIn : ", signIn);
-  //     console.log("data : ", data);
-  //   } catch {
-  //     e => {
-  //       console.log("useMutation error in Login.js", e);
-  //     };
-  //   } finally {
-  //     console.log("login data from server : ", data);
-  //   }
-  //   const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-  //   console.log("loginId : ", loginId);
-  //   console.log("isLoggedIn(local storage) in Login.js : ", isLoggedIn);
-  //   if (isLoggedIn === "true") {
-  //     props.navigation.navigate("TabNav");
-  //   } else {
-  //     Alert.alert("isLoggedIn is falsy!!!");
-  //   }
-  //   // 서버에 로그인 정보 송신 기능 추가 요
-  //   console.log("logInRes : ", logInRes);
-  // };
-
   // 전체 signup data 제출
   @action
   submitSignupData = () => {
@@ -270,7 +225,7 @@ class SignupStore {
     signupData.append("birth", this.birth);
     signupData.append("companyName", this.companyName);
     signupData.append("companyRole", this.companySort); // 서버는 companyRole, 클라는 companySort
-    signupData.append("geoLocation", this.geoLocation);
+    signupData.append("geoLocation", { lat: this.geoLocation.lat, lon: this.geoLocation.lon }); // 프록시로 전달되는것 수정
     signupData.append("tags", JSON.stringify(this.tags));
     // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
 

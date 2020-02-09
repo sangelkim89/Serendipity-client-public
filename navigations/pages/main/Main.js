@@ -8,11 +8,18 @@ import HuntPageStack from "./Hunt/Hunt";
 import MatchPageStack from "./Matches/Matches";
 import MyProfilePageStack from "./MyProfile/MyProfile";
 
-const HuntStack = createStackNavigator({
-  Hunt: {
-    screen: HuntPageStack,
+const HuntStack = createStackNavigator(
+  {
+    Hunt: {
+      screen: HuntPageStack,
+    },
   },
-});
+  {
+    defaultNavigationOptions: {
+      headerShown: false,
+    },
+  },
+);
 
 const MatchesStack = createStackNavigator({
   Matches: {
@@ -26,10 +33,17 @@ const MyprofileStack = createStackNavigator({
   },
 });
 
-const TabNav = createBottomTabNavigator({
-  Hunt: HuntStack,
-  Match: MatchesStack,
-  Myprofile: MyprofileStack,
-});
+const TabNav = createBottomTabNavigator(
+  {
+    Hunt: HuntStack,
+    Match: MatchesStack,
+    Myprofile: MyprofileStack,
+  },
+  {
+    defaultNavigationOptions: {
+      headerShown: false,
+    },
+  },
+);
 
 export default TabNav;
