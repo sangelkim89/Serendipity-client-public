@@ -17,7 +17,6 @@ class HuntSwipe extends React.Component {
   }
 
   //LifeCycle
-
   componentWillMount() {
     this.PanResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -62,7 +61,7 @@ class HuntSwipe extends React.Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: "#2ecc71", flex: 1 }}>
+      <View style={{ backgroundColor: "#2ecc71", flex: 1 }} collapsable={false}>
         <View style={{ height: 60 }}></View>
         <View style={{ flex: 1 }}>{this.renderData()}</View>
         <View style={{ height: 60 }}></View>
