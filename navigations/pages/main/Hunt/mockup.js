@@ -1,23 +1,9 @@
-export default [
-  {
-    jobtitle: "hyobi",
-    company: "House",
-    snippet: `Hello I'm Hyobi",
-    jobId: "83400e947276d20b`,
-    formattedRelativeTime: "1 day ago",
-  },
-  {
-    jobtitle: "chobi",
-    company: "Ilsan",
-    snippet: "Hello I'm Chobi",
-    jobId: "9d2c6535dc61d3b6",
-    formattedRelativeTime: "4 days ago",
-  },
-  {
-    jobtitle: "jaehyobi",
-    company: "Isu",
-    snippet: "Hello I'm jaehyobi",
-    jobId: "9d3a6535dc61d3b6",
-    formattedRelativeTime: "4 days ago",
-  },
+const data = [
+  { id: 1, uri: require("../../../../assets/image.jpg") },
+  { id: 2, uri: require("../../../../assets/image2.jpg") },
+  { id: 3, uri: require("../../../../assets/image3.jpg") },
+  { id: 4, uri: require("../../../../assets/image4.jpg") },
+  { id: 5, uri: require("../../../../assets/image5.jpg") },
 ];
+
+export default data;

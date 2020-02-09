@@ -3,7 +3,6 @@ import { Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import HuntSwipe from "./HuntSwipe";
-import data from "./mockup";
 
 function HuntPage() {
   return (
