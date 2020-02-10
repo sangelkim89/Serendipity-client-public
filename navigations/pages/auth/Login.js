@@ -21,8 +21,8 @@ import { gql } from "apollo-boost";
 function Login(props) {
   // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
-
   // useEffect
+
   useEffect(() => {
     async function getLogInfo() {
       const logInfo = await AsyncStorage.getItem("isLoggedIn");
@@ -44,46 +44,45 @@ function Login(props) {
   const [logInRes, { data }] = useMutation(LOG_IN);
 
   async function _doLogin() {
-    try {
-      const {
-        data: { signIn },
-      } = await logInRes({
-        variables: {
-          email: loginId,
-          password: loginPW,
-        },
-      });
-      console.log("data : ", data);
-      if (signIn) {
-        doLogin("true");
-        AsyncStorage.setItem("jwt", signIn);
-        AsyncStorage.setItem("isLoggedIn", "true");
-        console.log("로그인됐니_성공?", isLoggedIn);
-      } else {
-        doLogin("false");
-        console.log("로그인됐니_실패?", isLoggedIn);
-      }
-    } catch {
-      e => {
-        console.log("useMutation error in Login.js", e);
-      };
-    } finally {
-      console.log("login data from server : ", data);
-    }
+    // try {
+    //   const {
+    //     data: { signIn },
+    //   } = await logInRes({
+    //     variables: {
+    //       email: loginId,
+    //       password: loginPW,
+    //     },
+    //   });
+    //   console.log("data : ", data);
+    //   if (signIn) {
+    //     doLogin("true");
+    //     AsyncStorage.setItem("jwt", signIn);
+    //     AsyncStorage.setItem("isLoggedIn", "true");
+    //     console.log("로그인됐니_성공?", isLoggedIn);
+    //   } else {
+    //     doLogin("false");
+    //     console.log("로그인됐니_실패?", isLoggedIn);
+    //   }
+    // } catch {
+    //   e => {
+    //     console.log("useMutation error in Login.js", e);
+    //   };
+    // } finally {
+    //   console.log("login data from server : ", data);
+    // }
 
-    const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-    console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
-    if (asyncIsLoggedIn === "true") {
-      props.navigation.navigate("TabNav");
-    } else {
-      Alert.alert("isLoggedIn is falsy!!!");
-    }
+    // const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+    // console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
+    // if (asyncIsLoggedIn === "true") {
+    props.navigation.navigate("TabNav");
+    // } else {
+    //   Alert.alert("isLoggedIn is falsy!!!");
+    // }
   }
 
   _doSignUp = () => {
     props.navigation.navigate("SignupBasic");
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.titleArea}>
