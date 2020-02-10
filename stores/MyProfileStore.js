@@ -1,25 +1,40 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, toJS } from "mobx";
+import axios from "axios";
 
-class MyProfileStore {
+class MyprofileStore {
   // (StoreIndex)
   constructor(root) {
     this.root = root;
   }
 
-  // 스테이트
-  @observable userId = "";
-  @observable birth = "";
-  @observable companyName = ""; // 회사명
-  @observable companySort = ""; // 업종 룰러
-  @observable selectedTags = [];
-  @observable allTags = [];
-  @observable imgProfile = ""; // 기기경로X S3경로
+  tagDATA = [
+    //DATA를 ARRAY로 선언을 합니다.
+    "태그1",
+    "태그2",
+    "태그3",
+    "태그4",
+    "태그5",
+  ];
 
-  // 메소드
-  @action
-  profileExer = () => {
-    console.log("프로필 메소드 작동");
+  mockDATA = {
+    data: {
+      getMe: {
+        id: "ck6dcce8fg1w40b00vb097vca",
+        gender: "Unicorn",
+        email: "sangelkim@yahoo.com",
+        password: "1",
+        phone: "01038592162",
+        name: "sang",
+        birth: "1",
+        companyName: "1",
+        companyRole: "1",
+        geoLocation: "1",
+        tags: [{ tag1: "tag1" }, { tag1: "tag1" }],
+        profileImgLocation: "String",
+        cardImgLocation: "String",
+      },
+    },
   };
 }
 
-export default MyProfileStore;
+export default MyprofileStore;
