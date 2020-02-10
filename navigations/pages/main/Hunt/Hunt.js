@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation-stack";
 
 import HuntPage from "./HuntPage";
-import HuntSwipe from "./HuntSwipe";
+import Card from "./Card";
 
 const HuntPageStack = createStackNavigator(
   {

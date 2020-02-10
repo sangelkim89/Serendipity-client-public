@@ -1,7 +1,7 @@
 import React from "react";
-import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
+import { Ionicons } from "@expo/vector-icons";
 
 // 수정되어야 함
 import HuntPageStack from "./Hunt/Hunt";
@@ -35,11 +35,39 @@ const MyprofileStack = createStackNavigator({
 
 const TabNav = createBottomTabNavigator(
   {
-    Hunt: HuntStack,
-    Match: MatchesStack,
-    Myprofile: MyprofileStack,
+    HUNT: {
+      screen: HuntStack,
+      navigationOptions: {
+        tabBarLabel: "LOVE",
+        tabBarIcon: ({ tintColor }) => <Ionicons name="ios-heart" color={tintColor} size={35} />,
+      },
+    },
+    MATCH: {
+      screen: MatchesStack,
+      navigationOptions: {
+        tabBarLabel: "CHAT",
+        tabBarIcon: ({ tintColor }) => <Ionicons name="ios-body" color={tintColor} size={35} />,
+      },
+    },
+    Myprofile: {
+      screen: MyprofileStack,
+      navigationOptions: {
+        tabBarLabel: "MY",
+        tabBarIcon: ({ tintColor }) => <Ionicons name="ios-settings" color={tintColor} size={35} />,
+      },
+    },
   },
+  //account-heart
   {
+    tabBarOptions: {
+      activeTintColor: "red",
+      inactiveTintColor: "grey",
+      showIcon: true,
+      style: {
+        backgroundColor: "#f7d794",
+        height: 60,
+      },
+    },
     defaultNavigationOptions: {
       headerShown: false,
     },
