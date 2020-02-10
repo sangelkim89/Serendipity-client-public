@@ -8,7 +8,7 @@ class SignupStore {
   }
 
   // 스테이트
-  @observable gender = "man"; // 들어오는 값 확인하고 변경할 것
+  @observable gender = "male"; // 들어오는 값 확인하고 변경할 것
   @observable email = "";
   @observable password = "";
   @observable emailSecretKey = "";
@@ -53,17 +53,17 @@ class SignupStore {
   // 이메일 관련 메소드
   @action
   inputEmail = e => {
-    // console.log(e);
+    console.log(e);
     this.email = e;
-    // console.log("이메일", this.email);
+    console.log("이메일", this.email);
   };
 
   // 이메일키를 입력하는 메소드
   @action
   inputEmailKey = e => {
-    // console.log(e);
+    console.log(e);
     this.emailSecretKey = e;
-    // console.log("이메일시크릿", this.emailSecretKey);
+    console.log("이메일시크릿", this.emailSecretKey);
   };
 
   // 받아온 이메일키를 스토어에 저장
@@ -234,38 +234,60 @@ class SignupStore {
 
     const endPoint = "http://192.168.0.33:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
 
-    axios
-      .post(endPoint, signupData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+    fetch(endPoint, {
+      method: "POST",
+      // credentials: "include",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: signupData,
+    })
       .then(res => {
-        console.log("axios response : ", res);
-        Alert.alert("회원가입이 완료되었습니다.");
+        alert("회원가입 성공!!!");
       })
-      .catch(e => {
-        console.log("axios error issued!");
-        console.log(e);
+      .catch(err => {
+        console.log("err : ", err);
+        alert("가입 실패... 다시 시도 해주세요");
       });
+
+    // axios
+    //   .post(endPoint, signupData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   .then(res => {
+    //     console.log("axios response : ", res);
+    //     Alert.alert("회원가입이 완료되었습니다.");
+    //   })
+    //   .catch(e => {
+    //     // console.log("axios error issued!");
+    //     console.log(e);
+    //   });
     // 스토어 초기화
-    this.gender = "";
+    this.gender = "male"; // 들어오는 값 확인하고 변경할 것
     this.email = "";
+    this.password = "";
     this.emailSecretKey = "";
+    this.resEmailSecretKey = "";
     this.emailBoolean = "";
     this.phone = "";
     this.phoneVerifyKey = "";
+    this.resMobileSecretKey = "";
     this.phoneBoolean = "";
     this.userId = "";
     this.birth = "";
-    this.companyName = "";
-    this.companySort = "";
-    this.geoLocation.lat = null;
-    this.geoLocation.lon = null;
-    this.tags = [];
+    this.companyName = ""; // 회사명
+    this.companySort = ""; // 업종
+    this.geoLocation = { lat: null, lon: null };
+    this.tags = ["ex_tag1", "ex_tag2", "ex_tag3"];
     this.imgProfile = null;
+    this.imgProfileType = null;
+    this.imgProfileName = null;
     this.imgProfileUri = null;
     this.imgIdCard = null;
+    this.imgIdCardType = null;
+    this.imgIdCardName = null;
     this.imgIdCardUri = null;
 
     this.isDatePickerVisible = false;
@@ -273,8 +295,7 @@ class SignupStore {
     this.loginId = "";
     this.loginPW = "";
 
-    this.marker.lat = null;
-    this.marker.lon = null;
+    this.marker = { lat: null, lon: null };
   };
 }
 
