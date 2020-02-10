@@ -6,17 +6,17 @@ import { View, Text, Image, StyleSheet, Dimensions, ImageBackground } from "reac
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-const Card = ({ data }) => {
+const Card = ({ datas }) => {
   return (
     <View activeOpacity={1}>
       <ImageBackground
         style={styles.img}
         imageStyle={{ borderRadius: 50 }}
-        source={data.uri}
+        source={datas.uri}
         resizeMode="cover"
       >
         <View style={styles.info}>
-          <Text style={styles.text}> {`${data.name}  ${data.age}`}</Text>
+          <Text style={styles.text}> {`${datas.name}  ${datas.age}`}</Text>
         </View>
       </ImageBackground>
     </View>

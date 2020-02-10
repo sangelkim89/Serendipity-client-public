@@ -6,12 +6,37 @@ import Swiper from "react-native-deck-swiper";
 import Card from "./Card";
 import OverlayLabel from "./OverlayLabel";
 import IconButton from "./IconBtn";
-import data from "./mockup";
+import datas from "./mockup";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 function HuntPage() {
+  // useQuery
+  const GET_LIST = gql`
+    query getHuntList {
+      getHuntList
+    }
+  `;
+
+  /**
+   * GET_DOG_PHOTO = gql`
+  query GetDogPhoto($breed: String!) {
+    getDogPhoto(breed: $breed) {
+      id
+      displayImage
+    }
+  }
+`;
+   */
+  const { loading, data, error } = useQuery(GET_LIST);
+
   const useSwiper = useRef(null).current;
   const handleOnSwipedLeft = () => {
-    console.log("왼쪽버튼");
+    if (loading) {
+      console.log("===========");
+      console.log("쿼리데이타", error);
+    }
+    console.log("쿼리데이타", data, error);
   };
   const handleOnSwipedTop = () => {
     console.log("위쪽버튼");
@@ -27,18 +52,18 @@ function HuntPage() {
         ref={useSwiper}
         animateCardOpacity
         containerStyle={styles.container}
-        cards={data}
-        renderCard={data => <Card data={data} />}
+        cards={datas}
+        renderCard={datas => <Card datas={datas} />}
         cardIndex={0}
         backgroundColor="black"
         stackSize={2}
         onSwipedLeft={item => {
           // 동작할때 그래프큐엘문 전송
-          console.log("LEFT", data[item]);
+          console.log("LEFT", datas[item]);
         }}
         onSwipedRight={item => {
           // 동작할때 그래프큐엘문 전송
-          console.log("RIGHT", data[item]);
+          console.log("RIGHT", datas[item]);
         }}
         infinite
         showSecondCard
