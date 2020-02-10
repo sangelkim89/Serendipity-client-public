@@ -13,29 +13,36 @@ import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
 import App from "../App";
 
-const AuthStack = createStackNavigator({
-  Login: {
-    screen: Login,
+const AuthStack = createStackNavigator(
+  {
+    Login: {
+      screen: Login,
+    },
+    SignupBasic: {
+      screen: SignupBasic,
+    },
+    SignupCompany: {
+      screen: SignupCompany,
+    },
+    SignupTag: {
+      screen: SignupTag,
+    },
+    SignupPic: {
+      screen: SignupPic,
+    },
+    SignupIdcard: {
+      screen: SignupIdcard,
+    },
+    TakeCamera: {
+      screen: TakeCamera,
+    },
   },
-  SignupBasic: {
-    screen: SignupBasic,
+  {
+    defaultNavigationOptions: {
+      headerShown: false,
+    },
   },
-  SignupCompany: {
-    screen: SignupCompany,
-  },
-  SignupTag: {
-    screen: SignupTag,
-  },
-  SignupPic: {
-    screen: SignupPic,
-  },
-  SignupIdcard: {
-    screen: SignupIdcard,
-  },
-  TakeCamera: {
-    screen: TakeCamera,
-  },
-});
+);
 
 const MainStack = createSwitchNavigator(
   {
