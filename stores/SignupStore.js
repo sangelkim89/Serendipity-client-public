@@ -24,7 +24,7 @@ class SignupStore {
   @observable companyName = ""; // 회사명
   @observable companySort = ""; // 업종
   @observable geoLocation = { lat: null, lon: null };
-  @observable tags = ["ex_tag1", "ex_tag2", "ex_tag3"];
+  @observable tags = [];
   @observable imgProfile = null;
   @observable imgProfileType = null;
   @observable imgProfileName = null;
@@ -85,6 +85,17 @@ class SignupStore {
       alert("이메일 인증에 실패하였습니다.");
     }
     console.log("인증완료", this.emailBoolean);
+  };
+
+  @action
+  changeColorState = () => {
+    if (this.changeColorState === false) {
+      this.changeColorState = true;
+    } else {
+      this.changeColorState = false;
+    }
+
+    console.log("/changeColorState : ", this.changeColorState);
   };
 
   // 핸드폰 관련 메소드
@@ -275,6 +286,8 @@ class SignupStore {
 
     this.marker.lat = null;
     this.marker.lon = null;
+
+    this.changeColorState = false;
   };
   @action
   addtagState = f => {

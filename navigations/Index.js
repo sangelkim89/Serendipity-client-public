@@ -12,7 +12,6 @@ import TakeCamera from "./pages/auth/TakeCamera";
 import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
 import App from "../App";
-import MyProfileLayout from "./pages/auth/MyProfileLayout";
 
 const AuthStack = createStackNavigator({
   Login: {
@@ -35,9 +34,6 @@ const AuthStack = createStackNavigator({
   },
   TakeCamera: {
     screen: TakeCamera,
-  },
-  MyProfileLayout: {
-    screen: MyProfileLayout,
   },
 });
 

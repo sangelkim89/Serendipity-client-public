@@ -8,7 +8,7 @@ import {
 import { observer, inject } from "mobx-react";
 
 function SignupTag(props) {
-  const { Tag, tagDATA, changeColor } = props;
+  const { Tag, tagDATA, changeColorState } = props;
 
   //Tag, tagDATA를 props로 사용합니다.
   _doNextPage = () => {
@@ -39,8 +39,13 @@ function SignupTag(props) {
                 tag={tag}
                 onPress={() => {
                   Tag(f);
+                  changeColorState();
+                  console.log("changeColorState 여기냐:", changeColorState());
                 }}
-                style={[styles.tagColor, { backgroundColor: changeColor ? "red" : "pink" }]}
+                style={[
+                  styles.tagColor,
+                  { backgroundColor: { changeColorState } ? "pink" : "red" },
+                ]}
               >
                 <Text>{tag}</Text>
               </TouchableOpacity>
@@ -99,7 +104,7 @@ const styles = StyleSheet.create({
 export default inject(({ signupStore }) => ({
   Tag: signupStore.addtagState,
   tagDATA: signupStore.tagDATA,
-  selectedTag: signupStore.selectedArray,
+  changeColorState: signupStore.changeColorState,
 }))(observer(SignupTag));
 
 // function Itemanyname({ idanyname, selectanyname, Clickanyname }) {
