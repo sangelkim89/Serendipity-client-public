@@ -16,30 +16,7 @@ class SignupIdcard extends React.Component {
   static navigationOptions = { headerShown: false };
   _doNext() {
     this.props.navigation.navigate("Login");
-    this.props.signupStore.submitSigninData();
-    // axios로 요청 날려야 함
-
-    // 사인업 시 사진 업로드 - 노마드 코더 강의 코드
-    // const formData = new FormData();
-    // const name = photo.filename;
-    // const [, type] = name.split(".");
-    // formData.append("file", {
-    //   name,
-    //   type: type.toLowerCase(),
-    //   uri: photo.uri
-    // });
-    // try {
-    //   const {
-    //     data: { path }
-    //   } = await axios.post("http://localhost:4000/api/upload", formData, {
-    //     headers: {
-    //       "content-type": "multipart/form-data"
-    //     }
-    //   });
-    //   setFileUrl(path);
-    // } catch (e) {
-    //   Alert.alert("Cant upload", "Try later");
-    // }
+    this.props.signupStore.submitSignupData();
   }
 
   async permitCamera() {
@@ -81,9 +58,16 @@ class SignupIdcard extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
+    console.log("pickImg result : ", result);
     this.props.signupStore.imgIdCard = result;
+    this.props.signupStore.imgIdCardName = result.uri.substr(-10);
     this.props.signupStore.imgIdCardUri = result.uri;
-    console.log("this.props.signupStore.imgProfile : ", this.props.signupStore.imgProfile);
+    if (result.uri.substr(-4)[0] === ".") {
+      this.props.signupStore.imgIdCardType = result.uri.substr(-3);
+    } else {
+      this.props.signupStore.imgIdCardUri = result.uri.substr(-4);
+    }
+    console.log("this.props.signupStore.imgIdCardUri : ", this.props.signupStore.imgIdCardUri);
   };
 
   render() {

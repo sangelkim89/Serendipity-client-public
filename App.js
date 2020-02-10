@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, AsyncStorage } from "react-native";
-import { Provider } from "mobx-react";
+import { Provider, inject, observer } from "mobx-react";
 
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { persistCache } from "apollo-cache-persist";
@@ -10,21 +10,22 @@ import options from "./apollo";
 import { AppLoading } from "expo";
 
 import MainStack from "./navigations/Index";
-//import Main from "./navigations/pages/auth/Main";
 import StoreIndex from "./stores/StoreIndex";
+import { observable } from "mobx";
 
 const store = new StoreIndex();
 
-class App extends Component {
+// @inject("signupStore")
+@observer
+class App extends React.Component {
   state = {
     loaded: false,
     client: null,
-    isLoggedIn: null,
   };
 
   async componentDidMount() {
+    console.log("APPCOMPONENTDIDMOUNT");
     await this.preLoad();
-    await AsyncStorage.setItem("isLoggedIn", `${this.state.isLoggedIn}`);
   }
 
   preLoad = async () => {
@@ -53,10 +54,9 @@ class App extends Component {
   };
 
   render() {
-    console.log("options : ", options);
     console.log("re-started!!!");
     const { loaded, client, isLoggedIn } = this.state;
-    // console.log("client in app.js : ", client);
+    console.log("스토어_로그인");
     return client ? (
       <ApolloProvider client={client}>
         <Provider {...store}>

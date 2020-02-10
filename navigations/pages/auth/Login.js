@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,37 +15,69 @@ import {
 } from "react-native-responsive-screen";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
-
+import { gql } from "apollo-boost";
 // import LOG_IN from "../../mutation";
 
 function Login(props) {
   // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
 
-  // const [logInRes, { loading, error }] = useMutation(LOG_IN);
+  // useEffect
+  useEffect(() => {
+    async function getLogInfo() {
+      const logInfo = await AsyncStorage.getItem("isLoggedIn");
+      console.log("logInfo in login comp : ", logInfo);
+    }
+    getLogInfo();
+  }, []);
+
+  // useState
+  const [isLoggedIn, doLogin] = useState("false");
+
+  // useMutate
+  const LOG_IN = gql`
+    mutation signIn($email: String!, $password: String!) {
+      signIn(email: $email, password: $password)
+    }
+  `;
+
+  const [logInRes, { data }] = useMutation(LOG_IN);
+
   async function _doLogin() {
     try {
-      await logInRes({
+      const {
+        data: { signIn },
+      } = await logInRes({
         variables: {
           email: loginId,
           password: loginPW,
         },
       });
+      console.log("data : ", data);
+      if (signIn) {
+        doLogin("true");
+        AsyncStorage.setItem("jwt", signIn);
+        AsyncStorage.setItem("isLoggedIn", "true");
+        console.log("로그인됐니_성공?", isLoggedIn);
+      } else {
+        doLogin("false");
+        console.log("로그인됐니_실패?", isLoggedIn);
+      }
     } catch {
       e => {
         console.log("useMutation error in Login.js", e);
       };
+    } finally {
+      console.log("login data from server : ", data);
     }
-    const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-    console.log("loginId : ", loginId);
-    console.log("isLoggedIn(local storage) in Login.js : ", isLoggedIn);
-    if (isLoggedIn === "true") {
+
+    const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+    console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
+    if (asyncIsLoggedIn === "true") {
       props.navigation.navigate("TabNav");
     } else {
       Alert.alert("isLoggedIn is falsy!!!");
     }
-    // 서버에 로그인 정보 송신 기능 추가 요
-    console.log("logInRes : ", logInRes);
   }
 
   _doSignUp = () => {
@@ -55,15 +87,6 @@ function Login(props) {
   _goMyprofile = () => {
     props.navigation.navigate("MyProfileLayout");
   };
-
-  useEffect(() => {
-    async function getLogInfo() {
-      const logInfo = await AsyncStorage.getItem("isLoggedIn");
-      console.log("logInfo in login comp : ", logInfo);
-    }
-    getLogInfo();
-  }, []);
-
   return (
     <View style={styles.container}>
       <View style={styles.titleArea}>
