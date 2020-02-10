@@ -8,7 +8,7 @@ class SignupStore {
   }
 
   // 스테이트
-  @observable gender = "male"; // 들어오는 값 확인하고 변경할 것
+  @observable gender = "man"; // 들어오는 값 확인하고 변경할 것
   @observable email = "";
   @observable password = "";
   @observable emailSecretKey = "";
@@ -23,7 +23,7 @@ class SignupStore {
   @observable companyName = ""; // 회사명
   @observable companySort = ""; // 업종
   @observable geoLocation = { lat: null, lon: null };
-  @observable tags = ["ex_tag1", "ex_tag2", "ex_tag3"];
+  @observable tags = [];
   @observable imgProfile = null;
   @observable imgProfileType = null;
   @observable imgProfileName = null;
@@ -39,7 +39,6 @@ class SignupStore {
   @observable loginPW = "";
 
   @observable marker = { lat: null, lon: null };
-
   // 메소드
 
   // 남녀 라디오 버튼
@@ -85,6 +84,17 @@ class SignupStore {
       alert("이메일 인증에 실패하였습니다.");
     }
     console.log("인증완료", this.emailBoolean);
+  };
+
+  @action
+  changeColorState = () => {
+    if (this.changeColorState === false) {
+      this.changeColorState = true;
+    } else {
+      this.changeColorState = false;
+    }
+
+    console.log("/changeColorState : ", this.changeColorState);
   };
 
   // 핸드폰 관련 메소드
@@ -265,7 +275,7 @@ class SignupStore {
     //     console.log(e);
     //   });
     // 스토어 초기화
-    this.gender = "male"; // 들어오는 값 확인하고 변경할 것
+    this.gender = "man"; // 들어오는 값 확인하고 변경할 것
     this.email = "";
     this.password = "";
     this.emailSecretKey = "";
@@ -280,7 +290,7 @@ class SignupStore {
     this.companyName = ""; // 회사명
     this.companySort = ""; // 업종
     this.geoLocation = { lat: null, lon: null };
-    this.tags = ["ex_tag1", "ex_tag2", "ex_tag3"];
+    this.tags = [];
     this.imgProfile = null;
     this.imgProfileType = null;
     this.imgProfileName = null;
@@ -295,8 +305,57 @@ class SignupStore {
     this.loginId = "";
     this.loginPW = "";
 
+
     this.marker = { lat: null, lon: null };
+    this.changeColorState = false;
+
   };
+  @action
+  addtagState = f => {
+    if (this.tags.indexOf(this.tagDATA[f]) === -1) {
+      if (this.tags.length < 5) {
+        this.tags.push(this.tagDATA[f]);
+      }
+    } else {
+      this.tags.splice(this.tags.indexOf(this.tagDATA[f]), 1);
+    }
+
+    //  else {
+    //   this.tags.splice(this.tags.indexOf(this.tagDATA[f]), 1, this.tagDATA[f]);
+    // }
+
+    // && this.tagDATA[f].indexOf(this.tags) === -1
+
+    console.log(
+      "tags 는 뭐가 뜨니? : ",
+      this.tags,
+      "/tags 에 뭐가 클릭됐니? : ",
+      this.tagDATA[f],
+      "/tags.length : ",
+      this.tags.length,
+      "/indexOf : ",
+      this.tags.indexOf(this.tagDATA[f]),
+    );
+  };
+
+  tagDATA = [
+    //DATA를 ARRAY로 선언을 합니다.
+    "태그1",
+    "태그2",
+    "태그3",
+    "태그4",
+    "태그5",
+    "태그6",
+    "태그7",
+    "태그8",
+    "태그9",
+    "태그10",
+    "태그11",
+    "태그12",
+    "태그13",
+    "태그14",
+    "태그15",
+  ];
 }
 
 export default SignupStore;
