@@ -4,14 +4,21 @@ import { Provider, inject, observer } from "mobx-react";
 
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { persistCache } from "apollo-cache-persist";
-import { ApolloClient } from "apollo-boost";
+// import { ApolloClient } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import options from "./apollo";
 import { AppLoading } from "expo";
+import { observable } from "mobx";
+
+// subscription 추가된 부분
+import { ApolloClient } from "apollo-client"; // 부스트 대체
+import { onError } from "apollo-link-error";
+import { getMainDefinition } from "apollo-utilities";
+import { ApolloLink, split } from "apollo-link";
+//
 
 import MainStack from "./navigations/Index";
 import StoreIndex from "./stores/StoreIndex";
-import { observable } from "mobx";
+import { httpLink, wsLink } from "./apollo";
 
 const store = new StoreIndex();
 
@@ -45,7 +52,28 @@ class App extends React.Component {
             headers: { Authorization: `Bearer ${token}` },
           });
         },
-        ...options,
+        link: ApolloLink.from([
+          onError(({ graphQLErrors, networkError }) => {
+            if (graphQLErrors)
+              graphQLErrors.map(({ message, locations, path }) =>
+                console.log(
+                  `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+                ),
+              );
+            if (networkError) console.log(`[Network error]: ${networkError}`);
+          }),
+          split(
+            // split based on operation type
+            ({ query }) => {
+              const definition = getMainDefinition(query);
+              return (
+                definition.kind === "OperationDefinition" && definition.operation === "subscription"
+              );
+            },
+            wsLink,
+            httpLink,
+          ),
+        ]),
       });
       this.setState({ loaded: true, client });
     } catch (e) {

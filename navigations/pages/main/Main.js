@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 // 수정되어야 함
 import HuntPageStack from "./Hunt/Hunt";
-import MatchPageStack from "./Matches/Matches";
+import MatchPageStack from "./Matches/MatchesIndex";
 import MyProfilePageStack from "./MyProfile/MyProfile";
 
 const HuntStack = createStackNavigator(
@@ -21,11 +21,18 @@ const HuntStack = createStackNavigator(
   },
 );
 
-const MatchesStack = createStackNavigator({
-  Matches: {
-    screen: MatchPageStack,
+const MatchesStack = createStackNavigator(
+  {
+    Matches: {
+      screen: MatchPageStack,
+    },
   },
-});
+  {
+    defaultNavigationOptions: {
+      headerShown: false,
+    },
+  },
+);
 
 const MyprofileStack = createStackNavigator({
   Myprofile: {
