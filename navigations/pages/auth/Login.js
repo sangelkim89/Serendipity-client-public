@@ -81,22 +81,22 @@ function Login(props) {
           password: loginPW,
         },
       });
+      console.log("GRAPHQL_LOGIN", signIn);
       if (signIn) {
         doLogin("true");
-        AsyncStorage.setItem("jwt", signIn);
-        AsyncStorage.setItem("isLoggedIn", "true");
-        console.log("로그인됐니_성공?", AsyncStorage.getItem("isLoggedIn"));
+        await AsyncStorage.setItem("jwt", signIn);
+        await AsyncStorage.setItem("isLoggedIn", "true");
+        await console.log("로그인_JWT", signIn);
+        await console.log("로그인됐니_성공?", await AsyncStorage.getItem("isLoggedIn"));
       } else {
         doLogin("false");
-        console.log("로그인됐니_실패?", AsyncStorage.getItem("isLoggedIn"));
+        const jwt = await AsyncStorage.getItem("jwt");
+        const ili = await AsyncStorage.getItem("isLoggedIn");
+        console.log("로그인됐니_실패?", ili, jwt);
       }
-    } catch {
-      e => {
-        console.log("useMutation error in Login.js", e);
-      };
+    } catch (e) {
+      console.log("LOGIN_CATCH : ", e);
     } finally {
-      console.log("LOGIN_CLICK_fromSERVER_DATA : ", data);
-
       const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
       console.log("LOGIN_CLICK_LOCAL_isLoggedIn : ", asyncIsLoggedIn);
       if (asyncIsLoggedIn === "true") {
