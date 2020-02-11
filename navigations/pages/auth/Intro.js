@@ -13,7 +13,7 @@ class Intro extends React.Component {
           title={"Login"}
           onPress={async () => {
             const logInfo = await AsyncStorage.getItem("isLoggedIn");
-            console.log("앱_로그인포", logInfo);
+            console.log("INTRO_LOCAL_isLoggedIN : ", logInfo);
             if (logInfo === "true") {
               this.props.navigation.navigate("TabNav");
             }

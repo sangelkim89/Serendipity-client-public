@@ -54,10 +54,12 @@ class App extends React.Component {
         link: ApolloLink.from([
           onError(({ graphQLErrors, networkError }) => {
             if (graphQLErrors)
-              graphQLErrors.map(({ message, locations, path }) =>
-                console.log(
-                  `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-                ),
+              graphQLErrors.map(
+                ({ message, locations, path }) =>
+                  console.log(
+                    `[CLIENT_GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+                  ),
+                console.log("CLIENT_LINK_OnERR : ", this.state.client),
               );
             if (networkError) console.log(`[Network error]: ${networkError}`);
           }),
@@ -81,9 +83,8 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("re-started!!!");
     const { loaded, client, isLoggedIn } = this.state;
-    console.log("스토어_로그인");
+    console.log("앱_렌더_아폴로_스토어", client);
     return client ? (
       <ApolloProvider client={client}>
         <Provider {...store}>

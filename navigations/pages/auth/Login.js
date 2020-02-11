@@ -37,12 +37,14 @@ function cacheImages(img) {
 function Login(props) {
   // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
-  // useEffect
 
+  // useEffect
   useEffect(() => {
     async function getLogInfo() {
+      // 현재 로그아웃 기능이 없어서 무조건 로그아웃 되게 만들었으니 참고!
+      await AsyncStorage.setItem("isLoggedIn", "false");
       const logInfo = await AsyncStorage.getItem("isLoggedIn");
-      console.log("logInfo in login comp : ", logInfo);
+      console.log("LOGIN_useEffect_LOCAL_isLoggedIn : ", logInfo);
     }
     getLogInfo();
   }, []);
@@ -79,30 +81,29 @@ function Login(props) {
           password: loginPW,
         },
       });
-      console.log("data : ", data);
       if (signIn) {
         doLogin("true");
         AsyncStorage.setItem("jwt", signIn);
         AsyncStorage.setItem("isLoggedIn", "true");
-        console.log("로그인됐니_성공?", isLoggedIn);
+        console.log("로그인됐니_성공?", AsyncStorage.getItem("isLoggedIn"));
       } else {
         doLogin("false");
-        console.log("로그인됐니_실패?", isLoggedIn);
+        console.log("로그인됐니_실패?", AsyncStorage.getItem("isLoggedIn"));
       }
     } catch {
       e => {
         console.log("useMutation error in Login.js", e);
       };
     } finally {
-      console.log("login data from server : ", data);
-    }
+      console.log("LOGIN_CLICK_fromSERVER_DATA : ", data);
 
-    const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-    console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
-    if (asyncIsLoggedIn === "true") {
-      props.navigation.navigate("TabNav");
-    } else {
-      Alert.alert("isLoggedIn is falsy!!!");
+      const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+      console.log("LOGIN_CLICK_LOCAL_isLoggedIn : ", asyncIsLoggedIn);
+      if (asyncIsLoggedIn === "true") {
+        props.navigation.navigate("TabNav");
+      } else {
+        Alert.alert("isLoggedIn is falsy!!!");
+      }
     }
   }
 
@@ -110,6 +111,7 @@ function Login(props) {
     props.navigation.navigate("SignupBasic");
   };
 
+  // 렌더되는 부분
   if (!isReady) {
     return (
       <AppLoading
@@ -121,7 +123,7 @@ function Login(props) {
       />
     );
   }
-
+  console.log("=============LOGIN_JUST_RENDER===============");
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ ...StyleSheet.absoluteFill }}>
