@@ -13,30 +13,22 @@ import { gql } from "apollo-boost";
 function HuntPage() {
   // useQuery
   const GET_LIST = gql`
-    query getHuntList {
-      getHuntList
+    mutation getHuntList($id: String) {
+      getHuntList(id: $id)
     }
   `;
 
   /**
-   * GET_DOG_PHOTO = gql`
-  query GetDogPhoto($breed: String!) {
-    getDogPhoto(breed: $breed) {
-      id
-      displayImage
+       mutation signIn($email: String!, $password: String!) {
+      signIn(email: $email, password: $password)
     }
-  }
-`;
    */
-  const { loading, data, error } = useQuery(GET_LIST);
+  const [aaa, { data }] = useMutation(GET_LIST);
 
   const useSwiper = useRef(null).current;
-  const handleOnSwipedLeft = () => {
-    if (loading) {
-      console.log("===========");
-      console.log("쿼리데이타", error);
-    }
-    console.log("쿼리데이타", data, error);
+  const handleOnSwipedLeft = async () => {
+    const getAAA = await aaa();
+    console.log(getAAA);
   };
   const handleOnSwipedTop = () => {
     console.log("위쪽버튼");

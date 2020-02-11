@@ -70,40 +70,40 @@ function Login(props) {
 
   // 로그인 메소드
   async function _doLogin() {
-    // try {
-    //   const {
-    //     data: { signIn },
-    //   } = await logInRes({
-    //     variables: {
-    //       email: loginId,
-    //       password: loginPW,
-    //     },
-    //   });
-    //   console.log("data : ", data);
-    //   if (signIn) {
-    //     doLogin("true");
-    //     AsyncStorage.setItem("jwt", signIn);
-    //     AsyncStorage.setItem("isLoggedIn", "true");
-    //     console.log("로그인됐니_성공?", isLoggedIn);
-    //   } else {
-    //     doLogin("false");
-    //     console.log("로그인됐니_실패?", isLoggedIn);
-    //   }
-    // } catch {
-    //   e => {
-    //     console.log("useMutation error in Login.js", e);
-    //   };
-    // } finally {
-    //   console.log("login data from server : ", data);
-    // }
+    try {
+      const {
+        data: { signIn },
+      } = await logInRes({
+        variables: {
+          email: loginId,
+          password: loginPW,
+        },
+      });
+      console.log("data : ", data);
+      if (signIn) {
+        doLogin("true");
+        AsyncStorage.setItem("jwt", signIn);
+        AsyncStorage.setItem("isLoggedIn", "true");
+        console.log("로그인됐니_성공?", isLoggedIn);
+      } else {
+        doLogin("false");
+        console.log("로그인됐니_실패?", isLoggedIn);
+      }
+    } catch {
+      e => {
+        console.log("useMutation error in Login.js", e);
+      };
+    } finally {
+      console.log("login data from server : ", data);
+    }
 
-    // const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-    // console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
-    // if (asyncIsLoggedIn === "true") {
-    props.navigation.navigate("TabNav");
-    // } else {
-    //   Alert.alert("isLoggedIn is falsy!!!");
-    // }
+    const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+    console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
+    if (asyncIsLoggedIn === "true") {
+      props.navigation.navigate("TabNav");
+    } else {
+      Alert.alert("isLoggedIn is falsy!!!");
+    }
   }
 
   _doSignUp = () => {
@@ -190,35 +190,6 @@ const styles = StyleSheet.create({
   },
 });
 
-/**
- <View style={styles.formArea}>
-          <TextInput
-            style={styles.textForm}
-            placeholder={"ID"}
-            onChangeText={value => {
-              ID(value);
-            }}
-          />
-          <TextInput
-            style={styles.textForm}
-            placeholder={"Password"}
-            onChangeText={potato => {
-              PW(potato);
-            }}
-          />
-        </View>
-        <View style={styles.buttonArea}>
-          <TouchableOpacity style={styles.button} onPress={_doLogin}>
-            <Text style={styles.buttonTitle}>Login</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonArea}>
-          <TouchableOpacity style={styles.button} onPress={_doSignUp}>
-            <Text style={styles.buttonTitle}>SignUp</Text>
-          </TouchableOpacity>
-        </View>
- */
-
 export default inject(({ signupStore }) => ({
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
@@ -227,8 +198,6 @@ export default inject(({ signupStore }) => ({
 }))(observer(Login));
 
 /*
-
-
 // Reanimated 함수 (로그인 버튼 관련 함수)
 const {
   Value,

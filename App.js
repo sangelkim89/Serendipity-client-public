@@ -7,7 +7,6 @@ import { persistCache } from "apollo-cache-persist";
 // import { ApolloClient } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { AppLoading } from "expo";
-import { observable } from "mobx";
 
 // subscription 추가된 부분
 import { ApolloClient } from "apollo-client"; // 부스트 대체
