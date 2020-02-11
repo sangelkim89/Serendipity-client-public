@@ -199,15 +199,15 @@ class SignupStore {
   // 로그인 관련 메소드
   @action
   inputId = e => {
-    console.log(e);
+    // console.log(e);
     this.loginId = e;
-    console.log("아이디", this.loginId);
+    // console.log("아이디", this.loginId);
   };
 
   @action
   inputPW = e => {
     this.loginPW = e;
-    console.log("패스워드", this.loginPW);
+    // console.log("패스워드", this.loginPW);
   };
 
   // 전체 signup data 제출
@@ -305,10 +305,8 @@ class SignupStore {
     this.loginId = "";
     this.loginPW = "";
 
-
     this.marker = { lat: null, lon: null };
     this.changeColorState = false;
-
   };
   @action
   addtagState = f => {

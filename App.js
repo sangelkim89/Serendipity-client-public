@@ -7,13 +7,13 @@ import { persistCache } from "apollo-cache-persist";
 // import { ApolloClient } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { AppLoading } from "expo";
-import { observable } from "mobx";
 
 // subscription 추가된 부분
 import { ApolloClient } from "apollo-client"; // 부스트 대체
 import { onError } from "apollo-link-error";
 import { getMainDefinition } from "apollo-utilities";
-import { ApolloLink, split } from "apollo-link";
+import { ApolloLink, split, concat } from "apollo-link";
+import { setContext } from "apollo-link-context";
 //
 
 import MainStack from "./navigations/Index";
@@ -22,8 +22,6 @@ import { httpLink, wsLink } from "./apollo";
 
 const store = new StoreIndex();
 
-// @inject("signupStore")
-@observer
 class App extends React.Component {
   state = {
     loaded: false,
@@ -36,55 +34,64 @@ class App extends React.Component {
   }
 
   preLoad = async () => {
+    const authMiddleWare = setContext(async (_, { headers }) => {
+      console.log("request is invoked!");
+      const token = await AsyncStorage.getItem("jwt");
+      return {
+        headers: {
+          ...headers,
+          authorization: `Bearer ${token}` || "",
+        },
+      };
+    });
+
     try {
-      // await Asset.loadAsync([require("./assets/logo.png")]); -- 인트로 페이지 구현시
       const cache = new InMemoryCache();
       await persistCache({
         cache,
         storage: AsyncStorage,
       });
+
+      const errLink = onError(({ graphQLErrors, networkError }) => {
+        console.log("에러에서발생");
+        if (graphQLErrors)
+          graphQLErrors.map(
+            ({ message, locations, path }) =>
+              console.log(
+                `[CLIENT_GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+              ),
+            console.log("CLIENT_LINK_OnERR : ", this.state.client),
+          );
+        if (networkError) console.log(`[Network error]: ${networkError}`);
+      });
+
+      const links = ApolloLink.from([httpLink, wsLink, errLink]);
+
+      // const links = split(
+      //   ({ query }) => {
+      //     const definition = getMainDefinition(query);
+      //     return (
+      //       definition.kind === "OperationDefinition" && definition.operation === "subscription"
+      //     );
+      //   },
+      //   wsLink,
+      //   errLink,
+      //   httpLink,
+      // );
+
       const client = new ApolloClient({
+        link: authMiddleWare.concat(links),
         cache,
-        request: async operation => {
-          console.log("request is invoked!");
-          const token = await AsyncStorage.getItem("jwt");
-          return operation.setContext({
-            headers: { Authorization: `Bearer ${token}` },
-          });
-        },
-        link: ApolloLink.from([
-          onError(({ graphQLErrors, networkError }) => {
-            if (graphQLErrors)
-              graphQLErrors.map(({ message, locations, path }) =>
-                console.log(
-                  `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-                ),
-              );
-            if (networkError) console.log(`[Network error]: ${networkError}`);
-          }),
-          split(
-            // split based on operation type
-            ({ query }) => {
-              const definition = getMainDefinition(query);
-              return (
-                definition.kind === "OperationDefinition" && definition.operation === "subscription"
-              );
-            },
-            wsLink,
-            httpLink,
-          ),
-        ]),
       });
       this.setState({ loaded: true, client });
     } catch (e) {
-      console.log(e);
+      console.log("CLIENT_CATCH", e);
     }
   };
 
   render() {
-    console.log("re-started!!!");
     const { loaded, client, isLoggedIn } = this.state;
-    console.log("스토어_로그인");
+    console.log("앱_렌더_아폴로_스토어", client);
     return client ? (
       <ApolloProvider client={client}>
         <Provider {...store}>

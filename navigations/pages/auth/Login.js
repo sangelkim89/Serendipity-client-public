@@ -37,12 +37,14 @@ function cacheImages(img) {
 function Login(props) {
   // console.log("props : ", props);
   const { ID, PW, loginId, loginPW } = props;
-  // useEffect
 
+  // useEffect
   useEffect(() => {
     async function getLogInfo() {
+      // 현재 로그아웃 기능이 없어서 무조건 로그아웃 되게 만들었으니 참고!
+      await AsyncStorage.setItem("isLoggedIn", "false");
       const logInfo = await AsyncStorage.getItem("isLoggedIn");
-      console.log("logInfo in login comp : ", logInfo);
+      console.log("LOGIN_useEffect_LOCAL_isLoggedIn : ", logInfo);
     }
     getLogInfo();
   }, []);
@@ -70,46 +72,46 @@ function Login(props) {
 
   // 로그인 메소드
   async function _doLogin() {
-    // try {
-    //   const {
-    //     data: { signIn },
-    //   } = await logInRes({
-    //     variables: {
-    //       email: loginId,
-    //       password: loginPW,
-    //     },
-    //   });
-    //   console.log("data : ", data);
-    //   if (signIn) {
-    //     doLogin("true");
-    //     AsyncStorage.setItem("jwt", signIn);
-    //     AsyncStorage.setItem("isLoggedIn", "true");
-    //     console.log("로그인됐니_성공?", isLoggedIn);
-    //   } else {
-    //     doLogin("false");
-    //     console.log("로그인됐니_실패?", isLoggedIn);
-    //   }
-    // } catch {
-    //   e => {
-    //     console.log("useMutation error in Login.js", e);
-    //   };
-    // } finally {
-    //   console.log("login data from server : ", data);
-    // }
-
-    // const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-    // console.log("isLoggedIn(local storage) in Login.js : ", asyncIsLoggedIn);
-    // if (asyncIsLoggedIn === "true") {
-    props.navigation.navigate("TabNav");
-    // } else {
-    //   Alert.alert("isLoggedIn is falsy!!!");
-    // }
+    try {
+      const {
+        data: { signIn },
+      } = await logInRes({
+        variables: {
+          email: loginId,
+          password: loginPW,
+        },
+      });
+      console.log("GRAPHQL_LOGIN", signIn);
+      if (signIn) {
+        doLogin("true");
+        await AsyncStorage.setItem("jwt", signIn);
+        await AsyncStorage.setItem("isLoggedIn", "true");
+        await console.log("로그인_JWT", signIn);
+        await console.log("로그인됐니_성공?", await AsyncStorage.getItem("isLoggedIn"));
+      } else {
+        doLogin("false");
+        const jwt = await AsyncStorage.getItem("jwt");
+        const ili = await AsyncStorage.getItem("isLoggedIn");
+        console.log("로그인됐니_실패?", ili, jwt);
+      }
+    } catch (e) {
+      console.log("LOGIN_CATCH : ", e);
+    } finally {
+      const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+      console.log("LOGIN_CLICK_LOCAL_isLoggedIn : ", asyncIsLoggedIn);
+      if (asyncIsLoggedIn === "true") {
+        props.navigation.navigate("TabNav");
+      } else {
+        Alert.alert("isLoggedIn is falsy!!!");
+      }
+    }
   }
 
   _doSignUp = () => {
     props.navigation.navigate("SignupBasic");
   };
 
+  // 렌더되는 부분
   if (!isReady) {
     return (
       <AppLoading
@@ -121,7 +123,7 @@ function Login(props) {
       />
     );
   }
-
+  console.log("=============LOGIN_JUST_RENDER===============");
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ ...StyleSheet.absoluteFill }}>
@@ -190,35 +192,6 @@ const styles = StyleSheet.create({
   },
 });
 
-/**
- <View style={styles.formArea}>
-          <TextInput
-            style={styles.textForm}
-            placeholder={"ID"}
-            onChangeText={value => {
-              ID(value);
-            }}
-          />
-          <TextInput
-            style={styles.textForm}
-            placeholder={"Password"}
-            onChangeText={potato => {
-              PW(potato);
-            }}
-          />
-        </View>
-        <View style={styles.buttonArea}>
-          <TouchableOpacity style={styles.button} onPress={_doLogin}>
-            <Text style={styles.buttonTitle}>Login</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonArea}>
-          <TouchableOpacity style={styles.button} onPress={_doSignUp}>
-            <Text style={styles.buttonTitle}>SignUp</Text>
-          </TouchableOpacity>
-        </View>
- */
-
 export default inject(({ signupStore }) => ({
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
@@ -227,8 +200,6 @@ export default inject(({ signupStore }) => ({
 }))(observer(Login));
 
 /*
-
-
 // Reanimated 함수 (로그인 버튼 관련 함수)
 const {
   Value,
