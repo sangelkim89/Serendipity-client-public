@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apollo.js" beforeDir="false" afterPath="$PROJECT_DIR$/apollo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigations/pages/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" afterDir="false" />
@@ -12,10 +13,21 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-45" />
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="144" />
     <option name="width" value="1384" />
     <option name="height" value="837" />
@@ -25,9 +37,45 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Serendipity-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Serendipity-client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Serendipity-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Serendipity-client" type="462c0819:PsiDirectoryNode" />
+              <item name="navigations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Serendipity-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Serendipity-client" type="462c0819:PsiDirectoryNode" />
+              <item name="navigations" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Serendipity-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Serendipity-client" type="462c0819:PsiDirectoryNode" />
+              <item name="navigations" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Serendipity-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Serendipity-client" type="462c0819:PsiDirectoryNode" />
+              <item name="navigations" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="Hunt" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -61,7 +109,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="144" width="1384" height="837" extended-state="0" />
+    <frame x="0" y="144" width="1384" height="837" extended-state="1" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3293944" />
@@ -79,5 +127,12 @@
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Palette&#9;" order="2" />
     </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-45" />
+      </provider>
+    </entry>
   </component>
 </project>

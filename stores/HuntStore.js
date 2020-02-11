@@ -11,8 +11,10 @@ class HuntStore {
 
   // 메소드
   @action
-  huntExer = () => {
-    console.log("헌트 메소드 작동");
+  getCardList = e => {
+    console.log("받아온 카드", e);
+    this.recommendUser.push(e);
+    console.log("저장된 카드", this.recommendUser);
   };
 }
 

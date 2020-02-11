@@ -9,23 +9,12 @@ import IconButton from "./IconBtn";
 import datas from "./mockup";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-// import { request } from "graphql-request";
 
 function HuntPage() {
-  // useQuery
-  const GET_LIST = gql`
-    mutation getHuntList($id: String) {
-      getHuntList(id: $id)
-    }
-  `;
-
-  const [aaa, { data }] = useMutation(GET_LIST);
-
+  // SWIPTE METHODS
   const useSwiper = useRef(null).current;
   const handleOnSwipedLeft = async () => {
-    const getAAA = await aaa();
-    console.log(getAAA);
-    // request("http://192.168.0.2:4000", GET_LIST).then(res => console.log(res));
+    console.log("왼쪽버튼");
   };
   const handleOnSwipedTop = () => {
     console.log("위쪽버튼");

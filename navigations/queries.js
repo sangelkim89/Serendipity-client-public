@@ -14,3 +14,9 @@ export const CHAT = gql`
     }
   }
 `;
+
+export const GET_LIST = gql`
+  mutation getHuntList($id: String) {
+    getHuntList(id: $id)
+  }
+`;

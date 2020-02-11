@@ -19,6 +19,7 @@ import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { GET_LIST } from "../../queries";
 
 const { width, height } = Dimensions.get("window");
 
@@ -35,8 +36,8 @@ function cacheImages(img) {
 
 // 로그인 컴포넌트
 function Login(props) {
-  // console.log("props : ", props);
-  const { ID, PW, loginId, loginPW } = props;
+  // Store 비할당구조
+  const { ID, PW, loginId, loginPW, recommendUser, getCardList } = props;
 
   // useEffect
   useEffect(() => {
@@ -60,7 +61,11 @@ function Login(props) {
     }
   `;
 
+  // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);
+
+  // useMutate - getHuntList
+  const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
@@ -101,6 +106,9 @@ function Login(props) {
       console.log("LOGIN_CLICK_LOCAL_isLoggedIn : ", asyncIsLoggedIn);
       if (asyncIsLoggedIn === "true") {
         props.navigation.navigate("TabNav");
+        const getCard = await getMutateHuntList();
+        console.log("GET_CARD", getCard);
+        getCardList(JSON.parse(getCard.data.getHuntList[0]));
       } else {
         Alert.alert("isLoggedIn is falsy!!!");
       }
@@ -192,11 +200,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ signupStore }) => ({
+export default inject(({ signupStore, huntStore }) => ({
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
   loginPW: signupStore.loginPW,
+  recommendUser: huntStore.recommendUser,
+  getCardList: huntStore.getCardList,
 }))(observer(Login));
 
 /*
