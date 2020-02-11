@@ -13,11 +13,11 @@ class SignupStore {
   @observable password = "";
   @observable emailSecretKey = "";
   @observable resEmailSecretKey = "";
-  @observable emailBoolean = "";
+  @observable emailBoolean = true;
   @observable phone = "";
   @observable phoneVerifyKey = "";
   @observable resMobileSecretKey = "";
-  @observable phoneBoolean = "";
+  @observable phoneBoolean = true;
   @observable userId = "";
   @observable birth = "";
   @observable companyName = ""; // 회사명
@@ -87,7 +87,7 @@ class SignupStore {
   };
 
   @action
-  changeColorState = () => {
+  changeColor = () => {
     if (this.changeColorState === false) {
       this.changeColorState = true;
     } else {
@@ -242,7 +242,7 @@ class SignupStore {
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
 
-    const endPoint = "http://192.168.0.33:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+    const endPoint = "http://192.168.0.2:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
 
     fetch(endPoint, {
       method: "POST",
@@ -280,11 +280,11 @@ class SignupStore {
     this.password = "";
     this.emailSecretKey = "";
     this.resEmailSecretKey = "";
-    this.emailBoolean = "";
+    this.emailBoolean = true;
     this.phone = "";
     this.phoneVerifyKey = "";
     this.resMobileSecretKey = "";
-    this.phoneBoolean = "";
+    this.phoneBoolean = true;
     this.userId = "";
     this.birth = "";
     this.companyName = ""; // 회사명

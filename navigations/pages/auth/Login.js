@@ -69,7 +69,7 @@ function Login(props) {
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
-    const imgAssets = cacheImages([require("../../../assets/love.gif")]);
+    const imgAssets = cacheImages([require("../../../assets/background1.jpg")]);
     // const fontAssets = cacheFonts([FontAwesome.font]);
 
     await Promise.all([...imgAssets]);
@@ -107,8 +107,8 @@ function Login(props) {
       if (asyncIsLoggedIn === "true") {
         props.navigation.navigate("TabNav");
         const getCard = await getMutateHuntList();
-        console.log("GET_CARD", getCard);
-        getCardList(JSON.parse(getCard.data.getHuntList[0]));
+        // console.log("GET_CARD", getCard);
+        getCardList(getCard);
       } else {
         Alert.alert("isLoggedIn is falsy!!!");
       }
@@ -137,7 +137,7 @@ function Login(props) {
       <View style={{ ...StyleSheet.absoluteFill }}>
         <Image
           style={{ flex: 1, width: null, height: null }}
-          source={require("../../../assets/love.gif")}
+          source={require("../../../assets/background1.jpg")}
         />
       </View>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>

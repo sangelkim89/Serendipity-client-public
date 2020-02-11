@@ -53,7 +53,6 @@ class App extends React.Component {
       });
 
       const errLink = onError(({ graphQLErrors, networkError }) => {
-        console.log("에러에서발생");
         if (graphQLErrors)
           graphQLErrors.map(
             ({ message, locations, path }) =>

@@ -8,7 +8,7 @@ import {
 import { observer, inject } from "mobx-react";
 
 function SignupTag(props) {
-  const { Tag, tagDATA, changeColorState } = props;
+  const { Tag, tagDATA, changeColorState, changeColor } = props;
 
   //Tag, tagDATA를 props로 사용합니다.
   _doNextPage = () => {
@@ -39,8 +39,8 @@ function SignupTag(props) {
                 tag={tag}
                 onPress={() => {
                   Tag(f);
-                  changeColorState();
-                  console.log("changeColorState 여기냐:", changeColorState());
+                  changeColor();
+                  console.log("changeColorState 여기냐:", changeColorState);
                 }}
                 style={[
                   styles.tagColor,
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     color: "white",
   },
   tagColor: {
-    backgroundColor: "pink",
     padding: 1,
     marginVertical: 1,
     marginHorizontal: 100,
@@ -105,6 +104,7 @@ export default inject(({ signupStore }) => ({
   Tag: signupStore.addtagState,
   tagDATA: signupStore.tagDATA,
   changeColorState: signupStore.changeColorState,
+  changeColor: signupStore.changeColor,
 }))(observer(SignupTag));
 
 // function Itemanyname({ idanyname, selectanyname, Clickanyname }) {
