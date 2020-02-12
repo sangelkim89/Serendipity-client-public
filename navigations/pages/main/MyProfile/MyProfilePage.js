@@ -15,10 +15,7 @@ function MyProfilePage(props) {
   };
 
   console.log("뭐가 나오니?:", mockDATA.id);
-  console.log("뭐가 나오니?:", mockDATA.gender);
-  console.log("뭐가 나오니?:", mockDATA.email);
-  console.log("뭐가 나오니?:", mockDATA.password);
-  console.log("뭐가 나오니?:", mockDATA.phone);
+  console.log("뭐가 나오니?:", mockDATA.tags[0].object);
 
   return (
     <View
@@ -27,7 +24,9 @@ function MyProfilePage(props) {
         backgroundColor: "grey",
       }}
     >
-      <View style={{ flex: 9, alignItems: "center", backgroundColor: "red" }}>
+      {/* 빨간색 박스 ==================================================================================== */}
+      <View style={{ flex: 9, alignItems: "center", backgroundColor: "#f7d794" }}>
+        {/* 분홍색 박스(사진 및 각종정보) ==================================================================================== */}
         <View
           style={{
             width: 400,
@@ -36,34 +35,36 @@ function MyProfilePage(props) {
             alignItems: "center",
           }}
         >
-          <Image
-            style={{ width: 400, height: 493.5 }}
-            source={require("../../../../testpic.png")}
-          />
+          {/* 이미지 ==================================================================================== */}
+          <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} />
+          {/* 각종 정보 ==================================================================================== */}
           <View
             style={{
               width: 200,
               flex: 1,
-              // backgroundColor: "#81F7D8",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
               position: "absolute",
               alignSelf: "flex-start",
             }}
           >
-            <Text>각종 정보 담을꺼요~</Text>
+            {/* 맨위에 빈칸 ==================================================================================== */}
+            <Text style={{ fontSize: 17.5 }}></Text>
+            {/* 맨 윗줄 이름 나이==================================================================================== */}
             <View
               style={{
                 flex: 1,
-                //  backgroundColor: "white",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
                 flexDirection: "row",
               }}
             >
               <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>이름</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.name}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>나이</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.birth}</Text>
               </View>
             </View>
+            {/* 두번째 줄 회사 업종==================================================================================== */}
             <View
               style={{
                 flex: 1,
@@ -72,13 +73,13 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>회사</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyName}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>업종</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyRole}</Text>
               </View>
             </View>
-
+            {/* 세번째 줄 태그==================================================================================== */}
             <View
               style={{
                 flex: 1,
@@ -93,6 +94,7 @@ function MyProfilePage(props) {
                 <Text style={{ fontSize: 30, color: "white" }}>태그2</Text>
               </View>
             </View>
+            {/* 네번째 줄 태그==================================================================================== */}
 
             <View
               style={{
@@ -108,11 +110,12 @@ function MyProfilePage(props) {
                 <Text style={{ fontSize: 30, color: "white" }}>태그4</Text>
               </View>
             </View>
+            {/* 다섯번째 줄 태그==================================================================================== */}
 
             <View
               style={{
                 flex: 1,
-                //  backgroundColor: "white",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
                 flexDirection: "row",
               }}
             >
@@ -124,16 +127,21 @@ function MyProfilePage(props) {
                 </View>
               </View>
             </View>
+            {/* 다섯번째줄 */}
           </View>
+          {/* {각종 정보} */}
         </View>
+        {/* 분홍박스 */}
       </View>
+      {/* 빨간박스 */}
+      {/* 수정, 톱니바퀴========================================================= */}
       <View
         style={{
           flex: 1,
           flexDirection: "row",
           justifyContent: "space-around",
           alignItems: "center",
-          backgroundColor: "green",
+          backgroundColor: "#f7d794",
         }}
       >
         <View style={{ backgroundColor: "skyblue" }}>
@@ -147,6 +155,7 @@ function MyProfilePage(props) {
           </TouchableOpacity>
         </View>
       </View>
+      {/* 수정, 톱니바퀴========================================================= */}
     </View>
   );
 }

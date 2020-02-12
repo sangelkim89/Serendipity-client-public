@@ -3,16 +3,23 @@ import MyProfilePage from "./MyProfilePage";
 import EditPage from "./EditPage";
 import SettingPage from "./SettingPage";
 
-const MyProfilePageStack = createStackNavigator({
-  MyProfilePage: {
-    screen: MyProfilePage,
+const MyProfilePageStack = createStackNavigator(
+  {
+    MyProfilePage: {
+      screen: MyProfilePage,
+    },
+    EditPage: {
+      screen: EditPage,
+    },
+    SettingPage: {
+      screen: SettingPage,
+    },
   },
-  EditPage: {
-    screen: EditPage,
+  {
+    defaultNavigationOptions: {
+      headerShown: false,
+    },
   },
-  SettingPage: {
-    screen: SettingPage,
-  },
-});
+);
 
 export default MyProfilePageStack;
