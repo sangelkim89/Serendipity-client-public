@@ -53,7 +53,6 @@ class App extends React.Component {
       });
 
       const errLink = onError(({ graphQLErrors, networkError }) => {
-        console.log("에러에서발생");
         if (graphQLErrors)
           graphQLErrors.map(
             ({ message, locations, path }) =>
@@ -65,19 +64,7 @@ class App extends React.Component {
         if (networkError) console.log(`[Network error]: ${networkError}`);
       });
 
-      const links = ApolloLink.from([httpLink, wsLink, errLink]);
-
-      // const links = split(
-      //   ({ query }) => {
-      //     const definition = getMainDefinition(query);
-      //     return (
-      //       definition.kind === "OperationDefinition" && definition.operation === "subscription"
-      //     );
-      //   },
-      //   wsLink,
-      //   errLink,
-      //   httpLink,
-      // );
+      const links = ApolloLink.from([authMiddleWare, httpLink, wsLink, errLink]);
 
       const client = new ApolloClient({
         link: authMiddleWare.concat(links),

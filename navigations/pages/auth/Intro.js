@@ -1,15 +1,13 @@
 import React from "react";
-import { Text, View, Button, AsyncStorage } from "react-native";
-import Swiper from "react-native-swiper";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { Text, View, Button, AsyncStorage, StyleSheet } from "react-native";
 
 class Intro extends React.Component {
   render() {
     return (
-      <View>
-        <Text>Intro</Text>
+      <View style={styles.container}>
+        <Text style={{ fontSize: 20 }}>Intro</Text>
         <Button
+          style={styles.btn}
           title={"Login"}
           onPress={async () => {
             const logInfo = await AsyncStorage.getItem("isLoggedIn");
@@ -24,5 +22,17 @@ class Intro extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btn: {
+    width: 300,
+    height: 50,
+  },
+});
 
 export default Intro;
