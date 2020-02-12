@@ -21,6 +21,8 @@ import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { GET_LIST } from "../../queries";
 
+import { LOG_IN } from "../../queries";
+
 const { width, height } = Dimensions.get("window");
 
 // 이미지 불러오는 함수
@@ -38,7 +40,6 @@ function cacheImages(img) {
 function Login(props) {
   // Store 비할당구조
   const { ID, PW, loginId, loginPW, recommendUser, getCardList } = props;
-
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -55,11 +56,6 @@ function Login(props) {
   const [isReady, doReady] = useState(false);
 
   // useMutate
-  const LOG_IN = gql`
-    mutation signIn($email: String!, $password: String!) {
-      signIn(email: $email, password: $password)
-    }
-  `;
 
   // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);

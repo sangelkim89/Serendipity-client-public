@@ -180,15 +180,17 @@ class MatchStore {
       ],
     },
   ]; // 채팅방
-  @observable inputMsg = ""; // 채팅인풋메세지
-  @observable matchInfo = {}; // 상대유저 정보
+  @observable message = ""; // 채팅인풋메세지
+  @observable messages = []; // 상대유저 정보
 
   // 메소드
   @action
-  matchExer1 = () => {
+  handleInputMsg = e => {
     console.log("매치스토어 메소드 작동");
-    console.log("fetch때 사용하면 될듯");
+    this.inputMsg = e;
+    console.log("inputMsg : ", inputMsg);
   };
+
   @action
   matchExer2 = () => {
     console.log("매치스토어 메소드 작동");
