@@ -34,11 +34,18 @@ const MatchesStack = createStackNavigator(
   },
 );
 
-const MyprofileStack = createStackNavigator({
-  Myprofile: {
-    screen: MyProfilePageStack,
+const MyprofileStack = createStackNavigator(
+  {
+    Myprofile: {
+      screen: MyProfilePageStack,
+    },
   },
-});
+  {
+    defaultNavigationOptions: {
+      headerShown: false,
+    },
+  },
+);
 
 const TabNav = createBottomTabNavigator(
   {
