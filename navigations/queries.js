@@ -1,14 +1,31 @@
 import { gql } from "apollo-boost";
 
-export const EXAM = gql`
-  query requestSecret($email: String!) {
-    requestSecret(email: $email)
+export const LOG_IN = gql`
+  mutation signIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password)
   }
 `;
 
-export const CHAT = gql`
+export const GET_MESSAGES = gql`
   query messages {
     messages {
+      id
+    }
+  }
+`;
+
+export const SEND_MESSAGE = gql`
+  mutation sendMessage($text: String!) {
+    sendMessage(text: $text) {
+      id
+      text
+    }
+  }
+`;
+
+export const NEW_MESSAGE = gql`
+  subscription newMessage {
+    newMessage {
       id
       text
     }

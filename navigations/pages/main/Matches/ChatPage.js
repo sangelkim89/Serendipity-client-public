@@ -10,96 +10,108 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
 } from "react-native";
+import { useMutation, useApolloClient, useQuery } from "@apollo/react-hooks";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { inject, observer } from "mobx-react";
 
+import { GET_MESSAGES, SEND_MESSAGE, NEW_MESSAGE } from "../../../queries";
 // import withSuspense from "./withSuspense";
 
-class ChatPage extends Component {
-  constructor(props) {
-    super(props);
-    this.moveProfile = this.moveProfile.bind(this);
-  }
-
-  moveProfile() {
+function ChatPage(props) {
+  const { message, messages } = props;
+  const moveProfile = () => {
     const { navigation } = this.props;
     const {
       room: { image, profile },
     } = navigation.state.params;
     navigation.navigate("ProfilePage", { image: image, profile: profile });
-  }
+  };
 
-  // componentDidMount() {
-  //   this.ref.scrollView.scrollToEnd();
-  // }
+  const {
+    data: { messages: oldMessages },
+    error,
+  } = useQuery(GET_MESSAGES, {
+    suspend: true,
+  });
 
-  render() {
-    const { navigation } = this.props;
-    console.log("navigation in chatpage : ", navigation);
-    const {
-      room: { image, profile, chats },
-    } = navigation.state.params;
-    const time =
-      new Date().getHours().length === 1 ? "0" + new Date().getHours() : new Date().getHours();
-    const minute =
-      new Date().getMinutes().length === 1
-        ? "0" + new Date().getMinutes()
-        : new Date().getMinutes();
+  const { data } = useSubscription(NEW_MESSAGE);
 
-    return (
-      <Suspense
-        fallback={
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <ActivityIndicator />
-          </View>
-        }
-      >
-        <View style={styles.container}>
-          <View style={styles.profile}>
-            <TouchableOpacity onPress={this.moveProfile}>
-              <Image source={{ uri: image }} style={styles.image} />
-              <Text>{profile.userId}</Text>
-            </TouchableOpacity>
-          </View>
-          {/* <KeyboardAwareScrollView
+  messages = oldMessages;
+
+  const handleNewMessage = () => {
+    if (data !== undefined) {
+      const { newMessage } = data;
+      messages = [...messages, newMessage];
+    }
+  };
+
+  // this.ref.scrollView.scrollToEnd();
+
+  const { navigation } = this.props;
+  const { inputMsg, handleInputMsg } = this.props.matchStore;
+  console.log("this.props in chatpage : ", this.props);
+  const {
+    room: { image, profile, chats },
+  } = navigation.state.params;
+  const time =
+    new Date().getHours().length === 1 ? "0" + new Date().getHours() : new Date().getHours();
+  const minute =
+    new Date().getMinutes().length === 1 ? "0" + new Date().getMinutes() : new Date().getMinutes();
+
+  return (
+    <Suspense
+      fallback={
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      }
+    >
+      <View style={styles.container}>
+        <View style={styles.profile}>
+          <TouchableOpacity onPress={moveProfile}>
+            <Image source={{ uri: image }} style={styles.image} />
+            <Text>{profile.userId}</Text>
+          </TouchableOpacity>
+        </View>
+        {/* <KeyboardAwareScrollView
             resetScrollToCoords={{ x: 0, y: 0 }}
             contentContainerStyle={styles.container}
             scrollEnabled={false}
           > */}
-          <KeyboardAvoidingView style={{ flex: 1 }} enable behavior="padding">
-            <ScrollView>
-              {chats.map((chat, i) => {
-                return chat.me ? (
-                  <View key={i} style={styles.meChat}>
-                    <Text>{chat.me}</Text>
+        <KeyboardAvoidingView style={{ flex: 1 }} enable behavior="padding">
+          <ScrollView>
+            {chats.map((chat, i) => {
+              return chat.me ? (
+                <View key={i} style={styles.meChat}>
+                  <Text>{chat.me}</Text>
+                  <Text style={styles.timeStamp}>{time + " : " + minute}</Text>
+                </View>
+              ) : (
+                <View key={i} style={styles.otherChat}>
+                  <Image source={{ uri: image }} style={styles.image} />
+                  <View style={styles.otherChatText}>
+                    <Text>{chat.other}</Text>
                     <Text style={styles.timeStamp}>{time + " : " + minute}</Text>
                   </View>
-                ) : (
-                  <View key={i} style={styles.otherChat}>
-                    <Image source={{ uri: image }} style={styles.image} />
-                    <View style={styles.otherChatText}>
-                      <Text>{chat.other}</Text>
-                      <Text style={styles.timeStamp}>{time + " : " + minute}</Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
-            <TextInput />
-            <TouchableOpacity>
-              <Text>입력</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-          {/* </KeyboardAwareScrollView> */}
-        </View>
-      </Suspense>
-    );
-  }
+                </View>
+              );
+            })}
+          </ScrollView>
+          <TextInput onChangeText={e => handleInputMsg(e)} value={inputMsg} />
+          <TouchableOpacity>
+            <Text>입력</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+        {/* </KeyboardAwareScrollView> */}
+      </View>
+    </Suspense>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -140,5 +152,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatPage;
-// export default withSuspense(ChatPage);
+export default inject(({ matchStore }) => ({
+  message: matchStore.message,
+  messages: matchStore.messages,
+  loginId: matchStore.loginId,
+  loginPW: matchStore.loginPW,
+}))(observer(ChatPage));

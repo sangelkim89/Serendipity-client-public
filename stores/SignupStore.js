@@ -13,16 +13,16 @@ class SignupStore {
   @observable password = "";
   @observable emailSecretKey = "";
   @observable resEmailSecretKey = "";
-  @observable emailBoolean = "";
+  @observable emailBoolean = true;
   @observable phone = "";
   @observable phoneVerifyKey = "";
   @observable resMobileSecretKey = "";
-  @observable phoneBoolean = "";
+  @observable phoneBoolean = true;
   @observable userId = "";
   @observable birth = "";
   @observable companyName = ""; // 회사명
   @observable companySort = ""; // 업종
-  @observable geoLocation = { lat: null, lon: null };
+  @observable geoLocation = { lat: 0, lon: 0 };
   @observable tags = [];
   @observable imgProfile = null;
   @observable imgProfileType = null;
@@ -37,6 +37,7 @@ class SignupStore {
 
   @observable loginId = "";
   @observable loginPW = "";
+  @observable changeColorState = false;
 
   @observable marker = { lat: null, lon: null };
   // 메소드
@@ -87,7 +88,7 @@ class SignupStore {
   };
 
   @action
-  changeColorState = () => {
+  changeColor = () => {
     if (this.changeColorState === false) {
       this.changeColorState = true;
     } else {
@@ -274,22 +275,23 @@ class SignupStore {
     //     // console.log("axios error issued!");
     //     console.log(e);
     //   });
+
     // 스토어 초기화
     this.gender = "man"; // 들어오는 값 확인하고 변경할 것
     this.email = "";
     this.password = "";
     this.emailSecretKey = "";
     this.resEmailSecretKey = "";
-    this.emailBoolean = "";
+    this.emailBoolean = true;
     this.phone = "";
     this.phoneVerifyKey = "";
     this.resMobileSecretKey = "";
-    this.phoneBoolean = "";
+    this.phoneBoolean = true;
     this.userId = "";
     this.birth = "";
     this.companyName = ""; // 회사명
     this.companySort = ""; // 업종
-    this.geoLocation = { lat: null, lon: null };
+    this.geoLocation = { lat: 0, lon: 0 };
     this.tags = [];
     this.imgProfile = null;
     this.imgProfileType = null;
@@ -306,7 +308,7 @@ class SignupStore {
     this.loginPW = "";
 
     this.marker = { lat: null, lon: null };
-    this.changeColorState = false;
+    this.changeColor = false;
   };
   @action
   addtagState = f => {
