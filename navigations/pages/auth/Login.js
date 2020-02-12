@@ -107,7 +107,6 @@ function Login(props) {
       if (asyncIsLoggedIn === "true") {
         props.navigation.navigate("TabNav");
         const getCard = await getMutateHuntList();
-        // console.log("GET_CARD", getCard);
         getCardList(getCard);
       } else {
         Alert.alert("isLoggedIn is falsy!!!");
