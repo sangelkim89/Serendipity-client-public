@@ -19,6 +19,7 @@ import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { GET_LIST } from "../../queries";
 
 import { LOG_IN } from "../../queries";
 
@@ -37,8 +38,8 @@ function cacheImages(img) {
 
 // 로그인 컴포넌트
 function Login(props) {
-  // console.log("props : ", props);
-  const { ID, PW, loginId, loginPW } = props;
+  // Store 비할당구조
+  const { ID, PW, loginId, loginPW, recommendUser, getCardList } = props;
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -56,11 +57,15 @@ function Login(props) {
 
   // useMutate
 
+  // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);
+
+  // useMutate - getHuntList
+  const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
-    const imgAssets = cacheImages([require("../../../assets/love.gif")]);
+    const imgAssets = cacheImages([require("../../../assets/background1.jpg")]);
     // const fontAssets = cacheFonts([FontAwesome.font]);
 
     await Promise.all([...imgAssets]);
@@ -97,6 +102,8 @@ function Login(props) {
       console.log("LOGIN_CLICK_LOCAL_isLoggedIn : ", asyncIsLoggedIn);
       if (asyncIsLoggedIn === "true") {
         props.navigation.navigate("TabNav");
+        const getCard = await getMutateHuntList();
+        getCardList(getCard);
       } else {
         Alert.alert("isLoggedIn is falsy!!!");
       }
@@ -125,7 +132,7 @@ function Login(props) {
       <View style={{ ...StyleSheet.absoluteFill }}>
         <Image
           style={{ flex: 1, width: null, height: null }}
-          source={require("../../../assets/love.gif")}
+          source={require("../../../assets/background1.jpg")}
         />
       </View>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
@@ -188,11 +195,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ signupStore }) => ({
+export default inject(({ signupStore, huntStore }) => ({
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
   loginPW: signupStore.loginPW,
+  recommendUser: huntStore.recommendUser,
+  getCardList: huntStore.getCardList,
 }))(observer(Login));
 
 /*

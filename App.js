@@ -34,6 +34,7 @@ class App extends Component {
         cache,
         storage: AsyncStorage,
       });
+
       const client = new ApolloClient({
         link: authMiddleWare.concat(links),
         cache,

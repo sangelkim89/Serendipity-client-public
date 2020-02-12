@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { Text, View, Image, TouchableOpacity, StyleSheet, ScrollView, Alert } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { observer, inject } from "mobx-react";
 
@@ -16,6 +16,26 @@ class SettingPage extends React.Component {
     this.props.navigation.navigate("MyProfilePage");
   };
 
+  _logOut() {
+    Alert.alert("정상적으로 로그아웃 되었습니다.");
+  }
+
+  _withDrawal = () => {
+    Alert.alert(
+      "주의",
+      "정말 탈퇴하시겠습니까?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ],
+      { cancelable: false },
+    );
+  };
+
   render() {
     const { signupStore } = this.props;
 
@@ -24,9 +44,9 @@ class SettingPage extends React.Component {
         style={{
           flex: 1,
           backgroundColor: "grey",
-          height: 1000,
         }}
       >
+        <Text style={{ fontSize: 18 }}></Text>
         <View
           style={{
             flex: 1,
@@ -50,7 +70,7 @@ class SettingPage extends React.Component {
 
         <View
           style={{
-            flex: 1,
+            flex: 9,
             flexDirection: "row",
             justifyContent: "space-around",
             alignItems: "center",
@@ -58,12 +78,12 @@ class SettingPage extends React.Component {
           }}
         >
           <View style={{ backgroundColor: "skyblue" }}>
-            <TouchableOpacity onPress={this._gotoMyProfilePage}>
+            <TouchableOpacity onPress={this._logOut}>
               <Text>로그아웃</Text>
             </TouchableOpacity>
           </View>
           <View style={{ backgroundColor: "steelblue" }}>
-            <TouchableOpacity onPress={this._gotoEditPage}>
+            <TouchableOpacity onPress={this._withDrawal}>
               <Text>회원탈퇴</Text>
             </TouchableOpacity>
           </View>
@@ -75,36 +95,4 @@ class SettingPage extends React.Component {
 
 export default SettingPage;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#6a89cc",
-    width: "100%",
-    height: "100%",
-  },
-  map: {
-    flex: 3,
-    margin: 30,
-    borderWidth: 5,
-    borderColor: "#7a42f4",
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: "#7a42f4",
-    borderWidth: 1,
-  },
-  nextbtn: {
-    margin: 15,
-    height: 40,
-    borderColor: "#7a42f4",
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  pinkbox: {
-    width: 400,
-    flex: 1,
-    backgroundColor: "#F5A9F2", //빨간색 안에 있는 분홍박스
-    alignItems: "center",
-  },
-});
+const styles = StyleSheet.create({});
