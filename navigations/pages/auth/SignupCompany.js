@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, ImageBackground } from "react-native";
 import { observer, inject } from "mobx-react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+
 // import Geocode from "react-geocode";
 
 @inject("signupStore")
@@ -16,61 +17,59 @@ class SignupCompany extends React.Component {
 
   render() {
     const { signupStore } = this.props;
-    // Geocode.setApiKey("PROVIDER_GOOGLE");
-    // Geocode.enableDebug;
-    // const getAddressFromCoord = (lat, lon) => {
-    //   Geocode.fromLatLng(lat, lon).then(res => {
-    //     let address = res;
-    //     console.log("ADDRESS", address);
-    //   });
-    // };
-    // getAddressFromCoord(signupStore.marker.lat, signupStore.marker.lon);
 
-    console.log("마커_스토어", signupStore.marker.lat);
+    console.log("스토어_MARKER", signupStore.marker.lat);
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#ecf0f1" }}>
-        <Text>SignupCompany</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="회사명"
-          onChangeText={value => {
-            signupStore.inputCompanyName(value);
-          }}
-        ></TextInput>
-        <TextInput
-          style={styles.input}
-          placeholder="업종"
-          onChangeText={value => {
-            signupStore.inputCompanySort(value);
-          }}
-        ></TextInput>
-        <MapView
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
-          initialRegion={{
-            latitude: 37.485403,
-            longitude: 126.982203,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-          onPress={e => signupStore.markerClick(e.nativeEvent.coordinate)}
+        <ImageBackground
+          source={require("../../../assets/background3.jpg")}
+          style={{ width: "100%", height: "100%" }}
         >
-          {signupStore.marker.lat && signupStore.marker.lon ? (
-            <Marker
-              coordinate={{
-                latitude: signupStore.marker.lat, // 변수
-                longitude: signupStore.marker.lon, // 변수
+          <View style={styles.mapContainer}>
+            <MapView
+              style={styles.map}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={{
+                latitude: 37.485403,
+                longitude: 126.982203,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
               }}
-              onPress={e => console.log(e)}
-            />
-          ) : null}
-        </MapView>
-        <Text>
-          {signupStore.marker.lat} && {signupStore.marker.lon}
-        </Text>
-        <TouchableOpacity onPress={this._doNext.bind(this)}>
-          <Text style={styles.nextbtn}>Next</Text>
-        </TouchableOpacity>
+              onPress={e => signupStore.markerClick(e.nativeEvent.coordinate)}
+            >
+              {signupStore.marker.lat && signupStore.marker.lon ? (
+                <Marker
+                  coordinate={{
+                    latitude: signupStore.marker.lat, // 변수
+                    longitude: signupStore.marker.lon, // 변수
+                  }}
+                  onPress={e => console.log(e)}
+                />
+              ) : null}
+            </MapView>
+            <Text style={styles.marking}>
+              {signupStore.marker.lat} && {signupStore.marker.lon}
+            </Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="회사명"
+            onChangeText={value => {
+              signupStore.inputCompanyName(value);
+            }}
+          ></TextInput>
+          <TextInput
+            style={styles.input}
+            placeholder="업종"
+            onChangeText={value => {
+              signupStore.inputCompanySort(value);
+            }}
+          ></TextInput>
+
+          <TouchableOpacity style={{ alignItems: "center" }} onPress={this._doNext.bind(this)}>
+            <Text style={styles.nextbtn}>Next</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </SafeAreaView>
     );
   }
@@ -84,24 +83,42 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  map: {
-    flex: 3,
-    margin: 30,
-    borderWidth: 5,
-    borderColor: "#7a42f4",
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: "#7a42f4",
-    borderWidth: 1,
-  },
-  nextbtn: {
-    margin: 15,
-    height: 40,
-    borderColor: "#7a42f4",
-    borderWidth: 1,
+  mapContainer: {
+    marginLeft: 6,
+    width: 400,
+    height: 420,
     alignItems: "center",
     justifyContent: "center",
+  },
+  marking: {
+    fontSize: 20,
+  },
+  map: {
+    width: "100%",
+    flex: 1,
+    margin: 30,
+
+    borderColor: "#7a42f4",
+    margin: 30,
+  },
+  input: {
+    backgroundColor: "transparent",
+    marginVertical: 10,
+    width: 280,
+    height: 50,
+    marginLeft: 5,
+    borderBottomWidth: 2,
+    borderColor: "#fff",
+    width: "95%",
+  },
+  nextbtn: {
+    marginTop: 20,
+    width: 300,
+    fontSize: 30,
+    borderColor: "#1e3799",
+    borderRadius: 150,
+    borderWidth: 3,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -43,6 +43,10 @@ function HuntPage() {
           // 동작할때 그래프큐엘문 전송
           console.log("RIGHT", datas[item]);
         }}
+        onTapCard={item => {
+          console.log("TAP", item);
+        }}
+        verticalSwipe={false}
         infinite
         showSecondCard
         animateOverlayLabelsOpacity

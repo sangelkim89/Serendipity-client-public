@@ -19,8 +19,8 @@ import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { GET_LIST } from "../../queries";
 
+import { GET_LIST } from "../../queries";
 import { LOG_IN } from "../../queries";
 
 const { width, height } = Dimensions.get("window");
@@ -54,8 +54,6 @@ function Login(props) {
   // useState
   const [isLoggedIn, doLogin] = useState("false");
   const [isReady, doReady] = useState(false);
-
-  // useMutate
 
   // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);
@@ -132,7 +130,7 @@ function Login(props) {
       <View style={{ ...StyleSheet.absoluteFill }}>
         <Image
           style={{ flex: 1, width: null, height: null }}
-          source={require("../../../assets/background1.jpg")}
+          source={require("../../../assets/background3.jpg")}
         />
       </View>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
