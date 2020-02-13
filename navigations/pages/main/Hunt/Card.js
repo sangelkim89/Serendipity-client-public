@@ -6,17 +6,23 @@ import { View, Text, Image, StyleSheet, Dimensions, ImageBackground } from "reac
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-const Card = ({ datas }) => {
+const Card = ({ recommendUser }) => {
+  // console.log("CARD_GET_DATA", recommendUser.profileImgLocation);
   return (
     <View activeOpacity={1}>
       <ImageBackground
         style={styles.img}
         imageStyle={{ borderRadius: 50 }}
-        source={datas.uri}
+        source={{ uri: recommendUser.profileImgLocation }}
         resizeMode="cover"
       >
         <View style={styles.info}>
-          <Text style={styles.text}> {`${datas.name}  ${datas.age}`}</Text>
+          <Text style={styles.text}> {recommendUser.name}</Text>
+          {/* <Text style={styles.text}>
+            {recommendUser.tags.map((item, i) => {
+              return <Text key={i}>{item}</Text>;
+            })}
+          </Text> */}
         </View>
       </ImageBackground>
     </View>

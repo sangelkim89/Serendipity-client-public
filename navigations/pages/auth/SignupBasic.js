@@ -6,8 +6,10 @@ import {
   StyleSheet,
   TextInput,
   Alert,
-  KeyboardAvoidingView,
   Dimensions,
+  ImageBackground,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
@@ -17,8 +19,6 @@ import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
 
 function SignupBasic(props) {
-  // static navigationOptions = { headerShown: false };
-
   const {
     genderBtn,
     inputEmail,
@@ -63,7 +63,7 @@ function SignupBasic(props) {
 
   // 이메일 전송
   async function sendEmail() {
-    console.log("이메일전송");
+    Alert.alert("인증메일이 전송되었습니다!");
     try {
       let secretSend = await sendEmailSecretKey({
         variables: {
@@ -87,7 +87,8 @@ function SignupBasic(props) {
 
   // 휴대폰 전송
   async function sendMobile() {
-    console.log(phone);
+    Alert.alert("인증번호가 전송되었습니다!");
+
     try {
       let secretKey = await sendMobileSecretKey({
         variables: {
@@ -108,157 +109,165 @@ function SignupBasic(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <RadioForm
-        style={styles.radio}
-        radio_props={radio_props}
-        animation={true}
-        initial={0}
-        formHorizontal={true}
-        onPress={e => {
-          genderBtn(e);
-        }}
-      />
-      <View style={styles.inputContainer}>
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="Email"
-            value={email}
-            onChangeText={e => {
-              inputEmail(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendEmail();
-            }}
-          >
-            <Text>이메일전송</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="EmailKey"
-            value={emailSecretKey}
-            onChangeText={e => {
-              inputEmailKey(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendEmailKey();
-            }}
-          >
-            <Text>이메일인증</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="Phone"
-            value={phone}
-            onChangeText={e => {
-              inputPhone(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendMobile();
-            }}
-          >
-            <Text>핸드폰전송</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="PhoneKey"
-            value={phoneVerifyKey}
-            onChangeText={e => {
-              inputPhoneKey(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendPhoneKey();
-            }}
-          >
-            <Text>핸드폰인증</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View style={styles.emailPhone}>
+      <ImageBackground
+        source={require("../../../assets/background3.jpg")}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <RadioForm
+          buttonSize={15}
+          buttonOuterSize={30}
+          style={styles.radio}
+          radio_props={radio_props}
+          animation={true}
+          initial={0}
+          formHorizontal={true}
+          onPress={e => {
+            genderBtn(e);
+          }}
+        />
+        <View style={styles.inputContainer}>
+          <View style={styles.inputLine}>
             <TextInput
-              style={styles.inputEmailPhone}
-              placeholder="Input your ID"
-              value={userId}
+              style={styles.input}
+              placeholder="Email"
+              value={email}
               onChangeText={e => {
-                inputID(e);
+                inputEmail(e);
               }}
             />
             <TouchableOpacity
               style={styles.btn}
               onPress={() => {
-                sendID();
+                sendEmail();
               }}
             >
-              <Text>ID중복확인</Text>
+              <Text style={styles.smallBtn}>이메일전송</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.confirmID}>사용하셔도 좋습니다</Text>
-        </View>
 
-        <View style={styles.emailPhone}>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.inputEmailPhone}
-            placeholder="PassWord"
-            value={password}
-            onChangeText={e => {
-              inputPassWord(e);
+          <View style={styles.inputLine}>
+            <TextInput
+              style={styles.input}
+              placeholder="EmailKey"
+              value={emailSecretKey}
+              onChangeText={e => {
+                inputEmailKey(e);
+              }}
+            />
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                sendEmailKey();
+              }}
+            >
+              <Text style={styles.smallBtn}>이메일인증</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.inputLine}>
+            <TextInput
+              style={styles.input}
+              placeholder="Phone"
+              value={phone}
+              onChangeText={e => {
+                inputPhone(e);
+              }}
+            />
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                sendMobile();
+              }}
+            >
+              <Text style={styles.smallBtn}>핸드폰전송</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.inputLine}>
+            <TextInput
+              keyboardType="number-pad"
+              style={styles.input}
+              placeholder="PhoneKey"
+              value={phoneVerifyKey}
+              onChangeText={e => {
+                inputPhoneKey(e);
+              }}
+            />
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                sendPhoneKey();
+              }}
+            >
+              <Text style={styles.smallBtn}>핸드폰인증</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <View style={styles.inputLine}>
+              <TextInput
+                style={styles.input2}
+                placeholder="Input your NickName"
+                value={userId}
+                onChangeText={e => {
+                  inputID(e);
+                }}
+              />
+              {/* <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  sendID();
+                }}
+              >
+                <Text style={styles.smallBtn}>ID중복확인</Text>
+              </TouchableOpacity> */}
+            </View>
+          </View>
+
+          <View style={styles.inputLine}>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.input2}
+              placeholder="Password"
+              value={password}
+              onChangeText={e => {
+                inputPassWord(e);
+              }}
+            />
+          </View>
+
+          <DatePicker
+            style={styles.date}
+            date={birth}
+            mode="date"
+            placeholder="select date"
+            format="YYYY-MM-DD"
+            minDate="1950-01-01"
+            maxDate="2222-12-31"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                flexDirection: "row",
+              },
+              dateInput: {
+                // marginLeft: 36,
+              },
+            }}
+            onDateChange={date => {
+              handleConfirm(date);
             }}
           />
+
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={() => {
+              _doNext();
+            }}
+          >
+            <Text style={styles.btnTxt}>Next</Text>
+          </TouchableOpacity>
         </View>
-
-        <DatePicker
-          style={styles.date}
-          date={birth}
-          mode="date"
-          placeholder="select date"
-          format="YYYY-MM-DD"
-          minDate="1950-01-01"
-          maxDate="2222-12-31"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              flexDirection: "row",
-            },
-            dateInput: {
-              // marginLeft: 36,
-            },
-          }}
-          onDateChange={date => {
-            handleConfirm(date);
-          }}
-        />
-
-        <TouchableOpacity
-          onPress={() => {
-            _doNext();
-          }}
-        >
-          <Text style={{ fontSize: 30, backgroundColor: "blue" }}>Next</Text>
-        </TouchableOpacity>
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -266,30 +275,60 @@ function SignupBasic(props) {
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
+  container: { justifyContent: "space-between", backgroundColor: "#fab1a0" },
+
   inputContainer: {
-    height: height / 3,
+    // backgroundColor: "green",
+    flex: 2,
+    height: height / 5,
+    justifyContent: "center",
   },
   radio: {
+    flex: 0,
+    padding: 15,
     justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: -40,
+    height: height / 10,
   },
-  inputEmailPhone: {
-    margin: 15,
-    height: 40,
-    // backgroundColor:"",
-    borderColor: "#ff6183",
-    borderWidth: 3,
-    borderRadius: 125,
-    width: 250,
+  input: {
+    backgroundColor: "transparent",
+    marginVertical: 5,
+    width: 280,
+    height: 50,
+    marginLeft: 5,
+    borderBottomWidth: 2,
+    borderColor: "#fff",
   },
-  emailPhone: {
+  input2: {
+    backgroundColor: "transparent",
+    marginVertical: 5,
+    width: 280,
+    height: 50,
+    marginLeft: 5,
+    borderBottomWidth: 2,
+    borderColor: "#fff",
+    width: "95%",
+  },
+  inputLine: {
     flexDirection: "row",
+    padding: 3,
+    margin: 3,
   },
   btn: {
-    margin: 15,
-    backgroundColor: "brown",
-    width: "100%",
+    margin: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "brown",
+    borderWidth: 3,
+    width: 100,
     height: 40,
+    borderRadius: 50,
+  },
+  smallBtn: {
+    fontWeight: "bold",
+    fontSize: 15,
   },
   inputID: {
     margin: 15,
@@ -297,16 +336,26 @@ const styles = StyleSheet.create({
     borderColor: "#7a42f4",
     borderWidth: 1,
   },
-  confirmID: {
-    marginTop: -14,
-    marginLeft: 15,
-    fontSize: 13,
-  },
   date: {
     margin: 15,
+    width: "95%",
   },
   placeholder: {
     margin: 5,
+  },
+  nextBtn: {
+    // width: "80%",
+    alignItems: "center",
+  },
+  btnTxt: {
+    marginTop: 15,
+    width: 300,
+    fontSize: 30,
+    borderColor: "#1e3799",
+    borderRadius: 150,
+    borderWidth: 3,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -335,5 +384,3 @@ export default inject(({ signupStore }) => ({
   sendPhoneKey: signupStore.sendPhoneKey,
   phoneBoolean: signupStore.phoneBoolean,
 }))(observer(SignupBasic));
-
-// export default SignupBasic;
