@@ -384,5 +384,3 @@ export default inject(({ signupStore }) => ({
   sendPhoneKey: signupStore.sendPhoneKey,
   phoneBoolean: signupStore.phoneBoolean,
 }))(observer(SignupBasic));
-
-// export default SignupBasic;

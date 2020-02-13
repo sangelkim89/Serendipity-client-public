@@ -276,7 +276,7 @@ class SignupStore {
       })
       .catch(e => {
         // console.log("axios error issued!");
-        console.log(e);
+        console.log("NETWORK_ERR_AXIOS", e);
       });
 
     // 스토어 초기화

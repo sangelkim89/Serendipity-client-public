@@ -37,3 +37,23 @@ export const GET_LIST = gql`
     getHuntList(id: $id)
   }
 `;
+
+export const UN_LIKE = gql`
+  mutation unlike($selectedId: String!) {
+    unlike(selectedId: $selectedId)
+  }
+`;
+
+// type Mutation {
+//   unlike(selectedId: String!): Boolean!
+// }
+
+export const LIKE = gql`
+  mutation likeUser($selectedId: String!) {
+    likeUser(selectedId: $selectedId)
+  }
+`;
+
+// type Mutation {
+//  likeUser(selectedId: String!): String!
+//}
