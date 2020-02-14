@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Dimensions, ImageBackground } from "react-native";
-
-// import data from "./mockup";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import CardFlip from "react-native-card-flip";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -29,11 +29,6 @@ const Card = ({ recommendUser }) => {
             {"    "}
             {age}
           </Text>
-          {/* <Text style={styles.text}>
-            {recommendUser.tags.map((item, i) => {
-              return <Text key={i}>{item}</Text>;
-            })}
-          </Text> */}
         </View>
       </ImageBackground>
     </View>

@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/apollo.js" beforeDir="false" afterPath="$PROJECT_DIR$/apollo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigations/pages/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/AllSwiped.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/AllSwiped.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/Hunt.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/Hunt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/auth/SignupBasic.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/SignupBasic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/Card.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/HuntStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/HuntStore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/SignupStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/SignupStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+            <state relative-caret-position="570">
+              <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -32,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="5">
+  <component name="ProjectFrameBounds" extendedState="4">
     <option name="x" value="960" />
     <option name="y" value="27" />
     <option name="width" value="960" />
@@ -142,7 +143,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="960" y="27" width="960" height="1005" extended-state="4" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.2763441" />
@@ -170,8 +170,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+        <state relative-caret-position="570">
+          <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
         </state>
       </provider>
     </entry>

@@ -155,6 +155,7 @@ function Login(props) {
             }}
           />
           <TextInput
+            secureTextEntry={true}
             style={styles.textForm}
             placeholder={"Password"}
             onChangeText={potato => {

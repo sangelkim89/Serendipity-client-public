@@ -45,19 +45,28 @@ export const UN_LIKE = gql`
   }
 `;
 
-// type Mutation {
-//   unlike(selectedId: String!): Boolean!
-// }
-
 export const LIKE = gql`
   mutation likeUser($selectedId: String!) {
     likeUser(selectedId: $selectedId)
   }
 `;
 
-// type Mutation {
-//  likeUser(selectedId: String!): String!
-//}
+export const ALL_USER_EMAIL = gql`
+  query allUsers {
+    allUsers {
+      email
+    }
+  }
+`;
+
+export const ALL_USER_PHONE = gql`
+  query allUsers {
+    allUsers {
+      phone
+    }
+  }
+`;
+
 export const GET_ROOM = gql`
   query getRoom($roomId: String) {
     participants {
