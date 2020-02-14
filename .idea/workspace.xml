@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/auth/SignupBasic.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/SignupBasic.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/Card.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/HuntStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/HuntStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/withSuspense.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/withSuspense.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/MatchStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/MatchStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/SignupStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/SignupStore.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -140,6 +141,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="960" y="27" width="960" height="1005" extended-state="5" />
+    <frame x="960" y="27" width="960" height="1005" extended-state="4" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.2763441" />

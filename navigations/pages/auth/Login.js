@@ -17,10 +17,10 @@ import { AppLoading } from "expo";
 import Animated, { Easing } from "react-native-reanimated";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
-import { GET_LIST } from "../../queries";
+import { GET_LIST, GET_ROOM } from "../../queries";
 import { LOG_IN } from "../../queries";
 
 const { width, height } = Dimensions.get("window");
@@ -39,7 +39,7 @@ function cacheImages(img) {
 // 로그인 컴포넌트
 function Login(props) {
   // Store 비할당구조
-  const { ID, PW, loginId, loginPW, recommendUser, getCardList } = props;
+  const { ID, PW, loginId, loginPW, recommendUser, getCardList, roomList } = props;
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -60,6 +60,9 @@ function Login(props) {
 
   // useMutate - getHuntList
   const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
+
+  // useQuery - getRoom
+  const [getRoomData, { roomData }] = useQuery(GET_ROOM);
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
@@ -93,6 +96,14 @@ function Login(props) {
         const ili = await AsyncStorage.getItem("isLoggedIn");
         console.log("로그인됐니_실패?", ili, jwt);
       }
+      // useQuery - getRoom
+      const {
+        data: { getRoom: roomData },
+        error,
+      } = useQuery(GET_ROOM);
+      console.log("roomData : ", roomData);
+      console.log("error in useQuery getroom : ", error);
+      // roomList = roomData;
     } catch (e) {
       console.log("LOGIN_CATCH : ", e);
     } finally {
@@ -193,13 +204,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ signupStore, huntStore }) => ({
+export default inject(({ signupStore, huntStore, matchStore }) => ({
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
   loginPW: signupStore.loginPW,
   recommendUser: huntStore.recommendUser,
   getCardList: huntStore.getCardList,
+  roomList: matchStore.roomList,
 }))(observer(Login));
 
 /*
