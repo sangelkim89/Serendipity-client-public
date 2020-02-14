@@ -6,12 +6,12 @@ import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 
 const httpLink = new HttpLink({
-  uri: "http://192.168.0.33:4000",
+  uri: "http://192.168.219.139:4000",
 });
 
 // 웹소켓 링크 코드 추가
 const wsLink = new WebSocketLink({
-  uri: "http://192.168.0.33:4000",
+  uri: "http://192.168.219.139:4000",
   options: {
     reconnect: true,
   },

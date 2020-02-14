@@ -108,6 +108,8 @@ function Login(props) {
         Alert.alert("isLoggedIn is falsy!!!");
       }
     }
+
+    props.navigation.navigate("TabNav");
   }
 
   _doSignUp = () => {

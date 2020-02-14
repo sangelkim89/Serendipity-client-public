@@ -14,8 +14,8 @@ function MyProfilePage(props) {
     props.navigation.navigate("SettingPage");
   };
 
-  console.log("뭐가 나오니?:", mockDATA.id);
-  console.log("뭐가 나오니?:", mockDATA.tags[0].object);
+  console.log("뭐가 나오니?:", mockDATA.companyName);
+  console.log("뭐가 나오니?:", mockDATA.tags[0]);
 
   return (
     <View
@@ -88,10 +88,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그1</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[0]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그2</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[1]}</Text>
               </View>
             </View>
             {/* 네번째 줄 태그==================================================================================== */}
@@ -104,29 +104,17 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그3</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[2]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그4</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[3]}</Text>
               </View>
             </View>
             {/* 다섯번째 줄 태그==================================================================================== */}
-
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <View>
-                  {tagDATA.map((tag, f) => {
-                    return <Text>{tag}</Text>;
-                  })}
-                </View>
-              </View>
+            <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
+              <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[4]}</Text>
             </View>
+
             {/* 다섯번째줄 */}
           </View>
           {/* {각종 정보} */}

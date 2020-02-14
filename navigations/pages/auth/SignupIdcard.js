@@ -20,9 +20,9 @@ class SignupIdcard extends React.Component {
   }
 
   async permitCamera() {
-    const { status, permissions } = await Permissions.getAsync(Permissions.CAMERA);
+    const status = await Permissions.getAsync(Permissions.CAMERA);
     if (status !== "granted") {
-      const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA);
+      const status = await Permissions.askAsync(Permissions.CAMERA);
       if (status === "granted") {
         this.props.navigation.navigate("TakeCamera", {
           from: "idcard",
