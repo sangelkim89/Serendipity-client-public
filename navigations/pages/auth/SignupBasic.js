@@ -12,11 +12,13 @@ import {
   ScrollView,
 } from "react-native";
 import { observer, inject } from "mobx-react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
+
+import { ALL_USER_EMAIL, ALL_USER_PHONE } from "../../queries";
 
 function SignupBasic(props) {
   const {
@@ -61,19 +63,32 @@ function SignupBasic(props) {
   `;
   const [sendEmailSecretKey, { data }] = useMutation(SEND_EMAIL);
 
+  // useQuery - AllUsers
+  const { data: userData } = useQuery(ALL_USER_EMAIL);
+
   // 이메일 전송
   async function sendEmail() {
-    Alert.alert("인증메일이 전송되었습니다!");
-    try {
-      let secretSend = await sendEmailSecretKey({
-        variables: {
-          email: email,
-        },
-      });
-      console.log("SECRET_KEY", secretSend.data.confirmEmail);
-      setSecretKey(secretSend.data.confirmEmail);
-    } catch (err) {
-      console.log("SECRET_KEY_ERR", err);
+    // 가입된 이메일이 있으면 Alert.alert("가입된 이메일이 있습니다.") 없으면 아래 로직 실행
+    const filterUser = userData.allUsers.filter(val => {
+      // console.log("ALLUSER_EMAIL", val.email);
+      return val.email === email;
+    });
+    // console.log("FILTER_USER", filterUser);
+    if (filterUser.length === 0) {
+      Alert.alert("인증메일이 전송되었습니다!");
+      try {
+        let secretSend = await sendEmailSecretKey({
+          variables: {
+            email: email,
+          },
+        });
+        console.log("SECRET_KEY", secretSend.data.confirmEmail);
+        setSecretKey(secretSend.data.confirmEmail);
+      } catch (err) {
+        console.log("SECRET_KEY_ERR", err);
+      }
+    } else {
+      Alert.alert("중복이메일 있음니다~~");
     }
   }
 
@@ -85,20 +100,30 @@ function SignupBasic(props) {
   `;
   const [sendMobileSecretKey, { mobileData }] = useMutation(SEND_MOBILE);
 
+  const { data: userPhone } = useQuery(ALL_USER_PHONE);
+
   // 휴대폰 전송
   async function sendMobile() {
-    Alert.alert("인증번호가 전송되었습니다!");
-
-    try {
-      let secretKey = await sendMobileSecretKey({
-        variables: {
-          phone: phone,
-        },
-      });
-      await setSecretMobileKey(secretKey.data.confirmText);
-      await console.log("휴대폰요청후", secretKey.data.confirmText);
-    } catch (err) {
-      console.log("트라이캐치에러", err);
+    const filterUser = userPhone.allUsers.filter(val => {
+      // console.log("ALLUSER_PHONE", val);
+      return val.phone === phone;
+    });
+    if (filterUser.length === 0) {
+      // 중복된거 없으면 이거 보낼 꺼야
+      Alert.alert("인증번호가 전송되었습니다!");
+      try {
+        let secretKey = await sendMobileSecretKey({
+          variables: {
+            phone: phone,
+          },
+        });
+        await setSecretMobileKey(secretKey.data.confirmText);
+        await console.log("휴대폰요청후", secretKey.data.confirmText);
+      } catch (err) {
+        console.log("트라이캐치에러", err);
+      }
+    } else {
+      Alert.alert("가입된 휴대폰이 있습니다.");
     }
   }
 
@@ -237,7 +262,7 @@ function SignupBasic(props) {
 
           <DatePicker
             style={styles.date}
-            date={birth}
+            date={"1991-02-20"}
             mode="date"
             placeholder="select date"
             format="YYYY-MM-DD"

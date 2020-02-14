@@ -246,7 +246,7 @@ class SignupStore {
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
 
-    const endPoint = "http://192.168.0.33:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+    const endPoint = "http://192.168.0.2:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
 
     // fetch(endPoint, {
     //   method: "POST",
@@ -277,6 +277,7 @@ class SignupStore {
       .catch(e => {
         // console.log("axios error issued!");
         console.log("NETWORK_ERR_AXIOS in signupStore : ", e);
+        alert("가입 실패... 다시 시도 해주세요");
       });
 
     // 스토어 초기화

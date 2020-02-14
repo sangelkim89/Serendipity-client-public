@@ -61,8 +61,8 @@ function Login(props) {
   // useMutate - getHuntList
   const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
 
-  // useQuery - getRoom
-  const [getRoomData, { roomData }] = useQuery(GET_ROOM);
+  // // useQuery - getRoom
+  // const [getRoomData, { roomData }] = useQuery(GET_ROOM);
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
@@ -96,14 +96,14 @@ function Login(props) {
         const ili = await AsyncStorage.getItem("isLoggedIn");
         console.log("로그인됐니_실패?", ili, jwt);
       }
-      // useQuery - getRoom
-      const {
-        data: { getRoom: roomData },
-        error,
-      } = useQuery(GET_ROOM);
-      console.log("roomData : ", roomData);
-      console.log("error in useQuery getroom : ", error);
-      // roomList = roomData;
+      // // useQuery - getRoom
+      // const {
+      //   data: { getRoom: roomData },
+      //   error,
+      // } = useQuery(GET_ROOM);
+      // console.log("roomData : ", roomData);
+      // console.log("error in useQuery getroom : ", error);
+      // // roomList = roomData;
     } catch (e) {
       console.log("LOGIN_CATCH : ", e);
     } finally {
@@ -155,6 +155,7 @@ function Login(props) {
             }}
           />
           <TextInput
+            secureTextEntry={true}
             style={styles.textForm}
             placeholder={"Password"}
             onChangeText={potato => {
