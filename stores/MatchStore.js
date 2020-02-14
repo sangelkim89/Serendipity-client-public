@@ -7,7 +7,9 @@ class MatchStore {
   }
 
   // 스테이트
-  @observable roomList = [
+  @observable roomList = []; // 채팅방
+  // @observable message = ""; // 채팅인풋메세지 - 각 방의 독립성을 위해 useState로 옮김
+  @observable messages = [
     {
       image:
         "https://img1.looper.com/img/gallery/why-we-havent-seen-dwayne-the-rock-johnson-in-the-mcu-yet/intro-1563386680.jpg",
@@ -18,11 +20,12 @@ class MatchStore {
         companyName: "Google Korea",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
         {
-          me:
+          id: "ck6ir80jd2fgx0b09inr9zkij",
+          text:
             "what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...what the funny friend...",
         },
       ],
@@ -36,10 +39,10 @@ class MatchStore {
         companyName: "Google Korea",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "who's there?" },
-        { me: "Is anybody here?" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "who's there?" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "Is anybody here?" },
       ],
     },
     {
@@ -58,11 +61,11 @@ class MatchStore {
         companyName: "Google Korea",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
-        { me: "I'm Iron man" },
-        { other: "What?" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "I'm Iron man" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "What?" },
       ],
     },
     {
@@ -81,10 +84,10 @@ class MatchStore {
         companyName: "Google Korea",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
-        { me: "I'm from America" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "I'm from America" },
       ],
     },
     {
@@ -97,10 +100,10 @@ class MatchStore {
         companyName: "Google Korea",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
-        { me: "What is your favorite movie?" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "What is your favorite movie?" },
       ],
     },
     {
@@ -113,24 +116,24 @@ class MatchStore {
         companyName: "Google Korea",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
-        { me: "I love my job." },
-        { other: "hello" },
-        { me: "what the f..." },
-        { other: "hello" },
-        { me: "what the f..." },
-        { other: "hello" },
-        { me: "what the f..." },
-        { other: "hello" },
-        { me: "what the f..." },
-        { other: "hello" },
-        { me: "what the f..." },
-        { other: "hello" },
-        { me: "what the f..." },
-        { other: "hello" },
-        { me: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "I love my job." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
       ],
     },
     {
@@ -142,10 +145,10 @@ class MatchStore {
         companyName: "Google Korea",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
-        { me: "wanna meet me today?" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "wanna meet me today?" },
       ],
     },
     {
@@ -158,10 +161,10 @@ class MatchStore {
         companyName: "We Bare Bears",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
-        { other: "Hey, watch your mouth..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "Hey, watch your mouth..." },
       ],
     },
     {
@@ -173,29 +176,21 @@ class MatchStore {
         companyName: "We Bare Bears",
       },
       chats: [
-        { other: "hi" },
-        { other: "hello" },
-        { me: "what the f..." },
-        { me: "!!!?????????????????" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hi" },
+        { id: "ck6i44mif0zas0b09nj2qsc9m", text: "hello" },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "what the f..." },
+        { id: "ck6ir80jd2fgx0b09inr9zkij", text: "!!!?????????????????" },
       ],
     },
-  ]; // 채팅방
-  @observable message = ""; // 채팅인풋메세지
-  @observable messages = []; // 상대유저 정보
+  ]; // 채팅방 정보
 
   // 메소드
-  @action
-  handleInputMsg = e => {
-    console.log("매치스토어 메소드 작동");
-    this.inputMsg = e;
-    console.log("inputMsg : ", inputMsg);
-  };
-
-  @action
-  matchExer2 = () => {
-    console.log("매치스토어 메소드 작동");
-    console.log("해당 룸리스트에 채팅을 추가하는 메소드가 되면 될듯");
-  };
+  // message옮기면서 같이 옮김
+  // @action
+  // onChangeText = text => {
+  //   this.message = text;
+  //   console.log("message : ", this.message);
+  // };
 }
 
 export default MatchStore;

@@ -9,7 +9,9 @@ export const LOG_IN = gql`
 export const GET_MESSAGES = gql`
   query messages {
     messages {
-      id
+      from {
+        id
+      }
     }
   }
 `;
@@ -17,7 +19,6 @@ export const GET_MESSAGES = gql`
 export const SEND_MESSAGE = gql`
   mutation sendMessage($text: String!) {
     sendMessage(text: $text) {
-      id
       text
     }
   }
@@ -57,3 +58,34 @@ export const LIKE = gql`
 // type Mutation {
 //  likeUser(selectedId: String!): String!
 //}
+export const GET_ROOM = gql`
+  query getRoom($roomId: String) {
+    participants {
+      id
+      name
+      birth
+      companyName
+      companyRole
+      tags
+      profileImgLocation
+    }
+    messages {
+      text
+      from {
+        id
+      }
+    }
+    createdAt
+  }
+`;
+
+export const NEW_ROOM = gql`
+  subscription newRoom {
+    newRoom {
+      id
+      participants {
+        id
+      }
+    }
+  }
+`;

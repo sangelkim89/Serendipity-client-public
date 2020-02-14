@@ -1,11 +1,13 @@
 import { observable, action, computed, toJS } from "mobx";
 import axios from "axios";
 
-class MyprofileStore {
+class MyProfileStore {
   // (StoreIndex)
   constructor(root) {
     this.root = root;
   }
+
+  @observable id = "ck6jdftl93d9z0b099yvtfmeq"; // 121 userId
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
@@ -43,4 +45,4 @@ class MyprofileStore {
   };
 }
 
-export default MyprofileStore;
+export default MyProfileStore;

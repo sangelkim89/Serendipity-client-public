@@ -9,8 +9,7 @@ const RoomItem = props => {
     navigation.navigate("ChatPage", { room: room });
   }
 
-  const lastChatRaw =
-    room.chats[room.chats.length - 1]["me"] || room.chats[room.chats.length - 1]["other"];
+  const lastChatRaw = room.chats[room.chats.length - 1]["text"];
 
   const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
 
