@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Swiper from "react-native-deck-swiper";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+
 import { observer, inject } from "mobx-react";
 import { AppLoading } from "expo";
 
@@ -11,10 +11,10 @@ import { UN_LIKE, LIKE } from "../../../queries";
 import Card from "./Card";
 import OverlayLabel from "./OverlayLabel";
 import IconButton from "./IconBtn";
-import AllSwiped from "./AllSwiped";
 
 function HuntPage(props) {
-  const { recommendUser } = props;
+  // console.log("HUNTPAGE_PROPS", props);
+  const { recommendUser, navigation } = props;
 
   // SWIPTE METHODS
   const useSwiper = useRef(null).current;
@@ -32,8 +32,8 @@ function HuntPage(props) {
   const [unLikeYou, { unlikeData }] = useMutation(UN_LIKE);
   const [likeYou, { likeData }] = useMutation(LIKE);
 
+  // Func = unLike & Like
   const likedFunc = item => {
-    // 동작할때 그래프큐엘문 전송
     console.log("RIGHT", recommendUser[item].id);
     likeYou({
       variables: {
@@ -49,7 +49,6 @@ function HuntPage(props) {
   };
 
   const unlikedFunc = item => {
-    // 동작할때 그래프큐엘문 전송
     console.log("LEFT", recommendUser[item].id);
     unLikeYou({
       variables: {
@@ -79,7 +78,7 @@ function HuntPage(props) {
           stackSize={2}
           onSwipedAll={() => {
             console.log("다재껴졌다~");
-            return <AllSwiped />;
+            navigation.navigate("AllSwiped");
           }}
           onSwipedLeft={item => {
             unlikedFunc(item);
@@ -88,7 +87,7 @@ function HuntPage(props) {
             likedFunc(item);
           }}
           onTapCard={item => {
-            console.log("TAP", recommendUser[item].id);
+            console.log("TAP", recommendUser[item]);
           }}
           verticalSwipe={false}
           showSecondCard

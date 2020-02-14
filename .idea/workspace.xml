@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/apollo.js" beforeDir="false" afterPath="$PROJECT_DIR$/apollo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigations/pages/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/withSuspense.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/withSuspense.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/queries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/MatchStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/MatchStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/AllSwiped.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/AllSwiped.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/Hunt.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/Hunt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/HuntStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/HuntStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stores/SignupStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/SignupStore.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +21,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+            <state relative-caret-position="585">
+              <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -42,6 +43,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -88,8 +91,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -140,8 +141,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="27" width="960" height="1005" extended-state="5" />
     <frame x="960" y="27" width="960" height="1005" extended-state="4" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.2763441" />
@@ -169,8 +170,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+        <state relative-caret-position="585">
+          <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
         </state>
       </provider>
     </entry>
