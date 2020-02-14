@@ -39,7 +39,9 @@ function cacheImages(img) {
 // 로그인 컴포넌트
 function Login(props) {
   // Store 비할당구조
-  const { ID, PW, loginId, loginPW, recommendUser, getCardList, roomList } = props;
+  const { ID, PW, loginId, loginPW, recommendUser, getCardList, myId, refreshRoomList } = props;
+  // console.log("myId : ", myId);
+
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -61,8 +63,12 @@ function Login(props) {
   // useMutate - getHuntList
   const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
 
-  // // useQuery - getRoom
-  // const [getRoomData, { roomData }] = useQuery(GET_ROOM);
+  // useQuery - room 정보를 요청하는 query
+  const { loading, error, data: roomData } = useQuery(GET_ROOM, {
+    variables: {
+      id: myId,
+    },
+  });
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
@@ -87,23 +93,24 @@ function Login(props) {
       if (signIn) {
         doLogin("true");
         await AsyncStorage.setItem("jwt", signIn);
+        // // 로그인시 DB의 유저아이디를 가져오는 코드 - 서버도 변경 필요. myprofile작업내용에 따라 결정될 예정
+        // myId = signIn.DBid;
         await AsyncStorage.setItem("isLoggedIn", "true");
         await console.log("로그인_JWT", signIn);
         await console.log("로그인됐니_성공?", await AsyncStorage.getItem("isLoggedIn"));
+        // room정보를 서버에서 받아와서 스토어(matchStore : roomList)에 저장 - 리프레쉬
+        if (loading) {
+          console.log("loading : ", loading);
+        } else {
+          // console.log("roomData in login.js : ", Array.isArray(roomData.getRoom));
+          refreshRoomList(roomData.getRoom);
+        }
       } else {
         doLogin("false");
         const jwt = await AsyncStorage.getItem("jwt");
         const ili = await AsyncStorage.getItem("isLoggedIn");
         console.log("로그인됐니_실패?", ili, jwt);
       }
-      // // useQuery - getRoom
-      // const {
-      //   data: { getRoom: roomData },
-      //   error,
-      // } = useQuery(GET_ROOM);
-      // console.log("roomData : ", roomData);
-      // console.log("error in useQuery getroom : ", error);
-      // // roomList = roomData;
     } catch (e) {
       console.log("LOGIN_CATCH : ", e);
     } finally {
@@ -205,7 +212,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ signupStore, huntStore, matchStore }) => ({
+export default inject(({ signupStore, huntStore, matchStore, myProfileStore }) => ({
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
@@ -213,6 +220,8 @@ export default inject(({ signupStore, huntStore, matchStore }) => ({
   recommendUser: huntStore.recommendUser,
   getCardList: huntStore.getCardList,
   roomList: matchStore.roomList,
+  refreshRoomList: matchStore.refreshRoomList,
+  myId: myProfileStore.id,
 }))(observer(Login));
 
 /*

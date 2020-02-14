@@ -17,8 +17,8 @@ export const GET_MESSAGES = gql`
 `;
 
 export const SEND_MESSAGE = gql`
-  mutation sendMessage($text: String!) {
-    sendMessage(text: $text) {
+  mutation sendMessage($roomId: String, $message: String!, $toId: String) {
+    sendMessage(roomId: $roomId, message: $message, toId: $toId) {
       text
     }
   }
@@ -68,23 +68,26 @@ export const ALL_USER_PHONE = gql`
 `;
 
 export const GET_ROOM = gql`
-  query getRoom($roomId: String) {
-    participants {
+  query getRoom($id: String!) {
+    getRoom(id: $id) {
       id
-      name
-      birth
-      companyName
-      companyRole
-      tags
-      profileImgLocation
-    }
-    messages {
-      text
-      from {
+      participants {
         id
+        name
+        birth
+        companyName
+        companyRole
+        tags
+        profileImgLocation
       }
+      messages {
+        text
+        from {
+          id
+        }
+      }
+      createdAt
     }
-    createdAt
   }
 `;
 
