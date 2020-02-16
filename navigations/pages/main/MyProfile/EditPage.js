@@ -9,13 +9,25 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { observer, inject } from "mobx-react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
+import { useQuery } from "@apollo/react-hooks";
+import { GET_ME } from "../../../queries";
+
 function EditPageFunction(props) {
   // static navigationOptions = { headerShown: false };
+
+  const { loading, error, data } = useQuery(GET_ME);
+
+  console.log("GET_ME는 과연 불러오는가", data.getMe);
+  console.log("GET_ME는 과연 불러오는가", data.getMe.birth);
 
   const {
     signupStore,
@@ -57,54 +69,21 @@ function EditPageFunction(props) {
     if (status !== "granted") {
       const status = await Permissions.askAsync(Permissions.CAMERA);
       if (status === "granted") {
-        this.props.navigation.navigate("TakeCamera", {
+        props.navigation.navigate("EditCamera", {
           from: "idcard",
         });
       } else {
-        console.log("Gallery permission is not granted!");
+        props.navigation.navigate("EditCamera", {
+          from: "idcard",
+        });
       }
     } else {
-      this.props.navigation.navigate("TakeCamera", {
-        from: "idcard",
-      });
+      console.log("여기냐 ? Gallery permission is not granted!");
     }
   }
-
-  async function permitGallery() {
-    const { status, permissions } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
-    if (status !== "granted") {
-      const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status === "granted") {
-        this.setState({ cameraStatus: true });
-        this.pickImage();
-      } else {
-        console.log("Galery permission is not granted!");
-        this.setState({ cameraStatus: false });
-      }
-    } else {
-      this.setState({ cameraStatus: true });
-      this.pickImage();
-    }
-  }
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
-    console.log("pickImg result : ", result);
-    this.props.signupStore.imgIdCard = result;
-    this.props.signupStore.imgIdCardName = result.uri.substr(-10);
-    this.props.signupStore.imgIdCardUri = result.uri;
-    if (result.uri.substr(-4)[0] === ".") {
-      this.props.signupStore.imgIdCardType = result.uri.substr(-3);
-    } else {
-      this.props.signupStore.imgIdCardUri = result.uri.substr(-4);
-    }
-    console.log("this.props.signupStore.imgIdCardUri : ", this.props.signupStore.imgIdCardUri);
-  };
 
   return (
-    <KeyboardAvoidingView enable behavior="position">
+    <KeyboardAvoidingView behavior="height">
       <ScrollView>
         {/* 회색창=============================================================== */}
         <View
@@ -136,37 +115,25 @@ function EditPageFunction(props) {
               </TouchableOpacity>
             </View>
           </View>
-
+          {/* 사진 */}
+          <View>
+            {myProfileStore.imgIdCard ? (
+              <Image source={myProfileStore.imgIdCard} style={styles.picContainer} />
+            ) : (
+              <View style={styles.picContainer}>
+                <Text>choose your Idcard</Text>
+              </View>
+            )}
+            <View style={styles.picButtonContainer}>
+              <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
+                <Text style={styles.text}>Camera</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           {/* 빨간창=============================================================== */}
           <View style={{ flex: 8, alignItems: "center", backgroundColor: "#f7d794" }}>
             {/* 분홍창=============================================================== */}
             <View style={styles.pinkbox}>
-              {/* 이미지=============================================================== */}
-              <View style={styles.picButtonContainer}>
-                <TouchableOpacity onPress={this.permitCamera.bind(this)} style={styles.picButton}>
-                  <Text style={styles.text}>Camera</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.permitGallery()} style={styles.picButton}>
-                  <Text style={styles.text}>Gallery</Text>
-                </TouchableOpacity>
-              </View>
-              {signupStore.imgIdCard ? (
-                <Image source={signupStore.imgIdCard} style={styles.picContainer} />
-              ) : (
-                <View style={styles.picContainer}>
-                  <Text>choose your Idcard</Text>
-                </View>
-              )}
-              <View style={styles.submitButtonContainer}>
-                <TouchableOpacity onPress={this._doNext.bind(this)} style={styles.submitButton}>
-                  <Text style={styles.text}>Submit</Text>
-                </TouchableOpacity>
-              </View>
-
-              <Image
-                style={{ width: 200, height: 246.75 }}
-                source={require("../../../../testpic.png")}
-              />
               {/* 각종정보=============================================================== */}
               <View
                 style={{
@@ -231,8 +198,10 @@ function EditPageFunction(props) {
                     </TextInput>
                   </TouchableOpacity>
                 </View>
+
                 {/* 세번째줄=============================================================== */}
                 {/* 태그 테스트========================================================= */}
+
                 <View>
                   {tagDATA2.map((tag, f, e) => {
                     return (
@@ -254,7 +223,6 @@ function EditPageFunction(props) {
                     );
                   })}
                 </View>
-
                 {/* 지도=============================================================== */}
                 <MapView
                   style={styles.map}
@@ -265,20 +233,20 @@ function EditPageFunction(props) {
                     latitudeDelta: 0.01,
                     longitudeDelta: 0.01,
                   }}
-                  onPress={e => signupStore.markerClick(e.nativeEvent.coordinate)}
+                  onPress={e => myProfileStore.markerClick(e.nativeEvent.coordinate)}
                 >
-                  {signupStore.marker.lat && signupStore.marker.lon ? (
+                  {myProfileStore.marker.lat && myProfileStore.marker.lon ? (
                     <Marker
                       coordinate={{
-                        latitude: signupStore.marker.lat, // 변수
-                        longitude: signupStore.marker.lon, // 변수
+                        latitude: myProfileStore.marker.lat, // 변수
+                        longitude: myProfileStore.marker.lon, // 변수
                       }}
                       onPress={e => console.log(e)}
                     />
                   ) : null}
                 </MapView>
                 <Text>
-                  {signupStore.marker.lat} && {signupStore.marker.lon}
+                  {myProfileStore.marker.lat} && {myProfileStore.marker.lon}
                 </Text>
                 {/* 뭐지 여기는? ================================================================================== */}
                 <View
@@ -299,6 +267,7 @@ function EditPageFunction(props) {
               </View>
               {/* 각종정보 ================================================================================== */}
             </View>
+
             {/* 분홍창 ================================================================================== */}
           </View>
           {/* 빨간창 ================================================================================== */}
@@ -323,6 +292,7 @@ function EditPageFunction(props) {
               </TouchableOpacity>
             </View>
           </View>
+
           {/* 하단 초록창 ================================================================================== */}
         </View>
         {/* 회색창 ================================================================================== */}
@@ -354,6 +324,49 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f7d794", //빨간색 안에 있는 분홍박스
     alignItems: "center",
+  },
+  IdcardContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingLeft: wp("10%"),
+    paddingRight: wp("10%"),
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "yellow",
+  },
+  picContainer: {
+    width: 200,
+    height: 246.75,
+    backgroundColor: "orange",
+  },
+
+  picButtonContainer: {
+    width: 200,
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    position: "absolute",
+    alignSelf: "flex-start",
+  },
+  submitButtonContainer: {
+    flex: 1,
+    backgroundColor: "violet",
+    padding: 10,
+  },
+  picButton: {
+    backgroundColor: "green",
+    padding: 5,
+  },
+  submitButton: {
+    backgroundColor: "blue",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "brown",
+  },
+  text: {
+    fontSize: 15,
+    color: "white",
   },
 });
 

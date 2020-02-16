@@ -37,3 +37,25 @@ export const GET_LIST = gql`
     getHuntList(id: $id)
   }
 `;
+
+export const GET_ME = gql`
+  query {
+    getMe {
+      id
+      gender
+      email
+      password
+      phone
+      name
+      birth
+      companyName
+      companyRole
+      geoLocation
+      tags
+      profileImgLocation
+      cardImgLocation
+      bio
+      distance
+    }
+  }
+`;

@@ -3,6 +3,9 @@ import { Text, View, TouchableOpacity, Image, ImageBackground } from "react-nati
 
 import { observer, inject } from "mobx-react";
 
+import { useQuery } from "@apollo/react-hooks";
+import { GET_ME } from "../../../queries";
+
 function MyProfilePage(props) {
   const { tagDATA, mockDATA } = props;
 
@@ -16,6 +19,18 @@ function MyProfilePage(props) {
 
   console.log("뭐가 나오니?:", mockDATA.companyName);
   console.log("뭐가 나오니?:", mockDATA.tags[0]);
+
+  const { loading, error, data } = useQuery(GET_ME);
+
+  console.log("GET_ME는 과연 불러오는가", data.getMe);
+  console.log(
+    "GET_ME는 과연 불러오는가[2][8][14][20][27]",
+    data.getMe.tags[0][2],
+    data.getMe.tags[0][8],
+    data.getMe.tags[0][14],
+    data.getMe.tags[0][20],
+    data.getMe.tags[0][27],
+  );
 
   return (
     <View
@@ -58,10 +73,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.name}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.name}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.birth}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.birth}</Text>
               </View>
             </View>
             {/* 두번째 줄 회사 업종==================================================================================== */}
@@ -73,10 +88,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyName}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyName}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyRole}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyRole}</Text>
               </View>
             </View>
             {/* 세번째 줄 태그==================================================================================== */}
@@ -88,10 +103,14 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[0]}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][2] + data.getMe.tags[0][3] + data.getMe.tags[0][4]}
+                </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[1]}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][8] + data.getMe.tags[0][9] + data.getMe.tags[0][10]}
+                </Text>
               </View>
             </View>
             {/* 네번째 줄 태그==================================================================================== */}
@@ -104,15 +123,27 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[2]}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][14] + data.getMe.tags[0][15] + data.getMe.tags[0][16]}
+                </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[3]}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][20] +
+                    data.getMe.tags[0][21] +
+                    data.getMe.tags[0][22] +
+                    data.getMe.tags[0][23]}
+                </Text>
               </View>
             </View>
             {/* 다섯번째 줄 태그==================================================================================== */}
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.tags[4]}</Text>
+              <Text style={{ fontSize: 30, color: "white" }}>
+                {data.getMe.tags[0][27] +
+                  data.getMe.tags[0][28] +
+                  data.getMe.tags[0][29] +
+                  data.getMe.tags[0][30]}
+              </Text>
             </View>
 
             {/* 다섯번째줄 */}

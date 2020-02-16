@@ -61,55 +61,44 @@ class SignupStore {
   };
   @observable resEmailSecretKey = "";
 
+  //==================================================================
+  // 비밀번호 텍스트 인풋 입력 받아오기
+  @action
+  inputPassWord = e => {
+    console.log(e);
+    this.password = e;
+    console.log("비밀번호", this.password);
+  };
+
   @observable password = "";
-  @observable phone = "";
-  @observable phoneVerifyKey = "";
-  @observable resMobileSecretKey = "";
-  @observable phoneBoolean = true;
-  @observable userId = "";
-  @observable birth = "";
-  @observable companyName = ""; // 회사명
-  @observable companySort = ""; // 업종
-  @observable geoLocation = { lat: 0, lon: 0 };
-  @observable tags = [];
-  @observable imgProfile = null;
-  @observable imgProfileType = null;
-  @observable imgProfileName = null;
-  @observable imgProfileUri = null;
-  @observable imgIdCard = null;
-  @observable imgIdCardType = null;
-  @observable imgIdCardName = null;
-  @observable imgIdCardUri = null;
 
-  @observable isDatePickerVisible = false;
-
-  @observable loginId = "";
-  @observable loginPW = "";
-
-  @observable marker = { lat: null, lon: null };
-  // 메소드
-
-  // 핸드폰 관련 메소드
+  //==================================================================
+  // 인풋인덱스 핸드폰번호 입력 -> 스토어
   @action
   inputPhone = e => {
     console.log(e);
     this.phone = e;
     console.log("폰", this.phone);
   };
-
+  //==================================================================
+  // 인풋인덱스 핸드폰번호 입력 -> 스토어
   @action
   sendPhone = () => {
     this.phone = "";
     console.log("폰", this.phone);
   };
-
+  @observable phone = "";
+  //==================================================================
+  // 인풋인덱스 핸드폰인증키 입력 -> 스토어
   @action
   inputPhoneKey = e => {
     console.log(e);
     this.phoneVerifyKey = e;
     console.log("폰시크릿", this.phoneVerifyKey);
   };
-
+  @observable phoneVerifyKey = "";
+  //==================================================================
+  // 인풋인덱스 핸드폰인증키 입력 -> 스토어
   @action
   sendPhoneKey = () => {
     if (this.phoneVerifyKey === this.resMobileSecretKey) {
@@ -121,6 +110,7 @@ class SignupStore {
     }
     console.log("인증완료", this.phoneBoolean);
   };
+  @observable phoneBoolean = true;
 
   @action
   setSecretMobileKey = data => {
@@ -129,6 +119,9 @@ class SignupStore {
     console.log("이메일시크릿", this.resMobileSecretKey);
   };
 
+  @observable resMobileSecretKey = "";
+
+  //==================================================================
   // ID입력
   @action
   inputID = e => {
@@ -136,6 +129,7 @@ class SignupStore {
     this.userId = e;
     console.log("아이디", this.userId);
   };
+  @observable userId = "";
 
   @action
   sendID = () => {
@@ -143,14 +137,36 @@ class SignupStore {
     console.log("아이디", this.userId);
   };
 
-  // 비밀번호 메소드
-  @action
-  inputPassWord = e => {
-    console.log(e);
-    this.password = e;
-    console.log("비밀번호", this.password);
+  //==================================================================
+  // 생년월일 달력 메소드
+  handleConfirm = date => {
+    // this.birth = date;  2020-02-05T12:21:14.845Z
+    this.birth = date;
+    console.log("BIRTH", this.birth);
   };
+  @observable birth = "";
 
+  //==================================================================
+  // 회사 이름 입력 메소드
+  @action
+  inputCompanyName = e => {
+    console.log("CompanyName", e);
+    this.companyName = e;
+    console.log("CN_STATE", this.companyName);
+  };
+  @observable companyName = ""; // 회사명
+
+  //==================================================================
+  //회사 업종 입력 메소드
+  @action
+  inputCompanySort = e => {
+    console.log("companySort", e);
+    this.companySort = e;
+    console.log("CS_STATE", this.companySort);
+  };
+  @observable companySort = ""; // 업종
+
+  //==================================================================
   // 맵관련 메소드
   @action
   markerClick = item => {
@@ -164,30 +180,10 @@ class SignupStore {
     console.log("MARKER_STATE", this.marker);
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
   };
+  @observable geoLocation = { lat: 0, lon: 0 };
+  @observable marker = { lat: null, lon: null };
 
-  // 회사정보 입력 메소드
-  @action
-  inputCompanyName = e => {
-    console.log("CompanyName", e);
-    this.companyName = e;
-    console.log("CN_STATE", this.companyName);
-  };
-
-  @action
-  inputCompanySort = e => {
-    console.log("companySort", e);
-    this.companySort = e;
-    console.log("CS_STATE", this.companySort);
-  };
-
-  // 생년월일 달력 메소드
-
-  handleConfirm = date => {
-    // this.birth = date;  2020-02-05T12:21:14.845Z
-    this.birth = date;
-    console.log("BIRTH", this.birth);
-  };
-
+  //==================================================================
   // 로그인 관련 메소드
   @action
   inputId = e => {
@@ -195,13 +191,32 @@ class SignupStore {
     this.loginId = e;
     // console.log("아이디", this.loginId);
   };
+  @observable loginId = "";
 
   @action
   inputPW = e => {
     this.loginPW = e;
     // console.log("패스워드", this.loginPW);
   };
+  @observable loginPW = "";
+  //==================================================================
+  // 이미지는 사인업에서 넘어온다.
 
+  @observable imgProfile = null;
+  @observable imgProfileType = null;
+  @observable imgProfileName = null;
+  @observable imgProfileUri = null;
+  @observable imgIdCard = null;
+  @observable imgIdCardType = null;
+  @observable imgIdCardName = null;
+  @observable imgIdCardUri = null;
+
+  //==================================================================
+  //얘는 뭐에요???
+
+  @observable isDatePickerVisible = false;
+
+  //==================================================================
   // 전체 signup data 제출
   @action
   submitSignupData = () => {
@@ -301,6 +316,8 @@ class SignupStore {
 
     this.marker = { lat: null, lon: null };
   };
+  //==================================================================
+  //태그 관련 메소드
   @action
   addtagState = f => {
     if (this.tags.indexOf(this.tagDATA[f]) === -1) {
@@ -315,6 +332,7 @@ class SignupStore {
     console.log("뭐안뜨나", this.changeColorState);
   };
 
+  @observable tags = [];
   @observable changeColorState = [];
 
   tagSTATE = [];

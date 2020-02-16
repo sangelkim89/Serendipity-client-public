@@ -2,12 +2,14 @@ import { observable, action, computed, toJS } from "mobx";
 import axios from "axios";
 
 class MyProfileStore {
-  // (StoreIndex)
+  // (StoreIndex)======================================================================
+
   constructor(root) {
     this.root = root;
   }
 
-  // 회사이름 입력
+  // 회사이름 입력======================================================================
+
   @action
   inputCompanyName = e => {
     this.companyName = e;
@@ -15,7 +17,7 @@ class MyProfileStore {
   };
   @observable companyName = "";
 
-  // 회사업종 입력
+  // 회사업종 입력======================================================================
 
   @action
   inputCompanyRole = e => {
@@ -24,17 +26,17 @@ class MyProfileStore {
   };
   @observable companySort = "";
 
-  // 태그 입력
+  // // 태그 입력======================================================================
 
-  @action
-  addtagState = e => {
-    this.tags = e;
-    console.log("tag에는뭐가찍히니", this.tags);
-  };
+  // @action
+  // addtagState = e => {
+  //   this.tags = e;
+  //   console.log("tag에는뭐가찍히니", this.tags);
+  // };
 
-  @observable tags = [];
-  @observable tags2 = ["태그1", "태그2", "태그3", "태그4", "태그5"];
-  @observable tags3 = [];
+  // @observable tags = [];
+
+  // 태그2 입력======================================================================
 
   @action
   addtagState2 = f => {
@@ -51,13 +53,10 @@ class MyProfileStore {
     console.log("tag2담기는거 : ", this.tags2);
     console.log("tag3새로담기는거 :", this.tags3);
   };
+  @observable tags2 = ["태그1", "태그2", "태그3", "태그4", "태그5"];
+  @observable tags3 = [];
 
-  //   if (this.indexOf(this.mockDATA.getMe.tags[f]) === -1) {
-  //     this.tags.push(this.tagDATA[f]);
-  //   }
-  //   console.log(this.tags);
-  // };
-
+  // 태그 색 입력(미완성)======================================================================
   @action
   changeColor = f => {
     if (this.changeColorState === this.changeColorState[f]) {
@@ -70,45 +69,61 @@ class MyProfileStore {
   };
 
   @observable changeColorState = "";
+  //==================================================================
+  // 맵관련 메소드
+  @action
+  markerClick = item => {
+    console.log("마커", item);
+    let lat = item.latitude;
+    let lon = item.longitude;
+    this.marker.lat = lat;
+    this.marker.lon = lon;
+    this.geoLocation.lat = lat;
+    this.geoLocation.lon = lon;
+    console.log("MARKER_STATE", this.marker);
+    console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
+  };
+  @observable geoLocation = { lat: 0, lon: 0 };
+  @observable marker = { lat: null, lon: null };
 
-  @observable imgProfile = null;
-  @observable imgProfileType = null;
-  @observable imgProfileName = null;
-  @observable imgProfileUri = null;
+  // 이미지 ======================================================================
+
+  @observable imgIdCard = null;
+  @observable imgIdCardType = null;
+  @observable imgIdCardName = null;
+  @observable imgIdCardUri = null;
+
+  // 수정완료보내기 ======================================================================
 
   @action
   submitEditData = () => {
     // 폼데이터 생성
     const editData = new FormData();
+    // 폼데이터에 이미지 추가
+    editData.append("cardImg", {
+      name: this.imgIdCardName,
+      type: `image/${this.imgIdCardType}`,
+      uri: this.imgIdCardUri,
+    });
+    editData.append("profileImg", {
+      name: this.imgProfileName,
+      type: `image/${this.imgProfileType}`,
+      uri: this.imgProfileUri,
+    });
 
     // 폼데이터에 데이터 추가
     editData.append("companyName", this.companyName);
     editData.append("companySort", this.companySort);
     editData.append("tags3", JSON.stringify(this.tags3));
     editData.append("tags2", JSON.stringify(this.tags2));
+    editData.append("geoLocation", JSON.stringify(this.geoLocation)); // 프록시로 전달되는것 수정
 
     // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
 
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", editData);
 
-    const endPoint = "http://192.168.219.139:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
-
-    // fetch(endPoint, {
-    //   method: "POST",
-    //   // credentials: "include",
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    //   body: signupData,
-    // })
-    //   .then(res => {
-    //     alert("회원가입 성공!!!");
-    //   })
-    //   .catch(err => {
-    //     console.log("err : ", err);
-    //     alert("가입 실패... 다시 시도 해주세요");
-    //   });
+    const endPoint = "http://192.168.219.139:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
 
     axios
       .post(endPoint, editData, {
@@ -125,6 +140,8 @@ class MyProfileStore {
         console.log(e);
       });
   };
+
+  // 목업데이터 ======================================================================
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
