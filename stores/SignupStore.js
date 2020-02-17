@@ -332,8 +332,8 @@ class SignupStore {
       this.tags.splice(this.tags.indexOf(this.tagDATA[f]), 1);
     }
 
-    console.log(this.tags);
-    console.log("뭐안뜨나", this.changeColorState);
+    // console.log(this.tags);
+    // console.log("뭐안뜨나", this.changeColorState);
   };
 
   @observable tags = [];

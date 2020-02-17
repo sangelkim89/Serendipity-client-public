@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput, ImageBackground } 
 import { observer, inject } from "mobx-react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 // import Geocode from "react-geocode";
 
@@ -51,24 +53,39 @@ class SignupCompany extends React.Component {
               {signupStore.marker.lat} && {signupStore.marker.lon}
             </Text>
           </View>
-          <TextInput
-            style={styles.input}
+
+          <Input
             placeholder="회사명"
+            containerStyle={styles.input}
+            inputStyle={{ color: "white" }}
+            leftIcon={<Icon name="child" size={24} color="grey" style={{ marginRight: 10 }} />}
             onChangeText={value => {
               signupStore.inputCompanyName(value);
             }}
-          ></TextInput>
-          <TextInput
-            style={styles.input}
+          />
+
+          <Input
             placeholder="업종"
+            containerStyle={styles.input}
+            inputStyle={{ color: "white" }}
+            leftIcon={<Icon name="child" size={24} color="grey" style={{ marginRight: 10 }} />}
             onChangeText={value => {
               signupStore.inputCompanySort(value);
             }}
-          ></TextInput>
+          />
 
-          <TouchableOpacity style={{ alignItems: "center" }} onPress={this._doNext.bind(this)}>
-            <Text style={styles.nextbtn}>Next</Text>
-          </TouchableOpacity>
+          <Button
+            buttonStyle={{
+              width: "80%",
+              marginLeft: 45,
+              borderRadius: 20,
+              // backgroundColor: "transparent",
+            }}
+            icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+            iconRight
+            title="NEXT"
+            onPress={this._doNext.bind(this)}
+          />
         </ImageBackground>
       </SafeAreaView>
     );
@@ -107,8 +124,7 @@ const styles = StyleSheet.create({
     width: 280,
     height: 50,
     marginLeft: 5,
-    borderBottomWidth: 2,
-    borderColor: "#fff",
+
     width: "95%",
   },
   nextbtn: {
