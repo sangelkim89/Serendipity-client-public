@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function MyProfilePage(props) {
+
   const { tagDATA } = props;
 
   _gotoEditPage = () => {
@@ -18,6 +19,7 @@ function MyProfilePage(props) {
   const { loading, error, data } = useQuery(GET_ME);
 
   console.log("GET_ME는 과연 불러오는가", data.getMe);
+
 
   return (
     <View
@@ -94,7 +96,7 @@ function MyProfilePage(props) {
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0][8] + data.getMe.tags[0][9] + data.getMe.tags[0][10]}
+                  {JSON.parse(data.getMe.tags)[1]}
                 </Text>
               </View>
             </View>
@@ -108,25 +110,17 @@ function MyProfilePage(props) {
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0][14] + data.getMe.tags[0][15] + data.getMe.tags[0][16]}
+                  {JSON.parse(data.getMe.tags)[2]}
                 </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0][20] +
-                    data.getMe.tags[0][21] +
-                    data.getMe.tags[0][22] +
-                    data.getMe.tags[0][23]}
+                  {JSON.parse(data.getMe.tags)[3]}
                 </Text>
               </View>
             </View>
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}>
-                {data.getMe.tags[0][27] +
-                  data.getMe.tags[0][28] +
-                  data.getMe.tags[0][29] +
-                  data.getMe.tags[0][30]}
-              </Text>
+              <Text style={{ fontSize: 30, color: "white" }}>{JSON.parse(data.getMe.tags)[4]}</Text>
             </View>
           </View>
         </View>
