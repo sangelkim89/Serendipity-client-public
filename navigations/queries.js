@@ -107,6 +107,9 @@ export const NEW_ROOM = gql`
   subscription newRoom($id: String) {
     newRoom(id: $id) {
       id
+      participants {
+        id
+      }
     }
   }
 `;

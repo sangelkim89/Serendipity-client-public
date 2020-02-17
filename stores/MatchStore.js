@@ -29,6 +29,12 @@ class MatchStore {
     // console.log("this.roomList from  : ", this.roomList);
     console.log("this.messages from matchstore : ", this.messages);
   };
+
+  @action
+  subMsgs = target => {
+    this.messages.unshift(target);
+    console.log("this.messages : ", this.messages);
+  };
   //asdf
   // @observable message = ""; // 채팅인풋메세지 - 각 방의 독립성을 위해 useState로 옮김
 }
