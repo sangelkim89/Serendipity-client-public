@@ -43,14 +43,6 @@ function EditPageFunction(props) {
     changeColorState,
   } = props;
 
-  // function _doNext() {
-  //   if (emailBoolean === true && phoneBoolean === true) {
-  //     props.navigation.navigate("SignupCompany");
-  //   } else {
-  //     Alert.alert("이메일 인증 및 휴대폰인증이 안되었습니다.");
-  //   }
-  // }
-
   function _gotoSettingPage() {
     props.navigation.navigate("SettingPage");
   }
