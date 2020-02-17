@@ -16,9 +16,9 @@ function MyProfilePage(props) {
   };
   const { loading, error, data } = useQuery(GET_ME);
 
-  console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
-  console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
+  // console.log("GET_ME는 과연 불러오는가", data.getMe);
+  // console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
+  // console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
   return (
     <View
@@ -43,7 +43,7 @@ function MyProfilePage(props) {
           <Image
             style={{ width: 400, height: 600 }}
             source={{
-              uri: "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171",
+              uri: data.getMe.profileImageLocation,
             }}
           />
           {/* https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171 */}
@@ -99,14 +99,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[0]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[0]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[1]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[1]}</Text>
               </View>
             </View>
             {/* 네번째 줄 태그==================================================================================== */}
@@ -119,19 +115,15 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[2]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[2]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[3]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[3]}</Text>
               </View>
             </View>
             {/* 다섯번째 줄 태그==================================================================================== */}
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}>{JSON.parse(data.getMe.tags)[4]}</Text>
+              <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[4]}</Text>
             </View>
 
             {/* 다섯번째줄 */}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Swiper from "react-native-deck-swiper";
 import { Text, View, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,7 +12,7 @@ import OverlayLabel from "./OverlayLabel";
 import IconButton from "./IconBtn";
 
 function HuntPage(props) {
-  // console.log("HUNTPAGE_PROPS", props);
+  console.log("HUNTPAGE RENDERED!!!");
   const { recommendUser, navigation, myId, refreshRoomList, addLikeRoomId } = props;
 
   // SWIPTE METHODS
@@ -32,12 +32,17 @@ function HuntPage(props) {
   const [likeYou, { likeData }] = useMutation(LIKE);
 
   // useQuery - getRoom : login.js/matchPageList에서는 에러발생
-  console.log("myId in matchPageList.js : ", myId);
-  const { data: roomData } = useQuery(GET_ROOM, { variables: { id: myId } });
-  console.log("roomData in matchPageList.js : ", roomData);
-  if (roomData !== undefined) {
-    console.log("getRoom invoked! in huntPage.js");
-    refreshRoomList(roomData.getRoom);
+  console.log("myId in huntPage.js : ", myId);
+  const [getRoomMethod, { data }] = useMutation(GET_ROOM, { variables: { id: myId } });
+
+  useEffect(() => {
+    getRoomMethod();
+  }, []);
+
+  // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
+  if (data !== undefined) {
+    console.log("roomData in huntPage.js : ", data);
+    refreshRoomList(data.getRoom);
   } // mobx roomlist에 저장
 
   // Func = unLike & Like

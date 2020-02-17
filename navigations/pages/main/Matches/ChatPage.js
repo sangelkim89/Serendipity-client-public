@@ -137,13 +137,14 @@ function ChatPage(props) {
                 </View>
               );
             })}
-            <TextInput onChangeText={onChangeText} value={message} />
+            <TextInput
+              onChangeText={onChangeText}
+              value={message}
+              style={{ borderStyle: "solid", borderColor: "black", borderWidth: 1 }}
+            />
             <TouchableOpacity onPress={onSubmit}>
               <Text>입력</Text>
             </TouchableOpacity>
-            <TextInput onChangeText={onChangeText} value={message} />
-            <TextInput onChangeText={onChangeText} value={message} />
-            <TextInput onChangeText={onChangeText} value={message} />
           </ScrollView>
         </View>
         {/* </KeyboardAvoidingView> */}
@@ -156,6 +157,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    paddingBottom: 60,
     margin: 10,
   },
   profile: {

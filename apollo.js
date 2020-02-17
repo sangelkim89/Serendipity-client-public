@@ -13,7 +13,7 @@ const httpLink = new HttpLink({
 
 // 웹소켓 링크 코드 추가
 const wsLink = new WebSocketLink({
-  uri: "http://192.168.0.33:4000",
+  uri: "ws://192.168.0.33:4000",
   options: {
     reconnect: true,
   },
