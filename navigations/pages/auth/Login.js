@@ -127,8 +127,6 @@ function Login(props) {
           variables: { id: id },
         });
         saveMyProfile(getMyProfile);
-        console.log("여기니?", getMyProfile);
-
         //=======================================================================
       } else {
         Alert.alert("isLoggedIn is falsy!!!");

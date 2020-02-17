@@ -112,6 +112,9 @@ function EditPageFunction(props) {
               <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
                 <Text style={styles.text}>Camera</Text>
               </TouchableOpacity>
+              <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
+                <Text style={styles.text}>Camera</Text>
+              </TouchableOpacity>
             </View>
           </View>
           {/* 빨간창=============================================================== */}
@@ -320,6 +323,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     position: "absolute",
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   submitButtonContainer: {
     flex: 1,
@@ -344,10 +349,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ signupStore, myProfileStore }) => ({
+export default inject(({ myProfileStore }) => ({
   myProfileStore: myProfileStore,
-
-  signupStore: signupStore,
   inputCompanyName: myProfileStore.inputCompanyName,
   inputCompanyRole: myProfileStore.inputCompanyRole,
   tagDATA2: myProfileStore.tagDATA,

@@ -12,7 +12,8 @@ class MyProfileStore {
   @action
   saveMyProfile = e => {
     this.myProfile = e;
-    console.log("myprofile in Store:", this.myProfile.data.getMe.name);
+    this.marker = JSON.parse(e.data.getMe.geoLocation);
+    console.log("myprofile in Store:", this.marker);
   };
   @observable myProfile = {};
   // 회사이름 입력======================================================================
@@ -87,11 +88,12 @@ class MyProfileStore {
     this.marker.lon = lon;
     this.geoLocation.lat = lat;
     this.geoLocation.lon = lon;
-    console.log("MARKER_STATE", this.marker);
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
+    console.log("MARKER_STATE", JSON.parse(this.myProfile.data.getMe.geoLocation));
+    console.log("마커엔 뭐가 뜨니:", JSON.parse(this.myProfile.data.getMe.geoLocation).lon);
   };
-  @observable geoLocation = { lat: 0, lon: 0 };
-  @observable marker = { lat: null, lon: null };
+  @observable geoLocation = { lat: 37.48547187320461, lon: 126.98129273951052 };
+  @observable marker = {};
 
   // 이미지 ======================================================================
 
