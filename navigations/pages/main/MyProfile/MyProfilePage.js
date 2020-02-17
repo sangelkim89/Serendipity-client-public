@@ -8,7 +8,6 @@ import { GET_ME } from "../../../queries";
 
 function MyProfilePage(props) {
   const { id, myProfile } = props;
-  console.log("myProfile 제발:", myProfile);
 
   const _gotoEditPage = () => {
     props.navigation.navigate("EditPage");
@@ -16,7 +15,6 @@ function MyProfilePage(props) {
 
   const _gotoSettingPage = () => {
     props.navigation.navigate("SettingPage");
-    console.log("myProfile 제발:", myProfile);
   };
 
   const [getMeRES] = useMutation(GET_ME);
@@ -25,7 +23,7 @@ function MyProfilePage(props) {
     const getMyProfile = await getMeRES({
       variables: { id: id },
     });
-    console.log("여기니?", getMyProfile);
+    console.log("저기니?", getMyProfile);
   };
 
   // console.log("useMutation {data} : ", data);
@@ -52,7 +50,10 @@ function MyProfilePage(props) {
         >
           {/* 이미지 ==================================================================================== */}
           {/* <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} /> */}
-          <Image style={{ width: 400, height: 600 }} source={{}} />
+          <Image
+            style={{ width: 400, height: 600 }}
+            source={{ uri: myProfile.profileImgLocation }}
+          />
           {/* https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171 */}
 
           {/* 각종 정보 ==================================================================================== */}
@@ -76,10 +77,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.name}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.birth}</Text>
               </View>
             </View>
             {/* 두번째 줄 회사 업종==================================================================================== */}
@@ -91,10 +92,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.companyName}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.companyRole}</Text>
               </View>
             </View>
             {/* 세번째 줄 태그==================================================================================== */}
@@ -106,10 +107,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[0]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[1]}</Text>
               </View>
             </View>
             {/* 네번째 줄 태그==================================================================================== */}
@@ -121,15 +122,15 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[2]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}></Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[3]}</Text>
               </View>
             </View>
             {/* 다섯번째 줄 태그==================================================================================== */}
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}></Text>
+              <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[4]}</Text>
             </View>
             {/* 태스트========================== */}
 
@@ -174,5 +175,5 @@ function MyProfilePage(props) {
 
 export default inject(({ myProfileStore }) => ({
   id: myProfileStore.id,
-  myProfile: myProfileStore.myProfile,
+  myProfile: myProfileStore.myProfile.data.getMe,
 }))(observer(MyProfilePage));

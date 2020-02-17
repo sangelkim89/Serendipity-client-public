@@ -127,7 +127,7 @@ function Login(props) {
           variables: { id: id },
         });
         saveMyProfile(getMyProfile);
-        console.log("여기니?", getMyProfile.data.getMe.cardImgLocation);
+        console.log("여기니?", getMyProfile);
 
         //=======================================================================
       } else {
