@@ -7,7 +7,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function MyProfilePage(props) {
-  const { tagDATA, mockDATA } = props;
+  const { tagDATA } = props;
 
   _gotoEditPage = () => {
     props.navigation.navigate("EditPage");
@@ -17,15 +17,9 @@ function MyProfilePage(props) {
     props.navigation.navigate("SettingPage");
   };
 
-  console.log("뭐가 나오니?:", mockDATA.companyName);
-  console.log("뭐가 나오니?:", mockDATA.tags[0]);
-
   const { loading, error, data } = useQuery(GET_ME);
 
   console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log("GET_ME는 과연 불러오는가[2]", JSON.parse(data.getMe.tags));
-  console.log("GET_ME는 과연 불러오는가[2]", data.getMe.tags[0][2]);
-  console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
   return (
     <View
@@ -50,7 +44,7 @@ function MyProfilePage(props) {
           <Image
             style={{ width: 400, height: 600 }}
             source={{
-              uri: "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171",
+              uri: data.getMe.profileImgLocation,
             }}
           />
           {/* https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171 */}
@@ -184,5 +178,4 @@ function MyProfilePage(props) {
 
 export default inject(({ myProfileStore }) => ({
   tagDATA: myProfileStore.tagDATA,
-  mockDATA: myProfileStore.mockDATA.data.getMe,
 }))(observer(MyProfilePage));
