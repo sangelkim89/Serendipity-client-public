@@ -1,4 +1,4 @@
-import { observable, action, computed, toJS } from "mobx";
+import { observable, action, computed, toJS, runInAction } from "mobx";
 import axios from "axios";
 
 class MyProfileStore {
@@ -7,6 +7,14 @@ class MyProfileStore {
     this.root = root;
   }
 
+  //로그인시 개인정보 스토어에 저장하기======================================================================
+
+  @action
+  saveMyProfile = e => {
+    this.myProfile = e;
+    console.log("myprofile in Store:", this.myProfile.data.getMe.name);
+  };
+  @observable myProfile = {};
   // 회사이름 입력======================================================================
 
   @action

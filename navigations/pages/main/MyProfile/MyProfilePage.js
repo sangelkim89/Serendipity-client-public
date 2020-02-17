@@ -1,24 +1,36 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Image, ImageBackground } from "react-native";
+import { Text, View, TouchableOpacity, Image, TextInput, ImageBackground } from "react-native";
 
 import { observer, inject } from "mobx-react";
 
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function MyProfilePage(props) {
-  _gotoEditPage = () => {
+  const { id, myProfile } = props;
+  console.log("myProfile 제발:", myProfile);
+
+  const _gotoEditPage = () => {
     props.navigation.navigate("EditPage");
   };
 
-  _gotoSettingPage = () => {
+  const _gotoSettingPage = () => {
     props.navigation.navigate("SettingPage");
+    console.log("myProfile 제발:", myProfile);
   };
-  const { loading, error, data } = useQuery(GET_ME);
 
-  console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
-  console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
+  const [getMeRES] = useMutation(GET_ME);
+
+  const submit = async () => {
+    const getMyProfile = await getMeRES({
+      variables: { id: id },
+    });
+    console.log("여기니?", getMyProfile);
+  };
+
+  // console.log("useMutation {data} : ", data);
+  // console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
+  // console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
   return (
     <View
@@ -40,12 +52,7 @@ function MyProfilePage(props) {
         >
           {/* 이미지 ==================================================================================== */}
           {/* <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} /> */}
-          <Image
-            style={{ width: 400, height: 600 }}
-            source={{
-              uri: "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171",
-            }}
-          />
+          <Image style={{ width: 400, height: 600 }} source={{}} />
           {/* https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171 */}
 
           {/* 각종 정보 ==================================================================================== */}
@@ -69,10 +76,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.name}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
               <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.birth}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
             </View>
             {/* 두번째 줄 회사 업종==================================================================================== */}
@@ -84,10 +91,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyName}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyRole}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
             </View>
             {/* 세번째 줄 태그==================================================================================== */}
@@ -99,18 +106,13 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[0]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[1]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
             </View>
             {/* 네번째 줄 태그==================================================================================== */}
-
             <View
               style={{
                 flex: 1,
@@ -119,22 +121,25 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[2]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[3]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}></Text>
               </View>
             </View>
             {/* 다섯번째 줄 태그==================================================================================== */}
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}>{JSON.parse(data.getMe.tags)[4]}</Text>
+              <Text style={{ fontSize: 30, color: "white" }}></Text>
+            </View>
+            {/* 태스트========================== */}
+
+            <View>
+              <TouchableOpacity onPress={submit}>
+                <Text> Add </Text>
+              </TouchableOpacity>
             </View>
 
-            {/* 다섯번째줄 */}
+            {/* 테스트======================== */}
           </View>
           {/* {각종 정보} */}
         </View>
@@ -168,5 +173,6 @@ function MyProfilePage(props) {
 }
 
 export default inject(({ myProfileStore }) => ({
-  tagDATA: myProfileStore.tagDATA,
+  id: myProfileStore.id,
+  myProfile: myProfileStore.myProfile,
 }))(observer(MyProfilePage));

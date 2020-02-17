@@ -18,38 +18,23 @@ import { observer, inject } from "mobx-react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function EditPageFunction(props) {
   // static navigationOptions = { headerShown: false };
 
-  const { loading, error, data } = useQuery(GET_ME);
-
-  console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log("GET_ME는 과연 불러오는가", data.getMe.birth);
+  const [getMeRES] = useMutation(GET_ME);
 
   const {
-    signupStore,
     myProfileStore,
     inputCompanyName,
     inputCompanyRole,
-    tagDATA,
     tagDATA2,
-    addtagState,
-    addtagState2,
     Tag,
     changeColor,
     changeColorState,
   } = props;
-
-  // function _doNext() {
-  //   if (emailBoolean === true && phoneBoolean === true) {
-  //     props.navigation.navigate("SignupCompany");
-  //   } else {
-  //     Alert.alert("이메일 인증 및 휴대폰인증이 안되었습니다.");
-  //   }
-  // }
 
   function _gotoSettingPage() {
     props.navigation.navigate("SettingPage");
