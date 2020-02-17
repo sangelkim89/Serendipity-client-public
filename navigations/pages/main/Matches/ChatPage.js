@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -10,53 +10,81 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
 } from "react-native";
-import { useMutation, useApolloClient, useQuery } from "@apollo/react-hooks";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useMutation, useApolloClient, useQuery, useSubscription } from "@apollo/react-hooks";
+
 import { inject, observer } from "mobx-react";
 
 import { GET_MESSAGES, SEND_MESSAGE, NEW_MESSAGE } from "../../../queries";
-// import withSuspense from "./withSuspense";
 
 function ChatPage(props) {
-  const { message, messages } = props;
-  const moveProfile = () => {
-    const { navigation } = this.props;
-    const {
-      room: { image, profile },
-    } = navigation.state.params;
-    navigation.navigate("ProfilePage", { image: image, profile: profile });
+  const { navigation, myId } = props;
+  const { id, messages, participants } = navigation.state.params;
+  // console.log("props.navigation.state.params : ", props.navigation.state.params);
+  // console.log("messages : ", messages);
+  const opponent = participants[0].id === myId ? participants[1] : participants[0];
+
+  // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
+  const [message, setMessage] = useState("");
+
+  // 채팅 페이지
+  const onChangeText = e => {
+    setMessage(e);
+    console.log("인풋 메세지 입력 : ", message);
   };
 
-  const {
-    data: { messages: oldMessages },
-    error,
-  } = useQuery(GET_MESSAGES, {
-    suspend: true,
-  });
+  // 프로필 페이지로 이동, 이미지와 프로필 정보를 파람스로 전달
+  const moveProfile = () => {
+    navigation.navigate("ProfilePage", { profile: opponent });
+  };
 
-  const { data } = useSubscription(NEW_MESSAGE);
+  // 메세지 서버 송부
+  const [sendMessageMethod, { data }] = useMutation(SEND_MESSAGE);
 
-  messages = oldMessages;
+  // // 메세지를 서버에서 받아와서 oldMessages로 할당
+  // const {
+  //   data: { messages: oldMessages },
+  //   error,
+  // } = useQuery(GET_MESSAGES, {
+  //   suspend: true,
+  // });
 
-  const handleNewMessage = () => {
-    if (data !== undefined) {
-      const { newMessage } = data;
-      messages = [...messages, newMessage];
+  // // 기존 messages 스테이트를 oldMessages로 업데이트
+  // messages = [...oldMessages];
+
+  // // data에 구독한 데이터 할당
+  // const { data } = useSubscription(NEW_MESSAGE);
+
+  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  // const handleNewMessaged = () => {
+  //   if (data !== undefined) {
+  //     const { newMessage } = data;
+  //     messages = [...messages, newMessage];
+  //   }
+  // };
+
+  // // data값을 지켜보며 변경이 있을 때만 실행됨(useEffect === componentDidMount + componentDidUpdate)
+  // useEffect(() => {
+  //   handleNewMessage();
+  // }, [data]);
+
+  // message를 가져다가 mutation 날리는 메소드
+  const onSubmit = async () => {
+    if (message === "") {
+      return;
+    }
+    try {
+      console.log("message before send : ", message);
+      const {
+        data: { sendMessage },
+      } = await sendMessageMethod({
+        variables: { roomId: id, message: message, toId: opponent.id },
+      });
+      console.log("sendMessage sent by method : ", sendMessage);
+      setMessage("");
+    } catch (e) {
+      console.log("onsubmit error in chatpage : s", e);
     }
   };
-
-  // this.ref.scrollView.scrollToEnd();
-
-  const { navigation } = this.props;
-  const { inputMsg, handleInputMsg } = this.props.matchStore;
-  console.log("this.props in chatpage : ", this.props);
-  const {
-    room: { image, profile, chats },
-  } = navigation.state.params;
-  const time =
-    new Date().getHours().length === 1 ? "0" + new Date().getHours() : new Date().getHours();
-  const minute =
-    new Date().getMinutes().length === 1 ? "0" + new Date().getMinutes() : new Date().getMinutes();
 
   return (
     <Suspense
@@ -75,40 +103,41 @@ function ChatPage(props) {
       <View style={styles.container}>
         <View style={styles.profile}>
           <TouchableOpacity onPress={moveProfile}>
-            <Image source={{ uri: image }} style={styles.image} />
-            <Text>{profile.userId}</Text>
+            <Image
+              source={{
+                uri: opponent.profileImgLocation,
+              }}
+              style={styles.image}
+            />
+            <Text>{opponent.name}</Text>
           </TouchableOpacity>
         </View>
-        {/* <KeyboardAwareScrollView
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            contentContainerStyle={styles.container}
-            scrollEnabled={false}
-          > */}
-        <KeyboardAvoidingView style={{ flex: 1 }} enable behavior="padding">
-          <ScrollView>
-            {chats.map((chat, i) => {
-              return chat.me ? (
-                <View key={i} style={styles.meChat}>
-                  <Text>{chat.me}</Text>
-                  <Text style={styles.timeStamp}>{time + " : " + minute}</Text>
-                </View>
-              ) : (
-                <View key={i} style={styles.otherChat}>
-                  <Image source={{ uri: image }} style={styles.image} />
-                  <View style={styles.otherChatText}>
-                    <Text>{chat.other}</Text>
-                    <Text style={styles.timeStamp}>{time + " : " + minute}</Text>
+        <KeyboardAvoidingView enabled behavior="padding">
+          <View>
+            <ScrollView>
+              {messages.map((msg, i) => {
+                return msg.from.id === myId ? (
+                  <View key={i} style={styles.meChat}>
+                    <Text>{msg.text}</Text>
+                    <Text style={styles.timeStamp}></Text>
                   </View>
-                </View>
-              );
-            })}
-          </ScrollView>
-          <TextInput onChangeText={e => handleInputMsg(e)} value={inputMsg} />
-          <TouchableOpacity>
+                ) : (
+                  <View key={i} style={styles.otherChat}>
+                    <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
+                    <View style={styles.otherChatText}>
+                      <Text>{msg.text}</Text>
+                      <Text style={styles.timeStamp}></Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
+          <TextInput onChangeText={onChangeText} value={message} />
+          <TouchableOpacity onPress={onSubmit}>
             <Text>입력</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
-        {/* </KeyboardAwareScrollView> */}
       </View>
     </Suspense>
   );
@@ -152,9 +181,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ matchStore }) => ({
-  message: matchStore.message,
-  messages: matchStore.messages,
-  loginId: matchStore.loginId,
-  loginPW: matchStore.loginPW,
+export default inject(({ matchStore, myProfileStore }) => ({
+  myId: myProfileStore.id,
 }))(observer(ChatPage));
+
+// message의 createdAt 제공 요청

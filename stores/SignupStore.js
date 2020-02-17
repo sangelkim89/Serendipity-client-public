@@ -243,7 +243,10 @@ class SignupStore {
     signupData.append("birth", this.birth);
     signupData.append("companyName", this.companyName);
     signupData.append("companyRole", this.companySort); // 서버는 companyRole, 클라는 companySort
-    signupData.append("geoLocation", JSON.stringify(this.geoLocation)); // 프록시로 전달되는것 수정
+    signupData.append(
+      "geoLocation",
+      JSON.stringify({ lat: this.geoLocation.lat, lon: this.geoLocation.lon }),
+    ); // 프록시로 전달되는것 수정
     signupData.append("tags", JSON.stringify(this.tags));
     // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
 
@@ -280,7 +283,8 @@ class SignupStore {
       })
       .catch(e => {
         // console.log("axios error issued!");
-        console.log(e);
+        console.log("NETWORK_ERR_AXIOS in signupStore : ", e);
+        alert("가입 실패... 다시 시도 해주세요");
       });
 
     // 스토어 초기화

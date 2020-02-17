@@ -18,10 +18,10 @@ import { AppLoading } from "expo";
 import Animated, { Easing } from "react-native-reanimated";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { GET_LIST } from "../../queries";
 
+import { GET_LIST, GET_ROOM } from "../../queries";
 import { LOG_IN } from "../../queries";
 
 const { width, height } = Dimensions.get("window");
@@ -40,7 +40,9 @@ function cacheImages(img) {
 // 로그인 컴포넌트
 function Login(props) {
   // Store 비할당구조
-  const { ID, PW, loginId, loginPW, recommendUser, getCardList } = props;
+  const { ID, PW, loginId, loginPW, recommendUser, getCardList, myId, refreshRoomList } = props;
+  // console.log("myId : ", myId);
+
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -56,13 +58,18 @@ function Login(props) {
   const [isLoggedIn, doLogin] = useState("false");
   const [isReady, doReady] = useState(false);
 
-  // useMutate
-
   // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);
 
   // useMutate - getHuntList
   const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
+
+  // useQuery - room 정보를 요청하는 query
+  const { loading, error, data: roomData } = useQuery(GET_ROOM, {
+    variables: {
+      id: myId,
+    },
+  });
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
@@ -87,9 +94,18 @@ function Login(props) {
       if (signIn) {
         doLogin("true");
         await AsyncStorage.setItem("jwt", signIn);
+        // // 로그인시 DB의 유저아이디를 가져오는 코드 - 서버도 변경 필요. myprofile작업내용에 따라 결정될 예정
+        // myId = signIn.DBid;
         await AsyncStorage.setItem("isLoggedIn", "true");
         await console.log("로그인_JWT", signIn);
         await console.log("로그인됐니_성공?", await AsyncStorage.getItem("isLoggedIn"));
+        // room정보를 서버에서 받아와서 스토어(matchStore : roomList)에 저장 - 리프레쉬
+        if (loading) {
+          console.log("loading : ", loading);
+        } else {
+          // console.log("roomData in login.js : ", Array.isArray(roomData.getRoom));
+          refreshRoomList(roomData.getRoom);
+        }
       } else {
         doLogin("false");
         const jwt = await AsyncStorage.getItem("jwt");
@@ -135,7 +151,7 @@ function Login(props) {
       <View style={{ ...StyleSheet.absoluteFill }}>
         <Image
           style={{ flex: 1, width: null, height: null }}
-          source={require("../../../assets/background1.jpg")}
+          source={require("../../../assets/background3.jpg")}
         />
       </View>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
@@ -149,6 +165,7 @@ function Login(props) {
             }}
           />
           <TextInput
+            secureTextEntry={true}
             style={styles.textForm}
             placeholder={"Password"}
             onChangeText={potato => {
@@ -198,13 +215,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ signupStore, huntStore }) => ({
+export default inject(({ signupStore, huntStore, matchStore, myProfileStore }) => ({
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
   loginPW: signupStore.loginPW,
   recommendUser: huntStore.recommendUser,
   getCardList: huntStore.getCardList,
+  roomList: matchStore.roomList,
+  refreshRoomList: matchStore.refreshRoomList,
+  myId: myProfileStore.id,
 }))(observer(Login));
 
 /*

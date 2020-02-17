@@ -5,16 +5,18 @@ import { FontAwesome } from "@expo/vector-icons";
 const ProfilePage = props => {
   const {
     image,
-    profile: { userId, distance, tags, companyName },
+    profile: { birth, companyName, companyRole, name, profileImgLocation, tags },
   } = props.navigation.state.params;
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Image source={{ uri: image }} style={styles.image} />
+        <Image source={{ uri: profileImgLocation }} style={styles.image} />
         <View style={styles.textContainer}>
-          <Text style={styles.textId}>{userId}</Text>
-          <Text style={styles.text}>{distance}</Text>
+          <Text style={styles.textId}>{name}</Text>
+          <Text style={styles.text}>{birth}</Text>
           <Text style={styles.text}>{companyName}</Text>
+          <Text style={styles.text}>{companyRole}</Text>
+
           <View style={styles.tagContainer}>
             {tags.map((tag, i) => {
               return (

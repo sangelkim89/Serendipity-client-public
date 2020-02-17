@@ -43,4 +43,8 @@ target 'serendipity_client' do
 
   # Automatically detect installed unimodules
   use_unimodules!
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
 end

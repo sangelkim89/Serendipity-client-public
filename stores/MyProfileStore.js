@@ -2,8 +2,7 @@ import { observable, action, computed, toJS } from "mobx";
 import axios from "axios";
 
 class MyProfileStore {
-  // (StoreIndex)======================================================================
-
+  // (StoreIndex)
   constructor(root) {
     this.root = root;
   }
@@ -141,6 +140,7 @@ class MyProfileStore {
       });
   };
 
+  @observable id = "ck6jdftl93d9z0b099yvtfmeq"; // 121 userId
   // 목업데이터 ======================================================================
 
   tagDATA = [
@@ -184,32 +184,3 @@ class MyProfileStore {
 }
 
 export default MyProfileStore;
-
-// 데이터는 이런식으로 들어옵니다. 참고하세영
-/*
-{
-  "data": {
-    "getMe": {
-      "id": "ck6hfmoi7tzx20975cgds24xf",
-      "gender": "man",
-      "email": "1@1.1",
-      "password": "1",
-      "phone": "1",
-      "name": "1",
-      "birth": "1",
-      "companyName": null,
-      "companyRole": null,
-      "geoLocation": "{\"lat\":12.3,\"lon\":12.1225}",
-      "tags": [
-        "fuck"
-      ],
-      "profileImgLocation": null,
-      "cardImgLocation": null,
-      "bio": null,
-      "myLikes": null,
-      "likedBy": null,
-      "distance": 5
-    }
-  }
-}
-*/

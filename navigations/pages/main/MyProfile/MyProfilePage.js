@@ -23,14 +23,9 @@ function MyProfilePage(props) {
   const { loading, error, data } = useQuery(GET_ME);
 
   console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log(
-    "GET_ME는 과연 불러오는가[2][8][14][20][27]",
-    data.getMe.tags[0][2],
-    data.getMe.tags[0][8],
-    data.getMe.tags[0][14],
-    data.getMe.tags[0][20],
-    data.getMe.tags[0][27],
-  );
+  console.log("GET_ME는 과연 불러오는가[2]", JSON.parse(data.getMe.tags));
+  console.log("GET_ME는 과연 불러오는가[2]", data.getMe.tags[0][2]);
+  console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
   return (
     <View
@@ -51,7 +46,15 @@ function MyProfilePage(props) {
           }}
         >
           {/* 이미지 ==================================================================================== */}
-          <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} />
+          {/* <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} /> */}
+          <Image
+            style={{ width: 400, height: 600 }}
+            source={{
+              uri: "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171",
+            }}
+          />
+          {/* https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171 */}
+
           {/* 각종 정보 ==================================================================================== */}
           <View
             style={{

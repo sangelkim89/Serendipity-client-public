@@ -116,7 +116,7 @@ function EditPageFunction(props) {
             </View>
           </View>
           {/* 사진 */}
-          <View>
+          <View style={{ alignItems: "center", backgroundColor: "black" }}>
             {myProfileStore.imgIdCard ? (
               <Image source={myProfileStore.imgIdCard} style={styles.picContainer} />
             ) : (
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     position: "absolute",
-    alignSelf: "flex-start",
+    alignItems: "center",
   },
   submitButtonContainer: {
     flex: 1,

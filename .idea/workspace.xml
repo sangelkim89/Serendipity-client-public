@@ -3,9 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/auth/SignupIdcard.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/SignupIdcard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/MyProfile/EditPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/MyProfile/EditPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/MyProfile/MyProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/MyProfile/MyProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchPageList.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchPageList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/RoomItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/RoomItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/HuntStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/HuntStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/MatchStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/MatchStore.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,21 +18,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="480" />
-    <option name="y" value="23" />
+    <option name="x" value="481" />
+    <option name="y" value="71" />
     <option name="width" value="960" />
     <option name="height" value="877" />
   </component>
@@ -84,6 +80,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -134,7 +133,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="480" y="23" width="960" height="877" extended-state="0" />
+    <frame x="481" y="71" width="960" height="1005" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.27582535" />
@@ -161,7 +160,11 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">

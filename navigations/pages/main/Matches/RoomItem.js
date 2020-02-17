@@ -1,16 +1,21 @@
 import React from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { observer, inject } from "mobx-react";
 
 const RoomItem = props => {
-  const { room, navigation } = props;
-  // console.log("navigation from roomitem: ", navigation);
+  const { room, navigation, myId } = props;
+  // console.log("message array from roomitem: ", typeof room.messages, room.messages);
   function moveChatRoom() {
-    navigation.navigate("ChatPage", { room: room });
+    navigation.navigate("ChatPage", {
+      id: room.id,
+      messages: room.message,
+      participants: room.participants,
+    });
   }
+  // console.log("room from roomItem : ", room);
 
-  const lastChatRaw =
-    room.chats[room.chats.length - 1]["me"] || room.chats[room.chats.length - 1]["other"];
+  const lastChatRaw = room.message[room.message.length - 1]["text"];
 
   const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
 
@@ -18,10 +23,22 @@ const RoomItem = props => {
     <TouchableOpacity onPress={moveChatRoom} style={styles.touch}>
       <View style={styles.container}>
         <View style={styles.imgContainer}>
-          <Image source={{ uri: room.image }} style={styles.image} />
+          <Image
+            source={{
+              uri:
+                room.participants[0].id === myId
+                  ? room.participants[1].profileImgLocation
+                  : room.participants[0].profileImgLocation,
+            }}
+            style={styles.image}
+          />
         </View>
         <View style={styles.info}>
-          <Text style={styles.userId}>{room.profile.userId}</Text>
+          <Text style={styles.userId}>
+            {room.participants[0].id === myId
+              ? room.participants[1].name
+              : room.participants[0].name}
+          </Text>
           <Text>{lastChat}</Text>
         </View>
       </View>
@@ -56,4 +73,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RoomItem;
+export default inject(({ myProfileStore }) => ({
+  myId: myProfileStore.myId,
+}))(observer(RoomItem));

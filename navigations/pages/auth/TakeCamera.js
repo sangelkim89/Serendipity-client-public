@@ -100,7 +100,7 @@ class TakeCamera extends Component {
     return (
       <View style={styles.cam}>
         <Camera
-          style={styles.cam}
+          style={{ ...styles.cam, width: "100%" }}
           type={this.state.cameraType}
           ref={ref => {
             this.camera = ref;
