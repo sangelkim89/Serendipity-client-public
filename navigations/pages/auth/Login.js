@@ -38,6 +38,7 @@ function cacheImages(img) {
 // 로그인 컴포넌트
 function Login(props) {
   // Store 비할당구조
+  console.log("start part in login.js");
   const { ID, PW, loginId, loginPW, recommendUser, getCardList, addUserId, myId } = props;
 
   // useEffect

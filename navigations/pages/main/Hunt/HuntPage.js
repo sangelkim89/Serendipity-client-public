@@ -1,19 +1,19 @@
 import React, { useRef, useState, useEffect } from "react";
 import Swiper from "react-native-deck-swiper";
-import { Text, View, StyleSheet, Platform } from "react-native";
+import { Text, View, StyleSheet, Platform, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMutation, useQuery, useSubscription } from "@apollo/react-hooks";
 import { observer, inject } from "mobx-react";
 import { AppLoading } from "expo";
 
-import { UN_LIKE, LIKE, GET_ROOM } from "../../../queries";
+import { UN_LIKE, LIKE, GET_ROOM, NEW_ROOM } from "../../../queries";
 import Card from "./Card";
 import OverlayLabel from "./OverlayLabel";
 import IconButton from "./IconBtn";
 
 function HuntPage(props) {
   console.log("HUNTPAGE RENDERED!!!");
-  const { recommendUser, navigation, myId, refreshRoomList, addLikeRoomId } = props;
+  const { recommendUser, navigation, myId, refreshRoomList, addLikeRoomId, subMsgs } = props;
 
   // SWIPTE METHODS
   const useSwiper = useRef(null).current;
@@ -33,16 +33,49 @@ function HuntPage(props) {
 
   // useQuery - getRoom : login.js/matchPageList에서는 에러발생
   console.log("myId in huntPage.js : ", myId);
-  const [getRoomMethod, { data }] = useMutation(GET_ROOM, { variables: { id: myId } });
+  const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
+    variables: { id: myId },
+  });
+
+  const { data, loading } = useSubscription(NEW_ROOM, {
+    variables: { id: myId },
+    fetchPolicy: "no-cache",
+  });
+  // console.log("roomlist 1 : ", roomList);
+
+  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  const handleNewRoom = () => {
+    console.log("handle newroom invoked!");
+    console.log("data in handle newroom : ", loading, data);
+    if (!loading) {
+      console.log("loading passed!");
+      if (data.newRoom !== null) {
+        // const { newRoom } = data;
+        console.log("newRoom in huntPage : ", data.newRoom);
+        Alert.alert("Match!!!");
+        subMsgs(data.newRoom);
+        // messages.unshift(data.newRoom);
+        // console.log("messages in huntPage after like : ", messages);
+      } else {
+        console.log("roomData in matchPageList.js is undefined!");
+      }
+    }
+  };
+
+  // data값을 지켜보며 변경이 있을 때만 실행됨 - subscription
+  useEffect(() => {
+    handleNewRoom();
+    console.log("useEffect invoked!");
+  }, [data]);
 
   useEffect(() => {
     getRoomMethod();
   }, []);
 
   // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
-  if (data !== undefined) {
-    console.log("roomData in huntPage.js : ", data);
-    refreshRoomList(data.getRoom);
+  if (initRoomData !== undefined) {
+    // console.log("roomData in huntPage.js : ", initRoomData);
+    refreshRoomList(initRoomData.getRoom);
   } // mobx roomlist에 저장
 
   // Func = unLike & Like
@@ -191,4 +224,5 @@ export default inject(({ huntStore, myProfileStore, matchStore }) => ({
   myId: myProfileStore.id,
   refreshRoomList: matchStore.refreshRoomList,
   addLikeRoomId: matchStore.addLikeRoomId,
+  subMsgs: matchStore.subMsgs,
 }))(observer(HuntPage));
