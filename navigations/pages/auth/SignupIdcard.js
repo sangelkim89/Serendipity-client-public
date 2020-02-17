@@ -20,9 +20,9 @@ class SignupIdcard extends React.Component {
   }
 
   async permitCamera() {
-    const { status, permissions } = await Permissions.getAsync(Permissions.CAMERA);
+    const status = await Permissions.getAsync(Permissions.CAMERA);
     if (status !== "granted") {
-      const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA);
+      const status = await Permissions.askAsync(Permissions.CAMERA);
       if (status === "granted") {
         this.props.navigation.navigate("TakeCamera", {
           from: "idcard",
@@ -73,7 +73,7 @@ class SignupIdcard extends React.Component {
   render() {
     const { signupStore } = this.props;
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.IdcardContainer}>
         <View>
           <Text>SignupCompany</Text>
         </View>
@@ -103,7 +103,7 @@ class SignupIdcard extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  IdcardContainer: {
     flex: 1,
     backgroundColor: "white",
     paddingLeft: wp("10%"),

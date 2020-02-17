@@ -3,6 +3,9 @@ import { Text, View, TouchableOpacity, Image, ImageBackground } from "react-nati
 
 import { observer, inject } from "mobx-react";
 
+import { useQuery } from "@apollo/react-hooks";
+import { GET_ME } from "../../../queries";
+
 function MyProfilePage(props) {
   const { tagDATA, mockDATA } = props;
 
@@ -14,8 +17,15 @@ function MyProfilePage(props) {
     props.navigation.navigate("SettingPage");
   };
 
-  console.log("뭐가 나오니?:", mockDATA.id);
-  console.log("뭐가 나오니?:", mockDATA.tags[0].object);
+  console.log("뭐가 나오니?:", mockDATA.companyName);
+  console.log("뭐가 나오니?:", mockDATA.tags[0]);
+
+  const { loading, error, data } = useQuery(GET_ME);
+
+  console.log("GET_ME는 과연 불러오는가", data.getMe);
+  console.log("GET_ME는 과연 불러오는가[2]", JSON.parse(data.getMe.tags));
+  console.log("GET_ME는 과연 불러오는가[2]", data.getMe.tags[0][2]);
+  console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
   return (
     <View
@@ -36,7 +46,15 @@ function MyProfilePage(props) {
           }}
         >
           {/* 이미지 ==================================================================================== */}
-          <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} />
+          {/* <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} /> */}
+          <Image
+            style={{ width: 400, height: 600 }}
+            source={{
+              uri: "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171",
+            }}
+          />
+          {/* https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171 */}
+
           {/* 각종 정보 ==================================================================================== */}
           <View
             style={{
@@ -58,10 +76,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.name}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.name}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.birth}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.birth}</Text>
               </View>
             </View>
             {/* 두번째 줄 회사 업종==================================================================================== */}
@@ -73,10 +91,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyName}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyName}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyRole}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyRole}</Text>
               </View>
             </View>
             {/* 세번째 줄 태그==================================================================================== */}
@@ -88,10 +106,14 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그1</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][2] + data.getMe.tags[0][3] + data.getMe.tags[0][4]}
+                </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그2</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][8] + data.getMe.tags[0][9] + data.getMe.tags[0][10]}
+                </Text>
               </View>
             </View>
             {/* 네번째 줄 태그==================================================================================== */}
@@ -104,29 +126,29 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그3</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][14] + data.getMe.tags[0][15] + data.getMe.tags[0][16]}
+                </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그4</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>
+                  {data.getMe.tags[0][20] +
+                    data.getMe.tags[0][21] +
+                    data.getMe.tags[0][22] +
+                    data.getMe.tags[0][23]}
+                </Text>
               </View>
             </View>
             {/* 다섯번째 줄 태그==================================================================================== */}
-
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <View>
-                  {tagDATA.map((tag, f) => {
-                    return <Text>{tag}</Text>;
-                  })}
-                </View>
-              </View>
+            <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
+              <Text style={{ fontSize: 30, color: "white" }}>
+                {data.getMe.tags[0][27] +
+                  data.getMe.tags[0][28] +
+                  data.getMe.tags[0][29] +
+                  data.getMe.tags[0][30]}
+              </Text>
             </View>
+
             {/* 다섯번째줄 */}
           </View>
           {/* {각종 정보} */}

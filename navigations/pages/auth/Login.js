@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   View,
   Text,
@@ -124,6 +125,8 @@ function Login(props) {
         Alert.alert("isLoggedIn is falsy!!!");
       }
     }
+
+    props.navigation.navigate("TabNav");
   }
 
   _doSignUp = () => {
