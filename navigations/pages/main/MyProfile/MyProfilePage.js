@@ -7,8 +7,6 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function MyProfilePage(props) {
-  const { tagDATA, mockDATA } = props;
-
   _gotoEditPage = () => {
     props.navigation.navigate("EditPage");
   };
@@ -16,15 +14,10 @@ function MyProfilePage(props) {
   _gotoSettingPage = () => {
     props.navigation.navigate("SettingPage");
   };
-
-  console.log("뭐가 나오니?:", mockDATA.companyName);
-  console.log("뭐가 나오니?:", mockDATA.tags[0]);
-
   const { loading, error, data } = useQuery(GET_ME);
 
   console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log("GET_ME는 과연 불러오는가[2]", JSON.parse(data.getMe.tags));
-  console.log("GET_ME는 과연 불러오는가[2]", data.getMe.tags[0][2]);
+  console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
   console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
   return (
@@ -107,12 +100,12 @@ function MyProfilePage(props) {
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0][2] + data.getMe.tags[0][3] + data.getMe.tags[0][4]}
+                  {JSON.parse(data.getMe.tags)[0]}
                 </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0][8] + data.getMe.tags[0][9] + data.getMe.tags[0][10]}
+                  {JSON.parse(data.getMe.tags)[1]}
                 </Text>
               </View>
             </View>
@@ -127,26 +120,18 @@ function MyProfilePage(props) {
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0][14] + data.getMe.tags[0][15] + data.getMe.tags[0][16]}
+                  {JSON.parse(data.getMe.tags)[2]}
                 </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0][20] +
-                    data.getMe.tags[0][21] +
-                    data.getMe.tags[0][22] +
-                    data.getMe.tags[0][23]}
+                  {JSON.parse(data.getMe.tags)[3]}
                 </Text>
               </View>
             </View>
             {/* 다섯번째 줄 태그==================================================================================== */}
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}>
-                {data.getMe.tags[0][27] +
-                  data.getMe.tags[0][28] +
-                  data.getMe.tags[0][29] +
-                  data.getMe.tags[0][30]}
-              </Text>
+              <Text style={{ fontSize: 30, color: "white" }}>{JSON.parse(data.getMe.tags)[4]}</Text>
             </View>
 
             {/* 다섯번째줄 */}
@@ -184,5 +169,4 @@ function MyProfilePage(props) {
 
 export default inject(({ myProfileStore }) => ({
   tagDATA: myProfileStore.tagDATA,
-  mockDATA: myProfileStore.mockDATA.data.getMe,
 }))(observer(MyProfilePage));
