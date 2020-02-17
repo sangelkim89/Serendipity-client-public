@@ -24,28 +24,15 @@ function SignupTag(props) {
       <View>
         <View>
           {tagDATA.map((tag, f) => {
-            console.log("map이후 tag", tag);
-
-            //     <TouchableOpacity
-            //       onPress={() => Clickanyname(idanyname)}
-            //       style={[styles.itemanyname, { backgroundColor: selectanyname ? "red" : "pink" }]}
-            //     >
-            //       <Text style={styles.title}>{idanyname}</Text>
-            //     </TouchableOpacity>
-
             return (
               <TouchableOpacity
                 key={f}
                 tag={tag}
                 onPress={() => {
                   Tag(f);
-                  changeColor();
                   console.log("changeColorState 여기냐:", changeColorState);
                 }}
-                style={[
-                  styles.tagColor,
-                  { backgroundColor: { changeColorState } ? "pink" : "red" },
-                ]}
+                style={[styles.tagColor, { backgroundColor: changeColorState ? "red" : "pink" }]}
               >
                 <Text>{tag}</Text>
               </TouchableOpacity>
