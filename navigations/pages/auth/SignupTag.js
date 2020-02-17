@@ -34,15 +34,19 @@ function SignupTag(props) {
                 }}
                 style={[
                   styles.tagColor,
-                  { backgroundColor: tags.indexOf(tag) === -1 ? "red" : "pink" },
+                  {
+                    backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                  },
                 ]}
               >
-                <GridView
-                  style={{ width: 100, height: 40 }}
-                  itemWidth={130}
-                  items={tag}
-                  renderItem={item => <Text>{item}</Text>}
-                ></GridView>
+                <Text
+                  style={{
+                    fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                    fontSize: tags.indexOf(tag) === -1 ? 15 : 18,
+                  }}
+                >
+                  {tag}
+                </Text>
               </TouchableOpacity>
             );
           })}
@@ -54,7 +58,7 @@ function SignupTag(props) {
           width: "80%",
           marginLeft: 45,
           borderRadius: 20,
-          // backgroundColor: "transparent",
+          marginTop: 15,
         }}
         icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
         iconRight
@@ -84,23 +88,24 @@ const styles = StyleSheet.create({
   },
   buttonArea: {
     height: height - 170,
-
     backgroundColor: "green",
     width: "100%",
-  },
-  button: {
-    width: "100%",
-    height: "100%",
+    flexDirection: "row",
+    padding: 5,
+    flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
   },
-  buttonTitle: {
-    color: "white",
-  },
   tagColor: {
     padding: 1,
-    marginVertical: 1,
-    marginHorizontal: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    width: 100,
+    height: 80,
+    borderColor: "blue",
+    borderWidth: 3,
+    borderRadius: 50,
   },
 });
 
