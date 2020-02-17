@@ -13,8 +13,9 @@ const RoomItem = props => {
       participants: room.participants,
     });
   }
-  // console.log("room from roomItem : ", room);
-
+  const opponent = room.participants[0].id === myId ? room.participants[1] : room.participants[0];
+  // console.log("myId in roomitem : ", myId);
+  // console.log("opponent in roomitem : ", opponent);
   const lastChatRaw = room.message[room.message.length - 1]["text"];
 
   const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
@@ -25,20 +26,13 @@ const RoomItem = props => {
         <View style={styles.imgContainer}>
           <Image
             source={{
-              uri:
-                room.participants[0].id === myId
-                  ? room.participants[1].profileImgLocation
-                  : room.participants[0].profileImgLocation,
+              uri: opponent.profileImgLocation,
             }}
             style={styles.image}
           />
         </View>
         <View style={styles.info}>
-          <Text style={styles.userId}>
-            {room.participants[0].id === myId
-              ? room.participants[1].name
-              : room.participants[0].name}
-          </Text>
+          <Text style={styles.userId}>{opponent.name}</Text>
           <Text>{lastChat}</Text>
         </View>
       </View>
@@ -74,5 +68,5 @@ const styles = StyleSheet.create({
 });
 
 export default inject(({ myProfileStore }) => ({
-  myId: myProfileStore.myId,
+  myId: myProfileStore.id,
 }))(observer(RoomItem));

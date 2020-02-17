@@ -14,14 +14,16 @@ import { useMutation, useApolloClient, useQuery, useSubscription } from "@apollo
 
 import { inject, observer } from "mobx-react";
 
-import { GET_MESSAGES, SEND_MESSAGE, NEW_MESSAGE } from "../../../queries";
+import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE } from "../../../queries";
 
 function ChatPage(props) {
-  const { navigation, myId } = props;
+  const { navigation, myId, refreshRoomList } = props;
   const { id, messages, participants } = navigation.state.params;
   // console.log("props.navigation.state.params : ", props.navigation.state.params);
-  // console.log("messages : ", messages);
+  // console.log("messages in chatPage.js : ", messages);
   const opponent = participants[0].id === myId ? participants[1] : participants[0];
+  // console.log("myId in chatpage : ", myId);
+  // console.log("opponent : ", opponent);
 
   // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
   const [message, setMessage] = useState("");
@@ -44,28 +46,31 @@ function ChatPage(props) {
   // const {
   //   data: { messages: oldMessages },
   //   error,
-  // } = useQuery(GET_MESSAGES, {
+  // } = useQuery(GET_MESSAGE, {
+  //   variables: { id: myId },
   //   suspend: true,
   // });
 
   // // 기존 messages 스테이트를 oldMessages로 업데이트
-  // messages = [...oldMessages];
+  // refreshRoomList(oldMessages);
 
-  // // data에 구독한 데이터 할당
-  // const { data } = useSubscription(NEW_MESSAGE);
+  // data에 구독한 데이터 할당
+  const { data: newMsgData } = useSubscription(NEW_MESSAGE, { variables: { roomId: id } });
 
-  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
-  // const handleNewMessaged = () => {
-  //   if (data !== undefined) {
-  //     const { newMessage } = data;
-  //     messages = [...messages, newMessage];
-  //   }
-  // };
+  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  const handleNewMessage = () => {
+    if (newMsgData !== undefined) {
+      const { newMessage } = newMsgData;
+      // console.log("newMessage in chatPage.js : ", newMessage);
+      // messages.push(newMessage);
+      // 위 주석 대신 프롭스로 전달 받은 roomId로 스토어의 messages안에서 해당되는 룸을 찾아서 그 안의 message에 값 추가하는 플로우로 시험예정
+    }
+  };
 
-  // // data값을 지켜보며 변경이 있을 때만 실행됨(useEffect === componentDidMount + componentDidUpdate)
-  // useEffect(() => {
-  //   handleNewMessage();
-  // }, [data]);
+  // data값을 지켜보며 변경이 있을 때만 실행됨(useEffect === componentDidMount + componentDidUpdate)
+  useEffect(() => {
+    handleNewMessage();
+  }, [newMsgData]);
 
   // message를 가져다가 mutation 날리는 메소드
   const onSubmit = async () => {
@@ -80,6 +85,7 @@ function ChatPage(props) {
         variables: { roomId: id, message: message, toId: opponent.id },
       });
       console.log("sendMessage sent by method : ", sendMessage);
+      // messages.push(sendMessage);
       setMessage("");
     } catch (e) {
       console.log("onsubmit error in chatpage : s", e);
@@ -112,32 +118,35 @@ function ChatPage(props) {
             <Text>{opponent.name}</Text>
           </TouchableOpacity>
         </View>
-        <KeyboardAvoidingView enabled behavior="padding">
-          <View>
-            <ScrollView>
-              {messages.map((msg, i) => {
-                return msg.from.id === myId ? (
-                  <View key={i} style={styles.meChat}>
+        {/* <KeyboardAvoidingView enabled behavior="padding"> */}
+        <View>
+          <ScrollView>
+            {messages.map((msg, i) => {
+              return msg.from.id === myId ? (
+                <View key={i} style={styles.meChat}>
+                  <Text>{msg.text}</Text>
+                  <Text style={styles.timeStamp}></Text>
+                </View>
+              ) : (
+                <View key={i} style={styles.otherChat}>
+                  <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
+                  <View style={styles.otherChatText}>
                     <Text>{msg.text}</Text>
                     <Text style={styles.timeStamp}></Text>
                   </View>
-                ) : (
-                  <View key={i} style={styles.otherChat}>
-                    <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
-                    <View style={styles.otherChatText}>
-                      <Text>{msg.text}</Text>
-                      <Text style={styles.timeStamp}></Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
-          </View>
-          <TextInput onChangeText={onChangeText} value={message} />
-          <TouchableOpacity onPress={onSubmit}>
-            <Text>입력</Text>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
+                </View>
+              );
+            })}
+            <TextInput onChangeText={onChangeText} value={message} />
+            <TouchableOpacity onPress={onSubmit}>
+              <Text>입력</Text>
+            </TouchableOpacity>
+            <TextInput onChangeText={onChangeText} value={message} />
+            <TextInput onChangeText={onChangeText} value={message} />
+            <TextInput onChangeText={onChangeText} value={message} />
+          </ScrollView>
+        </View>
+        {/* </KeyboardAvoidingView> */}
       </View>
     </Suspense>
   );
@@ -181,8 +190,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ matchStore, myProfileStore }) => ({
+export default inject(({ myProfileStore, matchStore }) => ({
   myId: myProfileStore.id,
+  refreshRoomList: matchStore.refreshRoomList,
 }))(observer(ChatPage));
 
 // message의 createdAt 제공 요청

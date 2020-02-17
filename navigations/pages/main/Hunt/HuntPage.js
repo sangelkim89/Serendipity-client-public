@@ -2,18 +2,18 @@ import React, { useRef, useState } from "react";
 import Swiper from "react-native-deck-swiper";
 import { Text, View, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery, useSubscription } from "@apollo/react-hooks";
 import { observer, inject } from "mobx-react";
 import { AppLoading } from "expo";
 
-import { UN_LIKE, LIKE } from "../../../queries";
+import { UN_LIKE, LIKE, GET_ROOM } from "../../../queries";
 import Card from "./Card";
 import OverlayLabel from "./OverlayLabel";
 import IconButton from "./IconBtn";
 
 function HuntPage(props) {
   // console.log("HUNTPAGE_PROPS", props);
-  const { recommendUser, navigation } = props;
+  const { recommendUser, navigation, myId, refreshRoomList, addLikeRoomId } = props;
 
   // SWIPTE METHODS
   const useSwiper = useRef(null).current;
@@ -31,6 +31,15 @@ function HuntPage(props) {
   const [unLikeYou, { unlikeData }] = useMutation(UN_LIKE);
   const [likeYou, { likeData }] = useMutation(LIKE);
 
+  // useQuery - getRoom : login.js/matchPageList에서는 에러발생
+  console.log("myId in matchPageList.js : ", myId);
+  const { data: roomData } = useQuery(GET_ROOM, { variables: { id: myId } });
+  console.log("roomData in matchPageList.js : ", roomData);
+  if (roomData !== undefined) {
+    console.log("getRoom invoked! in huntPage.js");
+    refreshRoomList(roomData.getRoom);
+  } // mobx roomlist에 저장
+
   // Func = unLike & Like
   const likedFunc = item => {
     console.log("RIGHT", recommendUser[item].id);
@@ -41,6 +50,14 @@ function HuntPage(props) {
     })
       .then(res => {
         console.log("HUNTPAGE_LIKE_RES", res);
+        // 생성된 roomId를 매치스토어에 저장
+        if (
+          res.data.likeUser &&
+          res.data.likeUser !== "The request has been successfully processed."
+        ) {
+          // 라이크로 신규 생성된 채팅방 아이디 추가 메소드
+          addLikeRoomId(res.data.likeUser);
+        }
       })
       .catch(err => {
         console.log("HUTNPAGE_UNLIKE_ERR", err);
@@ -164,6 +181,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ huntStore }) => ({
+export default inject(({ huntStore, myProfileStore, matchStore }) => ({
   recommendUser: huntStore.recommendUser,
+  myId: myProfileStore.id,
+  refreshRoomList: matchStore.refreshRoomList,
+  addLikeRoomId: matchStore.addLikeRoomId,
 }))(observer(HuntPage));

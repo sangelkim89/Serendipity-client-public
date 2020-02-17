@@ -8,31 +8,43 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { observer, inject } from "mobx-react";
-import { useSubscription } from "@apollo/react-hooks";
+import { useSubscription, useQuery } from "@apollo/react-hooks";
 
 import RoomItem from "./RoomItem";
-import { NEW_ROOM } from "../../../queries";
+import { NEW_ROOM, GET_ROOM } from "../../../queries";
 
 const MatchPageList = props => {
-  const { roomList, messages, matchExer1, navigation } = props;
+  const { roomList, messages, matchExer1, navigation, myId, refreshRoomList, likeRoomId } = props;
 
-  // const { data } = useSubscription(NEW_ROOM);
-  console.log("roomlist 1 : ", roomList);
+  // useQuery - getRoom : huntPage.js로 옮김. login.js/matchPageList에서는 에러발생
+  // console.log("myId in matchPageList.js : ", myId);
+  // const { data: roomData } = useQuery(GET_ROOM, { variables: { id: myId } });
+  // console.log("roomData in matchPageList.js : ", roomData);
+  // refreshRoomList(roomData.getRoom); // mobx roomlist에 저장
 
-  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  const { data } = useSubscription(NEW_ROOM, { variables: { id: myId } });
+  // console.log("roomlist 1 : ", roomList);
+
+  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewRoom = () => {
     if (data !== undefined) {
       const { newRoom } = data;
-      roomList.unshift(newRoom);
-      console.log("unshifte invoked!");
-      console.log("roomlist 2 : ", roomList);
+      console.log("newRoom in matchPageList : ", newRoom);
+      if (newRoom !== null) {
+        console.log("newRoom : ", newRoom);
+        messages.unshift(newRoom);
+        // or
+        // messages.unshift(newRoom[0])
+      }
+    } else {
+      console.log("data in matchPageList.js is undefined!");
     }
   };
 
   // data값을 지켜보며 변경이 있을 때만 실행됨
-  // useEffect(() => {
-  //   handleNewRoom();
-  // }, [data]);
+  useEffect(() => {
+    handleNewRoom();
+  }, [data]);
 
   return (
     <Suspense
@@ -76,8 +88,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ matchStore }) => ({
+export default inject(({ matchStore, myProfileStore }) => ({
   roomList: matchStore.roomList,
   messages: matchStore.messages,
   matchExer1: matchStore.matchExer1,
+  refreshRoomList: matchStore.refreshRoomList,
+  myId: myProfileStore.id,
+  likeRoomId: myProfileStore.likeRoomId,
 }))(observer(MatchPageList));
