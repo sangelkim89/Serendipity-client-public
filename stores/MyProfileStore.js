@@ -140,8 +140,12 @@ class MyProfileStore {
       });
   };
 
-  @observable id = "ck6jdftl93d9z0b099yvtfmeq"; // 121 userId
-  // 목업데이터 ======================================================================
+  @observable id = ""; // userId / 상욱 추가
+  @action
+  addUserId = id => {
+    // 받아온 내 userId 저장 메소드 / 상욱 추가
+    this.id = id;
+  };
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.

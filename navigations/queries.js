@@ -6,9 +6,9 @@ export const LOG_IN = gql`
   }
 `;
 
-export const GET_MESSAGES = gql`
-  query messages {
-    messages {
+export const GET_MESSAGE = gql`
+  query getMessage($id: String!) {
+    getMessage(id: $id) {
       from {
         id
       }
@@ -104,12 +104,9 @@ export const GET_ROOM = gql`
 `;
 
 export const NEW_ROOM = gql`
-  subscription newRoom {
-    newRoom {
+  subscription newRoom($id: String) {
+    newRoom(id: $id) {
       id
-      participants {
-        id
-      }
     }
   }
 `;
@@ -133,5 +130,11 @@ export const GET_ME = gql`
       bio
       distance
     }
+  }
+`;
+
+export const LOG_OUT = gql`
+  mutation logOut {
+    logOut
   }
 `;
