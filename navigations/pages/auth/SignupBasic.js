@@ -18,7 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
 
-import { ALL_USER_EMAIL, ALL_USER_PHONE } from "../../queries";
+import { ALL_USER_EMAIL, CHECK_NICKNAME } from "../../queries";
 
 function SignupBasic(props) {
   const {
@@ -68,27 +68,27 @@ function SignupBasic(props) {
 
   // 이메일 전송
   async function sendEmail() {
-    // 가입된 이메일이 있으면 Alert.alert("가입된 이메일이 있습니다.") 없으면 아래 로직 실행
-    const filterUser = userData.allUsers.filter(val => {
-      // console.log("ALLUSER_EMAIL", val.email);
-      return val.email === email;
-    });
-    // console.log("FILTER_USER", filterUser);
-    if (filterUser.length === 0) {
-      Alert.alert("인증메일이 전송되었습니다!");
-      try {
-        let secretSend = await sendEmailSecretKey({
-          variables: {
-            email: email,
-          },
-        });
-        console.log("SECRET_KEY", secretSend.data.confirmEmail);
-        setSecretKey(secretSend.data.confirmEmail);
-      } catch (err) {
-        console.log("SECRET_KEY_ERR", err);
+    try {
+      let secretSend = await sendEmailSecretKey({
+        variables: {
+          email: email,
+        },
+      });
+      // setSecretKey(secretSend.data.confirmEmail);
+      const secretMail = secretSend.data.confirmEmail;
+      if (secretMail === "Email already exists!") {
+        console.log("SECRET_KEY", secretMail);
+        Alert.alert("이미 존재하는 메일입니다!");
+        // } else if (secretMail === "") {
+        //   console.log("SECRET_KEY", secretMail);
+        //   Alert.alert("이메일 형식에 맞지 않습니다!");
+      } else {
+        console.log("SECRET_KEY", secretMail);
+        Alert.alert("인증메일이 전송되었습니다!");
       }
-    } else {
-      Alert.alert("중복이메일 있음니다~~");
+    } catch (err) {
+      Alert.alert("이메일 형식이 잘못 되었습니다!");
+      console.log("SECRET_EMAIL_KEY_ERR", err);
     }
   }
 
@@ -100,30 +100,42 @@ function SignupBasic(props) {
   `;
   const [sendMobileSecretKey, { mobileData }] = useMutation(SEND_MOBILE);
 
-  const { data: userPhone } = useQuery(ALL_USER_PHONE);
-
   // 휴대폰 전송
   async function sendMobile() {
-    const filterUser = userPhone.allUsers.filter(val => {
-      // console.log("ALLUSER_PHONE", val);
-      return val.phone === phone;
-    });
-    if (filterUser.length === 0) {
-      // 중복된거 없으면 이거 보낼 꺼야
+    try {
+      let secretKey = await sendMobileSecretKey({
+        variables: {
+          phone: phone,
+        },
+      });
       Alert.alert("인증번호가 전송되었습니다!");
-      try {
-        let secretKey = await sendMobileSecretKey({
-          variables: {
-            phone: phone,
-          },
-        });
-        await setSecretMobileKey(secretKey.data.confirmText);
-        await console.log("휴대폰요청후", secretKey.data.confirmText);
-      } catch (err) {
-        console.log("트라이캐치에러", err);
+      const secretMobile = await setSecretMobileKey(secretKey.data.confirmText);
+      await console.log("휴대폰요청후", secretMobile);
+    } catch (err) {
+      Alert.alert("휴대폰형식이 잘못 되었습니다. ex)000-0000-0000");
+      console.log("트라이캐치에러", err);
+    }
+  }
+
+  // 닉네임 중복 userId
+  const { loading, data: checkNickName } = useQuery(CHECK_NICKNAME, {
+    variables: {
+      name: userId,
+    },
+  });
+  async function sendNickName() {
+    try {
+      if (!loading) {
+        if (checkNickName.checkUniqueID === false) {
+          Alert.alert("이미 사용중인 닉네임입니다.");
+        } else {
+          Alert.alert("사용하셔도 좋습니다.");
+        }
+      } else {
+        Alert.alert("다시 인증해주세요.");
       }
-    } else {
-      Alert.alert("가입된 휴대폰이 있습니다.");
+    } catch (err) {
+      console.log("CHECK_NICKNAME_ERR", err);
     }
   }
 
@@ -230,13 +242,21 @@ function SignupBasic(props) {
           <View>
             <View style={styles.inputLine}>
               <TextInput
-                style={styles.input2}
+                style={styles.input}
                 placeholder="Input your NickName"
                 value={userId}
                 onChangeText={e => {
                   inputID(e);
                 }}
               />
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  sendNickName();
+                }}
+              >
+                <Text style={styles.smallBtn}>닉네임중복확인</Text>
+              </TouchableOpacity>
               {/* <TouchableOpacity
                 style={styles.btn}
                 onPress={() => {

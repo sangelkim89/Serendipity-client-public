@@ -45,6 +45,18 @@ export const UN_LIKE = gql`
   }
 `;
 
+export const CHECK_NICKNAME = gql`
+  query checkUniqueID($name: String!) {
+    checkUniqueID(name: $name)
+  }
+`;
+// name에는 클라이언트에서 보내기전 저장된 닉네임이 들어가야한다.
+/*
+ type Query {
+  checkUniqueID(name: String!): Boolean!
+ }
+*/
+
 export const LIKE = gql`
   mutation likeUser($selectedId: String!) {
     likeUser(selectedId: $selectedId)

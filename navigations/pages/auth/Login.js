@@ -156,6 +156,26 @@ function Login(props) {
       </View>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
         <View style={styles.formArea}>
+          {/* <Form style={{ width: 250, marginVertical: 20 }}>
+            <Item floatingLabel>
+              <Label>ID</Label>
+              <Input
+                onChangeText={value => {
+                  ID(value);
+                }}
+              />
+            </Item>
+            <Item floatingLabel last>
+              <Label>Password</Label>
+              <Input
+                secureTextEntry={true}
+                onChangeText={potato => {
+                  PW(potato);
+                }}
+              />
+            </Item>
+          </Form> */}
+
           <TextInput
             style={styles.textForm}
             placeholder={"ID"}
@@ -226,62 +246,3 @@ export default inject(({ signupStore, huntStore, matchStore, myProfileStore }) =
   refreshRoomList: matchStore.refreshRoomList,
   myId: myProfileStore.id,
 }))(observer(Login));
-
-/*
-// Reanimated 함수 (로그인 버튼 관련 함수)
-const {
-  Value,
-  event,
-  block,
-  cond,
-  eq,
-  set,
-  Clock,
-  startClock,
-  stopClock,
-  debug,
-  timing,
-  clockRunning,
-} = Animated;
-
-function runTiming(clock, value, dest) {
-  const state = {
-    finished: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-    frameTime: new Value(0),
-  };
-
-  const config = {
-    duration: 1000,
-    toValue: new Value(0),
-    easing: Easing.inOut(Easing.ease),
-  };
-
-  return block([
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.time, 0),
-      set(state.position, value),
-      set(state.frameTime, 0),
-      set(state.toValue, dest),
-      startClock(clock),
-    ]),
-    timing(clock, state, config),
-    cond(state.finished, debug("stop clock", stopClock(clock))),
-    state.position,
-  ]);
-}
-
-const [buttonOpacity] = useState(new Value(1));
-  const [onStateChange, doChangeLogin] = useState(
-    event([
-      {
-        nativeEvent: state =>
-          block([cond(eq(state, State.END), set(buttonOpacity), runTiming(new Clock(), 1, 0))]),
-      },
-    ]),
-  );
-
-
-*/
