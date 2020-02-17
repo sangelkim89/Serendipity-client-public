@@ -1,12 +1,13 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Image, ImageBackground } from "react-native";
-
 import { observer, inject } from "mobx-react";
-
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function MyProfilePage(props) {
+
+  const { tagDATA } = props;
+
   _gotoEditPage = () => {
     props.navigation.navigate("EditPage");
   };
@@ -14,11 +15,11 @@ function MyProfilePage(props) {
   _gotoSettingPage = () => {
     props.navigation.navigate("SettingPage");
   };
+
   const { loading, error, data } = useQuery(GET_ME);
 
   console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
-  console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
+
 
   return (
     <View
@@ -27,9 +28,7 @@ function MyProfilePage(props) {
         backgroundColor: "grey",
       }}
     >
-      {/* 빨간색 박스 ==================================================================================== */}
       <View style={{ flex: 9, alignItems: "center", backgroundColor: "#f7d794" }}>
-        {/* 분홍색 박스(사진 및 각종정보) ==================================================================================== */}
         <View
           style={{
             width: 400,
@@ -38,17 +37,13 @@ function MyProfilePage(props) {
             alignItems: "center",
           }}
         >
-          {/* 이미지 ==================================================================================== */}
-          {/* <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} /> */}
           <Image
             style={{ width: 400, height: 600 }}
             source={{
-              uri: "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171",
+              uri: data.getMe.profileImgLocation,
             }}
           />
-          {/* https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581585310171 */}
 
-          {/* 각종 정보 ==================================================================================== */}
           <View
             style={{
               width: 200,
@@ -58,9 +53,8 @@ function MyProfilePage(props) {
               alignSelf: "flex-start",
             }}
           >
-            {/* 맨위에 빈칸 ==================================================================================== */}
             <Text style={{ fontSize: 17.5 }}></Text>
-            {/* 맨 윗줄 이름 나이==================================================================================== */}
+
             <View
               style={{
                 flex: 1,
@@ -75,7 +69,6 @@ function MyProfilePage(props) {
                 <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.birth}</Text>
               </View>
             </View>
-            {/* 두번째 줄 회사 업종==================================================================================== */}
             <View
               style={{
                 flex: 1,
@@ -90,17 +83,15 @@ function MyProfilePage(props) {
                 <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyRole}</Text>
               </View>
             </View>
-            {/* 세번째 줄 태그==================================================================================== */}
             <View
               style={{
                 flex: 1,
-                //  backgroundColor: "white",
                 flexDirection: "row",
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[0]}
+                  {data.getMe.tags[0] + data.getMe.tags[1] + data.getMe.tags[2]}
                 </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
@@ -109,7 +100,6 @@ function MyProfilePage(props) {
                 </Text>
               </View>
             </View>
-            {/* 네번째 줄 태그==================================================================================== */}
 
             <View
               style={{
@@ -129,19 +119,13 @@ function MyProfilePage(props) {
                 </Text>
               </View>
             </View>
-            {/* 다섯번째 줄 태그==================================================================================== */}
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
               <Text style={{ fontSize: 30, color: "white" }}>{JSON.parse(data.getMe.tags)[4]}</Text>
             </View>
-
-            {/* 다섯번째줄 */}
           </View>
-          {/* {각종 정보} */}
         </View>
-        {/* 분홍박스 */}
       </View>
-      {/* 빨간박스 */}
-      {/* 수정, 톱니바퀴========================================================= */}
+
       <View
         style={{
           flex: 1,
