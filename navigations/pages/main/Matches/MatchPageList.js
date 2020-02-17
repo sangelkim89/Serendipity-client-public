@@ -15,7 +15,7 @@ import { NEW_ROOM, GET_ROOM } from "../../../queries";
 
 const MatchPageList = props => {
   const { roomList, messages, matchExer1, navigation, myId, refreshRoomList, likeRoomId } = props;
-
+  // console.log("messages in matchPage.js : ", messages);
   // useQuery - getRoom : huntPage.js로 옮김. login.js/matchPageList에서는 에러발생
   // console.log("myId in matchPageList.js : ", myId);
   // const { data: roomData } = useQuery(GET_ROOM, { variables: { id: myId } });
@@ -32,7 +32,7 @@ const MatchPageList = props => {
       console.log("newRoom in matchPageList : ", newRoom);
       if (newRoom !== null) {
         console.log("newRoom : ", newRoom);
-        messages.unshift(newRoom);
+        // messages.unshift(newRoom);
         // or
         // messages.unshift(newRoom[0])
       }
@@ -63,9 +63,14 @@ const MatchPageList = props => {
       <View style={styles.container}>
         <Text>MatchPageList</Text>
         <ScrollView style={styles.list}>
-          {messages.map((room, i) => {
-            return <RoomItem room={room} key={i} navigation={navigation} />;
-          })}
+          {messages.length !== 0 ? (
+            messages.map((room, i) => {
+              return <RoomItem room={room} key={i} navigation={navigation} />;
+            })
+          ) : (
+            <Text>친구를 찾아서 좋아요 해보세요!</Text>
+          )}
+
           <TouchableOpacity onPress={matchExer1}>
             <Text>touch for method1 test</Text>
           </TouchableOpacity>

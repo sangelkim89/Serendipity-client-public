@@ -18,7 +18,6 @@ function MyProfilePage(props) {
 
   const { loading, error, data } = useQuery(GET_ME);
 
-  console.log("GET_ME는 과연 불러오는가", data.getMe);
 
 
   return (
@@ -90,14 +89,13 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
+
                 <Text style={{ fontSize: 30, color: "white" }}>
                   {data.getMe.tags[0] + data.getMe.tags[1] + data.getMe.tags[2]}
                 </Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[1]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[1]}</Text>
               </View>
             </View>
 
@@ -109,18 +107,14 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[2]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[2]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {JSON.parse(data.getMe.tags)[3]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[3]}</Text>
               </View>
             </View>
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}>{JSON.parse(data.getMe.tags)[4]}</Text>
+              <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[4]}</Text>
             </View>
           </View>
         </View>
