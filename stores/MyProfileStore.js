@@ -132,7 +132,7 @@ class MyProfileStore {
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", editData);
 
-    const endPoint = "http://192.168.0.2:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
+    const endPoint = "http://192.168.219.139:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
 
     axios
       .post(endPoint, editData, {
