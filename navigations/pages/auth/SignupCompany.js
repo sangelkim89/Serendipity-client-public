@@ -57,8 +57,10 @@ class SignupCompany extends React.Component {
           <Input
             placeholder="회사명"
             containerStyle={styles.input}
+            placeholderTextColor="white"
             inputStyle={{ color: "white" }}
-            leftIcon={<Icon name="child" size={24} color="grey" style={{ marginRight: 10 }} />}
+            inputContainerStyle={{ borderColor: "white" }}
+            leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
             onChangeText={value => {
               signupStore.inputCompanyName(value);
             }}
@@ -67,25 +69,44 @@ class SignupCompany extends React.Component {
           <Input
             placeholder="업종"
             containerStyle={styles.input}
+            placeholderTextColor="white"
             inputStyle={{ color: "white" }}
-            leftIcon={<Icon name="child" size={24} color="grey" style={{ marginRight: 10 }} />}
+            inputContainerStyle={{ borderColor: "white" }}
+            leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
             onChangeText={value => {
               signupStore.inputCompanySort(value);
             }}
           />
 
-          <Button
-            buttonStyle={{
-              width: "80%",
-              marginLeft: 45,
-              borderRadius: 20,
-              // backgroundColor: "transparent",
-            }}
-            icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
-            iconRight
-            title="NEXT"
-            onPress={this._doNext.bind(this)}
-          />
+          {signupStore.companyName && signupStore.companySort ? (
+            <Button
+              buttonStyle={{
+                width: "80%",
+                marginLeft: 45,
+                borderRadius: 20,
+                // backgroundColor: "transparent",
+              }}
+              icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+              iconRight
+              title="NEXT"
+              onPress={this._doNext.bind(this)}
+            />
+          ) : (
+            <Button
+              disabled={true}
+              buttonStyle={{
+                width: "90%",
+                marginLeft: 22,
+                borderRadius: 20,
+              }}
+              icon={
+                <Icon name="exclamation-circle" style={{ marginLeft: 10 }} size={20} color="red" />
+              }
+              iconRight
+              title="Please Check Your Company Information"
+              onPress={this._doNext.bind(this)}
+            />
+          )}
         </ImageBackground>
       </SafeAreaView>
     );

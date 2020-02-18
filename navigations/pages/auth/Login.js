@@ -54,7 +54,6 @@ function Login(props) {
     id,
   } = props;
 
-
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -128,6 +127,7 @@ function Login(props) {
         const getMyProfile = await getMeRES({
           variables: { id: id },
         });
+        console.log(getMyProfile);
         saveMyProfile(getMyProfile);
         //=======================================================================
       } else {
