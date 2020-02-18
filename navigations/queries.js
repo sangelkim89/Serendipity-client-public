@@ -29,9 +29,13 @@ export const NEW_MESSAGE = gql`
     newMessage(roomId: $roomId) {
       id
       text
-      from
-      to
-      room
+      from {
+        id
+      }
+      to {
+        id
+      }
+      createdAt
     }
   }
 `;

@@ -31,7 +31,7 @@ function ChatPage(props) {
   // 채팅 페이지
   const onChangeText = e => {
     setMessage(e);
-    console.log("인풋 메세지 입력 : ", message);
+    console.log("채팅 인풋 메세지 입력 : ", message);
   };
 
   // 프로필 페이지로 이동, 이미지와 프로필 정보를 파람스로 전달
@@ -41,18 +41,6 @@ function ChatPage(props) {
 
   // 메세지 서버 송부
   const [sendMessageMethod, { data }] = useMutation(SEND_MESSAGE);
-
-  // // 메세지를 서버에서 받아와서 oldMessages로 할당
-  // const {
-  //   data: { messages: oldMessages },
-  //   error,
-  // } = useQuery(GET_MESSAGE, {
-  //   variables: { id: myId },
-  //   suspend: true,
-  // });
-
-  // // 기존 messages 스테이트를 oldMessages로 업데이트
-  // refreshRoomList(oldMessages);
 
   // data에 구독한 데이터 할당
   const { data: newMsgData, loading } = useSubscription(NEW_MESSAGE, {
@@ -66,13 +54,14 @@ function ChatPage(props) {
       if (newMsgData !== undefined) {
         const { newMessage } = newMsgData;
         console.log("newMessage in chatPage.js : ", newMessage);
-        subChats(newMessage);
+        subChats(id, myId, opponent.id, newMessage);
       }
     }
   };
 
   // data값을 지켜보며 변경이 있을 때만 실행됨(useEffect === componentDidMount + componentDidUpdate)
   useEffect(() => {
+    console.log("useEffect in chatpage.js invoked!!!");
     handleNewMessage();
   }, [newMsgData]);
 
