@@ -50,10 +50,8 @@ function Login(props) {
     saveMyProfile,
     addUserId,
     myId,
-    getMe,
     id,
   } = props;
-
 
   // useEffect
   useEffect(() => {

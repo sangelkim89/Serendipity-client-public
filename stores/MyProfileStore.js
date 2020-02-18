@@ -12,11 +12,27 @@ class MyProfileStore {
   @action
   saveMyProfile = e => {
     this.myProfile = e;
-    this.marker = JSON.parse(e.data.getMe.geoLocation);
+    this.gender = e.data.getMe.gender;
+    this.email = e.data.getMe.email;
+    this.phone = e.data.getMe.phone;
+    this.name = e.data.getMe.name;
+    this.password = e.data.getMe.password;
+    this.birth = e.data.getMe.birth;
 
-    console.log("myprofile in Store:", this.marker);
+    this.marker = JSON.parse(e.data.getMe.geoLocation);
+    this.tags2 = JSON.parse(e.data.getMe.tags);
+    console.log("myprofile in Store:", e.data.getMe.geoLocation);
+    console.log("tags2 in MyprofileStore:", e.data.getMe.tags);
   };
   @observable myProfile = {};
+
+  @observable gender = "";
+  @observable email = "";
+  @observable phone = "";
+  @observable name = "";
+  @observable password = "";
+  @observable birth = "";
+
   // 회사이름 입력======================================================================
 
   @action
@@ -52,18 +68,14 @@ class MyProfileStore {
     if (this.tags2.indexOf(this.tagDATA[f]) === -1) {
       if (this.tags2.length < 5) {
         this.tags2.push(this.tagDATA[f]);
-        this.tags3 = this.tags2;
       }
     } else {
       this.tags2.splice(this.tags2.indexOf(this.tagDATA[f]), 1);
-      this.tags3 = this.tags2;
     }
 
     console.log("tag2담기는거 : ", this.tags2);
-    console.log("tag3새로담기는거 :", this.tags3);
   };
-  @observable tags2 = ["태그1", "태그2", "태그3", "태그4", "태그5"];
-  @observable tags3 = [];
+  @observable tags2 = [];
 
   // 태그 색 입력(미완성)======================================================================
   @action
@@ -122,17 +134,29 @@ class MyProfileStore {
     });
 
     // 폼데이터에 데이터 추가
+    editData.append("gender", this.gender);
+    editData.append("email", this.email);
+    editData.append("phone", this.phone);
+    editData.append("name", this.userId); // 서버는 name, 클라는 userId
+    editData.append("password", this.password);
+    editData.append("birth", this.birth);
     editData.append("companyName", this.companyName);
-    editData.append("companySort", this.companySort);
+    editData.append("companySort", this.companySort); // 서버는 companyRole, 클라는 companySort
+    editData.append(
+      "geoLocation",
+      JSON.stringify({ lat: this.geoLocation.lat, lon: this.geoLocation.lon }),
+    );
     editData.append("tags2", JSON.stringify(this.tags2));
-    editData.append("geoLocation", JSON.stringify(this.geoLocation)); // 프록시로 전달되는것 수정
 
     // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
 
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", editData);
-
-    const endPoint = "http://192.168.219.139:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
+    // 재협IP : 192.168.0.2
+    // 상욱IP : 192.168.0.33
+    // 준식IP : 192.168.219.139
+    // 준식까페 : 172.30.1.4
+    const endPoint = "http://172.30.1.4:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
 
     axios
       .post(endPoint, editData, {
@@ -141,12 +165,13 @@ class MyProfileStore {
         },
       })
       .then(res => {
-        console.log("axios response : ", res);
+        console.log("edit axios response : ", res);
         alert("수정이 완료되었습니다.");
       })
       .catch(e => {
         // console.log("axios error issued!");
-        console.log(e);
+        console.log("NETWORK_ERR_AXIOS in MyProfileStore : ", e);
+        alert("수정 실패");
       });
   };
 
