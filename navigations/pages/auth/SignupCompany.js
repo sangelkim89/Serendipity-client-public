@@ -24,7 +24,7 @@ class SignupCompany extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#ecf0f1" }}>
         <ImageBackground
-          source={require("../../../assets/background3.jpg")}
+          source={require("../../../assets/gradient2.jpg")}
           style={{ width: "100%", height: "100%" }}
         >
           <View style={styles.mapContainer}>
