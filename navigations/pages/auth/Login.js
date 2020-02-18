@@ -20,7 +20,8 @@ import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 
-import { LOG_IN, GET_LIST } from "../../queries";
+import { LOG_IN, GET_LIST, GET_ME } from "../../queries";
+import MyProfileStore from "../../../stores/MyProfileStore";
 
 const { width, height } = Dimensions.get("window");
 
@@ -38,8 +39,21 @@ function cacheImages(img) {
 // 로그인 컴포넌트
 function Login(props) {
   // Store 비할당구조
-  console.log("start part in login.js");
-  const { ID, PW, loginId, loginPW, recommendUser, getCardList, addUserId, myId } = props;
+
+  const {
+    ID,
+    PW,
+    loginId,
+    loginPW,
+    recommendUser,
+    getCardList,
+    saveMyProfile,
+    addUserId,
+    myId,
+    getMe,
+    id,
+  } = props;
+
 
   // useEffect
   useEffect(() => {
@@ -61,6 +75,9 @@ function Login(props) {
 
   // useMutate - getHuntList
   const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
+
+  // uesMutate - getMeRES
+  const [getMeRES] = useMutation(GET_ME);
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
@@ -106,6 +123,13 @@ function Login(props) {
         props.navigation.navigate("TabNav");
         const getCard = await getMutateHuntList();
         getCardList(getCard);
+        console.log("getCard:", getCard);
+        //=======================================================================
+        const getMyProfile = await getMeRES({
+          variables: { id: id },
+        });
+        saveMyProfile(getMyProfile);
+        //=======================================================================
       } else {
         Alert.alert("isLoggedIn is falsy!!!");
       }
@@ -216,12 +240,14 @@ const styles = StyleSheet.create({
 });
 
 export default inject(({ signupStore, huntStore, myProfileStore }) => ({
+  id: myProfileStore.id,
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
   loginPW: signupStore.loginPW,
   recommendUser: huntStore.recommendUser,
   getCardList: huntStore.getCardList,
+  saveMyProfile: myProfileStore.saveMyProfile,
   addUserId: myProfileStore.addUserId,
   myId: myProfileStore.id,
 }))(observer(Login));

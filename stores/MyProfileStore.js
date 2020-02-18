@@ -1,4 +1,4 @@
-import { observable, action, computed, toJS } from "mobx";
+import { observable, action, computed, toJS, runInAction } from "mobx";
 import axios from "axios";
 
 class MyProfileStore {
@@ -7,6 +7,15 @@ class MyProfileStore {
     this.root = root;
   }
 
+  //로그인시 개인정보 스토어에 저장하기======================================================================
+
+  @action
+  saveMyProfile = e => {
+    this.myProfile = e;
+    this.marker = JSON.parse(e.data.getMe.geoLocation);
+    console.log("myprofile in Store:", this.marker);
+  };
+  @observable myProfile = {};
   // 회사이름 입력======================================================================
 
   @action
@@ -79,11 +88,12 @@ class MyProfileStore {
     this.marker.lon = lon;
     this.geoLocation.lat = lat;
     this.geoLocation.lon = lon;
-    console.log("MARKER_STATE", this.marker);
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
+    console.log("MARKER_STATE", JSON.parse(this.myProfile.data.getMe.geoLocation));
+    console.log("마커엔 뭐가 뜨니:", JSON.parse(this.myProfile.data.getMe.geoLocation).lon);
   };
-  @observable geoLocation = { lat: 0, lon: 0 };
-  @observable marker = { lat: null, lon: null };
+  @observable geoLocation = { lat: 37.48547187320461, lon: 126.98129273951052 };
+  @observable marker = {};
 
   // 이미지 ======================================================================
 
@@ -147,6 +157,8 @@ class MyProfileStore {
     this.id = id;
   };
 
+  myProfile = this.myProfile;
+
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
     "태그1",
@@ -165,26 +177,35 @@ class MyProfileStore {
     "태그14",
     "태그15",
   ];
-
-  mockDATA = {
-    data: {
-      getMe: {
-        id: "ck6dcce8fg1w40b00vb097vca",
-        gender: "Unicorn",
-        email: "sangelkim@yahoo.com",
-        password: "1",
-        phone: "01038592162",
-        name: "엄대장",
-        birth: "32",
-        companyName: "코드스테이츠",
-        companyRole: "개발업계",
-        geoLocation: "1",
-        tags: ["재력", "외모", "집안", "직업", "완전속물"],
-        profileImgLocation: "String",
-        cardImgLocation: "String",
-      },
-    },
-  };
 }
 
 export default MyProfileStore;
+
+// 여기니? Object {
+//   "data": Object {
+//     "getMe": Object {
+//       "__typename": "User",
+//       "bio": null,
+//       "birth": "",
+//       "cardImgLocation": "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581929112385",
+//       "companyName": "11",
+//       "companyRole": "11",
+//       "distance": 5,
+//       "email": "11",
+//       "gender": "man",
+//       "geoLocation": "{\"lat\":0,\"lon\":0}",
+//       "id": "ck6q7qztpfdoa0b09r0xmtq1o",
+//       "name": "11",
+//       "password": "17ba0791499db908433b80f37c5fbc89b870084b",
+//       "phone": "11",
+//       "profileImgLocation": "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581929112564",
+//       "tags": Array [
+//         "태그2",
+//         "태그3",
+//         "태그7",
+//         "태그9",
+//         "태그11",
+//       ],
+//     },
+//   },
+// }
