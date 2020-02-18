@@ -1,89 +1,122 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import { observer, inject } from "mobx-react";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
+import GridView from "react-native-super-grid";
+
+const { width, height } = Dimensions.get("window");
 
 function SignupTag(props) {
-  const { Tag, tagDATA, changeColorState, changeColor } = props;
-
+  const { Tag, tagDATA, changeColorState, changeColor, tags } = props;
+  console.log("TAGS_IN_TAGS", tags);
   //Tag, tagDATA를 props로 사용합니다.
   _doNextPage = () => {
     props.navigation.navigate("SignupPic");
-    console.log("tag에서 pic로 이동합니다.");
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleArea}>
-        <Text style={styles.title}>TagBox</Text>
-      </View>
-      <View>
-        <View>
-          {tagDATA.map((tag, f) => {
-
-            return (
-              <TouchableOpacity
-                key={f}
-                tag={tag}
-                onPress={() => {
-                  Tag(f);
-                }}
-                style={[styles.tagColor, { backgroundColor: changeColorState ? "red" : "pink" }]}
-              >
-                <Text>{tag}</Text>
-              </TouchableOpacity>
-            );
-          })}
+    <SafeAreaView style={styles.container}>
+      <ImageBackground
+        source={require("../../../assets/gradient2.jpg")}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <View style={styles.titleArea}>
+          <Text style={styles.title}>관심사를 선택해주세요</Text>
         </View>
-      </View>
+        <View>
+          <View style={styles.buttonArea}>
+            {tagDATA.map((tag, f) => {
+              return (
+                <TouchableOpacity
+                  key={f}
+                  tag={tag}
+                  onPress={() => {
+                    Tag(f);
+                  }}
+                  style={[
+                    styles.tagColor,
+                    {
+                      backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                      borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                      fontSize: tags.indexOf(tag) === -1 ? 15 : 18,
+                    }}
+                  >
+                    {tag}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
 
-      <View style={styles.buttonArea}>
-        <TouchableOpacity style={styles.button} onPress={_doNextPage}>
-          <Text style={styles.buttonTitle}>next</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+        <Button
+          buttonStyle={{
+            width: "80%",
+            marginLeft: 45,
+            borderRadius: 20,
+            marginTop: 15,
+          }}
+          icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+          iconRight
+          title="NEXT"
+          onPress={_doNextPage}
+        />
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "grey",
-    paddingLeft: wp("10%"),
-    paddingRight: wp("10%"),
+    backgroundColor: "white",
     justifyContent: "center",
   },
   titleArea: {
+    height: height / 4,
     width: "100%",
-    padding: wp("10%"),
     alignItems: "center",
+    justifyContent: "center",
+    borderColor: "blue",
+    borderWidth: 1,
   },
   title: {
-    fontSize: wp("10%"),
+    fontSize: 30,
   },
   buttonArea: {
-    backgroundColor: "#46c3ad",
+    height: height - 280,
     width: "100%",
-    height: hp("5%"),
-  },
-  button: {
-    width: "100%",
-    height: "100%",
+    flexDirection: "row",
+    padding: 5,
+    flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
   },
-  buttonTitle: {
-    color: "white",
-  },
   tagColor: {
     padding: 1,
-    marginVertical: 1,
-    marginHorizontal: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    width: 100,
+    height: 60,
+    borderColor: "#70a1ff",
+    borderWidth: 3,
+    borderRadius: 50,
   },
 });
 
@@ -92,4 +125,5 @@ export default inject(({ signupStore }) => ({
   tagDATA: signupStore.tagDATA,
   changeColorState: signupStore.changeColorState,
   changeColor: signupStore.changeColor,
+  tags: signupStore.tags,
 }))(observer(SignupTag));

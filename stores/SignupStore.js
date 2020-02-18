@@ -252,7 +252,7 @@ class SignupStore {
 
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
-
+    
     const endPoint = "http://192.168.219.139:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
 
     // fetch(endPoint, {
@@ -332,8 +332,8 @@ class SignupStore {
       this.tags.splice(this.tags.indexOf(this.tagDATA[f]), 1);
     }
 
-    console.log(this.tags);
-    console.log("뭐안뜨나", this.changeColorState);
+    // console.log(this.tags);
+    // console.log("뭐안뜨나", this.changeColorState);
   };
 
   @observable tags = [];

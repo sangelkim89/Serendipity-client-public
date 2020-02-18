@@ -39,6 +39,7 @@ function cacheImages(img) {
 // 로그인 컴포넌트
 function Login(props) {
   // Store 비할당구조
+
   const {
     ID,
     PW,
@@ -52,6 +53,7 @@ function Login(props) {
     getMe,
     id,
   } = props;
+
 
   // useEffect
   useEffect(() => {
@@ -79,7 +81,7 @@ function Login(props) {
 
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
-    const imgAssets = cacheImages([require("../../../assets/background1.jpg")]);
+    const imgAssets = cacheImages([require("../../../assets/gradient.png")]);
     // const fontAssets = cacheFonts([FontAwesome.font]);
 
     await Promise.all([...imgAssets]);
@@ -159,31 +161,16 @@ function Login(props) {
       <View style={{ ...StyleSheet.absoluteFill }}>
         <Image
           style={{ flex: 1, width: null, height: null }}
-          source={require("../../../assets/background3.jpg")}
+          source={require("../../../assets/gradient2.jpg")}
         />
       </View>
+      <Image
+        style={styles.mainPic}
+        source={require("../../../assets/eatplaylove.png")}
+        // resizeMode=""
+      ></Image>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
         <View style={styles.formArea}>
-          {/* <Form style={{ width: 250, marginVertical: 20 }}>
-            <Item floatingLabel>
-              <Label>ID</Label>
-              <Input
-                onChangeText={value => {
-                  ID(value);
-                }}
-              />
-            </Item>
-            <Item floatingLabel last>
-              <Label>Password</Label>
-              <Input
-                secureTextEntry={true}
-                onChangeText={potato => {
-                  PW(potato);
-                }}
-              />
-            </Item>
-          </Form> */}
-
           <TextInput
             style={styles.textForm}
             placeholder={"ID"}
@@ -240,6 +227,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 5,
+  },
+  mainPic: {
+    // borderWidth: 1,
+    // borderColor: "red",
+    flex: 1,
+    margin: 30,
+    marginLeft: -0.5,
+    marginBottom: -15,
+    width: width,
   },
 });
 

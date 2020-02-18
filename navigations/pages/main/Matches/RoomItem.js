@@ -5,7 +5,7 @@ import { observer, inject } from "mobx-react";
 
 const RoomItem = props => {
   const { room, navigation, myId } = props;
-  // console.log("message array from roomitem: ", typeof room.messages, room.messages);
+
   function moveChatRoom() {
     navigation.navigate("ChatPage", {
       id: room.id,
@@ -13,31 +13,54 @@ const RoomItem = props => {
       participants: room.participants,
     });
   }
+
   const opponent = room.participants[0].id === myId ? room.participants[1] : room.participants[0];
+  console.log("room.message in roomitem : ", room.message);
   // console.log("myId in roomitem : ", myId);
   // console.log("opponent in roomitem : ", opponent);
-  const lastChatRaw = room.message[room.message.length - 1]["text"];
 
-  const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
+  console.log("message array from roomitem: ", room.messages);
 
-  return (
-    <TouchableOpacity onPress={moveChatRoom} style={styles.touch}>
-      <View style={styles.container}>
-        <View style={styles.imgContainer}>
-          <Image
-            source={{
-              uri: opponent.profileImgLocation,
-            }}
-            style={styles.image}
-          />
+  if (room.message.length !== 0) {
+    const lastChatRaw = room.message[room.message.length - 1]["text"];
+    const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
+    return (
+      <TouchableOpacity onPress={moveChatRoom} style={styles.touch}>
+        <View style={styles.container}>
+          <View style={styles.imgContainer}>
+            <Image
+              source={{
+                uri: opponent.profileImgLocation,
+              }}
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.userId}>{opponent.name}</Text>
+            <Text>{lastChat}</Text>
+          </View>
         </View>
-        <View style={styles.info}>
-          <Text style={styles.userId}>{opponent.name}</Text>
-          <Text>{lastChat}</Text>
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <TouchableOpacity onPress={moveChatRoom} style={styles.touch}>
+        <View style={styles.container}>
+          <View style={styles.imgContainer}>
+            <Image
+              source={{
+                uri: opponent.profileImgLocation,
+              }}
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.userId}>{opponent.name}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

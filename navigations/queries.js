@@ -25,10 +25,13 @@ export const SEND_MESSAGE = gql`
 `;
 
 export const NEW_MESSAGE = gql`
-  subscription newMessage {
-    newMessage {
+  subscription newMessage($roomId: String!) {
+    newMessage(roomId: $roomId) {
       id
       text
+      from
+      to
+      room
     }
   }
 `;
@@ -102,7 +105,7 @@ export const ALL_USER_PHONE = gql`
 `;
 
 export const GET_ROOM = gql`
-  query getRoom($id: String!) {
+  mutation getRoom($id: String!) {
     getRoom(id: $id) {
       id
       participants {
@@ -129,6 +132,22 @@ export const NEW_ROOM = gql`
   subscription newRoom($id: String) {
     newRoom(id: $id) {
       id
+      participants {
+        id
+        name
+        birth
+        companyName
+        companyRole
+        tags
+        profileImgLocation
+      }
+      messages {
+        text
+        from {
+          id
+        }
+      }
+      createdAt
     }
   }
 `;

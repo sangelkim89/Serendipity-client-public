@@ -17,6 +17,8 @@ import { gql } from "apollo-boost";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import { ALL_USER_EMAIL, CHECK_NICKNAME } from "../../queries";
 
@@ -147,7 +149,7 @@ function SignupBasic(props) {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require("../../../assets/background3.jpg")}
+        source={require("../../../assets/gradient2.jpg")}
         style={{ width: "100%", height: "100%" }}
       >
         <RadioForm
@@ -164,116 +166,122 @@ function SignupBasic(props) {
         />
         <View style={styles.inputContainer}>
           <View style={styles.inputLine}>
-            <TextInput
-              style={styles.input}
+            <Input
               placeholder="Email"
-              value={email}
+              containerStyle={styles.input}
+              inputStyle={{ color: "white" }}
+              leftIcon={<Icon name="user" size={24} color="white" style={{ marginRight: 10 }} />}
               onChangeText={e => {
                 inputEmail(e);
               }}
             />
-            <TouchableOpacity
-              style={styles.btn}
+
+            <Button
+              buttonStyle={styles.btn}
+              icon={<Icon name="check" size={15} color="white" />}
+              title="이메일전송"
               onPress={() => {
                 sendEmail();
               }}
-            >
-              <Text style={styles.smallBtn}>이메일전송</Text>
-            </TouchableOpacity>
+            />
           </View>
 
           <View style={styles.inputLine}>
-            <TextInput
-              style={styles.input}
-              placeholder="EmailKey"
-              value={emailSecretKey}
+            <Input
+              placeholder="Email Key"
+              containerStyle={styles.input}
+              inputStyle={{ color: "white" }}
+              leftIcon={
+                <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
+              }
               onChangeText={e => {
                 inputEmailKey(e);
               }}
             />
-            <TouchableOpacity
-              style={styles.btn}
+
+            <Button
+              buttonStyle={styles.btn}
+              icon={<Icon name="check" size={15} color="white" />}
+              title="이메일인증"
               onPress={() => {
                 sendEmailKey();
               }}
-            >
-              <Text style={styles.smallBtn}>이메일인증</Text>
-            </TouchableOpacity>
+            />
           </View>
 
           <View style={styles.inputLine}>
-            <TextInput
-              style={styles.input}
-              placeholder="Phone"
-              value={phone}
+            <Input
+              placeholder="Mobile"
+              containerStyle={styles.input}
+              inputStyle={{ color: "white" }}
+              leftIcon={
+                <Icon name="envelope-open" size={24} color="white" style={{ marginRight: 10 }} />
+              }
               onChangeText={e => {
                 inputPhone(e);
               }}
             />
-            <TouchableOpacity
-              style={styles.btn}
+            <Button
+              buttonStyle={styles.btn}
+              icon={<Icon name="check" size={15} color="white" />}
+              title="핸드폰전송"
               onPress={() => {
                 sendMobile();
               }}
-            >
-              <Text style={styles.smallBtn}>핸드폰전송</Text>
-            </TouchableOpacity>
+            />
           </View>
 
           <View style={styles.inputLine}>
-            <TextInput
-              keyboardType="number-pad"
-              style={styles.input}
-              placeholder="PhoneKey"
-              value={phoneVerifyKey}
+            <Input
+              placeholder="Mobile Key"
+              containerStyle={styles.input}
+              inputStyle={{ color: "white" }}
+              leftIcon={
+                <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
+              }
               onChangeText={e => {
                 inputPhoneKey(e);
               }}
             />
-            <TouchableOpacity
-              style={styles.btn}
+
+            <Button
+              buttonStyle={styles.btn}
+              icon={<Icon name="check" size={15} color="white" />}
+              title="핸드폰인증"
               onPress={() => {
                 sendPhoneKey();
               }}
-            >
-              <Text style={styles.smallBtn}>핸드폰인증</Text>
-            </TouchableOpacity>
+            />
           </View>
           <View>
             <View style={styles.inputLine}>
-              <TextInput
-                style={styles.input}
-                placeholder="Input your NickName"
-                value={userId}
+              <Input
+                placeholder="NickName"
+                containerStyle={styles.input}
+                inputStyle={{ color: "white" }}
+                leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
                 onChangeText={e => {
                   inputID(e);
                 }}
               />
-              <TouchableOpacity
-                style={styles.btn}
+
+              <Button
+                buttonStyle={styles.btn}
+                icon={<Icon name="check" size={15} color="white" />}
+                title="닉네임중복"
                 onPress={() => {
                   sendNickName();
                 }}
-              >
-                <Text style={styles.smallBtn}>닉네임중복확인</Text>
-              </TouchableOpacity>
-              {/* <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  sendID();
-                }}
-              >
-                <Text style={styles.smallBtn}>ID중복확인</Text>
-              </TouchableOpacity> */}
+              />
             </View>
           </View>
 
           <View style={styles.inputLine}>
-            <TextInput
-              secureTextEntry={true}
-              style={styles.input2}
-              placeholder="Password"
-              value={password}
+            <Input
+              placeholder="password"
+              containerStyle={styles.input}
+              inputStyle={{ color: "white" }}
+              leftIcon={<Icon name="lock" size={24} color="white" style={{ marginRight: 10 }} />}
               onChangeText={e => {
                 inputPassWord(e);
               }}
@@ -303,14 +311,19 @@ function SignupBasic(props) {
             }}
           />
 
-          <TouchableOpacity
-            style={styles.nextBtn}
+          <Button
+            buttonStyle={{
+              width: "80%",
+              marginLeft: 45,
+              borderRadius: 20,
+            }}
+            icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+            iconRight
+            title="NEXT"
             onPress={() => {
               _doNext();
             }}
-          >
-            <Text style={styles.btnTxt}>Next</Text>
-          </TouchableOpacity>
+          />
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -320,8 +333,10 @@ function SignupBasic(props) {
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: { justifyContent: "space-between", backgroundColor: "#fab1a0" },
-
+  container: {
+    justifyContent: "space-between",
+    // backgroundColor: "#c44569"
+  },
   inputContainer: {
     // backgroundColor: "green",
     flex: 2,
@@ -338,13 +353,10 @@ const styles = StyleSheet.create({
     height: height / 10,
   },
   input: {
-    backgroundColor: "transparent",
     marginVertical: 5,
     width: 280,
     height: 50,
-    marginLeft: 5,
-    borderBottomWidth: 2,
-    borderColor: "#fff",
+    // marginLeft: 5,
   },
   input2: {
     backgroundColor: "transparent",
@@ -365,8 +377,9 @@ const styles = StyleSheet.create({
     margin: 8,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "brown",
-    borderWidth: 3,
+    // backgroundColor: "brown",
+    // borderColor: "brown",
+    // borderWidth: 3,
     width: 100,
     height: 40,
     borderRadius: 50,

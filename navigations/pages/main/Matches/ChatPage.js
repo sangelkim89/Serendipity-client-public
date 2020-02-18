@@ -17,7 +17,7 @@ import { inject, observer } from "mobx-react";
 import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE } from "../../../queries";
 
 function ChatPage(props) {
-  const { navigation, myId, refreshRoomList } = props;
+  const { navigation, myId, refreshRoomList, subChats } = props;
   const { id, messages, participants } = navigation.state.params;
   // console.log("props.navigation.state.params : ", props.navigation.state.params);
   // console.log("messages in chatPage.js : ", messages);
@@ -55,15 +55,19 @@ function ChatPage(props) {
   // refreshRoomList(oldMessages);
 
   // data에 구독한 데이터 할당
-  const { data: newMsgData } = useSubscription(NEW_MESSAGE, { variables: { roomId: id } });
+  const { data: newMsgData, loading } = useSubscription(NEW_MESSAGE, {
+    variables: { roomId: id },
+    fetchPolicy: "no-cache",
+  });
 
   // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewMessage = () => {
-    if (newMsgData !== undefined) {
-      const { newMessage } = newMsgData;
-      // console.log("newMessage in chatPage.js : ", newMessage);
-      // messages.push(newMessage);
-      // 위 주석 대신 프롭스로 전달 받은 roomId로 스토어의 messages안에서 해당되는 룸을 찾아서 그 안의 message에 값 추가하는 플로우로 시험예정
+    if (!loading) {
+      if (newMsgData !== undefined) {
+        const { newMessage } = newMsgData;
+        console.log("newMessage in chatPage.js : ", newMessage);
+        subChats(newMessage);
+      }
     }
   };
 
@@ -137,13 +141,14 @@ function ChatPage(props) {
                 </View>
               );
             })}
-            <TextInput onChangeText={onChangeText} value={message} />
+            <TextInput
+              onChangeText={onChangeText}
+              value={message}
+              style={{ borderStyle: "solid", borderColor: "black", borderWidth: 1 }}
+            />
             <TouchableOpacity onPress={onSubmit}>
               <Text>입력</Text>
             </TouchableOpacity>
-            <TextInput onChangeText={onChangeText} value={message} />
-            <TextInput onChangeText={onChangeText} value={message} />
-            <TextInput onChangeText={onChangeText} value={message} />
           </ScrollView>
         </View>
         {/* </KeyboardAvoidingView> */}
@@ -156,6 +161,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    paddingBottom: 60,
     margin: 10,
   },
   profile: {
@@ -193,6 +199,7 @@ const styles = StyleSheet.create({
 export default inject(({ myProfileStore, matchStore }) => ({
   myId: myProfileStore.id,
   refreshRoomList: matchStore.refreshRoomList,
+  subChats: matchStore.subChats,
 }))(observer(ChatPage));
 
 // message의 createdAt 제공 요청
