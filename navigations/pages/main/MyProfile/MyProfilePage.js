@@ -1,23 +1,37 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Image, ImageBackground } from "react-native";
+
+import { Text, View, TouchableOpacity, Image, TextInput, ImageBackground } from "react-native";
+
 import { observer, inject } from "mobx-react";
-import { useQuery } from "@apollo/react-hooks";
+
+import { useMutation } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function MyProfilePage(props) {
+  const { id, myProfile } = props;
 
-  const { tagDATA } = props;
+  const _gotoEditPage = () => {
 
-  _gotoEditPage = () => {
     props.navigation.navigate("EditPage");
   };
 
-  _gotoSettingPage = () => {
+  const _gotoSettingPage = () => {
     props.navigation.navigate("SettingPage");
   };
 
-  const { loading, error, data } = useQuery(GET_ME);
 
+  const [getMeRES] = useMutation(GET_ME);
+
+  const submit = async () => {
+    const getMyProfile = await getMeRES({
+      variables: { id: id },
+    });
+    console.log("저기니?", getMyProfile);
+  };
+
+  // console.log("useMutation {data} : ", data);
+  // console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
+  // console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
 
   return (
@@ -38,9 +52,9 @@ function MyProfilePage(props) {
         >
           <Image
             style={{ width: 400, height: 600 }}
-            source={{
-              uri: data.getMe.profileImgLocation,
-            }}
+
+            source={{ uri: myProfile.profileImgLocation }}
+
           />
 
           <View
@@ -62,10 +76,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.name}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.name}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.birth}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.birth}</Text>
               </View>
             </View>
             <View
@@ -76,10 +90,10 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyName}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.companyName}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.companyRole}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.companyRole}</Text>
               </View>
             </View>
             <View
@@ -90,14 +104,13 @@ function MyProfilePage(props) {
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
 
-                <Text style={{ fontSize: 30, color: "white" }}>
-                  {data.getMe.tags[0] + data.getMe.tags[1] + data.getMe.tags[2]}
-                </Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[0]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[1]}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[1]}</Text>
               </View>
             </View>
+            {/* 네번째 줄 태그==================================================================================== */}
 
             <View
               style={{
@@ -107,16 +120,19 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[2]}</Text>
+
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[2]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[3]}</Text>
+                <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[3]}</Text>
+
               </View>
             </View>
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-              <Text style={{ fontSize: 30, color: "white" }}>{data.getMe.tags[4]}</Text>
+
+              <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[4]}</Text>
             </View>
-          </View>
+           </View>
         </View>
       </View>
 
@@ -146,5 +162,6 @@ function MyProfilePage(props) {
 }
 
 export default inject(({ myProfileStore }) => ({
-  tagDATA: myProfileStore.tagDATA,
+  id: myProfileStore.id,
+  myProfile: myProfileStore.myProfile.data.getMe,
 }))(observer(MyProfilePage));

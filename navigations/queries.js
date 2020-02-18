@@ -39,6 +39,28 @@ export const GET_LIST = gql`
   }
 `;
 
+export const GET_ME = gql`
+  mutation getMe($id: String!) {
+    getMe(id: $id) {
+      id
+      gender
+      email
+      password
+      phone
+      name
+      birth
+      companyName
+      companyRole
+      geoLocation
+      tags
+      profileImgLocation
+      cardImgLocation
+      bio
+      distance
+    }
+  }
+`;
+
 export const UN_LIKE = gql`
   mutation unlike($selectedId: String!) {
     unlike(selectedId: $selectedId)
@@ -114,27 +136,8 @@ export const NEW_ROOM = gql`
   }
 `;
 
-export const GET_ME = gql`
-  query {
-    getMe {
-      id
-      gender
-      email
-      password
-      phone
-      name
-      birth
-      companyName
-      companyRole
-      geoLocation
-      tags
-      profileImgLocation
-      cardImgLocation
-      bio
-      distance
-    }
-  }
-`;
+// mutation likeUser($selectedId: String!) {
+//   likeUser(selectedId: $selectedId)
 
 export const LOG_OUT = gql`
   mutation logOut {

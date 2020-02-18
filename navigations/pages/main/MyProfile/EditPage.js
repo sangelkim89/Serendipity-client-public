@@ -18,29 +18,23 @@ import { observer, inject } from "mobx-react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { GET_ME } from "../../../queries";
 
 function EditPageFunction(props) {
   // static navigationOptions = { headerShown: false };
 
-  const { loading, error, data } = useQuery(GET_ME);
-
-  console.log("GET_ME는 과연 불러오는가", data.getMe);
-  console.log("GET_ME는 과연 불러오는가", data.getMe.birth);
+  const [getMeRES] = useMutation(GET_ME);
 
   const {
-    signupStore,
     myProfileStore,
     inputCompanyName,
     inputCompanyRole,
-    tagDATA,
     tagDATA2,
-    addtagState,
-    addtagState2,
     Tag,
     changeColor,
     changeColorState,
+    myProfile,
   } = props;
 
   function _gotoSettingPage() {
@@ -80,7 +74,7 @@ function EditPageFunction(props) {
         {/* 회색창=============================================================== */}
         <View
           style={{
-            backgroundColor: "grey",
+            // backgroundColor: "grey",
             height: 1200, //<<====창 크기 조절합시다
           }}
         >
@@ -108,15 +102,16 @@ function EditPageFunction(props) {
             </View>
           </View>
           {/* 사진 */}
-          <View style={{ alignItems: "center", backgroundColor: "black" }}>
+          <View style={{ alignItems: "center" }}>
             {myProfileStore.imgIdCard ? (
               <Image source={myProfileStore.imgIdCard} style={styles.picContainer} />
             ) : (
-              <View style={styles.picContainer}>
-                <Text>choose your Idcard</Text>
-              </View>
+              <Image source={{ uri: myProfile.profileImgLocation }} style={styles.picContainer} />
             )}
             <View style={styles.picButtonContainer}>
+              <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
+                <Text style={styles.text}>Camera</Text>
+              </TouchableOpacity>
               <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
                 <Text style={styles.text}>Camera</Text>
               </TouchableOpacity>
@@ -143,15 +138,10 @@ function EditPageFunction(props) {
                   }}
                 >
                   <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                    <Text style={{ fontSize: 30, color: "white" }}>
-                      {" "}
-                      {myProfileStore.mockDATA.data.getMe.name}{" "}
-                    </Text>
+                    <Text style={{ fontSize: 30, color: "white" }}> {myProfile.name} </Text>
                   </View>
                   <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                    <Text style={{ fontSize: 30, color: "white" }}>
-                      {myProfileStore.mockDATA.data.getMe.birth}
-                    </Text>
+                    <Text style={{ fontSize: 30, color: "white" }}>{myProfile.birth}</Text>
                   </View>
                 </View>
                 {/* 두번째줄=============================================================== */}
@@ -170,9 +160,7 @@ function EditPageFunction(props) {
                         inputCompanyName(e);
                       }}
                     >
-                      <Text style={{ fontSize: 30, color: "white" }}>
-                        {myProfileStore.mockDATA.data.getMe.companyName}
-                      </Text>
+                      <Text style={{ fontSize: 30, color: "white" }}>{myProfile.companyName}</Text>
                     </TextInput>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -184,9 +172,7 @@ function EditPageFunction(props) {
                         inputCompanyRole(e);
                       }}
                     >
-                      <Text style={{ fontSize: 30, color: "white" }}>
-                        {myProfileStore.mockDATA.data.getMe.companyRole}
-                      </Text>
+                      <Text style={{ fontSize: 30, color: "white" }}>{myProfile.companyRole}</Text>
                     </TextInput>
                   </TouchableOpacity>
                 </View>
@@ -329,7 +315,6 @@ const styles = StyleSheet.create({
   picContainer: {
     width: 200,
     height: 246.75,
-    backgroundColor: "orange",
   },
 
   picButtonContainer: {
@@ -338,6 +323,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     position: "absolute",
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   submitButtonContainer: {
     flex: 1,
@@ -362,16 +349,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject(({ signupStore, myProfileStore }) => ({
+export default inject(({ myProfileStore }) => ({
   myProfileStore: myProfileStore,
-  signupStore: signupStore,
   inputCompanyName: myProfileStore.inputCompanyName,
   inputCompanyRole: myProfileStore.inputCompanyRole,
-  tagDATA: myProfileStore.mockDATA.data.getMe.tags,
   tagDATA2: myProfileStore.tagDATA,
   addtagState: myProfileStore.addtagState,
   addtagState2: myProfileStore.addtagState2,
   changeColorState: myProfileStore.changeColorState,
   changeColor: myProfileStore.changeColor,
   Tag: myProfileStore.addtagState2,
+  myProfile: myProfileStore.myProfile.data.getMe,
 }))(observer(EditPageFunction));
