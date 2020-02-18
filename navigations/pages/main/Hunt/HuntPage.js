@@ -71,7 +71,6 @@ function HuntPage(props) {
 
   // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
   if (initRoomData !== undefined) {
-    // console.log("roomData in huntPage.js : ", initRoomData);
     refreshRoomList(initRoomData.getRoom);
   } // mobx roomlist에 저장
 
@@ -117,7 +116,7 @@ function HuntPage(props) {
   return (
     <ImageBackground
       source={require("../../../../assets/gradient2.jpg")}
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
     >
       <SafeAreaView style={styles.container}>
         {recommendUser.length !== 0 ? (
@@ -209,6 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "transparent",
   },
 
   buttonsContainer: {
