@@ -13,6 +13,7 @@ class MyProfileStore {
   saveMyProfile = e => {
     this.myProfile = e;
     this.marker = JSON.parse(e.data.getMe.geoLocation);
+
     console.log("myprofile in Store:", this.marker);
   };
   @observable myProfile = {};
@@ -123,7 +124,6 @@ class MyProfileStore {
     // 폼데이터에 데이터 추가
     editData.append("companyName", this.companyName);
     editData.append("companySort", this.companySort);
-    editData.append("tags3", JSON.stringify(this.tags3));
     editData.append("tags2", JSON.stringify(this.tags2));
     editData.append("geoLocation", JSON.stringify(this.geoLocation)); // 프록시로 전달되는것 수정
 
