@@ -72,7 +72,9 @@ const MatchPageList = props => {
                 return <RoomItem room={room} key={i} navigation={navigation} />;
               })
             ) : (
-              <Text>친구를 찾아서 좋아요 해보세요!</Text>
+              <View style={styles.textContainer}>
+                <Text style={styles.text}>친구를 찾아서 좋아요 해보세요!</Text>
+              </View>
             )}
           </ScrollView>
         </View>
@@ -91,6 +93,13 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
+  },
+  textContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 20,
   },
 });
 
