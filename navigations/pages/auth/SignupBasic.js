@@ -142,8 +142,8 @@ function SignupBasic(props) {
   }
 
   var radio_props = [
-    { label: "남자", value: "man" },
-    { label: "여자", value: "woman" },
+    { label: "💁‍♂️남자", value: "man" },
+    { label: "💁‍♀️여자", value: "woman" },
   ];
 
   return (
@@ -169,7 +169,9 @@ function SignupBasic(props) {
             <Input
               placeholder="Email"
               containerStyle={styles.input}
+              placeholderTextColor="white"
               inputStyle={{ color: "white" }}
+              inputContainerStyle={{ borderColor: "white" }}
               leftIcon={<Icon name="user" size={24} color="white" style={{ marginRight: 10 }} />}
               onChangeText={e => {
                 inputEmail(e);
@@ -178,7 +180,8 @@ function SignupBasic(props) {
 
             <Button
               buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" />}
+              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+              titleStyle={styles.btnTitle}
               title="이메일전송"
               onPress={() => {
                 sendEmail();
@@ -190,7 +193,9 @@ function SignupBasic(props) {
             <Input
               placeholder="Email Key"
               containerStyle={styles.input}
+              placeholderTextColor="white"
               inputStyle={{ color: "white" }}
+              inputContainerStyle={{ borderColor: "white" }}
               leftIcon={
                 <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
               }
@@ -201,7 +206,8 @@ function SignupBasic(props) {
 
             <Button
               buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" />}
+              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+              titleStyle={styles.btnTitle}
               title="이메일인증"
               onPress={() => {
                 sendEmailKey();
@@ -213,7 +219,9 @@ function SignupBasic(props) {
             <Input
               placeholder="Mobile"
               containerStyle={styles.input}
+              placeholderTextColor="white"
               inputStyle={{ color: "white" }}
+              inputContainerStyle={{ borderColor: "white" }}
               leftIcon={
                 <Icon name="envelope-open" size={24} color="white" style={{ marginRight: 10 }} />
               }
@@ -223,7 +231,8 @@ function SignupBasic(props) {
             />
             <Button
               buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" />}
+              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+              titleStyle={styles.btnTitle}
               title="핸드폰전송"
               onPress={() => {
                 sendMobile();
@@ -235,7 +244,9 @@ function SignupBasic(props) {
             <Input
               placeholder="Mobile Key"
               containerStyle={styles.input}
+              placeholderTextColor="white"
               inputStyle={{ color: "white" }}
+              inputContainerStyle={{ borderColor: "white" }}
               leftIcon={
                 <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
               }
@@ -246,7 +257,8 @@ function SignupBasic(props) {
 
             <Button
               buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" />}
+              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+              titleStyle={styles.btnTitle}
               title="핸드폰인증"
               onPress={() => {
                 sendPhoneKey();
@@ -258,7 +270,9 @@ function SignupBasic(props) {
               <Input
                 placeholder="NickName"
                 containerStyle={styles.input}
+                placeholderTextColor="white"
                 inputStyle={{ color: "white" }}
+                inputContainerStyle={{ borderColor: "white" }}
                 leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
                 onChangeText={e => {
                   inputID(e);
@@ -267,7 +281,8 @@ function SignupBasic(props) {
 
               <Button
                 buttonStyle={styles.btn}
-                icon={<Icon name="check" size={15} color="white" />}
+                icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                titleStyle={styles.btnTitle}
                 title="닉네임중복"
                 onPress={() => {
                   sendNickName();
@@ -280,7 +295,9 @@ function SignupBasic(props) {
             <Input
               placeholder="password"
               containerStyle={styles.input}
+              placeholderTextColor="white"
               inputStyle={{ color: "white" }}
+              inputContainerStyle={{ borderColor: "white" }}
               leftIcon={<Icon name="lock" size={24} color="white" style={{ marginRight: 10 }} />}
               onChangeText={e => {
                 inputPassWord(e);
@@ -290,9 +307,10 @@ function SignupBasic(props) {
 
           <DatePicker
             style={styles.date}
-            date={"1991-02-20"}
+            androidMode="spinner"
+            date={birth}
             mode="date"
-            placeholder="select date"
+            placeholder="YOUR BIRTHDAY"
             format="YYYY-MM-DD"
             minDate="1950-01-01"
             maxDate="2222-12-31"
@@ -310,20 +328,36 @@ function SignupBasic(props) {
               handleConfirm(date);
             }}
           />
-
-          <Button
-            buttonStyle={{
-              width: "80%",
-              marginLeft: 45,
-              borderRadius: 20,
-            }}
-            icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
-            iconRight
-            title="NEXT"
-            onPress={() => {
-              _doNext();
-            }}
-          />
+          {email && password && phone && userId ? (
+            <Button
+              buttonStyle={{
+                width: "80%",
+                marginLeft: 45,
+                borderRadius: 20,
+              }}
+              icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+              iconRight
+              title="NEXT"
+              onPress={() => {
+                _doNext();
+              }}
+            />
+          ) : (
+            <Button
+              disabled={true}
+              buttonStyle={{
+                width: "80%",
+                marginLeft: 45,
+                borderRadius: 20,
+              }}
+              icon={
+                <Icon name="exclamation-circle" style={{ marginLeft: 10 }} size={20} color="red" />
+              }
+              iconRight
+              title="Please Check Your Information"
+              onPress={_doNext}
+            />
+          )}
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -377,16 +411,16 @@ const styles = StyleSheet.create({
     margin: 8,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "brown",
-    // borderColor: "brown",
-    // borderWidth: 3,
     width: 100,
     height: 40,
     borderRadius: 50,
   },
+  btnTitle: {
+    fontSize: 13,
+  },
   smallBtn: {
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 30,
   },
   inputID: {
     margin: 15,
@@ -397,6 +431,7 @@ const styles = StyleSheet.create({
   date: {
     margin: 15,
     width: "95%",
+    borderColor: "white",
   },
   placeholder: {
     margin: 5,
