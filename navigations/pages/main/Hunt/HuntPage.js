@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import Swiper from "react-native-deck-swiper";
-import { Text, View, StyleSheet, Platform, Alert } from "react-native";
+import { Text, View, StyleSheet, Platform, Alert, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMutation, useQuery, useSubscription } from "@apollo/react-hooks";
 import { observer, inject } from "mobx-react";
@@ -41,9 +41,8 @@ function HuntPage(props) {
     variables: { id: myId },
     fetchPolicy: "no-cache",
   });
-  // console.log("roomlist 1 : ", roomList);
 
-  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewRoom = () => {
     console.log("handle newroom invoked!");
     console.log("data in handle newroom : ", loading, data);
@@ -54,8 +53,6 @@ function HuntPage(props) {
         console.log("newRoom in huntPage : ", data.newRoom);
         Alert.alert("Match!!!");
         subMsgs(data.newRoom);
-        // messages.unshift(data.newRoom);
-        // console.log("messages in huntPage after like : ", messages);
       } else {
         console.log("roomData in matchPageList.js is undefined!");
       }
@@ -118,95 +115,98 @@ function HuntPage(props) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {recommendUser.length !== 0 ? (
-        <>
-          <Swiper
-            useViewOverflow={Platform.OS === "ios"}
-            ref={useSwiper}
-            animateCardOpacity
-            containerStyle={styles.container}
-            cards={recommendUser}
-            renderCard={data => <Card recommendUser={data} />}
-            cardIndex={0}
-            backgroundColor="black"
-            stackSize={2}
-            onSwipedAll={() => {
-              console.log("다재껴졌다~");
-              navigation.navigate("AllSwiped");
-            }}
-            onSwipedLeft={item => {
-              unlikedFunc(item);
-            }}
-            onSwipedRight={item => {
-              likedFunc(item);
-            }}
-            // onTapCard={item => {
-            //   console.log("TAP", recommendUser[item]);
-            // }}
-            verticalSwipe={false}
-            showSecondCard
-            animateOverlayLabelsOpacity
-            overlayLabels={{
-              left: {
-                title: "NOPE",
-                element: <OverlayLabel label="NOPE" color="red" />,
-                style: {
-                  wrapper: {
-                    ...styles.overlayWrapper,
-                    alignItems: "flex-start",
-                    marginLeft: 160,
-                    padding: 30,
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
+      style={{ width: "100%", height: "100%" }}
+    >
+      <SafeAreaView style={styles.container}>
+        {recommendUser.length !== 0 ? (
+          <>
+            <Swiper
+              useViewOverflow={Platform.OS === "ios"}
+              ref={useSwiper}
+              animateCardOpacity
+              containerStyle={styles.container}
+              cards={recommendUser}
+              renderCard={data => <Card recommendUser={data} />}
+              cardIndex={0}
+              stackSize={2}
+              onSwipedAll={() => {
+                console.log("다재껴졌다~");
+                navigation.navigate("AllSwiped");
+              }}
+              onSwipedLeft={item => {
+                unlikedFunc(item);
+              }}
+              onSwipedRight={item => {
+                likedFunc(item);
+              }}
+              // onTapCard={item => {
+              //   console.log("TAP", recommendUser[item]);
+              // }}
+              verticalSwipe={false}
+              showSecondCard
+              animateOverlayLabelsOpacity
+              overlayLabels={{
+                left: {
+                  title: "NOPE",
+                  element: <OverlayLabel label="NOPE" color="red" />,
+                  style: {
+                    wrapper: {
+                      ...styles.overlayWrapper,
+                      alignItems: "flex-start",
+                      marginLeft: 160,
+                      padding: 30,
+                    },
                   },
                 },
-              },
-              right: {
-                title: "LIKE",
-                element: <OverlayLabel label="LIKE" color="#44bd32" />,
-                style: {
-                  wrapper: {
-                    ...styles.overlayWrapper,
-                    alignItems: "flex-start",
-                    marginLeft: 10,
-                    padding: 30,
+                right: {
+                  title: "LIKE",
+                  element: <OverlayLabel label="LIKE" color="#44bd32" />,
+                  style: {
+                    wrapper: {
+                      ...styles.overlayWrapper,
+                      alignItems: "flex-start",
+                      marginLeft: 10,
+                      padding: 30,
+                    },
                   },
                 },
-              },
-            }}
-          ></Swiper>
-        </>
-      ) : (
-        <AppLoading />
-      )}
+              }}
+            ></Swiper>
+          </>
+        ) : (
+          <AppLoading />
+        )}
 
-      <View style={styles.buttonsContainer}>
-        <IconButton
-          name="close"
-          onPress={handleOnSwipedLeft}
-          color="white"
-          backgroundColor="#E5566D"
-        />
-        <IconButton
-          name="star"
-          onPress={handleOnSwipedTop}
-          color="white"
-          backgroundColor="#3CA3FF"
-        />
-        <IconButton
-          name="heart"
-          onPress={handleOnSwipedRight}
-          color="white"
-          backgroundColor="#4CCC93"
-        />
-      </View>
-    </SafeAreaView>
+        <View style={styles.buttonsContainer}>
+          <IconButton
+            name="close"
+            onPress={handleOnSwipedLeft}
+            color="white"
+            backgroundColor="#E5566D"
+          />
+          <IconButton
+            name="star"
+            onPress={handleOnSwipedTop}
+            color="white"
+            backgroundColor="#3CA3FF"
+          />
+          <IconButton
+            name="heart"
+            onPress={handleOnSwipedRight}
+            color="white"
+            backgroundColor="#4CCC93"
+          />
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f7d794",
     alignItems: "center",
     justifyContent: "center",
   },

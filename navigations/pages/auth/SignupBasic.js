@@ -149,7 +149,7 @@ function SignupBasic(props) {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require("../../../assets/background3.jpg")}
+        source={require("../../../assets/gradient2.jpg")}
         style={{ width: "100%", height: "100%" }}
       >
         <RadioForm
@@ -259,7 +259,7 @@ function SignupBasic(props) {
                 placeholder="NickName"
                 containerStyle={styles.input}
                 inputStyle={{ color: "white" }}
-                leftIcon={<Icon name="child" size={24} color="grey" style={{ marginRight: 10 }} />}
+                leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
                 onChangeText={e => {
                   inputID(e);
                 }}
@@ -316,7 +316,6 @@ function SignupBasic(props) {
               width: "80%",
               marginLeft: 45,
               borderRadius: 20,
-              // backgroundColor: "transparent",
             }}
             icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
             iconRight
@@ -334,8 +333,10 @@ function SignupBasic(props) {
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: { justifyContent: "space-between", backgroundColor: "white" },
-
+  container: {
+    justifyContent: "space-between",
+    // backgroundColor: "#c44569"
+  },
   inputContainer: {
     // backgroundColor: "green",
     flex: 2,

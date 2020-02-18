@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Dimensions, FlatList } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { observer, inject } from "mobx-react";
@@ -19,52 +26,58 @@ function SignupTag(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.titleArea}>
-        <Text style={styles.title}>관심사를 선택해주세요</Text>
-      </View>
-      <View>
-        <View style={styles.buttonArea}>
-          {tagDATA.map((tag, f) => {
-            return (
-              <TouchableOpacity
-                key={f}
-                tag={tag}
-                onPress={() => {
-                  Tag(f);
-                }}
-                style={[
-                  styles.tagColor,
-                  {
-                    backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
-                  },
-                ]}
-              >
-                <Text
-                  style={{
-                    fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
-                    fontSize: tags.indexOf(tag) === -1 ? 15 : 18,
-                  }}
-                >
-                  {tag}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+      <ImageBackground
+        source={require("../../../assets/gradient2.jpg")}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <View style={styles.titleArea}>
+          <Text style={styles.title}>관심사를 선택해주세요</Text>
         </View>
-      </View>
+        <View>
+          <View style={styles.buttonArea}>
+            {tagDATA.map((tag, f) => {
+              return (
+                <TouchableOpacity
+                  key={f}
+                  tag={tag}
+                  onPress={() => {
+                    Tag(f);
+                  }}
+                  style={[
+                    styles.tagColor,
+                    {
+                      backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                      borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                      fontSize: tags.indexOf(tag) === -1 ? 15 : 18,
+                    }}
+                  >
+                    {tag}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
 
-      <Button
-        buttonStyle={{
-          width: "80%",
-          marginLeft: 45,
-          borderRadius: 20,
-          marginTop: 15,
-        }}
-        icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
-        iconRight
-        title="NEXT"
-        onPress={_doNextPage}
-      />
+        <Button
+          buttonStyle={{
+            width: "80%",
+            marginLeft: 45,
+            borderRadius: 20,
+            marginTop: 15,
+          }}
+          icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+          iconRight
+          title="NEXT"
+          onPress={_doNextPage}
+        />
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -72,23 +85,21 @@ function SignupTag(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-
     justifyContent: "center",
   },
   titleArea: {
-    height: height / 12,
+    height: height / 4,
     width: "100%",
-    // padding: wp("10%"),
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "blue",
+    borderColor: "blue",
+    borderWidth: 1,
   },
   title: {
     fontSize: 30,
   },
   buttonArea: {
-    height: height - 170,
-    backgroundColor: "green",
+    height: height - 280,
     width: "100%",
     flexDirection: "row",
     padding: 5,
@@ -102,8 +113,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 10,
     width: 100,
-    height: 80,
-    borderColor: "blue",
+    height: 60,
+    borderColor: "#70a1ff",
     borderWidth: 3,
     borderRadius: 50,
   },
