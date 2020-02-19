@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/HuntPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchPageList.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchPageList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/RoomItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/RoomItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/MatchStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/MatchStore.js" afterDir="false" />
-    </list>
+    <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +22,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -39,8 +35,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -94,7 +88,7 @@
     <frame x="481" y="45" width="960" height="877" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.27582535" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.27526882" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />

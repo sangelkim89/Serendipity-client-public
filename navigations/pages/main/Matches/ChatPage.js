@@ -88,6 +88,11 @@ function ChatPage(props) {
     }
   };
 
+  // scroll bottom
+  function handleScroll(event) {
+    console.log(event.nativeEvent.contentOffset.y);
+  }
+
   return (
     <ImageBackground
       source={require("../../../../assets/gradient2.jpg")}
@@ -120,7 +125,7 @@ function ChatPage(props) {
           </View>
           {/* <KeyboardAvoidingView enabled behavior="padding"> */}
           <View style={{ heigth: 470 }}>
-            <ScrollView style={{ height: "80%" }}>
+            <ScrollView style={{ height: "80%" }} onScroll={handleScroll} scrollEventThrottle={16}>
               {messages.map((msg, i) => {
                 function timeStamp() {
                   let timeArr = msg.createdAt.substring(11, 16).split(":");
