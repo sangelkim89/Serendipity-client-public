@@ -19,31 +19,92 @@ class MatchStore {
 
   @action
   refreshRoomList = target => {
-    // this.roomList = target;
-    // console.log("this.roomList from matchStore : ", this.roomList);
     this.messages = []; // 메세지스 초기화
     // console.log("this.messages after initialization : ", this.messages);
     target.map(room => {
       console.log("room in matchStore : ", room);
-      this.messages.push({
-        id: room.id,
-        message: room.messages,
-        participants: room.participants,
-        createdAt: room.createdAt,
-      });
+      let count = 0;
+      let i = 0;
+      if (this.messages.length === 0) {
+        this.messages.push({
+          id: room.id,
+          message: room.messages,
+          participants: room.participants,
+          createdAt: room.createdAt,
+        });
+      } else {
+        while (i < this.messages.length) {
+          if (
+            this.messages[i].participants[0].id === room.participants[0].id ||
+            this.messages[i].participants[0].id === room.participants[1].id
+          ) {
+            console.log("count 첫번째1증가!");
+            count++;
+          }
+          if (
+            this.messages[i].participants[1].id === room.participants[0].id ||
+            this.messages[i].participants[1].id === room.participants[1].id
+          ) {
+            console.log("count 두번째1증가!");
+            count++;
+          }
+          if (count === 2) {
+            break;
+          }
+          console.log("break 안걸림");
+          count = 0;
+          i++;
+
+          if (count !== 2) {
+            this.messages.push({
+              id: room.id,
+              message: room.messages,
+              participants: room.participants,
+              createdAt: room.createdAt,
+            });
+          }
+        }
+      }
     });
-    // console.log("this.roomList from  : ", this.roomList);
-    // console.log("this.messages from matchstore : ", this.messages);
   };
 
   @action
   subMsgs = target => {
-    this.messages.unshift({
-      id: target.id,
-      message: target.messages,
-      participants: target.participants,
-    });
-    console.log("this.messages : ", this.messages);
+    let count = 0;
+    let i = 0;
+
+    while (i < this.messages.length) {
+      if (
+        this.messages[i].participants[0].id === target.participants[0].id ||
+        this.messages[i].participants[0].id === target.participants[1].id
+      ) {
+        console.log("count 첫번째1증가!");
+        count++;
+      }
+      if (
+        this.messages[i].participants[1].id === target.participants[0].id ||
+        this.messages[i].participants[1].id === target.participants[1].id
+      ) {
+        console.log("count 두번째1증가!");
+        count++;
+      }
+      if (count === 2) {
+        break;
+      }
+      console.log("break 안걸림");
+      count = 0;
+      i++;
+    }
+    if (count !== 2) {
+      console.log("룸 추가 루트 진입!");
+      this.messages.unshift({
+        id: target.id,
+        message: target.messages,
+        participants: target.participants,
+      });
+      alert("You are matched!!!");
+    }
+    // console.log("this.messages : ", this.messages);
   };
 
   @action
