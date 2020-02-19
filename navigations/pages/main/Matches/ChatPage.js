@@ -122,7 +122,6 @@ function ChatPage(props) {
           <View style={{ heigth: 470 }}>
             <ScrollView style={{ height: "80%" }}>
               {messages.map((msg, i) => {
-                console.log("MAP_MSG", msg);
                 return msg.from.id === myId ? (
                   <View key={i} style={styles.meChat}>
                     <Text>{msg.text}</Text>
