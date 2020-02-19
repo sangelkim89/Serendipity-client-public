@@ -26,7 +26,7 @@ class MatchStore {
       let count = 0;
       let i = 0;
       if (this.messages.length === 0) {
-        this.messages.push({
+        this.messages.unshift({
           id: room.id,
           message: room.messages,
           participants: room.participants,
@@ -56,7 +56,7 @@ class MatchStore {
           i++;
 
           if (count !== 2) {
-            this.messages.push({
+            this.messages.unshift({
               id: room.id,
               message: room.messages,
               participants: room.participants,

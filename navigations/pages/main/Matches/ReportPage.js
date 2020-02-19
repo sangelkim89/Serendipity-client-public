@@ -1,10 +1,19 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  ImageBackground,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import { inject, observer } from "mobx-react";
 import RadioForm from "react-native-simple-radio-button";
 import { useMutation } from "@apollo/react-hooks";
 import { CREATE_REPORT } from "../../../queries";
+import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 
 const ReportPage = props => {
   const { id, name } = props.navigation.state.params;
@@ -46,35 +55,43 @@ const ReportPage = props => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>report page</Text>
-      <RadioForm
-        buttonSize={15}
-        buttonOuterSize={30}
-        style={styles.radio}
-        radio_props={radio_props}
-        animation={true}
-        initial={0}
-        formHorizontal={true}
-        onPress={e => {
-          handleReason(e);
-        }}
-      />
-      <TextInput
-        placeholder={`${name}님 신고사유`}
-        multiline={true}
-        numberOfLines={4}
-        onChangeText={text => onChangeText(text)}
-        value={reportMsg}
-        style={styles.textInput}
-      ></TextInput>
-      <TouchableOpacity style={styles.report} onPress={onSubmitReport}>
-        <Text>신고하기</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.cancel} onPress={moveProfile}>
-        <Text>취소</Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
+      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
+    >
+      <View style={styles.container}>
+        <RadioForm
+          buttonSize={15}
+          buttonOuterSize={30}
+          style={styles.radio}
+          radio_props={radio_props}
+          animation={true}
+          initial={0}
+          formHorizontal={true}
+          onPress={e => {
+            handleReason(e);
+          }}
+        />
+        <TextInput
+          placeholder={`신고사유를 상세하게 적어주세요`}
+          multiline={true}
+          numberOfLines={5}
+          onChangeText={text => onChangeText(text)}
+          value={reportMsg}
+          style={styles.textInput}
+        ></TextInput>
+        <View style={styles.imgContainer}>
+          <TouchableOpacity style={styles.button} onPress={onSubmitReport}>
+            <Feather name="mail" style={{ color: "#6c5ce7", fontSize: 40 }} />
+            <Text>제출</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={moveProfile}>
+            <MaterialCommunityIcons name="cancel" style={{ color: "#6c5ce7", fontSize: 40 }} />
+            <Text>취소</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -95,16 +112,21 @@ const styles = StyleSheet.create({
     height: height / 10,
   },
   textInput: {
-    flex: 1,
+    flex: 2,
     padding: 15,
   },
-  report: {
+  imgContainer: {
     flex: 1,
-    padding: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
   },
-  cancel: {
+  button: {
     flex: 1,
     padding: 15,
+    margin: 10,
+    // justifyContent: "center",
+    alignItems: "center",
   },
 });
 
