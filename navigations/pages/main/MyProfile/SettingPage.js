@@ -27,13 +27,18 @@ function SettingPage(props) {
     props.navigation.navigate("MyProfilePage");
   };
 
+  const _secession = () => {
+    props.navigation.navigate("Login");
+    Alert.alert("만나서 반가웠어요.  함께여서 행복했어요.\n우리 꼭 다시만나요.  고마워요.");
+  };
+
   const [logoutMethod, { data }] = useMutation(LOG_OUT);
 
   const _logOut = async () => {
     try {
       const { data } = await logoutMethod();
       console.log("data : ", data);
-      await AsyncStorage.setItem("jwt", data.logOut);
+      await AsyncStorage.setItem("jwt", "");
       console.log("logout token : ", await AsyncStorage.getItem("jwt"));
       Alert.alert("정상적으로 로그아웃 되었습니다.");
       props.navigation.navigate("AuthStack");
@@ -52,7 +57,7 @@ function SettingPage(props) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
+        { text: "OK", onPress: () => (_secession(), console.log("OK Pressed")) },
       ],
       { cancelable: false },
     );

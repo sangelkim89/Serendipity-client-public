@@ -9,10 +9,13 @@ import {
   TextInput,
   ActivityIndicator,
   KeyboardAvoidingView,
+  ImageBackground,
 } from "react-native";
 import { useMutation, useApolloClient, useQuery, useSubscription } from "@apollo/react-hooks";
 
 import { inject, observer } from "mobx-react";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE } from "../../../queries";
 
@@ -24,7 +27,7 @@ function ChatPage(props) {
   const opponent = participants[0].id === myId ? participants[1] : participants[0];
   // console.log("myId in chatpage : ", myId);
   // console.log("opponent : ", opponent);
-
+  // console.log("messages in chatPage : ", messages);
   // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
   const [message, setMessage] = useState("");
 
@@ -81,68 +84,99 @@ function ChatPage(props) {
       // messages.push(sendMessage);
       setMessage("");
     } catch (e) {
-      console.log("onsubmit error in chatpage : s", e);
+      console.log("onsubmit error in chatpage : ", e);
     }
   };
 
+  // scroll bottom
+  function handleScroll(event) {
+    console.log(event.nativeEvent.contentOffset.y);
+  }
+
   return (
-    <Suspense
-      fallback={
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <ActivityIndicator />
-        </View>
-      }
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
+      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
     >
-      <View style={styles.container}>
-        <View style={styles.profile}>
-          <TouchableOpacity onPress={moveProfile}>
-            <Image
-              source={{
-                uri: opponent.profileImgLocation,
-              }}
-              style={styles.image}
-            />
-            <Text>{opponent.name}</Text>
-          </TouchableOpacity>
-        </View>
-        {/* <KeyboardAvoidingView enabled behavior="padding"> */}
-        <View>
-          <ScrollView>
-            {messages.map((msg, i) => {
-              return msg.from.id === myId ? (
-                <View key={i} style={styles.meChat}>
-                  <Text>{msg.text}</Text>
-                  <Text style={styles.timeStamp}></Text>
-                </View>
-              ) : (
-                <View key={i} style={styles.otherChat}>
-                  <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
-                  <View style={styles.otherChatText}>
+      <Suspense
+        fallback={
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator />
+          </View>
+        }
+      >
+        <View style={styles.container}>
+          <View style={styles.profile}>
+            <TouchableOpacity onPress={moveProfile}>
+              <Image
+                source={{
+                  uri: opponent.profileImgLocation,
+                }}
+                style={styles.image}
+              />
+              <Text style={styles.name}>{opponent.name}</Text>
+            </TouchableOpacity>
+          </View>
+          {/* <KeyboardAvoidingView enabled behavior="padding"> */}
+          <View style={{ heigth: 470 }}>
+            <ScrollView style={{ height: "80%" }} onScroll={handleScroll} scrollEventThrottle={16}>
+              {messages.map((msg, i) => {
+                function timeStamp() {
+                  let timeArr = msg.createdAt.substring(11, 16).split(":");
+                  let hour = Number(timeArr[0]) + 9;
+
+                  if (hour > 24) {
+                    if ((hour - 24).toString().length < 2) {
+                      return `0${hour.toString()}:${timeArr[1]}`;
+                    }
+                  } else {
+                    return `${hour.toString()}:${timeArr[1]}`;
+                  }
+                }
+                return msg.from.id === myId ? (
+                  <View key={i} style={styles.meChat}>
                     <Text>{msg.text}</Text>
-                    <Text style={styles.timeStamp}></Text>
+                    <Text style={styles.timeStamp}>{timeStamp()}</Text>
                   </View>
-                </View>
-              );
-            })}
-            <TextInput
+                ) : (
+                  <View key={i} style={styles.otherChat}>
+                    <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
+                    <View style={styles.otherChatText}>
+                      <Text>{msg.text}</Text>
+                      <Text style={styles.timeStamp}>{timeStamp()}</Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
+          <View style={styles.chatInput}>
+            <Input
               onChangeText={onChangeText}
               value={message}
-              style={{ borderStyle: "solid", borderColor: "black", borderWidth: 1 }}
+              inputContainerStyle={{ borderColor: "#6c5ce7" }}
+              style={{
+                position: "fixed",
+                bottom: 0,
+                widht: "80%",
+              }}
+              rightIcon={
+                <TouchableOpacity onPress={onSubmit} style={{ marginRight: 10 }}>
+                  <Icon name="paper-plane" size={25} color="#6c5ce7" style={{ marginRight: 10 }} />
+                </TouchableOpacity>
+              }
             />
-            <TouchableOpacity onPress={onSubmit}>
-              <Text>입력</Text>
-            </TouchableOpacity>
-          </ScrollView>
+          </View>
+          {/* </KeyboardAvoidingView> */}
         </View>
-        {/* </KeyboardAvoidingView> */}
-      </View>
-    </Suspense>
+      </Suspense>
+    </ImageBackground>
   );
 }
 
@@ -154,6 +188,14 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   profile: {
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  name: {
+    marginLeft: 20,
+    justifyContent: "center",
     alignItems: "center",
   },
   image: {
@@ -167,7 +209,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 10,
     margin: 5,
-    backgroundColor: "#97caef",
+    backgroundColor: "#ffeaa7",
   },
   otherChat: {
     flexDirection: "row",
@@ -178,10 +220,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     margin: 5,
-    backgroundColor: "#cccccc",
+    backgroundColor: "#97caef",
   },
   timeStamp: {
     fontSize: 8,
+  },
+  chatInput: {
+    marginTop: 20,
+    flexDirection: "row",
   },
 });
 

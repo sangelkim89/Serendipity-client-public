@@ -223,11 +223,12 @@ class SignupStore {
     // 폼데이터 생성
     const signupData = new FormData();
     // 폼데이터에 이미지 추가
-    signupData.append("cardImg", {
-      name: this.imgIdCardName,
-      type: `image/${this.imgIdCardType}`,
-      uri: this.imgIdCardUri,
-    });
+    // 명함은 제외
+    // signupData.append("cardImg", {
+    //   name: this.imgIdCardName,
+    //   type: `image/${this.imgIdCardType}`,
+    //   uri: this.imgIdCardUri,
+    // });
     signupData.append("profileImg", {
       name: this.imgProfileName,
       type: `image/${this.imgProfileType}`,

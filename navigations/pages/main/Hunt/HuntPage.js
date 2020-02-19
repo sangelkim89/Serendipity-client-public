@@ -44,14 +44,14 @@ function HuntPage(props) {
 
   // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewRoom = () => {
-    console.log("handle newroom invoked!");
-    console.log("data in handle newroom : ", loading, data);
+    // console.log("handle newroom invoked!");
+    // console.log("data in handle newroom : ", loading, data);
     if (!loading) {
       console.log("loading passed!");
       if (data.newRoom !== null) {
         // const { newRoom } = data;
-        console.log("newRoom in huntPage : ", data.newRoom);
-        Alert.alert("Match!!!");
+        console.log("newRoom.participants in huntPage : ", data.newRoom.participants);
+        // Alert.alert("Match!!!");
         subMsgs(data.newRoom);
       } else {
         console.log("roomData in matchPageList.js is undefined!");
@@ -71,7 +71,6 @@ function HuntPage(props) {
 
   // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
   if (initRoomData !== undefined) {
-    // console.log("roomData in huntPage.js : ", initRoomData);
     refreshRoomList(initRoomData.getRoom);
   } // mobx roomlist에 저장
 
@@ -117,7 +116,7 @@ function HuntPage(props) {
   return (
     <ImageBackground
       source={require("../../../../assets/gradient2.jpg")}
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
     >
       <SafeAreaView style={styles.container}>
         {recommendUser.length !== 0 ? (
@@ -209,6 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "transparent",
   },
 
   buttonsContainer: {

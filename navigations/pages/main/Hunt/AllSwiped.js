@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { observer, inject } from "mobx-react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
+import { iOSColors, webWeights } from "react-native-typography";
 
 import { GET_LIST } from "../../../queries";
 
@@ -32,12 +33,17 @@ const AllSwiped = props => {
   };
 
   return (
-    <SafeAreaView style={styles.container} activeOpacity={1}>
-      <Text>AllSwiped</Text>
-      <TouchableOpacity onPress={reLoadCard}>
-        <Text style={styles.btnText}>Reload</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
+      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
+    >
+      <SafeAreaView style={styles.container} activeOpacity={1}>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Find More Friends!</Text>
+        <TouchableOpacity onPress={reLoadCard}>
+          <Text style={[webWeights.black, styles.btnText]}>Reload</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
@@ -48,7 +54,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnText: {
-    fontSize: 30,
+    fontSize: 40,
+    color: iOSColors.purple,
   },
 });
 

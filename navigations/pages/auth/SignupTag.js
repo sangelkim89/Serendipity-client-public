@@ -12,7 +12,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { observer, inject } from "mobx-react";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-import GridView from "react-native-super-grid";
 
 const { width, height } = Dimensions.get("window");
 
