@@ -53,27 +53,22 @@ const RoomItem = props => {
     const lastChatRaw = room.message[room.message.length - 1]["text"];
     const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
     return (
-      <ImageBackground
-        source={require("../../../../assets/gradient2.jpg")}
-        style={{ width: "100%", height: "100%", backgroundColor: "black" }}
-      >
-        <TouchableOpacity onPress={moveChatRoom} style={styles.touch} onLongPress={onDelRoom}>
-          <View style={styles.container}>
-            <View style={styles.imgContainer}>
-              <Image
-                source={{
-                  uri: opponent.profileImgLocation,
-                }}
-                style={styles.image}
-              />
-            </View>
-            <View style={styles.info}>
-              <Text style={styles.userId}>{opponent.name}</Text>
-              <Text style={styles.chat}>{lastChat}</Text>
-            </View>
+      <TouchableOpacity onPress={moveChatRoom} style={styles.touch} onLongPress={onDelRoom}>
+        <View style={styles.container}>
+          <View style={styles.imgContainer}>
+            <Image
+              source={{
+                uri: opponent.profileImgLocation,
+              }}
+              style={styles.image}
+            />
           </View>
-        </TouchableOpacity>
-      </ImageBackground>
+          <View style={styles.info}>
+            <Text style={styles.userId}>{opponent.name}</Text>
+            <Text style={styles.chat}>{lastChat}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   } else {
     return (

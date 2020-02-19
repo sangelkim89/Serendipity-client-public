@@ -44,14 +44,14 @@ function HuntPage(props) {
 
   // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewRoom = () => {
-    console.log("handle newroom invoked!");
-    console.log("data in handle newroom : ", loading, data);
+    // console.log("handle newroom invoked!");
+    // console.log("data in handle newroom : ", loading, data);
     if (!loading) {
       console.log("loading passed!");
       if (data.newRoom !== null) {
         // const { newRoom } = data;
-        console.log("newRoom in huntPage : ", data.newRoom);
-        Alert.alert("Match!!!");
+        console.log("newRoom.participants in huntPage : ", data.newRoom.participants);
+        // Alert.alert("Match!!!");
         subMsgs(data.newRoom);
       } else {
         console.log("roomData in matchPageList.js is undefined!");
