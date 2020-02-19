@@ -88,10 +88,13 @@ function ChatPage(props) {
     }
   };
 
-  // scroll bottom
-  function handleScroll(event) {
-    console.log(event.nativeEvent.contentOffset.y);
+  // scroll bottom -NOT USE
+
+  function scrollToEnd() {
+    this.scrollView.scrollToEnd();
   }
+
+  const [scrollView, downScroll] = useState(null);
 
   return (
     <ImageBackground
@@ -125,7 +128,13 @@ function ChatPage(props) {
           </View>
           {/* <KeyboardAvoidingView enabled behavior="padding"> */}
           <View style={{ heigth: 470 }}>
-            <ScrollView style={{ height: "80%" }} onScroll={handleScroll} scrollEventThrottle={16}>
+            <ScrollView
+              style={{ height: "80%" }}
+              ref={ref => (this.scrollView = ref)}
+              onContentSizeChange={() => {
+                this.scrollView.scrollToEnd({ animated: false });
+              }}
+            >
               {messages.map((msg, i) => {
                 function timeStamp() {
                   let timeArr = msg.createdAt.substring(11, 16).split(":");
