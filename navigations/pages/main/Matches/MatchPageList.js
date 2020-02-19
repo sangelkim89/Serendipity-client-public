@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  ImageBackground,
 } from "react-native";
 import { observer, inject } from "mobx-react";
 import { useSubscription, useQuery } from "@apollo/react-hooks";
@@ -47,36 +48,38 @@ const MatchPageList = props => {
   // }, [data]);
 
   return (
-    <Suspense
-      fallback={
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <ActivityIndicator />
-        </View>
-      }
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
+      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
     >
-      <View style={styles.container}>
-        <Text>MatchPageList</Text>
-        <ScrollView style={styles.list}>
-          {messages.length !== 0 ? (
-            messages.map((room, i) => {
-              return <RoomItem room={room} key={i} navigation={navigation} />;
-            })
-          ) : (
-            <Text>친구를 찾아서 좋아요 해보세요!</Text>
-          )}
-
-          <TouchableOpacity onPress={matchExer1}>
-            <Text>touch for method1 test</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
-    </Suspense>
+      <Suspense
+        fallback={
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator />
+          </View>
+        }
+      >
+        <View style={styles.container}>
+          <ScrollView style={styles.list}>
+            {messages.length !== 0 ? (
+              messages.map((room, i) => {
+                return <RoomItem room={room} key={i} navigation={navigation} />;
+              })
+            ) : (
+              <View style={styles.textContainer}>
+                <Text style={styles.text}>친구를 찾아서 좋아요 해보세요!</Text>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+      </Suspense>
+    </ImageBackground>
   );
 };
 
@@ -84,12 +87,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-    backgroundColor: "#f7d794",
+    // backgroundColor: "#f7d794",
     alignItems: "flex-start",
     justifyContent: "center",
   },
   list: {
     width: "100%",
+  },
+  textContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 20,
   },
 });
 

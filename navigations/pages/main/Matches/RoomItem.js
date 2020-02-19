@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 
@@ -25,22 +25,27 @@ const RoomItem = props => {
     const lastChatRaw = room.message[room.message.length - 1]["text"];
     const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
     return (
-      <TouchableOpacity onPress={moveChatRoom} style={styles.touch}>
-        <View style={styles.container}>
-          <View style={styles.imgContainer}>
-            <Image
-              source={{
-                uri: opponent.profileImgLocation,
-              }}
-              style={styles.image}
-            />
+      <ImageBackground
+        source={require("../../../../assets/gradient2.jpg")}
+        style={{ width: "100%", height: "100%", backgroundColor: "black" }}
+      >
+        <TouchableOpacity onPress={moveChatRoom} style={styles.touch}>
+          <View style={styles.container}>
+            <View style={styles.imgContainer}>
+              <Image
+                source={{
+                  uri: opponent.profileImgLocation,
+                }}
+                style={styles.image}
+              />
+            </View>
+            <View style={styles.info}>
+              <Text style={styles.userId}>{opponent.name}</Text>
+              <Text style={styles.chat}>{lastChat}</Text>
+            </View>
           </View>
-          <View style={styles.info}>
-            <Text style={styles.userId}>{opponent.name}</Text>
-            <Text>{lastChat}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </ImageBackground>
     );
   } else {
     return (
@@ -67,7 +72,17 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flexDirection: "row",
-    // backgroundColor: "green",
+    backgroundColor: "rgba(0, 0, 0, 0.01)",
+    // ios shadow
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    // android shadow
+    elevation: 3,
   },
   touch: {
     padding: 5,
@@ -75,7 +90,8 @@ const styles = StyleSheet.create({
   },
   info: {
     padding: 10,
-    // backgroundColor: "brown",
+    flexDirection: "row",
+    alignItems: "center",
   },
   imgContainer: {
     // backgroundColor: "pink",
@@ -87,6 +103,11 @@ const styles = StyleSheet.create({
   },
   userId: {
     fontWeight: "bold",
+    fontSize: 20,
+    marginLeft: 8,
+  },
+  chat: {
+    marginLeft: 20,
   },
 });
 

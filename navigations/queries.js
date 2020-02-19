@@ -61,7 +61,6 @@ export const GET_ME = gql`
       geoLocation
       tags
       profileImgLocation
-      cardImgLocation
       bio
       distance
     }
