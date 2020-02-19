@@ -65,11 +65,13 @@
     "react-native-typography": "^1.4.1",
     "react-native-unimodules": "~0.7.0",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-video": "^5.0.2",
     "react-native-view-overflow": "^0.0.4",
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.1.0",
     "react-navigation-stack": "^2.1.0",
     "react-navigation-tabs": "^2.7.0",
+    "styled-components": "^5.0.1",
     "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {

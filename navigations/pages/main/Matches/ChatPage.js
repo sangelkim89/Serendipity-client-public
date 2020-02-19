@@ -122,17 +122,29 @@ function ChatPage(props) {
           <View style={{ heigth: 470 }}>
             <ScrollView style={{ height: "80%" }}>
               {messages.map((msg, i) => {
+                function timeStamp() {
+                  let timeArr = msg.createdAt.substring(11, 16).split(":");
+                  let hour = Number(timeArr[0]) + 9;
+
+                  if (hour > 24) {
+                    if ((hour - 24).toString().length < 2) {
+                      return `0${hour.toString()}:${timeArr[1]}`;
+                    }
+                  } else {
+                    return `${hour.toString()}:${timeArr[1]}`;
+                  }
+                }
                 return msg.from.id === myId ? (
                   <View key={i} style={styles.meChat}>
                     <Text>{msg.text}</Text>
-                    <Text style={styles.timeStamp}>{msg.createdAt.substring(11, 16)}</Text>
+                    <Text style={styles.timeStamp}>{timeStamp()}</Text>
                   </View>
                 ) : (
                   <View key={i} style={styles.otherChat}>
                     <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
                     <View style={styles.otherChatText}>
                       <Text>{msg.text}</Text>
-                      <Text style={styles.timeStamp}>{msg.createdAt.substring(11, 16)}</Text>
+                      <Text style={styles.timeStamp}>{timeStamp()}</Text>
                     </View>
                   </View>
                 );
@@ -209,6 +221,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
   },
   chatInput: {
+    marginTop: 20,
     flexDirection: "row",
   },
 });

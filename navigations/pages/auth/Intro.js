@@ -1,23 +1,35 @@
 import React from "react";
-import { Text, View, Button, AsyncStorage, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 class Intro extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={{ fontSize: 20 }}>Intro</Text>
-        <Button
-          style={styles.btn}
-          title={"Login"}
-          onPress={async () => {
-            const logInfo = await AsyncStorage.getItem("isLoggedIn");
-            console.log("INTRO_LOCAL_isLoggedIN : ", logInfo);
-            if (logInfo === "true") {
-              this.props.navigation.navigate("TabNav");
-            }
-            this.props.navigation.navigate("Login");
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ImageBackground
+          style={{
+            height: "100%",
+            width: "100%",
+            marginLeft: 10,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        ></Button>
+          source={require("../../../assets/realback.gif")}
+        >
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              this.props.navigation.navigate("Login");
+            }}
+          >
+            <Text style={styles.text}>Find Your Friends!</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </View>
     );
   }
@@ -30,8 +42,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btn: {
-    width: 300,
-    height: 50,
+    marginTop: 350,
+  },
+  text: {
+    padding: 10,
+    fontSize: 20,
+
+    borderRadius: 20,
+    backgroundColor: "#bdd4ff",
+    elevation: 10,
   },
 });
 
