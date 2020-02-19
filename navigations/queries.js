@@ -125,6 +125,7 @@ export const GET_ROOM = gql`
         from {
           id
         }
+        createdAt
       }
       createdAt
     }
@@ -149,6 +150,7 @@ export const NEW_ROOM = gql`
         from {
           id
         }
+        createdAt
       }
       createdAt
     }
@@ -161,5 +163,19 @@ export const NEW_ROOM = gql`
 export const LOG_OUT = gql`
   mutation logOut {
     logOut
+  }
+`;
+
+// 수정 필요 --> 수정 완료
+export const CREATE_REPORT = gql`
+  mutation createReport($toId: String, $text: String, $optionText: String) {
+    createReport(toId: $toId, text: $text, optionText: $optionText)
+  }
+`;
+
+// 수정 필요
+export const ROOM_DELETE = gql`
+  mutation roomDelete($roomId: String!) {
+    roomDelete(roomId: $roomId)
   }
 `;

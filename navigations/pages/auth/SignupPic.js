@@ -30,7 +30,9 @@ class SignupPic extends React.Component {
   };
 
   _doNext() {
-    this.props.navigation.navigate("SignupIdcard");
+    // this.props.navigation.navigate("SignupIdcard");
+    this.props.navigation.navigate("Login");
+    this.props.signupStore.submitSignupData();
   }
 
   async permitCamera() {
@@ -122,7 +124,7 @@ class SignupPic extends React.Component {
                   <Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />
                 }
                 iconRight
-                title="NEXT"
+                title="Submit"
                 onPress={this._doNext.bind(this)}
               />
             ) : (

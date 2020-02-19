@@ -33,7 +33,7 @@ function SettingPage(props) {
     try {
       const { data } = await logoutMethod();
       console.log("data : ", data);
-      await AsyncStorage.setItem("jwt", data.logOut);
+      await AsyncStorage.setItem("jwt", "");
       console.log("logout token : ", await AsyncStorage.getItem("jwt"));
       Alert.alert("정상적으로 로그아웃 되었습니다.");
       props.navigation.navigate("AuthStack");

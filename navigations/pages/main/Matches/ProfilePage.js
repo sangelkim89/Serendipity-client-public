@@ -5,8 +5,15 @@ import { FontAwesome } from "@expo/vector-icons";
 const ProfilePage = props => {
   const {
     image,
-    profile: { birth, companyName, companyRole, name, profileImgLocation, tags },
+    profile: { id, birth, companyName, companyRole, name, profileImgLocation, tags },
   } = props.navigation.state.params;
+
+  const { navigation } = props;
+
+  const moveReport = () => {
+    navigation.navigate("ReportPage", { name: name, id: id });
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -26,7 +33,7 @@ const ProfilePage = props => {
               );
             })}
           </View>
-          <TouchableOpacity style={styles.report}>
+          <TouchableOpacity style={styles.report} onPress={moveReport}>
             <FontAwesome name="bell" style={{ color: "red", fontSize: 40 }} />
             <Text>신고하기</Text>
           </TouchableOpacity>
