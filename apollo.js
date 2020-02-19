@@ -11,7 +11,7 @@ import { concat, Operation, split } from "apollo-link";
 // 준식IP : 192.168.219.139
 // 준식까페 : 172.30.1.4
 const httpLink = new HttpLink({
-  uri: "http://172.30.1.4:4000",
+  uri: "http://192.168.219.139:4000",
 });
 // 웹소켓 링크 코드 추가
 const wsLink = new WebSocketLink({

@@ -8,6 +8,7 @@ import {
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
+  Dimensions,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -19,35 +20,128 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
 import { useMutation } from "@apollo/react-hooks";
-import { GET_ME } from "../../../queries";
+import { EDIT_NO_PIC, GET_ME } from "../../../queries";
+
+import axios from "axios";
+
+const { width, height } = Dimensions.get("window");
 
 function EditPageFunction(props) {
   // static navigationOptions = { headerShown: false };
-
-  const [getMeRES] = useMutation(GET_ME);
+  // uesMutate - getMeRES
 
   const {
+    id,
     myProfileStore,
     inputCompanyName,
     inputCompanyRole,
-    tagDATA2,
+    tagDATA,
     Tag,
-    changeColor,
-    changeColorState,
     myProfile,
+    tags,
+    saveMyProfile,
+    geoLocation,
+    distance,
+    companyName,
+    companyRole,
+    bio,
+    password,
   } = props;
+
+  const [editNoPicRes] = useMutation(EDIT_NO_PIC);
+  const [getMeRES] = useMutation(GET_ME);
+
+  async function _submit() {
+    if (myProfileStore.imgIdCardName === null) {
+      console.log("사진을 안바꾸면 악시오스는 못쓴다 이자식아");
+      await editNoPicRes({
+        variables: {
+          geoLocation: JSON.stringify({
+            lat: geoLocation.lat,
+            lon: geoLocation.lon,
+          }),
+          tags: JSON.stringify(myProfileStore.tags2),
+          distance: distance,
+          companyName: companyName,
+          companyRole: companyRole,
+          bio: bio,
+          password: password,
+        },
+      });
+      await _gotoMyProfilePage();
+    } else {
+      console.log("첫번째 순서입니다. 바꾼 내용을 서버로 보낼 겁니다.1");
+      // props.myProfileStore.submitEditData();
+
+      // 폼데이터 생성
+      const editData = new FormData();
+      // 폼데이터에 이미지 추가
+      editData.append("profileImg", {
+        name: myProfileStore.imgIdCardName,
+        type: `image/${myProfileStore.imgIdCardType}`,
+        uri: myProfileStore.imgIdCardUri,
+      });
+      editData.append("gender", myProfileStore.gender);
+      editData.append("email", myProfileStore.email); //확인용
+      editData.append("name", myProfileStore.name);
+      editData.append("password", password);
+      editData.append("companyName", companyName);
+      editData.append("companyRole", companyRole);
+      editData.append(
+        "geoLocation",
+        JSON.stringify({
+          lat: geoLocation.lat,
+          lon: geoLocation.lon,
+        }),
+      );
+      editData.append("tags", JSON.stringify(myProfileStore.tags2));
+      editData.append("bio", myProfileStore.bio);
+      editData.append("distance", Number(distance));
+
+      // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
+      // 생성된 폼데이터 확인
+      console.log("formdata not send yet : ", editData);
+      // 재협IP : 192.168.0.2
+      // 상욱IP : 192.168.0.33
+      // 준식IP : 192.168.219.139
+      // 준식까페 : 172.30.1.4
+      const endPoint = "http://192.168.219.139:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
+
+      axios
+        .post(endPoint, editData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(res => {
+          console.log("edit axios response : ", res);
+          alert("수정이 완료되었습니다.");
+          _gotoMyProfilePage();
+        })
+
+        .catch(e => {
+          // console.log("axios error issued!");
+          console.log("NETWORK_ERR_AXIOS in MyProfileStore : ", e);
+          alert("수정 실패");
+        });
+
+      // console.log("세 번째 순서입니다. 다음 페이지로 넘어갈겁니다. 3");
+      // props.navigation.navigate("MyProfilePage");
+    }
+  }
 
   function _gotoSettingPage() {
     props.navigation.navigate("SettingPage");
   }
 
-  function _gotoMyProfilePage() {
+  async function _gotoMyProfilePage() {
     props.navigation.navigate("MyProfilePage");
-  }
-
-  function _doEditData() {
-    props.navigation.navigate("MyProfilePage");
-    props.myProfileStore.submitEditData();
+    console.log("두 번째 순서입니다. 현재 서버에 새로 저장된 데이터를 스토어로 저장할 겁니다. 2");
+    const getMyProfile = await getMeRES({
+      variables: { id: id },
+    });
+    console.log("MyProfile Store에 저장: ", getMyProfile.data.getMe);
+    saveMyProfile(getMyProfile);
   }
 
   async function permitCamera() {
@@ -66,6 +160,35 @@ function EditPageFunction(props) {
     } else {
       console.log("여기냐 ? Gallery permission is not granted!");
     }
+  }
+
+  async function permitGallery() {
+    const { status, permissions } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    if (status !== "granted") {
+      const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status === "granted") {
+        pickImage();
+      } else {
+      }
+    } else {
+      pickImage();
+    }
+  }
+
+  async function pickImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+    console.log("pickImg result : ", result);
+    props.myProfileStore.imgIdCard = result;
+    props.myProfileStore.imgIdCardName = result.uri.substr(-10);
+    props.myProfileStore.imgIdCardUri = result.uri;
+    if (result.uri.substr(-4)[0] === ".") {
+      props.myProfileStore.imgIdCardType = result.uri.substr(-3);
+    } else {
+      props.myProfileStore.imgIdCardUri = result.uri.substr(-4);
+    }
+    console.log("this.props.myProfileStore.imgIdCardUri : ", props.myProfileStore.imgProfileUri);
   }
 
   return (
@@ -95,7 +218,13 @@ function EditPageFunction(props) {
               </TouchableOpacity>
             </View>
 
-            <View style={{ backgroundColor: "steelblue" }}>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "steelblue",
+              }}
+            >
               <TouchableOpacity onPress={_gotoSettingPage}>
                 <Text>톱니바퀴</Text>
               </TouchableOpacity>
@@ -112,8 +241,8 @@ function EditPageFunction(props) {
               <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
                 <Text style={styles.text}>Camera</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
-                <Text style={styles.text}>Camera</Text>
+              <TouchableOpacity onPress={permitGallery} style={styles.picButton}>
+                <Text style={styles.text}>Gallery</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -180,23 +309,31 @@ function EditPageFunction(props) {
                 {/* 세번째줄=============================================================== */}
                 {/* 태그 테스트========================================================= */}
 
-                <View>
-                  {tagDATA2.map((tag, f, e) => {
+                <View style={styles.buttonArea}>
+                  {tagDATA.map((tag, f) => {
                     return (
                       <TouchableOpacity
                         key={f}
                         tag={tag}
                         onPress={() => {
                           Tag(f);
-                          changeColor(f);
-                          console.log("changeColorState 여기냐:", changeColorState);
                         }}
                         style={[
                           styles.tagColor,
-                          { backgroundColor: changeColorState ? "red" : "pink" },
+                          {
+                            backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                            borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                          },
                         ]}
                       >
-                        <Text>{tag}</Text>
+                        <Text
+                          style={{
+                            fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                            fontSize: tags.indexOf(tag) === -1 ? 15 : 18,
+                          }}
+                        >
+                          {tag}
+                        </Text>
                       </TouchableOpacity>
                     );
                   })}
@@ -237,7 +374,7 @@ function EditPageFunction(props) {
                   }}
                 >
                   <View style={{ backgroundColor: "skyblue" }}>
-                    <TouchableOpacity onPress={_doEditData}>
+                    <TouchableOpacity onPress={_submit}>
                       <Text>수정 확정</Text>
                     </TouchableOpacity>
                   </View>
@@ -343,6 +480,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "brown",
   },
+  buttonArea: {
+    height: height - 280,
+    width: "100%",
+    flexDirection: "row",
+    padding: 5,
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tagColor: {
+    padding: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    width: 100,
+    height: 60,
+    borderColor: "#70a1ff",
+    borderWidth: 3,
+    borderRadius: 50,
+  },
   text: {
     fontSize: 15,
     color: "white",
@@ -350,14 +507,21 @@ const styles = StyleSheet.create({
 });
 
 export default inject(({ myProfileStore }) => ({
+  id: myProfileStore.id,
   myProfileStore: myProfileStore,
   inputCompanyName: myProfileStore.inputCompanyName,
   inputCompanyRole: myProfileStore.inputCompanyRole,
-  tagDATA2: myProfileStore.tagDATA,
+  tagDATA: myProfileStore.tagDATA,
   addtagState: myProfileStore.addtagState,
   addtagState2: myProfileStore.addtagState2,
-  changeColorState: myProfileStore.changeColorState,
-  changeColor: myProfileStore.changeColor,
   Tag: myProfileStore.addtagState2,
+  tags: myProfileStore.tags2,
   myProfile: myProfileStore.myProfile.data.getMe,
+  saveMyProfile: myProfileStore.saveMyProfile,
+  geoLocation: myProfileStore.marker,
+  distance: myProfileStore.distance,
+  companyName: myProfileStore.companyName,
+  companyRole: myProfileStore.companySort,
+  bio: myProfileStore.bio,
+  password: myProfileStore.password,
 }))(observer(EditPageFunction));

@@ -4,14 +4,10 @@ import { Text, View, TouchableOpacity, Image, TextInput, ImageBackground } from 
 
 import { observer, inject } from "mobx-react";
 
-import { useMutation } from "@apollo/react-hooks";
-import { GET_ME } from "../../../queries";
-
 function MyProfilePage(props) {
-  const { id, myProfile } = props;
+  const { id, myProfile, myProfileStore } = props;
 
   const _gotoEditPage = () => {
-
     props.navigation.navigate("EditPage");
   };
 
@@ -19,20 +15,9 @@ function MyProfilePage(props) {
     props.navigation.navigate("SettingPage");
   };
 
-
-  const [getMeRES] = useMutation(GET_ME);
-
-  const submit = async () => {
-    const getMyProfile = await getMeRES({
-      variables: { id: id },
-    });
-    console.log("저기니?", getMyProfile);
-  };
-
   // console.log("useMutation {data} : ", data);
   // console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
   // console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
-
 
   return (
     <View
@@ -52,9 +37,7 @@ function MyProfilePage(props) {
         >
           <Image
             style={{ width: 400, height: 600 }}
-
             source={{ uri: myProfile.profileImgLocation }}
-
           />
 
           <View
@@ -103,7 +86,6 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-
                 <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[0]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
@@ -120,19 +102,16 @@ function MyProfilePage(props) {
               }}
             >
               <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-
                 <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[2]}</Text>
               </View>
               <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
                 <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[3]}</Text>
-
               </View>
             </View>
             <View style={{ flex: 1, backgroundColor: "rgba(255,0,0,0.5)" }}>
-
               <Text style={{ fontSize: 30, color: "white" }}>{myProfile.tags[4]}</Text>
             </View>
-           </View>
+          </View>
         </View>
       </View>
 
@@ -164,4 +143,5 @@ function MyProfilePage(props) {
 export default inject(({ myProfileStore }) => ({
   id: myProfileStore.id,
   myProfile: myProfileStore.myProfile.data.getMe,
+  myProfileStore: myProfileStore,
 }))(observer(MyProfilePage));

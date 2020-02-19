@@ -144,7 +144,7 @@ class SignupStore {
     this.birth = date;
     console.log("BIRTH", this.birth);
   };
-  @observable birth = "";
+  @observable birth = "1991-02-20";
 
   //==================================================================
   // 회사 이름 입력 메소드
@@ -256,7 +256,7 @@ class SignupStore {
     // 상욱IP : 192.168.0.33
     // 준식IP : 192.168.219.139
     // 준식까페 : 172.30.1.4
-    const endPoint = "http://172.30.1.4:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+    const endPoint = "http://192.168.219.139:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
 
     // fetch(endPoint, {
     //   method: "POST",
@@ -302,7 +302,7 @@ class SignupStore {
     this.resMobileSecretKey = "";
     this.phoneBoolean = true;
     this.userId = "";
-    this.birth = "";
+    this.birth = "1991-02-20";
     this.companyName = ""; // 회사명
     this.companySort = ""; // 업종
     this.geoLocation = { lat: 0, lon: 0 };

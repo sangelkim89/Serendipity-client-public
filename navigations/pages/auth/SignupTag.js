@@ -17,7 +17,7 @@ import GridView from "react-native-super-grid";
 const { width, height } = Dimensions.get("window");
 
 function SignupTag(props) {
-  const { Tag, tagDATA, changeColorState, changeColor, tags } = props;
+  const { Tag, tagDATA, tags } = props;
   console.log("TAGS_IN_TAGS", tags);
   //Tag, tagDATA를 props로 사용합니다.
   _doNextPage = () => {
@@ -123,7 +123,5 @@ const styles = StyleSheet.create({
 export default inject(({ signupStore }) => ({
   Tag: signupStore.addtagState,
   tagDATA: signupStore.tagDATA,
-  changeColorState: signupStore.changeColorState,
-  changeColor: signupStore.changeColor,
   tags: signupStore.tags,
 }))(observer(SignupTag));

@@ -29,9 +29,13 @@ export const NEW_MESSAGE = gql`
     newMessage(roomId: $roomId) {
       id
       text
-      from
-      to
-      room
+      from {
+        id
+      }
+      to {
+        id
+      }
+      createdAt
     }
   }
 `;
@@ -39,6 +43,28 @@ export const NEW_MESSAGE = gql`
 export const GET_LIST = gql`
   mutation getHuntList($id: String) {
     getHuntList(id: $id)
+  }
+`;
+
+export const EDIT_NO_PIC = gql`
+  mutation editUser(
+    $geoLocation: String
+    $tags: [String!]
+    $distance: Int!
+    $companyName: String!
+    $companyRole: String
+    $bio: String!
+    $password: String!
+  ) {
+    editUser(
+      geoLocation: $geoLocation
+      tags: $tags
+      distance: $distance
+      companyName: $companyName
+      companyRole: $companyRole
+      bio: $bio
+      password: $password
+    )
   }
 `;
 
@@ -57,7 +83,6 @@ export const GET_ME = gql`
       geoLocation
       tags
       profileImgLocation
-      cardImgLocation
       bio
       distance
     }

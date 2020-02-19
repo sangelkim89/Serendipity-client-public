@@ -37,11 +37,11 @@ class MatchStore {
       message: target.messages,
       participants: target.participants,
     });
-    // console.log("this.messages : ", this.messages);
+    console.log("this.messages : ", this.messages);
   };
 
   @action
-  subChats = (roomId, userId, toId, chat) => {
+  subChats = (roomId, myId, toId, chat) => {
     this.messages.forEach(msg => {
       if (msg.id === roomId) {
         console.log("push invoked!", msg);
@@ -50,7 +50,7 @@ class MatchStore {
           id: chat.id,
           text: chat.text,
           from: { id: chat.from.id },
-          to: { id: chat.from.id },
+          to: { id: toId },
         };
         msg.message.push(combindedMsg);
       }

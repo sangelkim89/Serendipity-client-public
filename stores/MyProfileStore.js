@@ -1,5 +1,4 @@
 import { observable, action, computed, toJS, runInAction } from "mobx";
-import axios from "axios";
 
 class MyProfileStore {
   // (StoreIndex)
@@ -16,13 +15,13 @@ class MyProfileStore {
     this.email = e.data.getMe.email;
     this.phone = e.data.getMe.phone;
     this.name = e.data.getMe.name;
-    this.password = e.data.getMe.password;
+    // this.password = e.data.getMe.password;
     this.birth = e.data.getMe.birth;
+    this.bio = e.data.getMe.bio;
+    this.distance = e.data.getMe.distance;
 
     this.marker = JSON.parse(e.data.getMe.geoLocation);
-    this.tags2 = JSON.parse(e.data.getMe.tags);
-    console.log("myprofile in Store:", e.data.getMe.geoLocation);
-    console.log("tags2 in MyprofileStore:", e.data.getMe.tags);
+    this.tags2 = e.data.getMe.tags;
   };
   @observable myProfile = {};
 
@@ -32,6 +31,8 @@ class MyProfileStore {
   @observable name = "";
   @observable password = "";
   @observable birth = "";
+  @observable bio = "";
+  @observable distance = "";
 
   // 회사이름 입력======================================================================
 
@@ -102,10 +103,8 @@ class MyProfileStore {
     this.geoLocation.lat = lat;
     this.geoLocation.lon = lon;
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
-    console.log("MARKER_STATE", JSON.parse(this.myProfile.data.getMe.geoLocation));
-    console.log("마커엔 뭐가 뜨니:", JSON.parse(this.myProfile.data.getMe.geoLocation).lon);
   };
-  @observable geoLocation = { lat: 37.48547187320461, lon: 126.98129273951052 };
+  @observable geoLocation = {};
   @observable marker = {};
 
   // 이미지 ======================================================================
@@ -116,64 +115,6 @@ class MyProfileStore {
   @observable imgIdCardUri = null;
 
   // 수정완료보내기 ======================================================================
-
-  @action
-  submitEditData = () => {
-    // 폼데이터 생성
-    const editData = new FormData();
-    // 폼데이터에 이미지 추가
-    editData.append("cardImg", {
-      name: this.imgIdCardName,
-      type: `image/${this.imgIdCardType}`,
-      uri: this.imgIdCardUri,
-    });
-    editData.append("profileImg", {
-      name: this.imgProfileName,
-      type: `image/${this.imgProfileType}`,
-      uri: this.imgProfileUri,
-    });
-
-    // 폼데이터에 데이터 추가
-    editData.append("gender", this.gender);
-    editData.append("email", this.email);
-    editData.append("phone", this.phone);
-    editData.append("name", this.userId); // 서버는 name, 클라는 userId
-    editData.append("password", this.password);
-    editData.append("birth", this.birth);
-    editData.append("companyName", this.companyName);
-    editData.append("companySort", this.companySort); // 서버는 companyRole, 클라는 companySort
-    editData.append(
-      "geoLocation",
-      JSON.stringify({ lat: this.geoLocation.lat, lon: this.geoLocation.lon }),
-    );
-    editData.append("tags2", JSON.stringify(this.tags2));
-
-    // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
-
-    // 생성된 폼데이터 확인
-    console.log("formdata not send yet : ", editData);
-    // 재협IP : 192.168.0.2
-    // 상욱IP : 192.168.0.33
-    // 준식IP : 192.168.219.139
-    // 준식까페 : 172.30.1.4
-    const endPoint = "http://172.30.1.4:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
-
-    axios
-      .post(endPoint, editData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(res => {
-        console.log("edit axios response : ", res);
-        alert("수정이 완료되었습니다.");
-      })
-      .catch(e => {
-        // console.log("axios error issued!");
-        console.log("NETWORK_ERR_AXIOS in MyProfileStore : ", e);
-        alert("수정 실패");
-      });
-  };
 
   @observable id = ""; // userId / 상욱 추가
   @action
