@@ -11,11 +11,11 @@ import { concat, Operation, split } from "apollo-link";
 // 준식IP : 192.168.219.139
 // 준식까페 : 172.30.1.4
 const httpLink = new HttpLink({
-  uri: "http://192.168.219.139:4000",
+  uri: "https://serendipity-server.herokuapp.com/",
 });
 // 웹소켓 링크 코드 추가
 const wsLink = new WebSocketLink({
-  uri: "ws://192.168.219.139:4000",
+  uri: "ws://serendipity-server.herokuapp.com/",
   options: {
     reconnect: true,
   },

@@ -11,7 +11,6 @@ import SignupPic from "./pages/auth/SignupPic";
 import TakeCamera from "./pages/auth/TakeCamera";
 import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
-import SettingPage from "./pages/main/MyProfile/SettingPage";
 import App from "../App";
 
 const AuthStack = createStackNavigator(
@@ -60,4 +59,4 @@ const MainStack = createSwitchNavigator(
   },
 );
 
-export default createAppContainer(MainStack, secessionStack);
+export default createAppContainer(MainStack);

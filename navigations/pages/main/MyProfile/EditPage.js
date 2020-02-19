@@ -106,7 +106,7 @@ function EditPageFunction(props) {
       // 상욱IP : 192.168.0.33
       // 준식IP : 192.168.219.139
       // 준식까페 : 172.30.1.4
-      const endPoint = "http://192.168.219.139:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
+      const endPoint = "https://serendipity-server.herokuapp.com/api/img"; // 안드로이드는 localhost(x), ip주소(O)
 
       axios
         .post(endPoint, editData, {

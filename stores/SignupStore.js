@@ -257,7 +257,7 @@ class SignupStore {
     // 상욱IP : 192.168.0.33
     // 준식IP : 192.168.219.139
     // 준식까페 : 172.30.1.4
-    const endPoint = "http://192.168.219.139:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+    const endPoint = "https://serendipity-server.herokuapp.com/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
 
     // fetch(endPoint, {
     //   method: "POST",
