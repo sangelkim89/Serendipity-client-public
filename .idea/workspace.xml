@@ -2,11 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/auth/SignupTag.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/SignupTag.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apollo.js" beforeDir="false" afterPath="$PROJECT_DIR$/apollo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/auth/SignupPic.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/auth/SignupPic.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/ChatPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchPageList.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchPageList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchesIndex.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/MatchesIndex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/ProfilePage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigations/pages/main/Matches/RoomItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Matches/RoomItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/pages/main/MyProfile/SettingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/MyProfile/SettingPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigations/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/MatchStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/MatchStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/SignupStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/SignupStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/StoreIndex.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/StoreIndex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,20 +26,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="434" />
-    <option name="y" value="101" />
-    <option name="width" value="865" />
-    <option name="height" value="763" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="481" />
+    <option name="y" value="45" />
+    <option name="width" value="960" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -81,7 +90,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="434" y="101" width="865" height="763" extended-state="0" />
+    <frame x="481" y="45" width="960" height="877" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.30658683" />

@@ -27,7 +27,7 @@ function ChatPage(props) {
   const opponent = participants[0].id === myId ? participants[1] : participants[0];
   // console.log("myId in chatpage : ", myId);
   // console.log("opponent : ", opponent);
-
+  // console.log("messages in chatPage : ", messages);
   // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
   const [message, setMessage] = useState("");
 
@@ -84,7 +84,7 @@ function ChatPage(props) {
       // messages.push(sendMessage);
       setMessage("");
     } catch (e) {
-      console.log("onsubmit error in chatpage : s", e);
+      console.log("onsubmit error in chatpage : ", e);
     }
   };
 
@@ -125,14 +125,14 @@ function ChatPage(props) {
                 return msg.from.id === myId ? (
                   <View key={i} style={styles.meChat}>
                     <Text>{msg.text}</Text>
-                    <Text style={styles.timeStamp}>00:00</Text>
+                    <Text style={styles.timeStamp}>{msg.createdAt.substring(11, 16)}</Text>
                   </View>
                 ) : (
                   <View key={i} style={styles.otherChat}>
                     <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
                     <View style={styles.otherChatText}>
                       <Text>{msg.text}</Text>
-                      <Text style={styles.timeStamp}>00:00</Text>
+                      <Text style={styles.timeStamp}>{msg.createdAt.substring(11, 16)}</Text>
                     </View>
                   </View>
                 );
@@ -149,10 +149,12 @@ function ChatPage(props) {
                 bottom: 0,
                 widht: "80%",
               }}
+              rightIcon={
+                <TouchableOpacity onPress={onSubmit} style={{ marginRight: 10 }}>
+                  <Icon name="paper-plane" size={25} color="#6c5ce7" style={{ marginRight: 10 }} />
+                </TouchableOpacity>
+              }
             />
-            <TouchableOpacity onPress={onSubmit} style={{ marginRight: 10 }}>
-              <Icon name="paper-plane" size={25} color="#6c5ce7" style={{ marginRight: 10 }} />
-            </TouchableOpacity>
           </View>
           {/* </KeyboardAvoidingView> */}
         </View>

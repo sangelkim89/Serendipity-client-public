@@ -24,7 +24,13 @@ class MatchStore {
     this.messages = []; // 메세지스 초기화
     // console.log("this.messages after initialization : ", this.messages);
     target.map(room => {
-      this.messages.push({ id: room.id, message: room.messages, participants: room.participants });
+      console.log("room in matchStore : ", room);
+      this.messages.push({
+        id: room.id,
+        message: room.messages,
+        participants: room.participants,
+        createdAt: room.createdAt,
+      });
     });
     // console.log("this.roomList from  : ", this.roomList);
     // console.log("this.messages from matchstore : ", this.messages);
@@ -51,6 +57,7 @@ class MatchStore {
           text: chat.text,
           from: { id: chat.from.id },
           to: { id: toId },
+          createdAt: chat.createdAt,
         };
         msg.message.push(combindedMsg);
       }
@@ -62,6 +69,17 @@ class MatchStore {
     // this.messages.splice(targetIndex, 1);
     // this.messages = [msgAddedRoom[0], ...this.messages];
   };
+
+  @action
+  delRoomView = roomId => {
+    const newRoomView = this.messages.filter(msg => {
+      return msg.id !== roomId;
+    });
+    console.log("newRoomView in delRoomView : ", newRoomView);
+    console.log("this.messages in delRoomView : ", this.messages);
+    this.messages = newRoomView;
+  };
+
   //asdf
   // @observable message = ""; // 채팅인풋메세지 - 각 방의 독립성을 위해 useState로 옮김
 }
