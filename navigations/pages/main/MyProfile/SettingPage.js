@@ -28,7 +28,7 @@ function SettingPage(props) {
   };
 
   const _secession = () => {
-    props.navigation.navigate("Login");
+    props.navigation.navigate("AuthStack");
     Alert.alert("만나서 반가웠어요.  함께여서 행복했어요.\n우리 꼭 다시만나요.  고마워요.");
   };
 

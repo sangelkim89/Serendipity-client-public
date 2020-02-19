@@ -60,21 +60,4 @@ const MainStack = createSwitchNavigator(
   },
 );
 
-const secessionStack = createStackNavigator(
-  {
-    Login: {
-      screen: Login,
-    },
-
-    SettingPage: {
-      screen: SettingPage,
-    },
-  },
-  {
-    defaultNavigationOptions: {
-      headerShown: false,
-    },
-  },
-);
-
 export default createAppContainer(MainStack, secessionStack);
