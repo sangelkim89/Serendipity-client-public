@@ -127,7 +127,7 @@ class MyProfileStore {
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
-    "태그1",
+    "바꾸자",
     "태그2",
     "태그3",
     "태그4",
