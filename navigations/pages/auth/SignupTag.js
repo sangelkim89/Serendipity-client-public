@@ -159,7 +159,5 @@ const styles = StyleSheet.create({
 export default inject(({ signupStore }) => ({
   Tag: signupStore.addtagState,
   tagDATA: signupStore.tagDATA,
-  changeColorState: signupStore.changeColorState,
-  changeColor: signupStore.changeColor,
   tags: signupStore.tags,
 }))(observer(SignupTag));

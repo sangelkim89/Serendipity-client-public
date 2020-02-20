@@ -18,6 +18,7 @@ const wsLink = new WebSocketLink({
     reconnect: true,
   },
 });
+
 const errLink = onError(({ graphQLErrors, networkError }) => {
   console.log("에러에서발생");
   if (graphQLErrors)
@@ -30,6 +31,7 @@ const errLink = onError(({ graphQLErrors, networkError }) => {
     );
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
+
 export const authMiddleWare = setContext(async (_, { headers }) => {
   console.log("request is invoked!");
   const token = await AsyncStorage.getItem("jwt");

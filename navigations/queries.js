@@ -46,6 +46,28 @@ export const GET_LIST = gql`
   }
 `;
 
+export const EDIT_NO_PIC = gql`
+  mutation editUser(
+    $geoLocation: String
+    $tags: [String!]
+    $distance: Int!
+    $companyName: String!
+    $companyRole: String
+    $bio: String!
+    $password: String!
+  ) {
+    editUser(
+      geoLocation: $geoLocation
+      tags: $tags
+      distance: $distance
+      companyName: $companyName
+      companyRole: $companyRole
+      bio: $bio
+      password: $password
+    )
+  }
+`;
+
 export const GET_ME = gql`
   mutation getMe($id: String!) {
     getMe(id: $id) {

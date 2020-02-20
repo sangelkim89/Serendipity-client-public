@@ -49,7 +49,6 @@ function Login(props) {
     saveMyProfile,
     addUserId,
     myId,
-    getMe,
     id,
   } = props;
 
@@ -126,7 +125,8 @@ function Login(props) {
         const getMyProfile = await getMeRES({
           variables: { id: id },
         });
-        console.log(getMyProfile);
+        console.log("MyProfile Store에 저장: ", getMyProfile.data.getMe);
+
         saveMyProfile(getMyProfile);
         //=======================================================================
       } else {
