@@ -1,5 +1,6 @@
 import { observable, action, computed, toJS } from "mobx";
 import axios from "axios";
+import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 class SignupStore {
   // (StoreIndex)
@@ -254,7 +255,7 @@ class SignupStore {
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
 
-    const endPoint = "http://192.168.0.2:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+    const endPoint = `${SERVER_ENDPOINT}/api/upload`; // 안드로이드는 localhost(x), ip주소(O)
 
     // fetch(endPoint, {
     //   method: "POST",
