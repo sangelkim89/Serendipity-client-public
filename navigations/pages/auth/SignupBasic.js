@@ -293,7 +293,7 @@ function SignupBasic(props) {
 
           <View style={styles.inputLine}>
             <Input
-              placeholder="password"
+              placeholder="Password - 8자 이상!"
               containerStyle={styles.input}
               placeholderTextColor="white"
               inputStyle={{ color: "white" }}
@@ -328,7 +328,7 @@ function SignupBasic(props) {
               handleConfirm(date);
             }}
           />
-          {email && password && phone && userId ? (
+          {email && password && phone && userId && password.length > 8 ? (
             <Button
               buttonStyle={{
                 width: "80%",

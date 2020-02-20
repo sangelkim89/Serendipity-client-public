@@ -21,7 +21,7 @@ const RoomItem = props => {
   const onDelRoom = () => {
     Alert.alert(
       "채팅방을 삭제하시겠습니까?",
-      "My Alert Msg",
+      "채팅 내용이 모두 사라지며 상대방과 다시 매치될 수 없습니다.",
       [
         {
           text: "Cancel",
@@ -72,7 +72,7 @@ const RoomItem = props => {
     );
   } else {
     return (
-      <TouchableOpacity onPress={moveChatRoom} style={styles.touch}>
+      <TouchableOpacity onPress={moveChatRoom} style={styles.touch} onLongPress={onDelRoom}>
         <View style={styles.container}>
           <View style={styles.imgContainer}>
             <Image
