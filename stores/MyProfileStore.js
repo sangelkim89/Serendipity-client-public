@@ -1,6 +1,5 @@
 import { observable, action, computed, toJS, runInAction } from "mobx";
 import axios from "axios";
-import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 class MyProfileStore {
   // (StoreIndex)

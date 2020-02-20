@@ -35,11 +35,11 @@ function HuntPage(props) {
   console.log("myId in huntPage.js : ", myId);
   const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
     variables: { id: myId },
+    fetchPolicy: "no-cache",
   });
 
   const { data, loading } = useSubscription(NEW_ROOM, {
     variables: { id: myId },
-    fetchPolicy: "no-cache",
   });
 
   // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
@@ -62,15 +62,17 @@ function HuntPage(props) {
   // data값을 지켜보며 변경이 있을 때만 실행됨 - subscription
   useEffect(() => {
     handleNewRoom();
-    console.log("useEffect invoked!");
+    console.log("useEffect for handleNewRoom");
   }, [data]);
 
   useEffect(() => {
+    console.log("useEffect for getRoomMethod");
     getRoomMethod();
   }, []);
 
   // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
   if (initRoomData !== undefined) {
+    console.log("initRoomData - refreshRoomList 작동 arg : ", initRoomData);
     refreshRoomList(initRoomData.getRoom);
   } // mobx roomlist에 저장
 
@@ -88,7 +90,8 @@ function HuntPage(props) {
         // 생성된 roomId를 매치스토어에 저장
         if (
           res.data.likeUser &&
-          res.data.likeUser !== "The request has been successfully processed."
+          res.data.likeUser !== "The request has been successfully processed." &&
+          res.data.likeUser !== "you already like each other!"
         ) {
           // 라이크로 신규 생성된 채팅방 아이디 추가 메소드
           addLikeRoomId(res.data.likeUser);

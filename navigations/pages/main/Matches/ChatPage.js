@@ -17,10 +17,11 @@ import { inject, observer } from "mobx-react";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE } from "../../../queries";
+import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE, GET_ROOM } from "../../../queries";
 
 function ChatPage(props) {
-  const { navigation, myId, refreshRoomList, subChats } = props;
+  console.log("CHATPAGE RENDERED!!!");
+  const { navigation, myId, refreshRoomList, subChats, addNewOne } = props;
   const { id, messages, participants } = navigation.state.params;
   // console.log("props.navigation.state.params : ", props.navigation.state.params);
   // console.log("messages in chatPage.js : ", messages);
@@ -48,7 +49,7 @@ function ChatPage(props) {
   // data에 구독한 데이터 할당
   const { data: newMsgData, loading } = useSubscription(NEW_MESSAGE, {
     variables: { roomId: id },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
 
   // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
@@ -57,7 +58,7 @@ function ChatPage(props) {
       if (newMsgData !== undefined) {
         const { newMessage } = newMsgData;
         console.log("newMessage in chatPage.js : ", newMessage);
-        subChats(id, myId, opponent.id, newMessage);
+        subChats(id, opponent.id, newMessage);
       }
     }
   };
@@ -67,6 +68,11 @@ function ChatPage(props) {
     console.log("useEffect in chatpage.js invoked!!!");
     handleNewMessage();
   }, [newMsgData]);
+
+  const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
+    variables: { id: myId },
+    fetchPolicy: "no-cache",
+  });
 
   // message를 가져다가 mutation 날리는 메소드
   const onSubmit = async () => {
@@ -81,7 +87,14 @@ function ChatPage(props) {
         variables: { roomId: id, message: message, toId: opponent.id },
       });
       console.log("sendMessage sent by method : ", sendMessage);
-      // messages.push(sendMessage);
+      const newOne = await getRoomMethod();
+      console.log("newOne outside in chatPage - refreshRoomList 작동 arg : ", newOne);
+      console.log("initRoomData outside in chatPage - refreshRoomList 작동 arg : ", initRoomData);
+      if (newOne !== undefined) {
+        console.log("newOne in chatPage - refreshRoomList 작동 arg : ", newOne);
+        // refreshRoomList(newOne.data.getRoom);
+        addNewOne(newOne.data.getRoom);
+      }
       setMessage("");
     } catch (e) {
       console.log("onsubmit error in chatpage : ", e);
@@ -137,10 +150,10 @@ function ChatPage(props) {
           <View style={{ heigth: 470 }}>
             <ScrollView
               style={{ height: "80%" }}
-              ref={ref => (this.scrollView = ref)}
-              onContentSizeChange={() => {
-                this.scrollView.scrollToEnd({ animated: false });
-              }}
+              // ref={ref => (this.scrollView = ref)}
+              // onContentSizeChange={() => {
+              //   this.scrollView.scrollToEnd({ animated: false });
+              // }}
             >
               {messages.map((msg, i) => {
                 function timeStamp() {
@@ -255,6 +268,7 @@ export default inject(({ myProfileStore, matchStore }) => ({
   myId: myProfileStore.id,
   refreshRoomList: matchStore.refreshRoomList,
   subChats: matchStore.subChats,
+  addNewOne: matchStore.addNewOne,
 }))(observer(ChatPage));
 
 // message의 createdAt 제공 요청

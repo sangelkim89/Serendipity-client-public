@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { ROOM_DELETE } from "../../../queries";
 
 const RoomItem = props => {
+  console.log("ROOMITEM RENDERED!!!");
   const { room, navigation, myId, delRoomView } = props;
 
   const moveChatRoom = () => {
@@ -51,7 +52,7 @@ const RoomItem = props => {
   if (room.message.length !== 0) {
     console.log("room 내용 있는 루트 인");
     const lastChatRaw = room.message[room.message.length - 1]["text"];
-    const lastChat = lastChatRaw.length > 30 ? lastChatRaw.substring(0, 40) + "..." : lastChatRaw;
+    const lastChat = lastChatRaw.length > 15 ? lastChatRaw.substring(0, 15) + "..." : lastChatRaw;
     return (
       <TouchableOpacity onPress={moveChatRoom} style={styles.touch} onLongPress={onDelRoom}>
         <View style={styles.container}>

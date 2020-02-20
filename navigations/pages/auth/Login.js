@@ -38,6 +38,7 @@ function cacheImages(img) {
 
 // 로그인 컴포넌트
 function Login(props) {
+  console.log("LOGIN RENDERED!!!");
   // Store 비할당구조
   const {
     ID,
