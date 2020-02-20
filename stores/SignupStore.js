@@ -253,8 +253,8 @@ class SignupStore {
     // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
 
     // 생성된 폼데이터 확인
-    console.log("formdata not send yet : ", signupData);
-
+    // console.log("formdata not send yet : ", signupData);
+    console.log("server endpoint : ", SERVER_ENDPOINT);
     const endPoint = `${SERVER_ENDPOINT}/api/upload`; // 안드로이드는 localhost(x), ip주소(O)
 
     // fetch(endPoint, {

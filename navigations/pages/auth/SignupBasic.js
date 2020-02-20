@@ -328,7 +328,7 @@ function SignupBasic(props) {
               handleConfirm(date);
             }}
           />
-          {email && password && phone && userId && password.length >= 8 ? (
+          {email && password && phone && userId && password.length > 0 ? (
             <Button
               buttonStyle={{
                 width: "80%",

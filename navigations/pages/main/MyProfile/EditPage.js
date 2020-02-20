@@ -24,6 +24,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { EDIT_NO_PIC, GET_ME } from "../../../queries";
 import { SERVER_ENDPOINT } from "react-native-dotenv";
 import axios from "axios";
+import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 const { width, height } = Dimensions.get("window");
 
