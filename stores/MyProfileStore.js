@@ -1,4 +1,6 @@
 import { observable, action, computed, toJS, runInAction } from "mobx";
+import axios from "axios";
+import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 class MyProfileStore {
   // (StoreIndex)
@@ -51,16 +53,6 @@ class MyProfileStore {
     console.log("companySort", this.companySort);
   };
   @observable companySort = "";
-
-  // // 태그 입력======================================================================
-
-  // @action
-  // addtagState = e => {
-  //   this.tags = e;
-  //   console.log("tag에는뭐가찍히니", this.tags);
-  // };
-
-  // @observable tags = [];
 
   // 태그2 입력======================================================================
 
@@ -146,32 +138,3 @@ class MyProfileStore {
 }
 
 export default MyProfileStore;
-
-// 여기니? Object {
-//   "data": Object {
-//     "getMe": Object {
-//       "__typename": "User",
-//       "bio": null,
-//       "birth": "",
-//       "cardImgLocation": "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581929112385",
-//       "companyName": "11",
-//       "companyRole": "11",
-//       "distance": 5,
-//       "email": "11",
-//       "gender": "man",
-//       "geoLocation": "{\"lat\":0,\"lon\":0}",
-//       "id": "ck6q7qztpfdoa0b09r0xmtq1o",
-//       "name": "11",
-//       "password": "17ba0791499db908433b80f37c5fbc89b870084b",
-//       "phone": "11",
-//       "profileImgLocation": "https://serendipity-uploads.s3.ap-northeast-2.amazonaws.com/1581929112564",
-//       "tags": Array [
-//         "태그2",
-//         "태그3",
-//         "태그7",
-//         "태그9",
-//         "태그11",
-//       ],
-//     },
-//   },
-// }

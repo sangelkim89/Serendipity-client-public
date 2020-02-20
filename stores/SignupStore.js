@@ -1,5 +1,6 @@
 import { observable, action, computed, toJS } from "mobx";
 import axios from "axios";
+import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 class SignupStore {
   // (StoreIndex)
@@ -254,9 +255,7 @@ class SignupStore {
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
 
-
-    const endPoint = "http://192.168.0.33:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
-
+    const endPoint = `${SERVER_ENDPOINT}/api/upload`; // 안드로이드는 localhost(x), ip주소(O)
 
     // fetch(endPoint, {
     //   method: "POST",
@@ -346,21 +345,27 @@ class SignupStore {
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
-    "태그1",
-    "태그2",
-    "태그3",
-    "태그4",
-    "태그5",
-    "태그6",
-    "태그7",
-    "태그8",
-    "태그9",
-    "태그10",
-    "태그11",
-    "태그12",
-    "태그13",
-    "태그14",
-    "태그15",
+    "먹방데이트",
+    "퇴근 후 치맥",
+    "집돌이 / 집순이",
+    "스포츠경기 관람",
+    "카페데이트",
+    "더블데이트",
+    "고기데이트",
+    "운동하자",
+    "만화카페",
+    "드라이브",
+    "영화보기",
+    "브런치",
+    "요가/필라테스",
+    "쇼핑 FLEX",
+    "피씨방",
+    "삼쏘는진리",
+    "전시회관람",
+    "술한잔해요",
+    "연상이좋아요",
+    "연하가좋아요",
+    "술보단커피",
   ];
 }
 

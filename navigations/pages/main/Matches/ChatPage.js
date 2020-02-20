@@ -88,8 +88,7 @@ function ChatPage(props) {
     }
   };
 
-  // scroll bottom -NOT USE
-
+  // scroll bottom
   function scrollToEnd() {
     this.scrollView.scrollToEnd();
   }

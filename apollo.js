@@ -6,18 +6,19 @@ import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
 import { concat, Operation, split } from "apollo-link";
+import { SERVER_ENDPOINT, WEBSOCKET_ENDPOINT } from "react-native-dotenv";
 
 const httpLink = new HttpLink({
-
-  uri: "http://192.168.0.33:4000",
+  uri: `${SERVER_ENDPOINT}`,
 });
 // 웹소켓 링크 코드 추가
 const wsLink = new WebSocketLink({
-  uri: "ws://192.168.0.33:4000",
+  uri: `${WEBSOCKET_ENDPOINT}`,
   options: {
     reconnect: true,
   },
 });
+
 const errLink = onError(({ graphQLErrors, networkError }) => {
   console.log("에러에서발생");
   if (graphQLErrors)
@@ -30,6 +31,7 @@ const errLink = onError(({ graphQLErrors, networkError }) => {
     );
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
+
 export const authMiddleWare = setContext(async (_, { headers }) => {
   console.log("request is invoked!");
   const token = await AsyncStorage.getItem("jwt");
