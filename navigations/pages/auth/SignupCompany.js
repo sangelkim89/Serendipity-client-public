@@ -84,7 +84,7 @@ class SignupCompany extends React.Component {
                 width: "80%",
                 marginLeft: 45,
                 borderRadius: 20,
-                // backgroundColor: "transparent",
+                elevation: 10,
               }}
               icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
               iconRight

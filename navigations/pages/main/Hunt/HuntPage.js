@@ -17,14 +17,14 @@ function HuntPage(props) {
 
   // SWIPTE METHODS
   const useSwiper = useRef(null).current;
-  const handleOnSwipedLeft = async () => {
-    console.log("왼쪽버튼");
+  const handleOnSwipedLeft = async item => {
+    console.log("왼쪽버튼", item);
   };
-  const handleOnSwipedTop = () => {
-    console.log("위쪽버튼");
+  const handleOnSwipedTop = item => {
+    console.log("위쪽버튼", item);
   };
-  const handleOnSwipedRight = () => {
-    console.log("오른쪽버튼");
+  const handleOnSwipedRight = item => {
+    console.log("오른쪽버튼", item);
   };
 
   // useMutate - unLike & like
@@ -76,6 +76,7 @@ function HuntPage(props) {
 
   // Func = unLike & Like
   const likedFunc = item => {
+    console.log("RIGHT_SWIPE", recommendUser, item);
     console.log("RIGHT", recommendUser[item].id);
     likeYou({
       variables: {
@@ -138,6 +139,7 @@ function HuntPage(props) {
                 unlikedFunc(item);
               }}
               onSwipedRight={item => {
+                console.log("오른쪽SWIPE", item);
                 likedFunc(item);
               }}
               // onTapCard={item => {
@@ -177,27 +179,6 @@ function HuntPage(props) {
         ) : (
           <AppLoading />
         )}
-
-        <View style={styles.buttonsContainer}>
-          <IconButton
-            name="close"
-            onPress={handleOnSwipedLeft}
-            color="white"
-            backgroundColor="#E5566D"
-          />
-          <IconButton
-            name="star"
-            onPress={handleOnSwipedTop}
-            color="white"
-            backgroundColor="#3CA3FF"
-          />
-          <IconButton
-            name="heart"
-            onPress={handleOnSwipedRight}
-            color="white"
-            backgroundColor="#4CCC93"
-          />
-        </View>
       </SafeAreaView>
     </ImageBackground>
   );

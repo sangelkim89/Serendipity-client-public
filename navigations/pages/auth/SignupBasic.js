@@ -294,7 +294,7 @@ function SignupBasic(props) {
           <View style={styles.inputLine}>
             <Input
               placeholder="Password - 8자 이상!"
-              containerStyle={styles.input}
+              containerStyle={styles.input2}
               placeholderTextColor="white"
               inputStyle={{ color: "white" }}
               inputContainerStyle={{ borderColor: "white" }}
@@ -328,12 +328,13 @@ function SignupBasic(props) {
               handleConfirm(date);
             }}
           />
-          {email && password && phone && userId && password.length > 8 ? (
+          {email && password && phone && userId && password.length >= 8 ? (
             <Button
               buttonStyle={{
                 width: "80%",
                 marginLeft: 45,
                 borderRadius: 20,
+                elevation: 10,
               }}
               icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
               iconRight
@@ -393,14 +394,10 @@ const styles = StyleSheet.create({
     // marginLeft: 5,
   },
   input2: {
-    backgroundColor: "transparent",
     marginVertical: 5,
-    width: 280,
+    width: 390,
     height: 50,
-    marginLeft: 5,
-    borderBottomWidth: 2,
-    borderColor: "#fff",
-    width: "95%",
+    // marginLeft: 5,
   },
   inputLine: {
     flexDirection: "row",
