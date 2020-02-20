@@ -22,7 +22,7 @@ import * as ImagePicker from "expo-image-picker";
 
 import { useMutation } from "@apollo/react-hooks";
 import { EDIT_NO_PIC, GET_ME } from "../../../queries";
-
+import { SERVER_ENDPOINT } from "react-native-dotenv";
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
@@ -105,14 +105,11 @@ function EditPageFunction(props) {
       editData.append("bio", myProfileStore.bio);
       editData.append("distance", Number(distance));
 
-      // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
+      // signupData.append("bio", this.bio); 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
       // 생성된 폼데이터 확인
       console.log("formdata not send yet : ", editData);
-      // 재협IP : 192.168.0.2
-      // 상욱IP : 192.168.0.33
-      // 준식IP : 192.168.219.139
-      // 준식까페 : 172.30.1.4
-      const endPoint = "http://192.168.219.139:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
+
+      const endPoint = `${SERVER_ENDPOINT}/api/img`;
 
       axios
         .post(endPoint, editData, {
@@ -131,9 +128,6 @@ function EditPageFunction(props) {
           console.log("NETWORK_ERR_AXIOS in MyProfileStore : ", e);
           alert("수정 실패");
         });
-
-      // console.log("세 번째 순서입니다. 다음 페이지로 넘어갈겁니다. 3");
-      // props.navigation.navigate("MyProfilePage");
     }
   }
 
