@@ -1,5 +1,4 @@
 import { observable, action, computed, toJS, runInAction } from "mobx";
-import axios from "axios";
 
 class MyProfileStore {
   // (StoreIndex)
@@ -12,10 +11,29 @@ class MyProfileStore {
   @action
   saveMyProfile = e => {
     this.myProfile = e;
+    this.gender = e.data.getMe.gender;
+    this.email = e.data.getMe.email;
+    this.phone = e.data.getMe.phone;
+    this.name = e.data.getMe.name;
+    // this.password = e.data.getMe.password;
+    this.birth = e.data.getMe.birth;
+    this.bio = e.data.getMe.bio;
+    this.distance = e.data.getMe.distance;
+
     this.marker = JSON.parse(e.data.getMe.geoLocation);
-    console.log("myprofile in Store:", this.marker);
+    this.tags2 = e.data.getMe.tags;
   };
   @observable myProfile = {};
+
+  @observable gender = "";
+  @observable email = "";
+  @observable phone = "";
+  @observable name = "";
+  @observable password = "";
+  @observable birth = "";
+  @observable bio = "";
+  @observable distance = "";
+
   // 회사이름 입력======================================================================
 
   @action
@@ -51,18 +69,14 @@ class MyProfileStore {
     if (this.tags2.indexOf(this.tagDATA[f]) === -1) {
       if (this.tags2.length < 5) {
         this.tags2.push(this.tagDATA[f]);
-        this.tags3 = this.tags2;
       }
     } else {
       this.tags2.splice(this.tags2.indexOf(this.tagDATA[f]), 1);
-      this.tags3 = this.tags2;
     }
 
     console.log("tag2담기는거 : ", this.tags2);
-    console.log("tag3새로담기는거 :", this.tags3);
   };
-  @observable tags2 = ["태그1", "태그2", "태그3", "태그4", "태그5"];
-  @observable tags3 = [];
+  @observable tags2 = [];
 
   // 태그 색 입력(미완성)======================================================================
   @action
@@ -89,10 +103,8 @@ class MyProfileStore {
     this.geoLocation.lat = lat;
     this.geoLocation.lon = lon;
     console.log("MARKER_STATE_latlon", this.marker.lat, this.marker.lon);
-    console.log("MARKER_STATE", JSON.parse(this.myProfile.data.getMe.geoLocation));
-    console.log("마커엔 뭐가 뜨니:", JSON.parse(this.myProfile.data.getMe.geoLocation).lon);
   };
-  @observable geoLocation = { lat: 37.48547187320461, lon: 126.98129273951052 };
+  @observable geoLocation = {};
   @observable marker = {};
 
   // 이미지 ======================================================================
@@ -103,52 +115,6 @@ class MyProfileStore {
   @observable imgIdCardUri = null;
 
   // 수정완료보내기 ======================================================================
-
-  @action
-  submitEditData = () => {
-    // 폼데이터 생성
-    const editData = new FormData();
-    // 폼데이터에 이미지 추가
-    editData.append("cardImg", {
-      name: this.imgIdCardName,
-      type: `image/${this.imgIdCardType}`,
-      uri: this.imgIdCardUri,
-    });
-    editData.append("profileImg", {
-      name: this.imgProfileName,
-      type: `image/${this.imgProfileType}`,
-      uri: this.imgProfileUri,
-    });
-
-    // 폼데이터에 데이터 추가
-    editData.append("companyName", this.companyName);
-    editData.append("companySort", this.companySort);
-    editData.append("tags3", JSON.stringify(this.tags3));
-    editData.append("tags2", JSON.stringify(this.tags2));
-    editData.append("geoLocation", JSON.stringify(this.geoLocation)); // 프록시로 전달되는것 수정
-
-    // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
-
-    // 생성된 폼데이터 확인
-    console.log("formdata not send yet : ", editData);
-
-    const endPoint = "http://192.168.0.33:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
-
-    axios
-      .post(endPoint, editData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(res => {
-        console.log("axios response : ", res);
-        alert("수정이 완료되었습니다.");
-      })
-      .catch(e => {
-        // console.log("axios error issued!");
-        console.log(e);
-      });
-  };
 
   @observable id = ""; // userId / 상욱 추가
   @action
@@ -161,7 +127,7 @@ class MyProfileStore {
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
-    "태그1",
+    "바꾸자",
     "태그2",
     "태그3",
     "태그4",
