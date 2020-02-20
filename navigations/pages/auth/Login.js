@@ -129,13 +129,12 @@ function Login(props) {
 
         saveMyProfile(getMyProfile);
         //=======================================================================
+        props.navigation.navigate("TabNav");
       } else {
-        Alert.alert("isLoggedIn is falsy!!!");
+        Alert.alert("로그인 정보를 다시 확인해주세요!");
       }
       console.log("myId in login.js finally : ", myId);
     }
-
-    props.navigation.navigate("TabNav");
   }
 
   _doSignUp = () => {
