@@ -35,6 +35,14 @@ const ProfilePage = props => {
         style={{ width: "100%", height: "100%" }}
       >
         <ScrollView>
+          <TouchableOpacity
+            style={{ marginLeft: 7, marginTop: 7, position: "absolute", flex: 1, zIndex: 100 }}
+            onPress={() => {
+              props.navigation.navigate("ChatPage");
+            }}
+          >
+            <FontAwesome name="arrow-circle-left" style={styles.backText} />
+          </TouchableOpacity>
           <Image source={{ uri: profileImgLocation }} style={styles.image}></Image>
           <View style={styles.textContainer}>
             <View style={styles.etcText}>
@@ -114,6 +122,10 @@ const styles = StyleSheet.create({
   report: {
     padding: 20,
     alignItems: "center",
+  },
+  backText: {
+    color: "#f8c6ec",
+    fontSize: 30,
   },
 });
 

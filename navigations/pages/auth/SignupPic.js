@@ -119,12 +119,13 @@ class SignupPic extends React.Component {
                   width: "80%",
                   marginLeft: 45,
                   borderRadius: 20,
+                  elevation: 10,
                 }}
                 icon={
-                  <Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />
+                  <Icon name="check-circle" style={{ marginLeft: 10 }} size={25} color="#F97F51" />
                 }
                 iconRight
-                title="Submit"
+                title="Submit!"
                 onPress={this._doNext.bind(this)}
               />
             ) : (

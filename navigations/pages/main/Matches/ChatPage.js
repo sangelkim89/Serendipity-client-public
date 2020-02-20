@@ -12,7 +12,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { useMutation, useApolloClient, useQuery, useSubscription } from "@apollo/react-hooks";
-
+import { FontAwesome } from "@expo/vector-icons";
 import { inject, observer } from "mobx-react";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -114,6 +114,14 @@ function ChatPage(props) {
         }
       >
         <View style={styles.container}>
+          <TouchableOpacity
+            style={{ marginLeft: 10, marginTop: 30, position: "absolute", flex: 1, zIndex: 100 }}
+            onPress={() => {
+              props.navigation.navigate("MatchPageList");
+            }}
+          >
+            <FontAwesome name="arrow-circle-left" style={styles.backText} />
+          </TouchableOpacity>
           <View style={styles.profile}>
             <TouchableOpacity onPress={moveProfile}>
               <Image
@@ -236,6 +244,10 @@ const styles = StyleSheet.create({
   chatInput: {
     marginTop: 20,
     flexDirection: "row",
+  },
+  backText: {
+    color: "#6c5ce7",
+    fontSize: 30,
   },
 });
 
