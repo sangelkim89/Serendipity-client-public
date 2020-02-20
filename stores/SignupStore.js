@@ -253,11 +253,10 @@ class SignupStore {
 
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
-    // 재협IP : 192.168.0.2
-    // 상욱IP : 192.168.0.33
-    // 준식IP : 192.168.219.139
-    // 준식까페 : 172.30.1.4
-    const endPoint = "http://192.168.219.139:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+
+
+    const endPoint = "http://192.168.0.33:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+
 
     // fetch(endPoint, {
     //   method: "POST",
