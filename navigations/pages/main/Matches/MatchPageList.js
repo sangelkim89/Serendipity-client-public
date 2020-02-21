@@ -15,7 +15,18 @@ import RoomItem from "./RoomItem";
 import { NEW_ROOM, GET_ROOM } from "../../../queries";
 
 const MatchPageList = props => {
-  const { roomList, messages, matchExer1, navigation, myId, refreshRoomList, likeRoomId } = props;
+  console.log("MATCHPAGE RENDERED!!!");
+  const {
+    roomList,
+    messages,
+    matchExer1,
+    navigation,
+    myId,
+    refreshRoomList,
+    likeRoomId,
+    subMsgs,
+    newOne,
+  } = props;
   // console.log("messages in matchPage.js : ", messages);
   // useQuery - getRoom : huntPage.js로 옮김. login.js/matchPageList에서는 에러발생
   // console.log("myId in matchPageList.js : ", myId);
@@ -23,29 +34,40 @@ const MatchPageList = props => {
   // console.log("roomData in matchPageList.js : ", roomData);
   // refreshRoomList(roomData.getRoom); // mobx roomlist에 저장
 
-  // const { data } = useSubscription(NEW_ROOM, { variables: { id: myId } });
-  // // console.log("roomlist 1 : ", roomList);
+  const { data, loading } = useSubscription(NEW_ROOM, {
+    variables: { id: myId },
+    fetchPolicy: "no-cache",
+  });
 
-  // // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
-  // const handleNewRoom = () => {
-  //   if (data !== undefined) {
-  //     const { newRoom } = data;
-  //     console.log("newRoom in matchPageList : ", newRoom);
-  //     if (newRoom !== null) {
-  //       console.log("newRoom : ", newRoom);
-  //       messages.unshift(newRoom);
-  //       console.log("messages in matchPageList after like : ", messages);
-  //     }
-  //   } else {
-  //     console.log("data in matchPageList.js is undefined!");
-  //   }
-  // };
+  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  const handleNewRoom = () => {
+    // console.log("handle newroom invoked!");
+    // console.log("data in handle newroom : ", loading, data);
+    if (!loading) {
+      console.log("loading passed!");
+      if (data.newRoom !== null) {
+        // const { newRoom } = data;
+        console.log("newRoom.participants in huntPage : ", data.newRoom.participants);
+        // Alert.alert("Match!!!");
+        subMsgs(data.newRoom);
+      } else {
+        console.log("roomData in matchPageList.js is undefined!");
+      }
+    }
+  };
 
-  // // data값을 지켜보며 변경이 있을 때만 실행됨
-  // useEffect(() => {
-  //   handleNewRoom();
-  //   console.log("useEffect invoked!");
-  // }, [data]);
+  // data값을 지켜보며 변경이 있을 때만 실행됨 - subscription
+  useEffect(() => {
+    handleNewRoom();
+    console.log("useEffect invoked!");
+  }, [data]);
+
+  useEffect(() => {
+    if (newOne !== null) {
+      refreshRoomList(newOne);
+      console.log("useEffect invoked in refresh!!!!!");
+    }
+  }, []);
 
   return (
     <ImageBackground
@@ -110,4 +132,6 @@ export default inject(({ matchStore, myProfileStore }) => ({
   refreshRoomList: matchStore.refreshRoomList,
   myId: myProfileStore.id,
   likeRoomId: myProfileStore.likeRoomId,
+  subMsgs: matchStore.subMsgs,
+  newOne: matchStore.newOne,
 }))(observer(MatchPageList));

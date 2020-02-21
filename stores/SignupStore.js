@@ -1,6 +1,5 @@
 import { observable, action, computed, toJS } from "mobx";
 import axios from "axios";
-//import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 class SignupStore {
   // (StoreIndex)
@@ -257,7 +256,6 @@ class SignupStore {
 
     const endPoint = "http://192.168.219.139:4000/api/upload";
 
-    //    const endPoint = `${SERVER_ENDPOINT}/api/upload`;
 
     // fetch(endPoint, {
     //   method: "POST",

@@ -81,18 +81,35 @@ function SignupTag(props) {
           </ScrollView>
         </View>
 
-        <Button
-          buttonStyle={{
-            width: "80%",
-            marginLeft: 45,
-            borderRadius: 20,
-            marginTop: 15,
-          }}
-          icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
-          iconRight
-          title={`NEXT!    ${tagLength} / 5`}
-          onPress={_doNextPage}
-        />
+        {tags.length > 0 ? (
+          <Button
+            buttonStyle={{
+              width: "90%",
+              marginLeft: 22,
+              borderRadius: 20,
+              elevation: 10,
+            }}
+            icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+            iconRight
+            title={`NEXT    ${tagLength} / 5`}
+            onPress={_doNextPage}
+          />
+        ) : (
+          <Button
+            disabled={true}
+            buttonStyle={{
+              width: "90%",
+              marginLeft: 22,
+              borderRadius: 20,
+            }}
+            icon={
+              <Icon name="exclamation-circle" style={{ marginLeft: 10 }} size={20} color="red" />
+            }
+            iconRight
+            title="Please Check Tags One More!"
+            onPress={_doNextPage}
+          />
+        )}
       </ImageBackground>
     </SafeAreaView>
   );
@@ -116,6 +133,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   titleTagContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
     width: "90%",

@@ -18,7 +18,6 @@ import * as ImagePicker from "expo-image-picker";
 import { useMutation } from "@apollo/react-hooks";
 import { EDIT_NO_PIC, GET_ME } from "../../../queries";
 import axios from "axios";
-//import { SERVER_ENDPOINT } from "react-native-dotenv";
 import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
@@ -101,7 +100,7 @@ function EditPageFunction(props) {
       editData.append("bio", myProfileStore.bio);
       editData.append("distance", Number(distance));
 
-      // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
+      // signupData.append("bio", this.bio); 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
       // 생성된 폼데이터 확인
       console.log("formdata not send yet : ", editData);
 
@@ -123,9 +122,6 @@ function EditPageFunction(props) {
           console.log("NETWORK_ERR_AXIOS in MyProfileStore : ", e);
           alert("수정 실패");
         });
-
-      // console.log("세 번째 순서입니다. 다음 페이지로 넘어갈겁니다. 3");
-      // props.navigation.navigate("MyProfilePage");
     }
   }
 

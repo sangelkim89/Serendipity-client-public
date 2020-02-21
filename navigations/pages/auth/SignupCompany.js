@@ -72,6 +72,7 @@ class SignupCompany extends React.Component {
               leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
               onChangeText={value => {
                 signupStore.inputCompanyName(value);
+
               }}
             />
 
