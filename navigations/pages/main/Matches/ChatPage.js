@@ -111,8 +111,10 @@ function ChatPage(props) {
   return (
     <ImageBackground
       source={require("../../../../assets/gradient2.jpg")}
-      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
+      style={{ width: "100%", height: "100%" }}
     >
+      {/* <KeyboardAvoidingView enabled behavior="padding"> */}
+
       <Suspense
         fallback={
           <View
@@ -126,97 +128,104 @@ function ChatPage(props) {
           </View>
         }
       >
-        <View style={styles.container}>
-          <TouchableOpacity
-            style={{ marginLeft: 10, marginTop: 30, position: "absolute", flex: 1, zIndex: 100 }}
-            onPress={() => {
-              props.navigation.navigate("MatchPageList");
-            }}
-          >
-            <FontAwesome name="arrow-circle-left" style={styles.backText} />
-          </TouchableOpacity>
-          <View style={styles.profile}>
-            <TouchableOpacity onPress={moveProfile}>
-              <Image
-                source={{
-                  uri: opponent.profileImgLocation,
-                }}
-                style={styles.image}
-              />
-              <Text style={styles.name}>{opponent.name}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ heigth: 470 }}>
-            <ScrollView
-              style={{ height: "80%" }}
-              // ref={ref => (this.scrollView = ref)}
-              // onContentSizeChange={() => {
-              //   this.scrollView.scrollToEnd({ animated: false });
-              // }}
-            >
-              {messages.map((msg, i) => {
-                function timeStamp() {
-                  let timeArr = msg.createdAt.substring(11, 16).split(":");
-                  let hour = Number(timeArr[0]) + 9;
+        <Text style={{ fontSize: 18 }}>{"     "}</Text>
 
-                  if (hour > 24) {
-                    if ((hour - 24).toString().length < 2) {
-                      return `0${hour.toString()}:${timeArr[1]}`;
+        <KeyboardAvoidingView behavior="position">
+          <View>
+            {/* 오렌지 박스 시작 */}
+            <View style={styles.container}>
+              <View style={styles.profile}>
+                <TouchableOpacity onPress={moveProfile}>
+                  <Image
+                    source={{
+                      uri: opponent.profileImgLocation,
+                    }}
+                    style={styles.image}
+                  />
+                  <Text style={styles.name}>{opponent.name}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* 스크롤뷰 시작 */}
+            <View style={styles.container2}>
+              <ScrollView
+                style={{ height: "70%" }}
+                ref={ref => (this.scrollView = ref)}
+                onContentSizeChange={() => {
+                  this.scrollView.scrollToEnd({ animated: false });
+                }}
+              >
+                {messages.map((msg, i) => {
+                  function timeStamp() {
+                    let timeArr = msg.createdAt.substring(11, 16).split(":");
+                    let hour = Number(timeArr[0]) + 9;
+
+                    if (hour > 24) {
+                      if ((hour - 24).toString().length < 2) {
+                        return `0${hour.toString()}:${timeArr[1]}`;
+                      }
+                    } else {
+                      return `${hour.toString()}:${timeArr[1]}`;
+
                     }
-                  } else {
-                    return `${hour.toString()}:${timeArr[1]}`;
                   }
-                }
-                return msg.from.id === myId ? (
-                  <View key={i} style={styles.meChat}>
-                    <Text>{msg.text}</Text>
-                    <Text style={styles.timeStamp}>{timeStamp()}</Text>
-                  </View>
-                ) : (
-                  <View key={i} style={styles.otherChat}>
-                    <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
-                    <View style={styles.otherChatText}>
+                  return msg.from.id === myId ? (
+                    <View key={i} style={styles.meChat}>
                       <Text>{msg.text}</Text>
                       <Text style={styles.timeStamp}>{timeStamp()}</Text>
                     </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
+                  ) : (
+                    <View key={i} style={styles.otherChat}>
+                      <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
+                      <View style={styles.otherChatText}>
+                        <Text>{msg.text}</Text>
+                        <Text style={styles.timeStamp}>{timeStamp()}</Text>
+                      </View>
+                    </View>
+                  );
+                })}
+              </ScrollView>
+            </View>
+            <View style={styles.container}>
+              <View style={styles.chatInput}>
+                <Input
+                  onChangeText={onChangeText}
+                  value={message}
+                  inputContainerStyle={{ borderColor: "#6c5ce7" }}
+                  style={{
+                    position: "fixed",
+                    bottom: 0,
+                    widht: "80%",
+                  }}
+                  rightIcon={
+                    <TouchableOpacity onPress={onSubmit} style={{ marginRight: 10 }}>
+                      <Icon
+                        name="paper-plane"
+                        size={25}
+                        color="#6c5ce7"
+                        style={{ marginRight: 10 }}
+                      />
+                    </TouchableOpacity>
+                  }
+                />
+              </View>
+            </View>
           </View>
-          <View style={styles.chatInput}>
-            {/* <KeyboardAvoidingView enabled behavior="padding"> */}
-
-            <Input
-              onChangeText={onChangeText}
-              value={message}
-              inputContainerStyle={{ borderColor: "#6c5ce7" }}
-              style={{
-                position: "fixed",
-                bottom: 0,
-                widht: "80%",
-              }}
-              rightIcon={
-                <TouchableOpacity onPress={onSubmit} style={{ marginRight: 10 }}>
-                  <Icon name="paper-plane" size={25} color="#6c5ce7" style={{ marginRight: 10 }} />
-                </TouchableOpacity>
-              }
-            />
-            {/* </KeyboardAvoidingView> */}
-          </View>
-        </View>
+        </KeyboardAvoidingView>
       </Suspense>
+      {/* </KeyboardAvoidingView> */}
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 15,
-    paddingBottom: 60,
-    margin: 10,
+    paddingBottom: 10,
   },
+  container2: {
+    paddingBottom: 10,
+  },
+
   profile: {
     marginTop: 10,
     alignItems: "center",

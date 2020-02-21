@@ -90,12 +90,12 @@ function MyProfilePage(props) {
           }}
         >
           <TouchableOpacity onPress={_gotoEditPage}>
-            <FontAwesome name="edit" style={{ color: "grey", fontSize: 25 }} />
+            <FontAwesome name="edit" style={{ color: "#4A148C", fontSize: 25 }} />
             <Text>수정</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={_gotoSettingPage}>
-            <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+            <FontAwesome name="cogs" style={{ color: "#4A148C", fontSize: 25 }} />
             <Text>설정</Text>
           </TouchableOpacity>
         </View>
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 400,
     justifyContent: "flex-end",
+    borderRadius: 20,
   },
   imgContainer: {
     padding: 30,

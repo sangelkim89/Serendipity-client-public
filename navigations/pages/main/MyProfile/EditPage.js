@@ -129,7 +129,6 @@ function EditPageFunction(props) {
   function _gotoSettingPage() {
     props.navigation.navigate("SettingPage");
   }
-
   async function _gotoMyProfilePage() {
     props.navigation.navigate("MyProfilePage");
     console.log("두 번째 순서입니다. 현재 서버에 새로 저장된 데이터를 스토어로 저장할 겁니다. 2");
@@ -213,12 +212,12 @@ function EditPageFunction(props) {
               }}
             >
               <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
-                <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+                <FontAwesome name="id-card" style={{ color: "#4A148C", fontSize: 25 }} />
                 <Text>프로필</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoSettingPage}>
-                <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+                <FontAwesome name="cogs" style={{ color: "#4A148C", fontSize: 25 }} />
                 <Text>설정</Text>
               </TouchableOpacity>
             </View>
@@ -253,23 +252,31 @@ function EditPageFunction(props) {
                     flexDirection: "row",
                     justifyContent: "space-around",
                     alignItems: "center",
-                    backgroundColor: "rgba(255, 255, 255, 0.5)",
+                    padding: 5,
+
+                    // backgroundColor: "rgba(255, 255, 255, 0.5)",
                     // backgroundColor: "#f7d794",
                   }}
                 >
                   <TouchableOpacity
                     onPress={permitCamera}
-                    style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", alignItems: "center" }}
+                    style={{
+                      // backgroundColor: "rgba(255, 255, 255, 0.5)",
+                      alignItems: "center",
+                    }}
                   >
-                    <FontAwesome name="camera" style={{ color: "black", fontSize: 25 }} />
+                    <FontAwesome name="camera" style={{ color: "#4A148C", fontSize: 25 }} />
                     <Text style={styles.text}>Camera</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={permitGallery}
-                    style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", alignItems: "center" }}
+                    style={{
+                      //  backgroundColor: "rgba(255, 255, 255, 0.5)",
+                      alignItems: "center",
+                    }}
                   >
-                    <FontAwesome name="image" style={{ color: "black", fontSize: 25 }} />
+                    <FontAwesome name="image" style={{ color: "#4A148C", fontSize: 25 }} />
                     <Text style={styles.text}>Gallery</Text>
                   </TouchableOpacity>
                 </View>
@@ -370,7 +377,7 @@ function EditPageFunction(props) {
                     }
                   >
                     <TouchableOpacity style={{ alignItems: "center" }} onPress={_submit}>
-                      <FontAwesome name="thumbs-up" style={{ color: "grey", fontSize: 25 }} />
+                      <FontAwesome name="thumbs-up" style={{ color: "#4A148C", fontSize: 25 }} />
                       <Text>수정 확정</Text>
                     </TouchableOpacity>
                   </View>
@@ -392,12 +399,12 @@ function EditPageFunction(props) {
             }}
           >
             <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
-              <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+              <FontAwesome name="id-card" style={{ color: "#4A148C", fontSize: 25 }} />
               <Text>프로필</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoSettingPage}>
-              <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+              <FontAwesome name="cogs" style={{ color: "#4A148C", fontSize: 25 }} />
               <Text>설정</Text>
             </TouchableOpacity>
           </View>
