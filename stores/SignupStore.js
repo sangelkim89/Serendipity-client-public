@@ -256,7 +256,6 @@ class SignupStore {
 
     const endPoint = "http://192.168.219.139:4000/api/upload";
 
-
     // fetch(endPoint, {
     //   method: "POST",
     //   // credentials: "include",
