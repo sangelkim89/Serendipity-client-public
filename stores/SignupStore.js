@@ -236,45 +236,48 @@ class SignupStore {
     signupData.append("birth", this.birth);
     signupData.append("companyName", this.companyName);
     signupData.append("companyRole", this.companySort); // 서버는 companyRole, 클라는 companySort
-    signupData.append("geoLocation", { lat: this.geoLocation.lat, lon: this.geoLocation.lon }); // 프록시로 전달되는것 수정
+    signupData.append(
+      "geoLocation",
+      JSON.stringify({ lat: this.geoLocation.lat, lon: this.geoLocation.lon }),
+    ); // 프록시로 전달되는것 수정
     signupData.append("tags", JSON.stringify(this.tags));
     // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
 
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
 
-    const endPoint = "http://192.168.0.2:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
+    const endPoint = "http://192.168.219.107:4000/api/upload"; // 안드로이드는 localhost(x), ip주소(O)
 
-    fetch(endPoint, {
-      method: "POST",
-      // credentials: "include",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: signupData,
-    })
-      .then(res => {
-        alert("회원가입 성공!!!");
-      })
-      .catch(err => {
-        console.log("err : ", err);
-        alert("가입 실패... 다시 시도 해주세요");
-      });
-
-    // axios
-    //   .post(endPoint, signupData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
+    // fetch(endPoint, {
+    //   method: "POST",
+    //   // credentials: "include",
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    //   body: signupData,
+    // })
     //   .then(res => {
-    //     console.log("axios response : ", res);
-    //     Alert.alert("회원가입이 완료되었습니다.");
+    //     alert("회원가입 성공!!!");
     //   })
-    //   .catch(e => {
-    //     // console.log("axios error issued!");
-    //     console.log(e);
+    //   .catch(err => {
+    //     console.log("err : ", err);
+    //     alert("가입 실패... 다시 시도 해주세요");
     //   });
+
+    axios
+      .post(endPoint, signupData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(res => {
+        console.log("axios response : ", res);
+        Alert.alert("회원가입이 완료되었습니다.");
+      })
+      .catch(e => {
+        // console.log("axios error issued!");
+        console.log(e);
+      });
 
     // 스토어 초기화
     this.gender = "man"; // 들어오는 값 확인하고 변경할 것
