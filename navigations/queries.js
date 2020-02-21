@@ -27,15 +27,23 @@ export const SEND_MESSAGE = gql`
 export const NEW_MESSAGE = gql`
   subscription newMessage($roomId: String!) {
     newMessage(roomId: $roomId) {
-      id
-      text
-      from {
+      room {
         id
+        messages {
+          id
+          text
+          from {
+            id
+          }
+          to {
+            id
+          }
+          createdAt
+        }
+        participants {
+          id
+        }
       }
-      to {
-        id
-      }
-      createdAt
     }
   }
 `;

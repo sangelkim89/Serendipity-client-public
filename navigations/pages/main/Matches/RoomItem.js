@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, Image, StyleSheet, ImageBackground, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
@@ -7,7 +7,9 @@ import { ROOM_DELETE } from "../../../queries";
 
 const RoomItem = props => {
   console.log("ROOMITEM RENDERED!!!");
-  const { room, navigation, myId, delRoomView } = props;
+  const { room, navigation, myId, delRoomView, roomList } = props;
+
+  console.log("room in roomItem : ", room);
 
   const moveChatRoom = () => {
     navigation.navigate("ChatPage", {
@@ -138,4 +140,5 @@ const styles = StyleSheet.create({
 export default inject(({ myProfileStore, matchStore }) => ({
   myId: myProfileStore.id,
   delRoomView: matchStore.delRoomView,
+  roomList: matchStore.roomList,
 }))(observer(RoomItem));

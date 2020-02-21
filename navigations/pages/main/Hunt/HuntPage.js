@@ -71,7 +71,7 @@ function HuntPage(props) {
   }, []);
 
   // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
-  if (initRoomData !== undefined) {
+  if (initRoomData !== undefined && initRoomData !== null) {
     console.log("initRoomData - refreshRoomList 작동 arg : ", initRoomData);
     refreshRoomList(initRoomData.getRoom);
   } // mobx roomlist에 저장
