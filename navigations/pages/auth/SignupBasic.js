@@ -347,8 +347,7 @@ function SignupBasic(props) {
             </KeyboardAvoidingView>
           </View>
 
-          {email && password && phone && userId && password.length > 8 ? (
-
+          {email && password && phone && userId && password.length > 0 ? (
             <Button
               buttonStyle={{
                 width: "80%",
