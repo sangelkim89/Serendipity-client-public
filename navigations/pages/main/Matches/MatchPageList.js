@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { observer, inject } from "mobx-react";
 import { useSubscription, useQuery } from "@apollo/react-hooks";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import RoomItem from "./RoomItem";
 import { NEW_ROOM, GET_ROOM } from "../../../queries";
@@ -69,6 +71,10 @@ const MatchPageList = props => {
     }
   }, []);
 
+  const moveHunt = () => {
+    navigation.navigate("HuntPage");
+  };
+
   return (
     <ImageBackground
       source={require("../../../../assets/gradient2.jpg")}
@@ -95,7 +101,9 @@ const MatchPageList = props => {
               })
             ) : (
               <View style={styles.textContainer}>
-                <Text style={styles.text}>친구를 찾아서 좋아요 해보세요!</Text>
+                <TouchableOpacity onPress={moveHunt}>
+                  <Text style={styles.text}>Find Your Friends!</Text>
+                </TouchableOpacity>
               </View>
             )}
           </ScrollView>
@@ -118,10 +126,12 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     justifyContent: "center",
-    alignItems: "center",
+    marginTop: 260,
+    marginLeft: 95,
   },
   text: {
     fontSize: 20,
+    fontWeight: "bold",
   },
 });
 

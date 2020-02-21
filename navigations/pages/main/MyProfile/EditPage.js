@@ -19,6 +19,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { EDIT_NO_PIC, GET_ME } from "../../../queries";
 import axios from "axios";
 import { FontAwesome } from "@expo/vector-icons";
+import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 const { width, height } = Dimensions.get("window");
 
@@ -104,7 +105,7 @@ function EditPageFunction(props) {
       // 생성된 폼데이터 확인
       console.log("formdata not send yet : ", editData);
 
-      const endPoint = "http://192.168.219.139:4000/api/img";
+      const endPoint = `${SERVER_ENDPOINT}/api/img`;
       axios
         .post(endPoint, editData, {
           headers: {
