@@ -6,15 +6,15 @@ import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
 import { concat, Operation, split } from "apollo-link";
-// import { SERVER_ENDPOINT, WEBSOCKET_ENDPOINT } from "react-native-dotenv";
+import { SERVER_ENDPOINT, WEBSOCKET_ENDPOINT } from "react-native-dotenv";
 
 const httpLink = new HttpLink({
-  uri: "http://192.168.219.139:4000",
+  uri: `${SERVER_ENDPOINT}`,
   options: {},
 });
 // 웹소켓 링크 코드 추가
 const wsLink = new WebSocketLink({
-  uri: "ws://192.168.219.139:4000",
+  uri: `${WEBSOCKET_ENDPOINT}`,
   options: {
     reconnect: true,
   },

@@ -11,6 +11,14 @@ class MatchStore {
 
   @observable likeRoomId = ""; // 라이크로 신규 생성된 채팅방 아이디
   @observable messages = []; // 기존 생성된 채팅방 정보
+  @observable newOne = null;
+
+  @action
+  addNewOne = target => {
+    console.log("target : ", target);
+    this.newOne = target;
+    console.log("this.newOne : ", this.newOne);
+  };
 
   @action // 라이크로 신규 생성된 채팅방 아이디 추가 메소드
   addLikeRoomId = target => {
@@ -19,7 +27,9 @@ class MatchStore {
 
   @action
   refreshRoomList = target => {
-    this.messages = []; // 메세지스 초기화
+    console.log("refreshRoomList 작동!");
+    console.log("target : ", target);
+    this.messages = []; // 룸 정보 메세지스 초기화
     // console.log("this.messages after initialization : ", this.messages);
     target.map(room => {
       console.log("room in matchStore : ", room);
@@ -45,7 +55,7 @@ class MatchStore {
   };
 
   @action
-  subChats = (roomId, myId, toId, chat) => {
+  subChats = (roomId, toId, chat) => {
     this.messages.forEach(msg => {
       if (msg.id === roomId) {
         console.log("push invoked!", msg);
