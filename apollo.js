@@ -4,14 +4,17 @@ import { WebSocketLink } from "apollo-link-ws";
 import { setContext } from "apollo-link-context";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
+import { getMainDefinition } from "apollo-utilities";
+import { concat, Operation, split } from "apollo-link";
+import { SERVER_ENDPOINT, WEBSOCKET_ENDPOINT } from "react-native-dotenv";
 
 const httpLink = new HttpLink({
-  uri: "http://192.168.219.107:4000",
+  uri: `${SERVER_ENDPOINT}`,
+  options: {},
 });
-
 // 웹소켓 링크 코드 추가
 const wsLink = new WebSocketLink({
-  uri: "http://192.168.219.107:4000",
+  uri: `${WEBSOCKET_ENDPOINT}`,
   options: {
     reconnect: true,
   },
@@ -40,5 +43,14 @@ export const authMiddleWare = setContext(async (_, { headers }) => {
     },
   };
 });
-
-export const links = ApolloLink.from([httpLink, wsLink, errLink]);
+const linkeConcated = authMiddleWare.concat(httpLink);
+export const links = split(
+  // split based on operation type
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === "OperationDefinition" && operation === "subscription";
+  },
+  wsLink,
+  linkeConcated,
+  errLink,
+);

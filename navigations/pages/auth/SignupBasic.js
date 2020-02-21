@@ -6,19 +6,23 @@ import {
   StyleSheet,
   TextInput,
   Alert,
-  KeyboardAvoidingView,
   Dimensions,
+  ImageBackground,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import { observer, inject } from "mobx-react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+import { ALL_USER_EMAIL, CHECK_NICKNAME } from "../../queries";
 
 function SignupBasic(props) {
-  // static navigationOptions = { headerShown: false };
-
   const {
     genderBtn,
     inputEmail,
@@ -61,19 +65,32 @@ function SignupBasic(props) {
   `;
   const [sendEmailSecretKey, { data }] = useMutation(SEND_EMAIL);
 
+  // useQuery - AllUsers
+  const { data: userData } = useQuery(ALL_USER_EMAIL);
+
   // 이메일 전송
   async function sendEmail() {
-    console.log("이메일전송");
     try {
       let secretSend = await sendEmailSecretKey({
         variables: {
           email: email,
         },
       });
-      console.log("SECRET_KEY", secretSend.data.confirmEmail);
-      setSecretKey(secretSend.data.confirmEmail);
+      // setSecretKey(secretSend.data.confirmEmail);
+      const secretMail = secretSend.data.confirmEmail;
+      if (secretMail === "Email already exists!") {
+        console.log("SECRET_KEY", secretMail);
+        Alert.alert("이미 존재하는 메일입니다!");
+        // } else if (secretMail === "") {
+        //   console.log("SECRET_KEY", secretMail);
+        //   Alert.alert("이메일 형식에 맞지 않습니다!");
+      } else {
+        console.log("SECRET_KEY", secretMail);
+        Alert.alert("인증메일이 전송되었습니다!");
+      }
     } catch (err) {
-      console.log("SECRET_KEY_ERR", err);
+      Alert.alert("이메일 형식이 잘못 되었습니다!");
+      console.log("SECRET_EMAIL_KEY_ERR", err);
     }
   }
 
@@ -87,178 +104,283 @@ function SignupBasic(props) {
 
   // 휴대폰 전송
   async function sendMobile() {
-    console.log(phone);
     try {
       let secretKey = await sendMobileSecretKey({
         variables: {
           phone: phone,
         },
       });
-      await setSecretMobileKey(secretKey.data.confirmText);
-      await console.log("휴대폰요청후", secretKey.data.confirmText);
+      Alert.alert("인증번호가 전송되었습니다!");
+      const secretMobile = await setSecretMobileKey(secretKey.data.confirmText);
+      await console.log("휴대폰요청후", secretMobile);
     } catch (err) {
+      Alert.alert("휴대폰형식이 잘못 되었습니다. ex)000-0000-0000");
       console.log("트라이캐치에러", err);
     }
   }
 
+  // 닉네임 중복 userId
+  const { loading, data: checkNickName } = useQuery(CHECK_NICKNAME, {
+    variables: {
+      name: userId,
+    },
+  });
+  async function sendNickName() {
+    try {
+      if (!loading) {
+        if (checkNickName.checkUniqueID === false) {
+          Alert.alert("이미 사용중인 닉네임입니다.");
+        } else {
+          Alert.alert("사용하셔도 좋습니다.");
+        }
+      } else {
+        Alert.alert("다시 인증해주세요.");
+      }
+    } catch (err) {
+      console.log("CHECK_NICKNAME_ERR", err);
+    }
+  }
+
   var radio_props = [
-    { label: "남자", value: "man" },
-    { label: "여자", value: "woman" },
+    { label: "💁‍♂️남자", value: "man" },
+    { label: "💁‍♀️여자", value: "woman" },
   ];
 
   return (
     <SafeAreaView style={styles.container}>
-      <RadioForm
-        style={styles.radio}
-        radio_props={radio_props}
-        animation={true}
-        initial={0}
-        formHorizontal={true}
-        onPress={e => {
-          genderBtn(e);
-        }}
-      />
-      <View style={styles.inputContainer}>
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="Email"
-            value={email}
-            onChangeText={e => {
-              inputEmail(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendEmail();
-            }}
-          >
-            <Text>이메일전송</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="EmailKey"
-            value={emailSecretKey}
-            onChangeText={e => {
-              inputEmailKey(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendEmailKey();
-            }}
-          >
-            <Text>이메일인증</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="Phone"
-            value={phone}
-            onChangeText={e => {
-              inputPhone(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendMobile();
-            }}
-          >
-            <Text>핸드폰전송</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.emailPhone}>
-          <TextInput
-            style={styles.inputEmailPhone}
-            placeholder="PhoneKey"
-            value={phoneVerifyKey}
-            onChangeText={e => {
-              inputPhoneKey(e);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              sendPhoneKey();
-            }}
-          >
-            <Text>핸드폰인증</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View style={styles.emailPhone}>
-            <TextInput
-              style={styles.inputEmailPhone}
-              placeholder="Input your ID"
-              value={userId}
-              onChangeText={e => {
-                inputID(e);
+      <ImageBackground
+        source={require("../../../assets/gradient2.jpg")}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <View style={styles.inputContainer}>
+          <View>
+            <RadioForm
+              buttonSize={15}
+              buttonOuterSize={30}
+              style={styles.radio}
+              radio_props={radio_props}
+              animation={true}
+              initial={0}
+              formHorizontal={true}
+              onPress={e => {
+                genderBtn(e);
               }}
             />
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                sendID();
-              }}
-            >
-              <Text>ID중복확인</Text>
-            </TouchableOpacity>
           </View>
-          <Text style={styles.confirmID}>사용하셔도 좋습니다</Text>
+          <View>
+            <KeyboardAvoidingView behavior="height">
+              <View>
+                <View style={styles.inputLine}>
+                  <Input
+                    placeholder="Email"
+                    containerStyle={styles.input}
+                    placeholderTextColor="white"
+                    inputStyle={{ color: "white" }}
+                    inputContainerStyle={{ borderColor: "white" }}
+                    leftIcon={
+                      <Icon name="user" size={24} color="white" style={{ marginRight: 10 }} />
+                    }
+                    onChangeText={e => {
+                      inputEmail(e);
+                    }}
+                  />
+                  <Button
+                    buttonStyle={styles.btn}
+                    icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                    titleStyle={styles.btnTitle}
+                    title="이메일전송"
+                    onPress={() => {
+                      sendEmail();
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Email Key"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
+                  }
+                  onChangeText={e => {
+                    inputEmailKey(e);
+                  }}
+                />
+
+                <Button
+                  buttonStyle={styles.btn}
+                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  titleStyle={styles.btnTitle}
+                  title="이메일인증"
+                  onPress={() => {
+                    sendEmailKey();
+                  }}
+                />
+              </View>
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Mobile"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon
+                      name="envelope-open"
+                      size={24}
+                      color="white"
+                      style={{ marginRight: 10 }}
+                    />
+                  }
+                  onChangeText={e => {
+                    inputPhone(e);
+                  }}
+                />
+                <Button
+                  buttonStyle={styles.btn}
+                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  titleStyle={styles.btnTitle}
+                  title="핸드폰전송"
+                  onPress={() => {
+                    sendMobile();
+                  }}
+                />
+              </View>
+            </KeyboardAvoidingView>
+            <KeyboardAvoidingView behavior="padding">
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Mobile Key"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
+                  }
+                  onChangeText={e => {
+                    inputPhoneKey(e);
+                  }}
+                />
+
+                <Button
+                  buttonStyle={styles.btn}
+                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  titleStyle={styles.btnTitle}
+                  title="핸드폰인증"
+                  onPress={() => {
+                    sendPhoneKey();
+                  }}
+                />
+              </View>
+              <View>
+                <View style={styles.inputLine}>
+                  <Input
+                    placeholder="NickName"
+                    containerStyle={styles.input}
+                    placeholderTextColor="white"
+                    inputStyle={{ color: "white" }}
+                    inputContainerStyle={{ borderColor: "white" }}
+                    leftIcon={
+                      <Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />
+                    }
+                    onChangeText={e => {
+                      inputID(e);
+                    }}
+                  />
+
+                  <Button
+                    buttonStyle={styles.btn}
+                    icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                    titleStyle={styles.btnTitle}
+                    title="닉네임중복"
+                    onPress={() => {
+                      sendNickName();
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Password - 8자 이상!"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon name="lock" size={24} color="white" style={{ marginRight: 10 }} />
+                  }
+                  onChangeText={e => {
+                    inputPassWord(e);
+                  }}
+                />
+              </View>
+
+              <View style={styles.undertheGreenBox}>
+                <DatePicker
+                  style={styles.date}
+                  androidMode="spinner"
+                  date={birth}
+                  mode="date"
+                  placeholder="YOUR BIRTHDAY"
+                  format="YYYY-MM-DD"
+                  minDate="1950-01-01"
+                  maxDate="2222-12-31"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      flexDirection: "row",
+                    },
+                    dateInput: {
+                      // marginLeft: 36,
+                    },
+                  }}
+                  onDateChange={date => {
+                    handleConfirm(date);
+                  }}
+                />
+              </View>
+            </KeyboardAvoidingView>
+          </View>
+
+          {email && password && phone && userId && password.length > 8 ? (
+
+            <Button
+              buttonStyle={{
+                width: "80%",
+                marginLeft: 45,
+                borderRadius: 20,
+                elevation: 10,
+              }}
+              icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+              iconRight
+              title="NEXT"
+              onPress={() => {
+                _doNext();
+              }}
+            />
+          ) : (
+            <Button
+              disabled={true}
+              buttonStyle={{
+                width: "80%",
+                marginLeft: 45,
+                borderRadius: 20,
+              }}
+              icon={
+                <Icon name="exclamation-circle" style={{ marginLeft: 10 }} size={20} color="red" />
+              }
+              iconRight
+              title="Please Check Your Information"
+              onPress={_doNext}
+            />
+          )}
         </View>
-
-        <View style={styles.emailPhone}>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.inputEmailPhone}
-            placeholder="PassWord"
-            value={password}
-            onChangeText={e => {
-              inputPassWord(e);
-            }}
-          />
-        </View>
-
-        <DatePicker
-          style={styles.date}
-          date={birth}
-          mode="date"
-          placeholder="select date"
-          format="YYYY-MM-DD"
-          minDate="1950-01-01"
-          maxDate="2222-12-31"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              flexDirection: "row",
-            },
-            dateInput: {
-              // marginLeft: 36,
-            },
-          }}
-          onDateChange={date => {
-            handleConfirm(date);
-          }}
-        />
-
-        <TouchableOpacity
-          onPress={() => {
-            _doNext();
-          }}
-        >
-          <Text style={{ fontSize: 30, backgroundColor: "blue" }}>Next</Text>
-        </TouchableOpacity>
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -266,30 +388,60 @@ function SignupBasic(props) {
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
+  container: {
+    justifyContent: "flex-start",
+  },
   inputContainer: {
-    height: height / 3,
+    justifyContent: "center",
   },
   radio: {
+    flex: 0,
+    padding: 15,
     justifyContent: "space-around",
+    alignItems: "center",
+    // marginTop: 20,
+    // marginBottom: -40,
+    // height: height / 10,
   },
-  inputEmailPhone: {
-    margin: 15,
-    height: 40,
-    // backgroundColor:"",
-    borderColor: "#ff6183",
-    borderWidth: 3,
-    borderRadius: 125,
-    width: 250,
+  undertheGreenBox: {
+    padding: 5,
+    justifyContent: "space-around",
+    alignItems: "center",
   },
-  emailPhone: {
+
+  input: {
+    // marginVertical: 5,
+    width: 280,
+    height: 50,
+    // marginLeft: 5,
+  },
+  input2: {
+    marginVertical: 5,
+    width: 390,
+    height: 50,
+    borderBottomWidth: 2,
+    borderColor: "#fff",
+    width: "95%",
+  },
+  inputLine: {
     flexDirection: "row",
+    padding: 3,
+    margin: 3,
   },
   btn: {
-    margin: 15,
-    backgroundColor: "brown",
-    width: "100%",
+    margin: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
     height: 40,
+    borderRadius: 50,
+  },
+  btnTitle: {
+    fontSize: 13,
+  },
+  smallBtn: {
+    fontWeight: "bold",
+    fontSize: 30,
   },
   inputID: {
     margin: 15,
@@ -297,16 +449,27 @@ const styles = StyleSheet.create({
     borderColor: "#7a42f4",
     borderWidth: 1,
   },
-  confirmID: {
-    marginTop: -14,
-    marginLeft: 15,
-    fontSize: 13,
-  },
   date: {
     margin: 15,
+    width: "95%",
+    borderColor: "white",
   },
   placeholder: {
     margin: 5,
+  },
+  nextBtn: {
+    // width: "80%",
+    alignItems: "center",
+  },
+  btnTxt: {
+    marginTop: 15,
+    width: 300,
+    fontSize: 30,
+    borderColor: "#1e3799",
+    borderRadius: 150,
+    borderWidth: 3,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -335,5 +498,3 @@ export default inject(({ signupStore }) => ({
   sendPhoneKey: signupStore.sendPhoneKey,
   phoneBoolean: signupStore.phoneBoolean,
 }))(observer(SignupBasic));
-
-// export default SignupBasic;

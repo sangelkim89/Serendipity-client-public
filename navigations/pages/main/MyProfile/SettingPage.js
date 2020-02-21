@@ -1,26 +1,55 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity, StyleSheet, ScrollView, Alert } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  AsyncStorage,
+  ImageBackground,
+} from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { observer, inject } from "mobx-react";
+import { LOG_OUT } from "../../../queries";
+import { useMutation } from "@apollo/react-hooks";
+import { FontAwesome } from "@expo/vector-icons";
 
-@inject("signupStore")
-@observer
-class SettingPage extends React.Component {
-  static navigationOptions = { headerShown: false };
+// @inject("signupStore")
+// @observer
+function SettingPage(props) {
+  // static navigationOptions = { headerShown: false };
 
-  _gotoEditPage = () => {
-    this.props.navigation.navigate("EditPage");
+  const _gotoEditPage = () => {
+    props.navigation.navigate("EditPage");
   };
 
-  _gotoMyProfilePage = () => {
-    this.props.navigation.navigate("MyProfilePage");
+  const _gotoMyProfilePage = () => {
+    props.navigation.navigate("MyProfilePage");
   };
 
-  _logOut() {
-    Alert.alert("정상적으로 로그아웃 되었습니다.");
-  }
+  const _secession = () => {
+    props.navigation.navigate("AuthStack");
+    Alert.alert("만나서 반가웠어요.  함께여서 행복했어요.\n우리 꼭 다시만나요.  고마워요.");
+  };
 
-  _withDrawal = () => {
+  const [logoutMethod, { data }] = useMutation(LOG_OUT);
+
+  const _logOut = async () => {
+    try {
+      const { data } = await logoutMethod();
+      console.log("data : ", data);
+      await AsyncStorage.setItem("jwt", "");
+      console.log("logout token : ", await AsyncStorage.getItem("jwt"));
+      Alert.alert("정상적으로 로그아웃 되었습니다.");
+      props.navigation.navigate("AuthStack");
+    } catch (e) {
+      console.log("logout catch msg : ", e);
+    }
+  };
+
+  const _withDrawal = () => {
     Alert.alert(
       "주의",
       "정말 탈퇴하시겠습니까?",
@@ -30,20 +59,20 @@ class SettingPage extends React.Component {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
+        { text: "OK", onPress: () => (_secession(), console.log("OK Pressed")) },
       ],
       { cancelable: false },
     );
   };
 
-  render() {
-    const { signupStore } = this.props;
-
-    return (
+  return (
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
+      style={{ width: "100%", height: "100%" }}
+    >
       <View
         style={{
           flex: 1,
-          backgroundColor: "grey",
         }}
       >
         <Text style={{ fontSize: 18 }}></Text>
@@ -53,19 +82,16 @@ class SettingPage extends React.Component {
             flexDirection: "row",
             justifyContent: "space-around",
             alignItems: "center",
-            backgroundColor: "green",
           }}
         >
-          <View style={{ backgroundColor: "skyblue" }}>
-            <TouchableOpacity onPress={this._gotoMyProfilePage}>
-              <Text>마이프로필</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ backgroundColor: "steelblue" }}>
-            <TouchableOpacity onPress={this._gotoEditPage}>
-              <Text>수정</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
+            <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+            <Text>프로필</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={_gotoEditPage}>
+            <FontAwesome name="edit" style={{ color: "grey", fontSize: 25 }} />
+            <Text>수정</Text>
+          </TouchableOpacity>
         </View>
 
         <View
@@ -74,25 +100,22 @@ class SettingPage extends React.Component {
             flexDirection: "row",
             justifyContent: "space-around",
             alignItems: "center",
-            backgroundColor: "pink",
           }}
         >
-          <View style={{ backgroundColor: "skyblue" }}>
-            <TouchableOpacity onPress={this._logOut}>
-              <Text>로그아웃</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ backgroundColor: "steelblue" }}>
-            <TouchableOpacity onPress={this._withDrawal}>
-              <Text>회원탈퇴</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={{ alignItems: "center" }} onPress={_logOut}>
+            <FontAwesome name="toggle-on" style={{ color: "grey", fontSize: 25 }} />
+            <Text>로그아웃</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ alignItems: "center" }} onPress={_withDrawal}>
+            <FontAwesome name="exclamation-circle" style={{ color: "grey", fontSize: 25 }} />
+            <Text>회원탈퇴</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    );
-  }
+    </ImageBackground>
+  );
 }
 
 export default SettingPage;
 
-const styles = StyleSheet.create({});
+// const styles = StyleSheet.create({});

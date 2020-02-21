@@ -1,179 +1,182 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import { observer, inject } from "mobx-react";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+const { width, height } = Dimensions.get("window");
 
 function SignupTag(props) {
-  const { Tag, tagDATA, changeColorState, changeColor } = props;
-
+  const { Tag, tagDATA, tags } = props;
+  console.log("TAGS_IN_TAGS", tags);
   //Tag, tagDATA를 props로 사용합니다.
   _doNextPage = () => {
     props.navigation.navigate("SignupPic");
-    console.log("tag에서 pic로 이동합니다.");
   };
 
+  const tagLength = tags.length;
+  console.log("태그길이", tagLength);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.titleArea}>
-        <Text style={styles.title}>TagBox</Text>
-      </View>
-      <View>
-        <View>
-          {tagDATA.map((tag, f) => {
-            console.log("map이후 tag", tag);
-
-            //     <TouchableOpacity
-            //       onPress={() => Clickanyname(idanyname)}
-            //       style={[styles.itemanyname, { backgroundColor: selectanyname ? "red" : "pink" }]}
-            //     >
-            //       <Text style={styles.title}>{idanyname}</Text>
-            //     </TouchableOpacity>
-
-            return (
-              <TouchableOpacity
-                key={f}
-                tag={tag}
-                onPress={() => {
-                  Tag(f);
-                  changeColor();
-                  console.log("changeColorState 여기냐:", changeColorState);
-                }}
-                style={[
-                  styles.tagColor,
-                  { backgroundColor: { changeColorState } ? "pink" : "red" },
-                ]}
-              >
-                <Text>{tag}</Text>
-              </TouchableOpacity>
-            );
-          })}
+    <SafeAreaView style={styles.container}>
+      <ImageBackground
+        source={require("../../../assets/gradient2.jpg")}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <View style={styles.titleArea}>
+          <Text style={styles.title}>자신과 관련된 태그를 5개이하로 선택해주세요!</Text>
+          <View style={styles.titleTagContainer}>
+            {tags.map((item, i) => (
+              <Text key={i} style={styles.titleTag}>
+                {item}
+              </Text>
+            ))}
+          </View>
         </View>
-      </View>
 
-      <View style={styles.buttonArea}>
-        <TouchableOpacity style={styles.button} onPress={_doNextPage}>
-          <Text style={styles.buttonTitle}>next</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+        <View style={styles.buttonArea}>
+          <ScrollView style={styles.scroll}>
+            <View style={styles.buttonArea}>
+              {tagDATA.map((tag, f) => {
+                return (
+                  <TouchableOpacity
+                    key={f}
+                    tag={tag}
+                    onPress={() => {
+                      Tag(f);
+                    }}
+                    style={[
+                      styles.tagColor,
+                      {
+                        backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                        borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                      },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.tagText,
+                        {
+                          fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                          fontSize: tags.indexOf(tag) === -1 ? 15 : 16,
+                        },
+                      ]}
+                    >
+                      {tag}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </ScrollView>
+        </View>
+
+        {tags.length > 0 ? (
+          <Button
+            buttonStyle={{
+              width: "90%",
+              marginLeft: 22,
+              borderRadius: 20,
+              elevation: 10,
+            }}
+            icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
+            iconRight
+            title={`NEXT    ${tagLength} / 5`}
+            onPress={_doNextPage}
+          />
+        ) : (
+          <Button
+            disabled={true}
+            buttonStyle={{
+              width: "90%",
+              marginLeft: 22,
+              borderRadius: 20,
+            }}
+            icon={
+              <Icon name="exclamation-circle" style={{ marginLeft: 10 }} size={20} color="red" />
+            }
+            iconRight
+            title="Please Check Tags One More!"
+            onPress={_doNextPage}
+          />
+        )}
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "grey",
-    paddingLeft: wp("10%"),
-    paddingRight: wp("10%"),
+    backgroundColor: "white",
     justifyContent: "center",
   },
   titleArea: {
+    height: height / 5,
     width: "100%",
-    padding: wp("10%"),
     alignItems: "center",
+    justifyContent: "center",
+    // borderColor: "blue",
+    // borderWidth: 1,
   },
   title: {
-    fontSize: wp("10%"),
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  titleTagContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "90%",
+  },
+  titleTag: {
+    fontSize: 12,
+    // marginTop: 10,
+    margin: 5,
+    borderColor: "#70a1ff",
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: "pink",
+    borderColor: "#ff6348",
+  },
+  scroll: {
+    // backgroundColor: "blue",
+    height: height - 250,
   },
   buttonArea: {
-    backgroundColor: "#46c3ad",
     width: "100%",
-    height: hp("5%"),
-  },
-  button: {
-    width: "100%",
-    height: "100%",
+    padding: 5,
+    flexWrap: "wrap",
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
   },
-  buttonTitle: {
-    color: "white",
-  },
+  tagText: {},
   tagColor: {
-    padding: 1,
-    marginVertical: 1,
-    marginHorizontal: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 4,
+    margin: 10,
+    width: "30%",
+    height: 50,
+    borderColor: "#70a1ff",
+    borderWidth: 3,
+    borderRadius: 20,
   },
 });
 
 export default inject(({ signupStore }) => ({
   Tag: signupStore.addtagState,
   tagDATA: signupStore.tagDATA,
-  changeColorState: signupStore.changeColorState,
-  changeColor: signupStore.changeColor,
+  tags: signupStore.tags,
 }))(observer(SignupTag));
-
-// function Itemanyname({ idanyname, selectanyname, Clickanyname }) {
-//   //ITEM 이라는 함수에 {idanyname, selected, Clickanyname}를 넣어서 실행하면
-//   return (
-//     <TouchableOpacity
-//       onPress={() => Clickanyname(idanyname)}
-//       style={[styles.itemanyname, { backgroundColor: selectanyname ? "red" : "pink" }]}
-//     >
-//       <Text style={styles.title}>{idanyname}</Text>
-//     </TouchableOpacity>
-//   );
-//   //<TouchableOpacity>안에 담겨져 있는 것을 리턴합니다.
-//   //누르면 Clickanyname(idanyname)가 실행이 되고,
-//   //style은 style.item 스타일을 따르는데, 선택 되면 색이 바뀝니다.
-//   //Text 스타일은 styles.title을 따르고 title을 넣어줍니다.
-//   //</TouchableOpacity>를 닫아줍니다.
-// }
-
-// //할일 :
-// //selectanyname 가 state로 들어가야해요
-// // state는 다시 모벡스의 state로 들어가야해요
-// // setSelected를 스토어의 메소드(@action)알고리즘으로 바꾼다.
-
-// export default function SignupTag() {
-//   const [selectanyname, setSelected] = useState([]); //셀렉트에니네임은 빈 어레이가 되어있다.
-
-//   const Clickanyname = useCallback(
-//     idanyname => {
-//       const newSelected = selectanyname;
-//       newSelected.set(idanyname, !selectanyname.push(idanyname));
-
-//       setSelected(newSelected);
-//     },
-//     [selectanyname],
-//   );
-
-//   //여기는 class 여도 안바꿔도 됨
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <FlatList
-//         data={DATAanyname}
-//         // data는 메소드
-//         renderItem={({ item }) => (
-//           <Itemanyname
-//             idanyname={item.idanyname}
-//             selectanyname={selectanyname.push(item.idanyname)}
-//             Clickanyname={Clickanyname}
-//           />
-//         )}
-//         keyExtractor={item => item.idanyname}
-//         extraData={selectanyname}
-//       />
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     marginTop: Constants.statusBarHeight,
-//   },
-//   itemanyname: {
-//     backgroundColor: "pink",
-//     padding: 5,
-//     marginVertical: 8,
-//     marginHorizontal: 16,
-//   },
-//   title: {
-//     fontSize: 10,
-//   },
-// });

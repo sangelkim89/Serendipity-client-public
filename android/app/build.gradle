@@ -144,6 +144,19 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 dependencies {
+    compile project(':react-native-view-overflow')
+    compile project(':react-native-video')
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-screens')
+    compile project(':react-native-safe-area-context')
+    compile project(':react-native-reanimated')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-gesture-handler')
+    compile project(':@react-native-community/masked-view')
+    compile project(':@react-native-community/datetimepicker')
+    implementation project(':react-native-vector-icons')
+    implementation project(':@react-native-community_datetimepicker')
+    implementation project(':react-native-linear-gradient')
     implementation project(':react-native-view-overflow')
     implementation project(':react-native-screens')
     implementation project(':react-native-reanimated')

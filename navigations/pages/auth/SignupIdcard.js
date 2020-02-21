@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,7 +16,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { observer, inject } from "mobx-react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
+
+const { width, height } = Dimensions.get("window");
 
 @inject("signupStore")
 @observer
@@ -20,9 +32,9 @@ class SignupIdcard extends React.Component {
   }
 
   async permitCamera() {
-    const { status, permissions } = await Permissions.getAsync(Permissions.CAMERA);
+    const status = await Permissions.getAsync(Permissions.CAMERA);
     if (status !== "granted") {
-      const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA);
+      const status = await Permissions.askAsync(Permissions.CAMERA);
       if (status === "granted") {
         this.props.navigation.navigate("TakeCamera", {
           from: "idcard",
@@ -73,31 +85,67 @@ class SignupIdcard extends React.Component {
   render() {
     const { signupStore } = this.props;
     return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text>SignupCompany</Text>
-        </View>
-        <View style={styles.picButtonContainer}>
-          <TouchableOpacity onPress={this.permitCamera.bind(this)} style={styles.picButton}>
-            <Text style={styles.text}>Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.permitGallery()} style={styles.picButton}>
-            <Text style={styles.text}>Gallery</Text>
-          </TouchableOpacity>
-        </View>
-        {signupStore.imgIdCard ? (
-          <Image source={signupStore.imgIdCard} style={styles.picContainer} />
-        ) : (
-          <View style={styles.picContainer}>
-            <Text>choose your Idcard</Text>
+      <ImageBackground
+        source={require("../../../assets/gradient2.jpg")}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <SafeAreaView style={styles.container}>
+          <View style={styles.picButtonContainer}>
+            <TouchableOpacity onPress={this.permitCamera.bind(this)} style={styles.picButton}>
+              <Icon name="camera-retro" size={30} color="white" style={{ marginRight: 10 }} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.permitGallery()} style={styles.picButton}>
+              <Icon name="image" size={30} color="white" style={{ marginRight: 10 }} />
+            </TouchableOpacity>
           </View>
-        )}
-        <View style={styles.submitButtonContainer}>
-          <TouchableOpacity onPress={this._doNext.bind(this)} style={styles.submitButton}>
-            <Text style={styles.text}>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+
+          {signupStore.imgIdCard ? (
+            <Image source={signupStore.imgIdCard} style={styles.picContainer} />
+          ) : (
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>choose your ID card</Text>
+            </View>
+          )}
+
+          <View style={styles.btnContainer}>
+            {signupStore.imgIdCard ? (
+              <Button
+                buttonStyle={{
+                  width: "80%",
+                  marginLeft: 45,
+                  borderRadius: 20,
+                }}
+                icon={
+                  <Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />
+                }
+                iconRight
+                title="Submit"
+                onPress={this._doNext.bind(this)}
+              />
+            ) : (
+              <Button
+                disabled={true}
+                buttonStyle={{
+                  width: "80%",
+                  marginLeft: 45,
+                  borderRadius: 20,
+                }}
+                icon={
+                  <Icon
+                    name="exclamation-circle"
+                    style={{ marginLeft: 10 }}
+                    size={20}
+                    color="red"
+                  />
+                }
+                iconRight
+                title="Please Take Your ID Card"
+                onPress={this._doNext.bind(this)}
+              />
+            )}
+          </View>
+        </SafeAreaView>
+      </ImageBackground>
     );
   }
 }
@@ -105,46 +153,43 @@ class SignupIdcard extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
     paddingLeft: wp("10%"),
     paddingRight: wp("10%"),
     justifyContent: "center",
     alignContent: "center",
-    backgroundColor: "yellow",
   },
   picContainer: {
-    flex: 7,
+    flex: 1,
     width: "100%",
-    backgroundColor: "orange",
+    height: height - 200,
   },
   picButtonContainer: {
-    flex: 1,
+    // flex: 1,
+    height: height - 700,
     flexDirection: "row",
     padding: 10,
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "black",
-  },
-  submitButtonContainer: {
-    flex: 1,
-    backgroundColor: "violet",
-    padding: 10,
   },
   picButton: {
-    backgroundColor: "green",
     padding: 5,
   },
-  submitButton: {
-    backgroundColor: "blue",
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "brown",
+  btnContainer: {
+    height: height / 10,
+    marginTop: 10,
   },
   text: {
     fontSize: 15,
     color: "white",
+  },
+  text: {
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  textContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 20,
   },
 });
 

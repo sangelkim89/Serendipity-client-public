@@ -18,13 +18,9 @@ import Animated, { Easing } from "react-native-reanimated";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import { GET_LIST } from "../../queries";
-
-import { LOG_IN } from "../../queries";
-
+import { LOG_IN, GET_LIST, GET_ME } from "../../queries";
+import MyProfileStore from "../../../stores/MyProfileStore";
 const { width, height } = Dimensions.get("window");
-
 // 이미지 불러오는 함수
 function cacheImages(img) {
   return img.map(item => {
@@ -35,11 +31,22 @@ function cacheImages(img) {
     }
   });
 }
-
 // 로그인 컴포넌트
 function Login(props) {
+  console.log("LOGIN RENDERED!!!");
   // Store 비할당구조
-  const { ID, PW, loginId, loginPW, recommendUser, getCardList } = props;
+  const {
+    ID,
+    PW,
+    loginId,
+    loginPW,
+    recommendUser,
+    getCardList,
+    saveMyProfile,
+    addUserId,
+    myId,
+    id,
+  } = props;
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -50,27 +57,21 @@ function Login(props) {
     }
     getLogInfo();
   }, []);
-
   // useState
   const [isLoggedIn, doLogin] = useState("false");
   const [isReady, doReady] = useState(false);
-
-  // useMutate
-
   // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);
-
   // useMutate - getHuntList
   const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
-
+  // uesMutate - getMeRES
+  const [getMeRES] = useMutation(GET_ME);
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
-    const imgAssets = cacheImages([require("../../../assets/background1.jpg")]);
+    const imgAssets = cacheImages([require("../../../assets/gradient.png")]);
     // const fontAssets = cacheFonts([FontAwesome.font]);
-
     await Promise.all([...imgAssets]);
   }
-
   // 로그인 메소드
   async function _doLogin() {
     try {
@@ -85,10 +86,13 @@ function Login(props) {
       console.log("GRAPHQL_LOGIN", signIn);
       if (signIn) {
         doLogin("true");
-        await AsyncStorage.setItem("jwt", signIn);
+        const signInData = JSON.parse(signIn);
+        await AsyncStorage.setItem("jwt", signInData.token);
+        // 로그인시 DB의 유저아이디를 가져오는 코드 - 서버도 변경 필요. myprofile작업내용에 따라 결정될 예정
+        console.log("signInData.id in login.js : ", signInData.id);
+        await addUserId(signInData.id); // mobx store에 id 저장
         await AsyncStorage.setItem("isLoggedIn", "true");
-        await console.log("로그인_JWT", signIn);
-        await console.log("로그인됐니_성공?", await AsyncStorage.getItem("isLoggedIn"));
+        await console.log("로그인됐니_성공?", await AsyncStorage.getItem("jwt"));
       } else {
         doLogin("false");
         const jwt = await AsyncStorage.getItem("jwt");
@@ -99,21 +103,29 @@ function Login(props) {
       console.log("LOGIN_CATCH : ", e);
     } finally {
       const asyncIsLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-      console.log("LOGIN_CLICK_LOCAL_isLoggedIn : ", asyncIsLoggedIn);
+      // console.log("LOGIN_CLICK_LOCAL_isLoggedIn : ", asyncIsLoggedIn);
       if (asyncIsLoggedIn === "true") {
         props.navigation.navigate("TabNav");
         const getCard = await getMutateHuntList();
         getCardList(getCard);
+        console.log("getCard:", getCard);
+        //=======================================================================
+        const getMyProfile = await getMeRES({
+          variables: { id: id },
+        });
+        console.log("MyProfile Store에 저장: ", getMyProfile.data.getMe);
+        saveMyProfile(getMyProfile);
+        //=======================================================================
+        props.navigation.navigate("TabNav");
       } else {
-        Alert.alert("isLoggedIn is falsy!!!");
+        Alert.alert("로그인 정보를 다시 확인해주세요!");
       }
+      console.log("myId in login.js finally : ", myId);
     }
   }
-
   _doSignUp = () => {
     props.navigation.navigate("SignupBasic");
   };
-
   // 렌더되는 부분
   if (!isReady) {
     return (
@@ -132,9 +144,14 @@ function Login(props) {
       <View style={{ ...StyleSheet.absoluteFill }}>
         <Image
           style={{ flex: 1, width: null, height: null }}
-          source={require("../../../assets/background1.jpg")}
+          source={require("../../../assets/gradient2.jpg")}
         />
       </View>
+      <Image
+        style={styles.mainPic}
+        source={require("../../../assets/eatplaylove.png")}
+        // resizeMode=""
+      ></Image>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
         <View style={styles.formArea}>
           <TextInput
@@ -146,6 +163,7 @@ function Login(props) {
             }}
           />
           <TextInput
+            secureTextEntry={true}
             style={styles.textForm}
             placeholder={"Password"}
             onChangeText={potato => {
@@ -153,13 +171,11 @@ function Login(props) {
             }}
           />
         </View>
-
         <TouchableOpacity onPress={_doLogin}>
           <View style={{ ...styles.btn }}>
             <Text style={{ fontWeight: "bold" }}>SIGN IN</Text>
           </View>
         </TouchableOpacity>
-
         <TouchableOpacity style={styles.button} onPress={_doSignUp}>
           <View style={styles.btn}>
             <Text style={{ fontWeight: "bold" }}>SIGN UP</Text>
@@ -169,7 +185,6 @@ function Login(props) {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -193,72 +208,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: 5,
   },
+  mainPic: {
+    // borderWidth: 1,
+    // borderColor: "red",
+    flex: 1,
+    margin: 30,
+    marginLeft: -0.5,
+    marginBottom: -15,
+    width: width,
+  },
 });
-
-export default inject(({ signupStore, huntStore }) => ({
+export default inject(({ signupStore, huntStore, myProfileStore }) => ({
+  id: myProfileStore.id,
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
   loginPW: signupStore.loginPW,
   recommendUser: huntStore.recommendUser,
   getCardList: huntStore.getCardList,
+  saveMyProfile: myProfileStore.saveMyProfile,
+  addUserId: myProfileStore.addUserId,
+  myId: myProfileStore.id,
 }))(observer(Login));
-
-/*
-// Reanimated 함수 (로그인 버튼 관련 함수)
-const {
-  Value,
-  event,
-  block,
-  cond,
-  eq,
-  set,
-  Clock,
-  startClock,
-  stopClock,
-  debug,
-  timing,
-  clockRunning,
-} = Animated;
-
-function runTiming(clock, value, dest) {
-  const state = {
-    finished: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-    frameTime: new Value(0),
-  };
-
-  const config = {
-    duration: 1000,
-    toValue: new Value(0),
-    easing: Easing.inOut(Easing.ease),
-  };
-
-  return block([
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.time, 0),
-      set(state.position, value),
-      set(state.frameTime, 0),
-      set(state.toValue, dest),
-      startClock(clock),
-    ]),
-    timing(clock, state, config),
-    cond(state.finished, debug("stop clock", stopClock(clock))),
-    state.position,
-  ]);
-}
-
-const [buttonOpacity] = useState(new Value(1));
-  const [onStateChange, doChangeLogin] = useState(
-    event([
-      {
-        nativeEvent: state =>
-          block([cond(eq(state, State.END), set(buttonOpacity), runTiming(new Clock(), 1, 0))]),
-      },
-    ]),
-  );
-
-
-*/

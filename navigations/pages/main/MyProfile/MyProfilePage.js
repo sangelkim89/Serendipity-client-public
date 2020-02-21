@@ -1,166 +1,159 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Image, ImageBackground } from "react-native";
+
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ImageBackground,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 
 import { observer, inject } from "mobx-react";
 
-function MyProfilePage(props) {
-  const { tagDATA, mockDATA } = props;
+import { FontAwesome } from "@expo/vector-icons";
 
-  _gotoEditPage = () => {
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+function MyProfilePage(props) {
+  const { myProfile, tagDATA } = props;
+
+  const _gotoEditPage = () => {
     props.navigation.navigate("EditPage");
   };
 
-  _gotoSettingPage = () => {
+  const _gotoSettingPage = () => {
     props.navigation.navigate("SettingPage");
   };
 
-  console.log("뭐가 나오니?:", mockDATA.id);
-  console.log("뭐가 나오니?:", mockDATA.tags[0].object);
+  const birth = myProfile.birth;
+  let birthYear = birth.split("-")[0];
+  let nowYear = new Date().getFullYear();
+  let age = nowYear - birthYear + 1;
+
+  // console.log("useMutation {data} : ", data);
+  // console.log("GET_ME는 과연 불러오는가 tag :", JSON.parse(data.getMe.tags)[0]);
+  // console.log("GET_ME는 과연 불러오는가 img", data.getMe.profileImgLocation);
 
   return (
-    <View
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
       style={{
-        flex: 1,
-        backgroundColor: "grey",
+        width: "100%",
+        height: "100%",
+        //  backgroundColor: "black"
       }}
     >
-      {/* 빨간색 박스 ==================================================================================== */}
-      <View style={{ flex: 9, alignItems: "center", backgroundColor: "#f7d794" }}>
-        {/* 분홍색 박스(사진 및 각종정보) ==================================================================================== */}
+      <Text style={{ fontSize: 18 }}>{/*빈공간*/}</Text>
+      <ScrollView>
+        <View style={styles.imgContainer}>
+          <Image style={styles.image} source={{ uri: myProfile.profileImgLocation }} />
+        </View>
+        <View style={styles.textContainer}>
+          <View style={styles.etcText}>
+            <Text style={styles.textId}>{myProfile.name}</Text>
+            <Text style={styles.textId}>{age}</Text>
+          </View>
+
+          <View style={styles.etcText}>
+            <Text style={styles.textCompany}>{myProfile.companyName}</Text>
+            <Text style={styles.textCompany}>{myProfile.companyRole}</Text>
+          </View>
+
+          <View style={styles.etcText}>
+            <Text style={styles.textCompany}>{myProfile.email}</Text>
+            <Text style={styles.textCompany}>{myProfile.phone}</Text>
+          </View>
+
+          <View style={styles.tagContainer}>
+            {tagDATA.map((tag, i) => {
+              return (
+                <Text style={styles.textTag} key={i}>
+                  {tag}
+                </Text>
+              );
+            })}
+          </View>
+        </View>
         <View
           style={{
-            width: 400,
             flex: 1,
-            backgroundColor: "#F5A9F2", //빨간색 안에 있는 분홍박스
+            flexDirection: "row",
+            justifyContent: "space-around",
             alignItems: "center",
+            padding: 10,
+
+            // backgroundColor: "#f7d794",
           }}
         >
-          {/* 이미지 ==================================================================================== */}
-          <Image style={{ width: 400, height: 600 }} source={require("../../../../testpic.png")} />
-          {/* 각종 정보 ==================================================================================== */}
-          <View
-            style={{
-              width: 200,
-              flex: 1,
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              position: "absolute",
-              alignSelf: "flex-start",
-            }}
-          >
-            {/* 맨위에 빈칸 ==================================================================================== */}
-            <Text style={{ fontSize: 17.5 }}></Text>
-            {/* 맨 윗줄 이름 나이==================================================================================== */}
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ backgroundColor: "rgba(0, 0, 255, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.name}</Text>
-              </View>
-              <View style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.birth}</Text>
-              </View>
-            </View>
-            {/* 두번째 줄 회사 업종==================================================================================== */}
-            <View
-              style={{
-                flex: 1,
-                //  backgroundColor: "white",
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyName}</Text>
-              </View>
-              <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>{mockDATA.companyRole}</Text>
-              </View>
-            </View>
-            {/* 세번째 줄 태그==================================================================================== */}
-            <View
-              style={{
-                flex: 1,
-                //  backgroundColor: "white",
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그1</Text>
-              </View>
-              <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그2</Text>
-              </View>
-            </View>
-            {/* 네번째 줄 태그==================================================================================== */}
-
-            <View
-              style={{
-                flex: 1,
-                //  backgroundColor: "white",
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그3</Text>
-              </View>
-              <View style={{ backgroundColor: "rgba(255,0,0,0.5)" }}>
-                <Text style={{ fontSize: 30, color: "white" }}>태그4</Text>
-              </View>
-            </View>
-            {/* 다섯번째 줄 태그==================================================================================== */}
-
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ backgroundColor: "rgba(0,0,255,0.5)" }}>
-                <View>
-                  {tagDATA.map((tag, f) => {
-                    return <Text>{tag}</Text>;
-                  })}
-                </View>
-              </View>
-            </View>
-            {/* 다섯번째줄 */}
-          </View>
-          {/* {각종 정보} */}
-        </View>
-        {/* 분홍박스 */}
-      </View>
-      {/* 빨간박스 */}
-      {/* 수정, 톱니바퀴========================================================= */}
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          backgroundColor: "#f7d794",
-        }}
-      >
-        <View style={{ backgroundColor: "skyblue" }}>
           <TouchableOpacity onPress={_gotoEditPage}>
+            <FontAwesome name="edit" style={{ color: "grey", fontSize: 25 }} />
             <Text>수정</Text>
           </TouchableOpacity>
-        </View>
-        <View style={{ backgroundColor: "steelblue" }}>
+
           <TouchableOpacity onPress={_gotoSettingPage}>
-            <Text>톱니바퀴</Text>
+            <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+            <Text>설정</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      {/* 수정, 톱니바퀴========================================================= */}
-    </View>
+        {/* 수정, 톱니바퀴========================================================= */}
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
+const styles = StyleSheet.create({
+  image: {
+    width: 350,
+    height: 400,
+    justifyContent: "flex-end",
+  },
+  imgContainer: {
+    padding: 30,
+    alignItems: "center",
+  },
+
+  textContainer: {
+    padding: 10,
+    alignItems: "center",
+  },
+  etcText: {
+    flexDirection: "row",
+  },
+  tagContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: 5,
+  },
+  textId: {
+    color: "black",
+    fontSize: 30,
+    margin: 10,
+    marginTop: -10,
+    fontWeight: "bold",
+  },
+  textCompany: {
+    color: "black",
+    marginTop: -10,
+    margin: 10,
+    fontSize: 25,
+  },
+  textTag: {
+    fontSize: 20,
+    color: "#2c3e50",
+    backgroundColor: "pink",
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#ff6348",
+    borderRadius: 5,
+    margin: 3,
+  },
+});
+
 export default inject(({ myProfileStore }) => ({
-  tagDATA: myProfileStore.tagDATA,
-  mockDATA: myProfileStore.mockDATA.data.getMe,
+  tagDATA: myProfileStore.tags2,
+  myProfile: myProfileStore.myProfile.data.getMe,
 }))(observer(MyProfilePage));
