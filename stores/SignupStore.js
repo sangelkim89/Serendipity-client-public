@@ -1,6 +1,7 @@
 import { observable, action, computed, toJS } from "mobx";
 import axios from "axios";
-//import { SERVER_ENDPOINT } from "react-native-dotenv";
+
+import { SERVER_ENDPOINT } from "react-native-dotenv";
 
 class SignupStore {
   // (StoreIndex)
@@ -254,10 +255,8 @@ class SignupStore {
 
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
-
-    const endPoint = "http://192.168.219.139:4000/api/upload";
-
-    //    const endPoint = `${SERVER_ENDPOINT}/api/upload`;
+    const endPoint = `${SERVER_ENDPOINT}/api/upload`;
+    console.log("SERVER_ENDPOINT : ", endPoint);
 
     // fetch(endPoint, {
     //   method: "POST",
@@ -286,7 +285,6 @@ class SignupStore {
         alert("회원가입이 완료되었습니다.");
       })
       .catch(e => {
-        // console.log("axios error issued!");
         console.log("NETWORK_ERR_AXIOS in signupStore : ", e);
         alert("가입 실패... 다시 시도 해주세요");
       });

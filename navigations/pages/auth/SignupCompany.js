@@ -14,8 +14,6 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-// import Geocode from "react-geocode";
-
 @inject("signupStore")
 @observer
 class SignupCompany extends React.Component {
@@ -58,9 +56,7 @@ class SignupCompany extends React.Component {
                   />
                 ) : null}
               </MapView>
-              <Text style={styles.marking}>
-                {signupStore.marker.lat} && {signupStore.marker.lon}
-              </Text>
+              <Text style={styles.mapText}>회사위치를 지도에 찍어주세요!</Text>
             </View>
 
             <Input
@@ -147,6 +143,12 @@ const styles = StyleSheet.create({
   },
   marking: {
     fontSize: 20,
+  },
+  mapText: {
+    marginTop: -15,
+    marginBottom: 20,
+    fontSize: 20,
+    fontWeight: "bold",
   },
   map: {
     width: "100%",

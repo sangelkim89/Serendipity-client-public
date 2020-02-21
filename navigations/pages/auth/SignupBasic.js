@@ -347,12 +347,13 @@ function SignupBasic(props) {
             </KeyboardAvoidingView>
           </View>
 
-          {email && password && phone && userId && password.length > 8 ? (
+          {email && password && phone && userId && password.length > 0 ? (
             <Button
               buttonStyle={{
                 width: "80%",
                 marginLeft: 45,
                 borderRadius: 20,
+                elevation: 10,
               }}
               icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
               iconRight
@@ -415,7 +416,7 @@ const styles = StyleSheet.create({
   },
   input2: {
     marginVertical: 5,
-    width: 280,
+    width: 390,
     height: 50,
     borderBottomWidth: 2,
     borderColor: "#fff",
