@@ -125,7 +125,6 @@ function ChatPage(props) {
               <Text style={styles.name}>{opponent.name}</Text>
             </TouchableOpacity>
           </View>
-          {/* <KeyboardAvoidingView enabled behavior="padding"> */}
           <View style={{ heigth: 470 }}>
             <ScrollView
               style={{ height: "80%" }}
@@ -165,6 +164,8 @@ function ChatPage(props) {
             </ScrollView>
           </View>
           <View style={styles.chatInput}>
+            {/* <KeyboardAvoidingView enabled behavior="padding"> */}
+
             <Input
               onChangeText={onChangeText}
               value={message}
@@ -180,8 +181,8 @@ function ChatPage(props) {
                 </TouchableOpacity>
               }
             />
+            {/* </KeyboardAvoidingView> */}
           </View>
-          {/* </KeyboardAvoidingView> */}
         </View>
       </Suspense>
     </ImageBackground>

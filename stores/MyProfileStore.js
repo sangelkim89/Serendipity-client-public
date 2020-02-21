@@ -1,6 +1,4 @@
-import { observable, action, computed, toJS, runInAction } from "mobx";
-import axios from "axios";
-import { SERVER_ENDPOINT } from "react-native-dotenv";
+import { observable, action } from "mobx";
 
 class MyProfileStore {
   // (StoreIndex)
@@ -21,7 +19,8 @@ class MyProfileStore {
     this.birth = e.data.getMe.birth;
     this.bio = e.data.getMe.bio;
     this.distance = e.data.getMe.distance;
-
+    this.companyName = e.data.getMe.companyName;
+    this.companySort = e.data.getMe.companyRole;
     this.marker = JSON.parse(e.data.getMe.geoLocation);
     this.tags2 = e.data.getMe.tags;
   };
@@ -119,21 +118,27 @@ class MyProfileStore {
 
   tagDATA = [
     //DATA를 ARRAY로 선언을 합니다.
-    "바꾸자",
-    "태그2",
-    "태그3",
-    "태그4",
-    "태그5",
-    "태그6",
-    "태그7",
-    "태그8",
-    "태그9",
-    "태그10",
-    "태그11",
-    "태그12",
-    "태그13",
-    "태그14",
-    "태그15",
+    "먹방데이트",
+    "퇴근 후 치맥",
+    "집돌이 / 집순이",
+    "스포츠경기 관람",
+    "카페데이트",
+    "더블데이트",
+    "고기데이트",
+    "운동하자",
+    "만화카페",
+    "드라이브",
+    "영화보기",
+    "브런치",
+    "요가/필라테스",
+    "쇼핑 FLEX",
+    "피씨방",
+    "삼쏘는진리",
+    "전시회관람",
+    "술한잔해요",
+    "연상이좋아요",
+    "연하가좋아요",
+    "술보단커피",
   ];
 }
 

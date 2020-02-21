@@ -152,182 +152,201 @@ function SignupBasic(props) {
         source={require("../../../assets/gradient2.jpg")}
         style={{ width: "100%", height: "100%" }}
       >
-        <RadioForm
-          buttonSize={15}
-          buttonOuterSize={30}
-          style={styles.radio}
-          radio_props={radio_props}
-          animation={true}
-          initial={0}
-          formHorizontal={true}
-          onPress={e => {
-            genderBtn(e);
-          }}
-        />
         <View style={styles.inputContainer}>
-          <View style={styles.inputLine}>
-            <Input
-              placeholder="Email"
-              containerStyle={styles.input}
-              placeholderTextColor="white"
-              inputStyle={{ color: "white" }}
-              inputContainerStyle={{ borderColor: "white" }}
-              leftIcon={<Icon name="user" size={24} color="white" style={{ marginRight: 10 }} />}
-              onChangeText={e => {
-                inputEmail(e);
-              }}
-            />
-
-            <Button
-              buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
-              titleStyle={styles.btnTitle}
-              title="이메일전송"
-              onPress={() => {
-                sendEmail();
-              }}
-            />
-          </View>
-
-          <View style={styles.inputLine}>
-            <Input
-              placeholder="Email Key"
-              containerStyle={styles.input}
-              placeholderTextColor="white"
-              inputStyle={{ color: "white" }}
-              inputContainerStyle={{ borderColor: "white" }}
-              leftIcon={
-                <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
-              }
-              onChangeText={e => {
-                inputEmailKey(e);
-              }}
-            />
-
-            <Button
-              buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
-              titleStyle={styles.btnTitle}
-              title="이메일인증"
-              onPress={() => {
-                sendEmailKey();
-              }}
-            />
-          </View>
-
-          <View style={styles.inputLine}>
-            <Input
-              placeholder="Mobile"
-              containerStyle={styles.input}
-              placeholderTextColor="white"
-              inputStyle={{ color: "white" }}
-              inputContainerStyle={{ borderColor: "white" }}
-              leftIcon={
-                <Icon name="envelope-open" size={24} color="white" style={{ marginRight: 10 }} />
-              }
-              onChangeText={e => {
-                inputPhone(e);
-              }}
-            />
-            <Button
-              buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
-              titleStyle={styles.btnTitle}
-              title="핸드폰전송"
-              onPress={() => {
-                sendMobile();
-              }}
-            />
-          </View>
-
-          <View style={styles.inputLine}>
-            <Input
-              placeholder="Mobile Key"
-              containerStyle={styles.input}
-              placeholderTextColor="white"
-              inputStyle={{ color: "white" }}
-              inputContainerStyle={{ borderColor: "white" }}
-              leftIcon={
-                <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
-              }
-              onChangeText={e => {
-                inputPhoneKey(e);
-              }}
-            />
-
-            <Button
-              buttonStyle={styles.btn}
-              icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
-              titleStyle={styles.btnTitle}
-              title="핸드폰인증"
-              onPress={() => {
-                sendPhoneKey();
+          <View>
+            <RadioForm
+              buttonSize={15}
+              buttonOuterSize={30}
+              style={styles.radio}
+              radio_props={radio_props}
+              animation={true}
+              initial={0}
+              formHorizontal={true}
+              onPress={e => {
+                genderBtn(e);
               }}
             />
           </View>
           <View>
-            <View style={styles.inputLine}>
-              <Input
-                placeholder="NickName"
-                containerStyle={styles.input}
-                placeholderTextColor="white"
-                inputStyle={{ color: "white" }}
-                inputContainerStyle={{ borderColor: "white" }}
-                leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
-                onChangeText={e => {
-                  inputID(e);
-                }}
-              />
+            <KeyboardAvoidingView behavior="height">
+              <View>
+                <View style={styles.inputLine}>
+                  <Input
+                    placeholder="Email"
+                    containerStyle={styles.input}
+                    placeholderTextColor="white"
+                    inputStyle={{ color: "white" }}
+                    inputContainerStyle={{ borderColor: "white" }}
+                    leftIcon={
+                      <Icon name="user" size={24} color="white" style={{ marginRight: 10 }} />
+                    }
+                    onChangeText={e => {
+                      inputEmail(e);
+                    }}
+                  />
+                  <Button
+                    buttonStyle={styles.btn}
+                    icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                    titleStyle={styles.btnTitle}
+                    title="이메일전송"
+                    onPress={() => {
+                      sendEmail();
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Email Key"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
+                  }
+                  onChangeText={e => {
+                    inputEmailKey(e);
+                  }}
+                />
 
-              <Button
-                buttonStyle={styles.btn}
-                icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
-                titleStyle={styles.btnTitle}
-                title="닉네임중복"
-                onPress={() => {
-                  sendNickName();
-                }}
-              />
-            </View>
+                <Button
+                  buttonStyle={styles.btn}
+                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  titleStyle={styles.btnTitle}
+                  title="이메일인증"
+                  onPress={() => {
+                    sendEmailKey();
+                  }}
+                />
+              </View>
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Mobile"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon
+                      name="envelope-open"
+                      size={24}
+                      color="white"
+                      style={{ marginRight: 10 }}
+                    />
+                  }
+                  onChangeText={e => {
+                    inputPhone(e);
+                  }}
+                />
+                <Button
+                  buttonStyle={styles.btn}
+                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  titleStyle={styles.btnTitle}
+                  title="핸드폰전송"
+                  onPress={() => {
+                    sendMobile();
+                  }}
+                />
+              </View>
+            </KeyboardAvoidingView>
+            <KeyboardAvoidingView behavior="padding">
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Mobile Key"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon name="check-circle" size={24} color="white" style={{ marginRight: 10 }} />
+                  }
+                  onChangeText={e => {
+                    inputPhoneKey(e);
+                  }}
+                />
+
+                <Button
+                  buttonStyle={styles.btn}
+                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  titleStyle={styles.btnTitle}
+                  title="핸드폰인증"
+                  onPress={() => {
+                    sendPhoneKey();
+                  }}
+                />
+              </View>
+              <View>
+                <View style={styles.inputLine}>
+                  <Input
+                    placeholder="NickName"
+                    containerStyle={styles.input}
+                    placeholderTextColor="white"
+                    inputStyle={{ color: "white" }}
+                    inputContainerStyle={{ borderColor: "white" }}
+                    leftIcon={
+                      <Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />
+                    }
+                    onChangeText={e => {
+                      inputID(e);
+                    }}
+                  />
+
+                  <Button
+                    buttonStyle={styles.btn}
+                    icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                    titleStyle={styles.btnTitle}
+                    title="닉네임중복"
+                    onPress={() => {
+                      sendNickName();
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={styles.inputLine}>
+                <Input
+                  placeholder="Password - 8자 이상!"
+                  containerStyle={styles.input}
+                  placeholderTextColor="white"
+                  inputStyle={{ color: "white" }}
+                  inputContainerStyle={{ borderColor: "white" }}
+                  leftIcon={
+                    <Icon name="lock" size={24} color="white" style={{ marginRight: 10 }} />
+                  }
+                  onChangeText={e => {
+                    inputPassWord(e);
+                  }}
+                />
+              </View>
+
+              <View style={styles.undertheGreenBox}>
+                <DatePicker
+                  style={styles.date}
+                  androidMode="spinner"
+                  date={birth}
+                  mode="date"
+                  placeholder="YOUR BIRTHDAY"
+                  format="YYYY-MM-DD"
+                  minDate="1950-01-01"
+                  maxDate="2222-12-31"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      flexDirection: "row",
+                    },
+                    dateInput: {
+                      // marginLeft: 36,
+                    },
+                  }}
+                  onDateChange={date => {
+                    handleConfirm(date);
+                  }}
+                />
+              </View>
+            </KeyboardAvoidingView>
           </View>
 
-          <View style={styles.inputLine}>
-            <Input
-              placeholder="Password - 8자 이상!"
-              containerStyle={styles.input}
-              placeholderTextColor="white"
-              inputStyle={{ color: "white" }}
-              inputContainerStyle={{ borderColor: "white" }}
-              leftIcon={<Icon name="lock" size={24} color="white" style={{ marginRight: 10 }} />}
-              onChangeText={e => {
-                inputPassWord(e);
-              }}
-            />
-          </View>
-
-          <DatePicker
-            style={styles.date}
-            androidMode="spinner"
-            date={birth}
-            mode="date"
-            placeholder="YOUR BIRTHDAY"
-            format="YYYY-MM-DD"
-            minDate="1950-01-01"
-            maxDate="2222-12-31"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                flexDirection: "row",
-              },
-              dateInput: {
-                // marginLeft: 36,
-              },
-            }}
-            onDateChange={date => {
-              handleConfirm(date);
-            }}
-          />
           {email && password && phone && userId && password.length > 8 ? (
             <Button
               buttonStyle={{
@@ -368,13 +387,9 @@ const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "space-between",
-    // backgroundColor: "#c44569"
+    justifyContent: "flex-start",
   },
   inputContainer: {
-    // backgroundColor: "green",
-    flex: 2,
-    height: height / 5,
     justifyContent: "center",
   },
   radio: {
@@ -382,22 +397,26 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: "space-around",
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: -40,
-    height: height / 10,
+    // marginTop: 20,
+    // marginBottom: -40,
+    // height: height / 10,
   },
+  undertheGreenBox: {
+    padding: 5,
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+
   input: {
-    marginVertical: 5,
+    // marginVertical: 5,
     width: 280,
     height: 50,
     // marginLeft: 5,
   },
   input2: {
-    backgroundColor: "transparent",
     marginVertical: 5,
     width: 280,
     height: 50,
-    marginLeft: 5,
     borderBottomWidth: 2,
     borderColor: "#fff",
     width: "95%",

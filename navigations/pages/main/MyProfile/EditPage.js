@@ -11,19 +11,15 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { observer, inject } from "mobx-react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-
 import { useMutation } from "@apollo/react-hooks";
 import { EDIT_NO_PIC, GET_ME } from "../../../queries";
-
 import axios from "axios";
+//import { SERVER_ENDPOINT } from "react-native-dotenv";
+import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -108,12 +104,8 @@ function EditPageFunction(props) {
       // signupData.append("bio", this.bio); // 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
       // 생성된 폼데이터 확인
       console.log("formdata not send yet : ", editData);
-      // 재협IP : 192.168.0.2
-      // 상욱IP : 192.168.0.33
-      // 준식IP : 192.168.219.139
-      // 준식까페 : 172.30.1.4
-      const endPoint = "http://192.168.219.139:4000/api/img"; // 안드로이드는 localhost(x), ip주소(O)
 
+      const endPoint = "http://192.168.219.139:4000/api/img";
       axios
         .post(endPoint, editData, {
           headers: {
@@ -209,7 +201,7 @@ function EditPageFunction(props) {
           <View
             style={{
               // backgroundColor: "grey",
-              height: 1200, //<<====창 크기 조절합시다
+              height: 1400, //<<====창 크기 조절합시다
             }}
           >
             {/* 마이프로필, 톱니바퀴=============================================================== */}
@@ -223,29 +215,15 @@ function EditPageFunction(props) {
                 // backgroundColor: "#f7d794",
               }}
             >
-              <View
-                style={
-                  {
-                    //  backgroundColor: "skyblue"
-                  }
-                }
-              >
-                <TouchableOpacity onPress={_gotoMyProfilePage}>
-                  <Text>마이프로필</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
+                <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+                <Text>프로필</Text>
+              </TouchableOpacity>
 
-              <View
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  // backgroundColor: "steelblue",
-                }}
-              >
-                <TouchableOpacity onPress={_gotoSettingPage}>
-                  <Text>톱니바퀴</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoSettingPage}>
+                <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+                <Text>설정</Text>
+              </TouchableOpacity>
             </View>
             {/* 사진 */}
             <View style={{ alignItems: "center" }}>
@@ -254,14 +232,6 @@ function EditPageFunction(props) {
               ) : (
                 <Image source={{ uri: myProfile.profileImgLocation }} style={styles.picContainer} />
               )}
-              <View style={styles.picButtonContainer}>
-                <TouchableOpacity onPress={permitCamera} style={styles.picButton}>
-                  <Text style={styles.text}>Camera</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={permitGallery} style={styles.picButton}>
-                  <Text style={styles.text}>Gallery</Text>
-                </TouchableOpacity>
-              </View>
             </View>
             {/* 빨간창=============================================================== */}
             <View
@@ -271,203 +241,171 @@ function EditPageFunction(props) {
                 // backgroundColor: "#f7d794"
               }}
             >
-              {/* 분홍창=============================================================== */}
-              <View style={styles.pinkbox}>
-                {/* 각종정보=============================================================== */}
+              {/* 각종정보=============================================================== */}
+              <View
+                style={{
+                  flex: 1,
+                  // backgroundColor: "rgba(255,255,255,0.5)",
+                  // alignSelf: "flex-start",
+                }}
+              >
+                {/* 첫번째줄=============================================================== */}
                 <View
                   style={{
-                    width: 400,
-                    flex: 1,
-                    // backgroundColor: "rgba(255,255,255,0.5)",
-                    alignSelf: "flex-start",
+                    flex: 0.6,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    backgroundColor: "rgba(255, 255, 255, 0.5)",
+                    // backgroundColor: "#f7d794",
                   }}
                 >
-                  {/* 첫번째줄=============================================================== */}
-                  <View
-                    style={{
-                      //  backgroundColor: "white",
-                      flexDirection: "row",
-                    }}
+                  <TouchableOpacity
+                    onPress={permitCamera}
+                    style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", alignItems: "center" }}
                   >
-                    <View
-                      style={
-                        {
-                          //  backgroundColor: "rgba(0, 0, 255, 0.5)"
-                        }
-                      }
-                    >
-                      <Text style={styles.textId}> {myProfile.name} </Text>
-                    </View>
-                    <View
-                      style={
-                        {
-                          // backgroundColor: "rgba(255, 0, 0, 0.5)"
-                        }
-                      }
-                    >
-                      <Text style={styles.textId}>{age}</Text>
-                    </View>
+                    <FontAwesome name="camera" style={{ color: "black", fontSize: 25 }} />
+                    <Text style={styles.text}>Camera</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={permitGallery}
+                    style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", alignItems: "center" }}
+                  >
+                    <FontAwesome name="image" style={{ color: "black", fontSize: 25 }} />
+                    <Text style={styles.text}>Gallery</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.textContainer}>
+                  <View style={styles.etcText}>
+                    <Text style={styles.textId}> {myProfile.name} </Text>
+                    <Text style={styles.textId}> {age} </Text>
                   </View>
-                  {/* 두번째줄=============================================================== */}
-                  <View
-                    style={{
-                      //  backgroundColor: "white",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <TouchableOpacity
-                      style={
-                        {
-                          //  backgroundColor: "rgba(0,0,255,0.5)"
-                        }
-                      }
-                      onPress={() => console.log("Pressed")}
+                  <View style={styles.etcText}>
+                    <TextInput
+                      onChangeText={e => {
+                        inputCompanyName(e);
+                      }}
                     >
-                      <TextInput
-                        onChangeText={e => {
-                          inputCompanyName(e);
-                        }}
-                      >
-                        <Text style={styles.textCompany}>{myProfile.companyName}</Text>
-                      </TextInput>
-                    </TouchableOpacity>
-                    <Text style={{ fontSize: 18 }}>{"    "}</Text>
-                    <TouchableOpacity
-                      style={
-                        {
-                          // backgroundColor: "rgba(255,0,0,0.5)"
-                        }
-                      }
-                      onPress={() => console.log("Pressed")}
+                      <Text style={styles.textCompany}> {myProfile.companyName} </Text>
+                    </TextInput>
+                    <TextInput
+                      onChangeText={e => {
+                        inputCompanyRole(e);
+                      }}
                     >
-                      <TextInput
-                        onChangeText={e => {
-                          inputCompanyRole(e);
-                        }}
-                      >
-                        <Text style={styles.textCompany}>{myProfile.companyRole}</Text>
-                      </TextInput>
-                    </TouchableOpacity>
-                  </View>
-                  {/* 세번째줄=============================================================== */}
-                  {/* 태그 테스트========================================================= */}
-                  <View style={styles.buttonArea}>
-                    {tagDATA.map((tag, f) => {
-                      return (
-                        <TouchableOpacity
-                          key={f}
-                          tag={tag}
-                          onPress={() => {
-                            Tag(f);
-                          }}
-                          style={[
-                            styles.tagColor,
-                            {
-                              backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
-                              borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
-                            },
-                          ]}
-                        >
-                          <Text
-                            style={{
-                              fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
-                              fontSize: tags.indexOf(tag) === -1 ? 15 : 18,
-                            }}
-                          >
-                            {tag}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                  {/* 지도=============================================================== */}
-                  <MapView
-                    style={styles.map}
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion={{
-                      latitude: 37.485403,
-                      longitude: 126.982203,
-                      latitudeDelta: 0.01,
-                      longitudeDelta: 0.01,
-                    }}
-                    onPress={e => myProfileStore.markerClick(e.nativeEvent.coordinate)}
-                  >
-                    {myProfileStore.marker.lat && myProfileStore.marker.lon ? (
-                      <Marker
-                        coordinate={{
-                          latitude: myProfileStore.marker.lat, // 변수
-                          longitude: myProfileStore.marker.lon, // 변수
-                        }}
-                        onPress={e => console.log(e)}
-                      />
-                    ) : null}
-                  </MapView>
-                  <Text>
-                    {myProfileStore.marker.lat} && {myProfileStore.marker.lon}
-                  </Text>
-                  {/* 뭐지 여기는? ================================================================================== */}
-                  <View
-                    style={{
-                      flex: 0.6,
-                      flexDirection: "row",
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                      // backgroundColor: "#f7d794",
-                    }}
-                  >
-                    <View
-                      style={
-                        {
-                          //  backgroundColor: "skyblue"
-                        }
-                      }
-                    >
-                      <TouchableOpacity onPress={_submit}>
-                        <Text>수정 확정</Text>
-                      </TouchableOpacity>
-                    </View>
+                      <Text style={styles.textCompany}> {myProfile.companyRole} </Text>
+                    </TextInput>
                   </View>
                 </View>
-                {/* 각종정보 ================================================================================== */}
+
+                {/* 태그 테스트========================================================= */}
+                <View style={styles.buttonArea}>
+                  {tagDATA.map((tag, f) => {
+                    return (
+                      <TouchableOpacity
+                        key={f}
+                        tag={tag}
+                        onPress={() => {
+                          Tag(f);
+                        }}
+                        style={[
+                          styles.tagColor,
+                          {
+                            backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                            borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={{
+                            fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                            fontSize: tags.indexOf(tag) === -1 ? 10 : 12,
+                          }}
+                        >
+                          {tag}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                {/* 지도=============================================================== */}
+                <MapView
+                  style={styles.map}
+                  provider={PROVIDER_GOOGLE}
+                  initialRegion={{
+                    latitude: 37.485403,
+                    longitude: 126.982203,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                  }}
+                  onPress={e => myProfileStore.markerClick(e.nativeEvent.coordinate)}
+                >
+                  {myProfileStore.marker.lat && myProfileStore.marker.lon ? (
+                    <Marker
+                      coordinate={{
+                        latitude: myProfileStore.marker.lat, // 변수
+                        longitude: myProfileStore.marker.lon, // 변수
+                      }}
+                      onPress={e => console.log(e)}
+                    />
+                  ) : null}
+                </MapView>
+                <Text>
+                  {myProfileStore.marker.lat} && {myProfileStore.marker.lon}
+                </Text>
+                {/* 뭐지 여기는? ================================================================================== */}
+                <View
+                  style={{
+                    flex: 0.6,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    // backgroundColor: "#f7d794",
+                  }}
+                >
+                  <View
+                    style={
+                      {
+                        //  backgroundColor: "skyblue"
+                      }
+                    }
+                  >
+                    <TouchableOpacity style={{ alignItems: "center" }} onPress={_submit}>
+                      <FontAwesome name="thumbs-up" style={{ color: "grey", fontSize: 25 }} />
+                      <Text>수정 확정</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
-              {/* 분홍창 ================================================================================== */}
+              {/* 각종정보 ================================================================================== */}
             </View>
-            {/* 빨간창 ================================================================================== */}
-            {/* 하단 초록창 ================================================================================== */}
-            <View
-              style={{
-                flex: 0.6,
-                flexDirection: "row",
-                justifyContent: "space-around",
-                alignItems: "center",
-                // backgroundColor: "#f7d794",
-              }}
-            >
-              <View
-                style={
-                  {
-                    //  backgroundColor: "skyblue"
-                  }
-                }
-              >
-                <TouchableOpacity onPress={_gotoMyProfilePage}>
-                  <Text>마이프로필</Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={
-                  {
-                    // backgroundColor: "steelblue"
-                  }
-                }
-              >
-                <TouchableOpacity onPress={_gotoSettingPage}>
-                  <Text>톱니바퀴</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            {/* 하단 초록창 ================================================================================== */}
+            {/* 분홍창 ================================================================================== */}
           </View>
+          {/* 빨간창 ================================================================================== */}
+          {/* 하단 초록창 ================================================================================== */}
+          <View
+            style={{
+              flex: 0.6,
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+              // backgroundColor: "#f7d794",
+            }}
+          >
+            <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
+              <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+              <Text>프로필</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoSettingPage}>
+              <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+              <Text>설정</Text>
+            </TouchableOpacity>
+          </View>
+          {/* 하단 초록창 ================================================================================== */}
+
           {/* 회색창 ================================================================================== */}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -478,6 +416,8 @@ function EditPageFunction(props) {
 const styles = StyleSheet.create({
   map: {
     flex: 3,
+    borderRadius: 20,
+
     margin: 30,
     borderWidth: 5,
     borderColor: "#7a42f4",
@@ -489,25 +429,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   picContainer: {
-    width: 200,
-    height: 246.75,
+    width: 350,
+    height: 400,
+    borderRadius: 20,
   },
 
   picButtonContainer: {
-    width: 200,
+    width: 350,
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    position: "absolute",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  picButton: {
-    backgroundColor: "green",
-    padding: 5,
-  },
   buttonArea: {
-    height: height - 280,
     width: "100%",
     flexDirection: "row",
     padding: 5,
@@ -521,27 +455,37 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 10,
     width: 100,
-    height: 60,
+    height: 30,
     borderColor: "#70a1ff",
     borderWidth: 3,
     borderRadius: 50,
   },
   text: {
     fontSize: 15,
-    color: "white",
+    color: "black",
   },
   textId: {
-    color: "black",
     fontSize: 30,
-    margin: 10,
-    marginTop: -10,
+    color: "white",
+    textShadowColor: "black",
     fontWeight: "bold",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 1,
   },
   textCompany: {
-    color: "black",
-    marginTop: -10,
-    margin: 10,
     fontSize: 25,
+    color: "white",
+    textShadowColor: "black",
+    fontWeight: "bold",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 1,
+  },
+  textContainer: {
+    padding: 15,
+    alignItems: "center",
+  },
+  etcText: {
+    flexDirection: "row",
   },
 });
 

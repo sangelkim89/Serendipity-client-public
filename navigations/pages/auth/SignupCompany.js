@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, ImageBackground } from "react-native";
+import {
+  KeyboardAvoidingView,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  ImageBackground,
+} from "react-native";
 import { observer, inject } from "mobx-react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
@@ -27,86 +35,95 @@ class SignupCompany extends React.Component {
           source={require("../../../assets/gradient2.jpg")}
           style={{ width: "100%", height: "100%" }}
         >
-          <View style={styles.mapContainer}>
-            <MapView
-              style={styles.map}
-              provider={PROVIDER_GOOGLE}
-              initialRegion={{
-                latitude: 37.485403,
-                longitude: 126.982203,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
+          <KeyboardAvoidingView behavior="position">
+            <View style={styles.mapContainer}>
+              <MapView
+                style={styles.map}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={{
+                  latitude: 37.485403,
+                  longitude: 126.982203,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01,
+                }}
+                onPress={e => signupStore.markerClick(e.nativeEvent.coordinate)}
+              >
+                {signupStore.marker.lat && signupStore.marker.lon ? (
+                  <Marker
+                    coordinate={{
+                      latitude: signupStore.marker.lat, // 변수
+                      longitude: signupStore.marker.lon, // 변수
+                    }}
+                    onPress={e => console.log(e)}
+                  />
+                ) : null}
+              </MapView>
+              <Text style={styles.marking}>
+                {signupStore.marker.lat} && {signupStore.marker.lon}
+              </Text>
+            </View>
+
+            <Input
+              placeholder="회사명"
+              containerStyle={styles.input}
+              placeholderTextColor="white"
+              inputStyle={{ color: "white" }}
+              inputContainerStyle={{ borderColor: "white" }}
+              leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
+              onChangeText={value => {
+                signupStore.inputCompanyName(value);
               }}
-              onPress={e => signupStore.markerClick(e.nativeEvent.coordinate)}
-            >
-              {signupStore.marker.lat && signupStore.marker.lon ? (
-                <Marker
-                  coordinate={{
-                    latitude: signupStore.marker.lat, // 변수
-                    longitude: signupStore.marker.lon, // 변수
-                  }}
-                  onPress={e => console.log(e)}
-                />
-              ) : null}
-            </MapView>
-            <Text style={styles.marking}>
-              {signupStore.marker.lat} && {signupStore.marker.lon}
-            </Text>
-          </View>
-
-          <Input
-            placeholder="회사명"
-            containerStyle={styles.input}
-            placeholderTextColor="white"
-            inputStyle={{ color: "white" }}
-            inputContainerStyle={{ borderColor: "white" }}
-            leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
-            onChangeText={value => {
-              signupStore.inputCompanyName(value);
-            }}
-          />
-
-          <Input
-            placeholder="업종"
-            containerStyle={styles.input}
-            placeholderTextColor="white"
-            inputStyle={{ color: "white" }}
-            inputContainerStyle={{ borderColor: "white" }}
-            leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
-            onChangeText={value => {
-              signupStore.inputCompanySort(value);
-            }}
-          />
-
-          {signupStore.companyName && signupStore.companySort ? (
-            <Button
-              buttonStyle={{
-                width: "80%",
-                marginLeft: 45,
-                borderRadius: 20,
-                // backgroundColor: "transparent",
-              }}
-              icon={<Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />}
-              iconRight
-              title="NEXT"
-              onPress={this._doNext.bind(this)}
             />
-          ) : (
-            <Button
-              disabled={true}
-              buttonStyle={{
-                width: "90%",
-                marginLeft: 22,
-                borderRadius: 20,
+
+            <Input
+              placeholder="업종"
+              containerStyle={styles.input}
+              placeholderTextColor="white"
+              inputStyle={{ color: "white" }}
+              inputContainerStyle={{ borderColor: "white" }}
+              leftIcon={<Icon name="child" size={24} color="white" style={{ marginRight: 10 }} />}
+              onChangeText={value => {
+                signupStore.inputCompanySort(value);
               }}
-              icon={
-                <Icon name="exclamation-circle" style={{ marginLeft: 10 }} size={20} color="red" />
-              }
-              iconRight
-              title="Please Check Your Company Information"
-              onPress={this._doNext.bind(this)}
             />
-          )}
+
+            {signupStore.companyName && signupStore.companySort ? (
+              <Button
+                buttonStyle={{
+                  width: "80%",
+                  marginLeft: 45,
+                  borderRadius: 20,
+                  // backgroundColor: "transparent",
+                }}
+                icon={
+                  <Icon name="arrow-right" style={{ marginLeft: 10 }} size={15} color="white" />
+                }
+                iconRight
+                title="NEXT"
+                onPress={this._doNext.bind(this)}
+              />
+            ) : (
+              <Button
+                disabled={true}
+                buttonStyle={{
+                  width: "90%",
+                  marginLeft: 22,
+                  borderRadius: 20,
+                }}
+                icon={
+                  <Icon
+                    name="exclamation-circle"
+                    style={{ marginLeft: 10 }}
+                    size={20}
+                    color="red"
+                  />
+                }
+                iconRight
+                title="Please Check Your Company Information"
+                onPress={this._doNext.bind(this)}
+              />
+            )}
+          </KeyboardAvoidingView>
         </ImageBackground>
       </SafeAreaView>
     );
