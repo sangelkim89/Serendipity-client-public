@@ -8,11 +8,13 @@ import {
   ScrollView,
   Alert,
   AsyncStorage,
+  ImageBackground,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { observer, inject } from "mobx-react";
 import { LOG_OUT } from "../../../queries";
 import { useMutation } from "@apollo/react-hooks";
+import { FontAwesome } from "@expo/vector-icons";
 
 // @inject("signupStore")
 // @observer
@@ -64,55 +66,53 @@ function SettingPage(props) {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "grey",
-      }}
+    <ImageBackground
+      source={require("../../../../assets/gradient2.jpg")}
+      style={{ width: "100%", height: "100%" }}
     >
-      <Text style={{ fontSize: 18 }}></Text>
       <View
         style={{
           flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          backgroundColor: "green",
         }}
       >
-        <View style={{ backgroundColor: "skyblue" }}>
-          <TouchableOpacity onPress={_gotoMyProfilePage}>
-            <Text>마이프로필</Text>
+        <Text style={{ fontSize: 18 }}></Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
+            <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+            <Text>프로필</Text>
           </TouchableOpacity>
-        </View>
-        <View style={{ backgroundColor: "steelblue" }}>
           <TouchableOpacity onPress={_gotoEditPage}>
+            <FontAwesome name="edit" style={{ color: "grey", fontSize: 25 }} />
             <Text>수정</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      <View
-        style={{
-          flex: 9,
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          backgroundColor: "pink",
-        }}
-      >
-        <View style={{ backgroundColor: "skyblue" }}>
-          <TouchableOpacity onPress={_logOut}>
+        <View
+          style={{
+            flex: 9,
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity style={{ alignItems: "center" }} onPress={_logOut}>
+            <FontAwesome name="toggle-on" style={{ color: "grey", fontSize: 25 }} />
             <Text>로그아웃</Text>
           </TouchableOpacity>
-        </View>
-        <View style={{ backgroundColor: "steelblue" }}>
-          <TouchableOpacity onPress={_withDrawal}>
+          <TouchableOpacity style={{ alignItems: "center" }} onPress={_withDrawal}>
+            <FontAwesome name="exclamation-circle" style={{ color: "grey", fontSize: 25 }} />
             <Text>회원탈퇴</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import {
   View,
   Text,
@@ -19,12 +18,9 @@ import Animated, { Easing } from "react-native-reanimated";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
-
 import { LOG_IN, GET_LIST, GET_ME } from "../../queries";
 import MyProfileStore from "../../../stores/MyProfileStore";
-
 const { width, height } = Dimensions.get("window");
-
 // 이미지 불러오는 함수
 function cacheImages(img) {
   return img.map(item => {
@@ -35,7 +31,6 @@ function cacheImages(img) {
     }
   });
 }
-
 // 로그인 컴포넌트
 function Login(props) {
   console.log("LOGIN RENDERED!!!");
@@ -52,7 +47,6 @@ function Login(props) {
     myId,
     id,
   } = props;
-
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
@@ -63,28 +57,21 @@ function Login(props) {
     }
     getLogInfo();
   }, []);
-
   // useState
   const [isLoggedIn, doLogin] = useState("false");
   const [isReady, doReady] = useState(false);
-
   // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);
-
   // useMutate - getHuntList
   const [getMutateHuntList, { getCardData }] = useMutation(GET_LIST);
-
   // uesMutate - getMeRES
   const [getMeRES] = useMutation(GET_ME);
-
   // 이미지 불러오는 메소드
   async function _loadAssetsAsync() {
     const imgAssets = cacheImages([require("../../../assets/gradient.png")]);
     // const fontAssets = cacheFonts([FontAwesome.font]);
-
     await Promise.all([...imgAssets]);
   }
-
   // 로그인 메소드
   async function _doLogin() {
     try {
@@ -127,7 +114,6 @@ function Login(props) {
           variables: { id: id },
         });
         console.log("MyProfile Store에 저장: ", getMyProfile.data.getMe);
-
         saveMyProfile(getMyProfile);
         //=======================================================================
         props.navigation.navigate("TabNav");
@@ -137,11 +123,9 @@ function Login(props) {
       console.log("myId in login.js finally : ", myId);
     }
   }
-
   _doSignUp = () => {
     props.navigation.navigate("SignupBasic");
   };
-
   // 렌더되는 부분
   if (!isReady) {
     return (
@@ -187,13 +171,11 @@ function Login(props) {
             }}
           />
         </View>
-
         <TouchableOpacity onPress={_doLogin}>
           <View style={{ ...styles.btn }}>
             <Text style={{ fontWeight: "bold" }}>SIGN IN</Text>
           </View>
         </TouchableOpacity>
-
         <TouchableOpacity style={styles.button} onPress={_doSignUp}>
           <View style={styles.btn}>
             <Text style={{ fontWeight: "bold" }}>SIGN UP</Text>
@@ -203,7 +185,6 @@ function Login(props) {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -237,7 +218,6 @@ const styles = StyleSheet.create({
     width: width,
   },
 });
-
 export default inject(({ signupStore, huntStore, myProfileStore }) => ({
   id: myProfileStore.id,
   ID: signupStore.inputId,
