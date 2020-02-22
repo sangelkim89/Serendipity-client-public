@@ -28,33 +28,16 @@ class MatchStore {
   @action
   refreshRoomList = target => {
     console.log("refreshRoomList 작동!");
-    console.log("target : ", target);
     this.roomList = []; // 룸 정보 메세지스 초기화
     // console.log("this.roomList after initialization : ", this.roomList);
-    target.map(room => {
-      console.log("room in matchStore : ", room);
-      this.roomList.unshift({
-        id: room.id,
-        message: room.messages,
-        participants: room.participants,
-        createdAt: room.createdAt,
-      });
-      console.log("this.messages in matchStore : ", this.roomList);
-    });
+    this.roomList = target;
+    // console.log("this.messages in matchStore : ", this.roomList);
   };
 
   @action
   subMsgs = target => {
-    console.log("룸 추가 루트 진입!");
-    this.roomList = [
-      {
-        id: target.id,
-        message: target.messages,
-        participants: target.participants,
-      },
-      ...this.roomList,
-    ];
-
+    console.log("subMsgs 룸 추가 루트 진입!");
+    this.roomList = [target, ...this.roomList];
     alert("You are matched!!!");
   };
 
