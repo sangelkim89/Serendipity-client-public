@@ -104,8 +104,8 @@ function EditPageFunction(props) {
       // signupData.append("bio", this.bio); 서버는 포함하지만 클라이언트 뷰에 포함되지 않음
       // 생성된 폼데이터 확인
       console.log("formdata not send yet : ", editData);
+      console.log("server endpoint in editpage : ", SERVER_ENDPOINT);
 
-      // const endPoint = "http://192.168.219.139:4000/api/img";
       const endPoint = `${SERVER_ENDPOINT}/api/img`;
       axios
         .post(endPoint, editData, {

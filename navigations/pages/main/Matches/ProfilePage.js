@@ -36,7 +36,7 @@ const ProfilePage = props => {
       >
         <ScrollView>
           <TouchableOpacity
-            style={{ marginLeft: 7, marginTop: 7, flex: 1, zIndex: 100 }}
+            style={{ marginLeft: 7, marginTop: 7, position: "absolute", flex: 1, zIndex: 100 }}
             onPress={() => {
               props.navigation.navigate("ChatPage");
             }}

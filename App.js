@@ -18,7 +18,7 @@ class App extends Component {
     client: null,
   };
   async componentDidMount() {
-    console.log("APPCOMPONENTDIDMOUNT");
+    console.log("APP COMPONENT DID MOUNT");
     await this.preLoad();
   }
   preLoad = async () => {

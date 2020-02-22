@@ -21,8 +21,9 @@ import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE, GET_ROOM } from "../../../queri
 
 function ChatPage(props) {
   console.log("CHATPAGE RENDERED!!!");
-  const { navigation, myId, refreshRoomList, subChats, addNewOne } = props;
+  const { navigation, myId, refreshRoomList, subChats, addNewOne, newOne, refreshChat } = props;
   const { id, messages, participants } = navigation.state.params;
+  console.log("ROOM_ID", id);
   // console.log("props.navigation.state.params : ", props.navigation.state.params);
   // console.log("messages in chatPage.js : ", messages);
   const opponent = participants[0].id === myId ? participants[1] : participants[0];
@@ -31,7 +32,7 @@ function ChatPage(props) {
   // console.log("messages in chatPage : ", messages);
   // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
   const [message, setMessage] = useState("");
-
+  const combinedMSGs = messages;
   // 채팅 페이지
   const onChangeText = e => {
     setMessage(e);
@@ -46,28 +47,30 @@ function ChatPage(props) {
   // 메세지 서버 송부
   const [sendMessageMethod, { data }] = useMutation(SEND_MESSAGE);
 
-  // data에 구독한 데이터 할당
-  const { data: newMsgData, loading } = useSubscription(NEW_MESSAGE, {
+  // // data에 구독한 데이터 할당
+  const { data: roomWithNewMSG, loading: loadingMsg } = useSubscription(NEW_MESSAGE, {
     variables: { roomId: id },
-    fetchPolicy: "network-only",
   });
 
-  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewMessage = () => {
-    if (!loading) {
-      if (newMsgData !== undefined) {
-        const { newMessage } = newMsgData;
-        console.log("newMessage in chatPage.js : ", newMessage);
-        subChats(id, opponent.id, newMessage);
+    console.log("HANDLE_NEW_MSG_ACT");
+    if (!loadingMsg) {
+      if (roomWithNewMSG !== undefined) {
+        const { newMessage } = roomWithNewMSG;
+        subChats(newMessage); // 새로운 메세지가 포함된 룸 하나로 전체 룸리스트 업데이트
+        const extractedData = newMessage.room.messages[newMessage.room.messages.length - 1];
+        combinedMSGs.push(extractedData);
+        console.log("combinedMSGs in handleNewMsg : ", combinedMSGs[combinedMSGs.length - 1]);
       }
     }
   };
 
-  // data값을 지켜보며 변경이 있을 때만 실행됨(useEffect === componentDidMount + componentDidUpdate)
+  // data값을 지켜보며 변경이 있을 때만 실행됨
   useEffect(() => {
     console.log("useEffect in chatpage.js invoked!!!");
     handleNewMessage();
-  }, [newMsgData]);
+  }, [roomWithNewMSG]);
 
   const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
     variables: { id: myId },
@@ -80,26 +83,23 @@ function ChatPage(props) {
       return;
     }
     try {
-      console.log("message before send : ", message);
+      // console.log("message before send : ", message);
       const {
         data: { sendMessage },
       } = await sendMessageMethod({
         variables: { roomId: id, message: message, toId: opponent.id },
       });
-      console.log("sendMessage sent by method : ", sendMessage);
-      const newOne = await getRoomMethod();
-      console.log("newOne outside in chatPage - refreshRoomList 작동 arg : ", newOne);
-      console.log("initRoomData outside in chatPage - refreshRoomList 작동 arg : ", initRoomData);
-      if (newOne !== undefined) {
-        console.log("newOne in chatPage - refreshRoomList 작동 arg : ", newOne);
-        // refreshRoomList(newOne.data.getRoom);
-        addNewOne(newOne.data.getRoom);
-      }
       setMessage("");
     } catch (e) {
       console.log("onsubmit error in chatpage : ", e);
     }
   };
+
+  // scroll bottom
+  const [scrollView, downScroll] = useState(null);
+  function scrollToEnd() {
+    this.scrollView.scrollToEnd();
+  }
 
   return (
     <ImageBackground
@@ -163,7 +163,7 @@ function ChatPage(props) {
                   this.scrollView.scrollToEnd({ animated: false });
                 }}
               >
-                {messages.map((msg, i) => {
+                {combinedMSGs.map((msg, i) => {
                   function timeStamp() {
                     let timeArr = msg.createdAt.substring(11, 16).split(":");
                     let hour = Number(timeArr[0]) + 9;
@@ -176,6 +176,7 @@ function ChatPage(props) {
                       return `${hour.toString()}:${timeArr[1]}`;
                     }
                   }
+
                   return msg.from.id === myId ? (
                     <View key={i} style={styles.meChat}>
                       <Text>{msg.text}</Text>
@@ -286,6 +287,8 @@ export default inject(({ myProfileStore, matchStore }) => ({
   refreshRoomList: matchStore.refreshRoomList,
   subChats: matchStore.subChats,
   addNewOne: matchStore.addNewOne,
+  newOne: matchStore.newOne,
+  refreshChat: matchStore.refreshChat,
 }))(observer(ChatPage));
 
 // message의 createdAt 제공 요청
