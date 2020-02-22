@@ -29,20 +29,24 @@ export const NEW_MESSAGE = gql`
     newMessage(roomId: $roomId) {
       room {
         id
+        participants {
+          id
+          name
+          birth
+          companyName
+          companyRole
+          tags
+          profileImgLocation
+        }
         messages {
           id
           text
           from {
             id
           }
-          to {
-            id
-          }
           createdAt
         }
-        participants {
-          id
-        }
+        createdAt
       }
     }
   }
@@ -177,6 +181,7 @@ export const NEW_ROOM = gql`
         profileImgLocation
       }
       messages {
+        id
         text
         from {
           id
