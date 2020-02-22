@@ -101,13 +101,6 @@ function ChatPage(props) {
     }
   };
 
-  // scroll bottom
-  function scrollToEnd() {
-    this.scrollView.scrollToEnd();
-  }
-
-  const [scrollView, downScroll] = useState(null);
-
   return (
     <ImageBackground
       source={require("../../../../assets/gradient2.jpg")}
@@ -147,7 +140,6 @@ function ChatPage(props) {
                 }}
               >
                 <FontAwesome name="arrow-circle-left" style={styles.backText} />
-                <Text>너 어디있는거냐,,,???</Text>
               </TouchableOpacity>
 
               <View style={styles.profile}>

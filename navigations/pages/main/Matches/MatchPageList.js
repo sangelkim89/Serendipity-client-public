@@ -9,26 +9,14 @@ import {
   ImageBackground,
 } from "react-native";
 import { observer, inject } from "mobx-react";
-import { useSubscription, useQuery } from "@apollo/react-hooks";
-import { Button, Input } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { useSubscription } from "@apollo/react-hooks";
 
 import RoomItem from "./RoomItem";
-import { NEW_ROOM, GET_ROOM } from "../../../queries";
+import { NEW_ROOM } from "../../../queries";
 
 const MatchPageList = props => {
   console.log("MATCHPAGE RENDERED!!!");
-  const {
-    roomList,
-    messages,
-    matchExer1,
-    navigation,
-    myId,
-    refreshRoomList,
-    likeRoomId,
-    subMsgs,
-    newOne,
-  } = props;
+  const { messages, navigation, myId, refreshRoomList, subMsgs, newOne } = props;
   // console.log("messages in matchPage.js : ", messages);
   // useQuery - getRoom : huntPage.js로 옮김. login.js/matchPageList에서는 에러발생
   // console.log("myId in matchPageList.js : ", myId);

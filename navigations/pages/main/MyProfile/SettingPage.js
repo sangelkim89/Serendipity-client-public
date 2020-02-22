@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { observer, inject } from "mobx-react";
-import { LOG_OUT } from "../../../queries";
+import { LOG_OUT, DELETE_USER } from "../../../queries";
 import { useMutation } from "@apollo/react-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -25,6 +25,10 @@ function SettingPage(props) {
     props.navigation.navigate("EditPage");
   };
 
+  const _gotoSettingPage = () => {
+    props.navigation.navigate("SettingPage");
+  };
+
   const _gotoMyProfilePage = () => {
     props.navigation.navigate("MyProfilePage");
   };
@@ -32,10 +36,10 @@ function SettingPage(props) {
   const _secession = () => {
     props.navigation.navigate("AuthStack");
     Alert.alert("만나서 반가웠어요.  함께여서 행복했어요.\n우리 꼭 다시만나요.  고마워요.");
+    console.log("삭제가 된건가?");
   };
 
   const [logoutMethod, { data }] = useMutation(LOG_OUT);
-
   const _logOut = async () => {
     try {
       const { data } = await logoutMethod();
@@ -49,6 +53,8 @@ function SettingPage(props) {
     }
   };
 
+  const [deleteUser] = useMutation(DELETE_USER);
+
   const _withDrawal = () => {
     Alert.alert(
       "주의",
@@ -59,7 +65,15 @@ function SettingPage(props) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => (_secession(), console.log("OK Pressed")) },
+        {
+          text: "OK",
+          onPress: async () => {
+            console.log("OK Pressed"), console.log(deleteUser);
+            deleteUser({ variables: { id: id } }),
+              console.log("ID에 뭐가 뜨긴 뜨나?", id),
+              _secession();
+          },
+        },
       ],
       { cancelable: false },
     );
@@ -85,11 +99,11 @@ function SettingPage(props) {
           }}
         >
           <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
-            <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+            <FontAwesome name="id-card" style={{ color: "#4A148C", fontSize: 25 }} />
             <Text>프로필</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={_gotoEditPage}>
-            <FontAwesome name="edit" style={{ color: "grey", fontSize: 25 }} />
+            <FontAwesome name="edit" style={{ color: "#4A148C", fontSize: 25 }} />
             <Text>수정</Text>
           </TouchableOpacity>
         </View>

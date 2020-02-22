@@ -201,3 +201,9 @@ export const ROOM_DELETE = gql`
     roomDelete(roomId: $roomId)
   }
 `;
+
+export const DELETE_USER = gql`
+  mutation deleteUser($id: String!) {
+    deleteUser(id: $id)
+  }
+`;

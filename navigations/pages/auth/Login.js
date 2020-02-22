@@ -7,19 +7,15 @@ import {
   TouchableOpacity,
   Alert,
   AsyncStorage,
-  ImageBackground,
   Image,
   Dimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
-import Animated, { Easing } from "react-native-reanimated";
-import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { LOG_IN, GET_LIST, GET_ME } from "../../queries";
-import MyProfileStore from "../../../stores/MyProfileStore";
 const { width, height } = Dimensions.get("window");
 // 이미지 불러오는 함수
 function cacheImages(img) {
@@ -35,22 +31,10 @@ function cacheImages(img) {
 function Login(props) {
   console.log("LOGIN RENDERED!!!");
   // Store 비할당구조
-  const {
-    ID,
-    PW,
-    loginId,
-    loginPW,
-    recommendUser,
-    getCardList,
-    saveMyProfile,
-    addUserId,
-    myId,
-    id,
-  } = props;
+  const { ID, PW, loginId, loginPW, getCardList, saveMyProfile, addUserId, myId, id } = props;
   // useEffect
   useEffect(() => {
     async function getLogInfo() {
-      // 현재 로그아웃 기능이 없어서 무조건 로그아웃 되게 만들었으니 참고!
       await AsyncStorage.setItem("isLoggedIn", "false");
       const logInfo = await AsyncStorage.getItem("isLoggedIn");
       console.log("LOGIN_useEffect_LOCAL_isLoggedIn : ", logInfo);
@@ -147,11 +131,7 @@ function Login(props) {
           source={require("../../../assets/gradient2.jpg")}
         />
       </View>
-      <Image
-        style={styles.mainPic}
-        source={require("../../../assets/eatplaylove.png")}
-        // resizeMode=""
-      ></Image>
+      <Image style={styles.mainPic} source={require("../../../assets/eatplaylove.png")}></Image>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
         <View style={styles.formArea}>
           <TextInput
@@ -209,8 +189,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   mainPic: {
-    // borderWidth: 1,
-    // borderColor: "red",
     flex: 1,
     margin: 30,
     marginLeft: -0.5,
