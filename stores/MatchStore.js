@@ -35,6 +35,14 @@ class MatchStore {
   };
 
   @action
+  subRoomByNewMsg = target => {
+    const filtered = this.roomList.filter(room => {
+      return room.id !== target.id;
+    });
+    this.roomList = [target, ...filtered];
+  };
+
+  @action
   subMsgs = target => {
     console.log("subMsgs 룸 추가 루트 진입!");
     this.roomList = [target, ...this.roomList];

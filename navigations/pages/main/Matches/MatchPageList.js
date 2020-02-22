@@ -14,19 +14,19 @@ import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import RoomItem from "./RoomItem";
-import { NEW_ROOM, GET_ROOM } from "../../../queries";
+import { NEW_ROOM, GET_ROOM, UPDATE_ROOMS } from "../../../queries";
 
 const MatchPageList = props => {
   console.log("MATCHPAGE RENDERED!!!");
   const {
     roomList,
-    matchExer1,
     navigation,
     myId,
     refreshRoomList,
     likeRoomId,
     subMsgs,
     newOne,
+    subRoomByNewMsg,
   } = props;
 
   console.log("myId : ", myId);
@@ -44,6 +44,32 @@ const MatchPageList = props => {
   useEffect(() => {
     handleGetRoom();
   }, []);
+
+  const { data: updatedRM, loading } = useSubscription(UPDATE_ROOMS, {
+    variables: { id: myId },
+  });
+
+  console.log("updatedRM : ", loading, updatedRM);
+
+  const handleUpdateRoom = () => {
+    if (!loading) {
+      console.log("loading passed!");
+      if (updatedRM !== undefined) {
+        // const { newRoom } = data;
+        console.log("섭스크립션 내용있다!");
+        // Alert.alert("Match!!!");
+        subRoomByNewMsg(updatedRM.updateRooms);
+      } else {
+        console.log("섭스크립션 내용없다!");
+      }
+    }
+  };
+
+  // data가 업데이트 된 룸이니까 아래서 룸을 맵핑할때 합쳐서 맵핑
+  useEffect(() => {
+    console.log("useEffect is invoked for matchPageList subscription");
+    handleUpdateRoom();
+  }, [updatedRM]);
 
   // // 최초렌더
   // if (initRoomData !== undefined && initRoomData !== null) {
@@ -123,4 +149,5 @@ export default inject(({ matchStore, myProfileStore }) => ({
   likeRoomId: myProfileStore.likeRoomId,
   subMsgs: matchStore.subMsgs,
   newOne: matchStore.newOne,
+  subRoomByNewMsg: matchStore.subRoomByNewMsg,
 }))(observer(MatchPageList));

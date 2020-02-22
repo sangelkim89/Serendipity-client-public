@@ -8,7 +8,7 @@ import { ROOM_DELETE } from "../../../queries";
 const RoomItem = props => {
   console.log("ROOMITEM RENDERED!!!");
   const { room, navigation, myId, delRoomView, roomList } = props;
-  console.log("room.participants in RoomItem : ", room.participants);
+  // console.log("room.participants in RoomItem : ", room.participants);
   // console.log("전달된 room 참가자1 : ", room.participants[0].name);
   // console.log("전달된 room 참가자2 : ", room.participants[1].name);
   const moveChatRoom = () => {
