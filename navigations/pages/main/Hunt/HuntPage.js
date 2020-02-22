@@ -50,6 +50,31 @@ function HuntPage(props) {
     console.log("useEffect for handleNewRoom");
   }, [data]);
 
+  // // data에 구독한 데이터 할당
+  // const { data: roomWithNewMSG, loading:loadingMsg } = useSubscription(NEW_MESSAGE, {
+  //   variables: { roomId: id },
+  // });
+
+  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  // const handleNewMessage = () => {
+  //   console.log("HANDLE_NEW_MSG_ACT");
+  //   if (!loadingMsg) {
+  //     if (roomWithNewMSG !== undefined) {
+  //       const { newMessage } = roomWithNewMSG;
+  //       console.log("newMessage in chatPage.js : ", newMessage);
+  //       subChats(newMessage); // 새로운 메세지가 포함된 룸 하나?
+  //       console.log("새로보낸메세지", newMessage.room.messages);
+  //       // messages.push(newMessage.room.messages[newMessage.room.messages.legnth-1])
+  //     }
+  //   }
+  // };
+
+  // // data값을 지켜보며 변경이 있을 때만 실행됨
+  // useEffect(() => {
+  //   console.log("useEffect in chatpage.js invoked!!!");
+  //   handleNewMessage();
+  // }, [roomWithNewMSG]);
+
   // Func = unLike & Like
   const likedFunc = item => {
     console.log("likefunc실행!");
