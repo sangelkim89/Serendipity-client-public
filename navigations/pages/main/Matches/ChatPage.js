@@ -158,10 +158,10 @@ function ChatPage(props) {
             <View style={styles.container2}>
               <ScrollView
                 style={{ height: "70%" }}
-                ref={ref => (this.scrollView = ref)}
-                onContentSizeChange={() => {
-                  this.scrollView.scrollToEnd({ animated: false });
-                }}
+                // ref={ref => (this.scrollView = ref)}
+                // onContentSizeChange={() => {
+                //   this.scrollView.scrollToEnd({ animated: false });
+                // }}
               >
                 {combinedMSGs.map((msg, i) => {
                   function timeStamp() {
@@ -170,10 +170,17 @@ function ChatPage(props) {
 
                     if (hour > 24) {
                       if ((hour - 24).toString().length < 2) {
-                        return `0${hour.toString()}:${timeArr[1]}`;
+                        console.log("시간1", hour);
+                        return `0${(hour - 24).toString()}:${timeArr[1]}`;
                       }
                     } else {
-                      return `${hour.toString()}:${timeArr[1]}`;
+                      if (hour > 24) {
+                        console.log("시간2", hour - 24);
+                        return `${(hour - 24).toString()}:${timeArr[1]}`;
+                      } else {
+                        console.log("시간3", hour);
+                        return `${hour.toString()}:${timeArr[1]}`;
+                      }
                     }
                   }
 
