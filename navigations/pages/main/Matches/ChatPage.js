@@ -59,6 +59,7 @@ function ChatPage(props) {
         const { newMessage } = roomWithNewMSG;
         console.log("newMessage in chatPage.js : ", newMessage);
         subChats(newMessage); // 새로운 메세지가 포함된 룸 하나?
+        subChats(newMessage); // 새로운 메세지가 포함된 룸 하나?
       }
     }
   };
@@ -91,12 +92,12 @@ function ChatPage(props) {
       const newRoom = await getRoomMethod();
       console.log("newRoom outside in chatPage - refreshRoomList 작동 arg : ", newRoom);
       console.log("initRoomData outside in chatPage - refreshRoomList 작동 arg : ", initRoomData);
-      if (newRoom !== undefined) {
-        console.log("newRoom in chatPage - refreshRoomList 작동 arg : ", newRoom);
-        // refreshRoomList(newRoom.data.getRoom);
-        addNewOne(newRoom.data.getRoom);
-        refreshRoomList(newOne);
-      }
+      // if (newRoom !== undefined) {
+      //   console.log("newRoom in chatPage - refreshRoomList 작동 arg : ", newRoom);
+      // refreshRoomList(newRoom.data.getRoom);
+      // addNewOne(newRoom.data.getRoom);
+      // refreshRoomList(newOne);
+      // }
     } catch (e) {
       console.log("onsubmit error in chatpage : ", e);
     }

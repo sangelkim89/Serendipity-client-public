@@ -32,24 +32,17 @@ const MatchPageList = props => {
   console.log("myId : ", myId);
 
   const [getRoomMethod, { data }] = useMutation(GET_ROOM);
-  console.log("'matchPageList body'에서 겟룸 데이터  : ", data);
+  // console.log("'matchPageList body'에서 겟룸 데이터  : ", data);
 
   const handleGetRoom = async () => {
     const roomDataHGR = await getRoomMethod({
       variables: { id: myId },
     });
-    await console.log("roomDataHGR : ", roomDataHGR);
-    return roomDataHGR;
+    refreshRoomList(roomDataHGR.data.getRoom);
   };
 
   useEffect(() => {
-    const roomdataUE = handleGetRoom();
-    console.log("useEffect invoked");
-    if (roomdataUE !== undefined) {
-      console.log("'useEffect 안' 겟룸메소드 결과 : ", roomdataUE);
-      refreshRoomList(roomdataUE.data.getRoom);
-      // mobx roomlist에 저장
-    }
+    handleGetRoom();
   }, []);
 
   // // 최초렌더
@@ -82,7 +75,7 @@ const MatchPageList = props => {
       >
         <View style={styles.container}>
           <ScrollView style={styles.list}>
-            {roomList !== undefined && roomList.length !== 0 ? (
+            {roomList.length !== 0 ? (
               roomList.map((room, i) => {
                 return <RoomItem room={room} key={i} navigation={navigation} />;
               })

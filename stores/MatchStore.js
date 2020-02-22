@@ -11,7 +11,7 @@ class MatchStore {
 
   @observable likeRoomId = ""; // 라이크로 신규 생성된 채팅방 아이디
   @observable roomList = []; // 채팅방 정보
-  @observable newOne = null;
+  @observable newOne = [];
 
   @action
   addNewOne = target => {
@@ -42,20 +42,18 @@ class MatchStore {
   };
 
   @action
+  refreshChat = chat => {};
+
+  @action
   subChats = roomFromDB => {
-    console.log("roomFromDB", roomFromDB);
+    console.log("roomFromDB in subChats : ", roomFromDB);
     this.roomList = [];
-    const newChat = {
-      id: roomFromDB.room.id,
-      message: roomFromDB.room.messages,
-      participants: roomFromDB.room.participants,
-      createdAt: roomFromDB.room.createdAt,
-    };
-    console.log("newChat in subChats : ", newChat);
-    const spreader = this.roomList.filter(room => room.id !== roomFromDB.id);
+    const spreader = this.roomList.filter(room => room.id !== roomFromDB.room.id);
     console.log("spreader in subChats : ", spreader);
-    this.roomList = [newChat, ...spreader];
-    console.log("roomList in subChats : ", this.roomList);
+    this.roomList = [roomFromDB.room, ...spreader];
+    // this.roomList = [roomFromDB.room];
+    // console.log("roomList[0] in subChats : ", this.roomList[0]);
+    // console.log("roomList[1] in subChats : ", this.roomList[1]);
   };
 
   @action
