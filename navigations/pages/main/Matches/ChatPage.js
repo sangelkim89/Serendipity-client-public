@@ -21,8 +21,9 @@ import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE, GET_ROOM } from "../../../queri
 
 function ChatPage(props) {
   console.log("CHATPAGE RENDERED!!!");
-  const { navigation, myId, refreshRoomList, subChats, addNewOne, newOne } = props;
+  const { navigation, myId, refreshRoomList, subChats, addNewOne, newOne, refreshChat } = props;
   const { id, messages, participants } = navigation.state.params;
+  console.log("ROOM_ID", id);
   // console.log("props.navigation.state.params : ", props.navigation.state.params);
   // console.log("messages in chatPage.js : ", messages);
   const opponent = participants[0].id === myId ? participants[1] : participants[0];
@@ -46,35 +47,6 @@ function ChatPage(props) {
   // 메세지 서버 송부
   const [sendMessageMethod, { data }] = useMutation(SEND_MESSAGE);
 
-  // data에 구독한 데이터 할당
-  const { data: roomWithNewMSG, loading } = useSubscription(NEW_MESSAGE, {
-    variables: { roomId: id },
-    fetchPolicy: "network-only",
-  });
-
-  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
-  const handleNewMessage = () => {
-    if (!loading) {
-      if (roomWithNewMSG !== undefined) {
-        const { newMessage } = roomWithNewMSG;
-        console.log("newMessage in chatPage.js : ", newMessage);
-        subChats(newMessage); // 새로운 메세지가 포함된 룸 하나?
-        subChats(newMessage); // 새로운 메세지가 포함된 룸 하나?
-      }
-    }
-  };
-
-  // data값을 지켜보며 변경이 있을 때만 실행됨(useEffect === componentDidMount + componentDidUpdate)
-  useEffect(() => {
-    console.log("useEffect in chatpage.js invoked!!!");
-    handleNewMessage();
-  }, [roomWithNewMSG]);
-
-  const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
-    variables: { id: myId },
-    fetchPolicy: "no-cache",
-  });
-
   // message를 가져다가 mutation 날리는 메소드
   const onSubmit = async () => {
     if (message === "") {
@@ -87,28 +59,18 @@ function ChatPage(props) {
       } = await sendMessageMethod({
         variables: { roomId: id, message: message, toId: opponent.id },
       });
-      setMessage("");
       console.log("sendMessage sent by method : ", sendMessage);
-      const newRoom = await getRoomMethod();
-      console.log("newRoom outside in chatPage - refreshRoomList 작동 arg : ", newRoom);
-      console.log("initRoomData outside in chatPage - refreshRoomList 작동 arg : ", initRoomData);
-      // if (newRoom !== undefined) {
-      //   console.log("newRoom in chatPage - refreshRoomList 작동 arg : ", newRoom);
-      // refreshRoomList(newRoom.data.getRoom);
-      // addNewOne(newRoom.data.getRoom);
-      // refreshRoomList(newOne);
-      // }
+      setMessage("");
     } catch (e) {
       console.log("onsubmit error in chatpage : ", e);
     }
   };
 
   // scroll bottom
+  const [scrollView, downScroll] = useState(null);
   function scrollToEnd() {
     this.scrollView.scrollToEnd();
   }
-
-  const [scrollView, downScroll] = useState(null);
 
   return (
     <ImageBackground
@@ -152,10 +114,10 @@ function ChatPage(props) {
             <View style={styles.container2}>
               <ScrollView
                 style={{ height: "70%" }}
-                ref={ref => (this.scrollView = ref)}
-                onContentSizeChange={() => {
-                  this.scrollView.scrollToEnd({ animated: false });
-                }}
+                // ref={ref => (this.scrollView = ref)}
+                // onContentSizeChange={() => {
+                //   this.scrollView.scrollToEnd({ animated: false });
+                // }}
               >
                 {messages.map((msg, i) => {
                   function timeStamp() {
@@ -281,6 +243,7 @@ export default inject(({ myProfileStore, matchStore }) => ({
   subChats: matchStore.subChats,
   addNewOne: matchStore.addNewOne,
   newOne: matchStore.newOne,
+  refreshChat: matchStore.refreshChat,
 }))(observer(ChatPage));
 
 // message의 createdAt 제공 요청

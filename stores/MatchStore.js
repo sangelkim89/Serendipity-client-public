@@ -42,18 +42,21 @@ class MatchStore {
   };
 
   @action
-  refreshChat = chat => {};
+  refreshChat = chat => {
+    console.log("REFRESSH_CHATS", chat); // room Object?
+  };
 
   @action
   subChats = roomFromDB => {
     console.log("roomFromDB in subChats : ", roomFromDB);
-    this.roomList = [];
-    const spreader = this.roomList.filter(room => room.id !== roomFromDB.room.id);
+    const spreader = this.roomList.filter(room => {
+      console.log("SPREADER_ROOM_MAP", room.id);
+      console.log("SPREADER_ROOM_MAP", roomFromDB.room.id);
+      return room.id !== roomFromDB.room.id;
+    });
     console.log("spreader in subChats : ", spreader);
+    this.roomList = [];
     this.roomList = [roomFromDB.room, ...spreader];
-    // this.roomList = [roomFromDB.room];
-    // console.log("roomList[0] in subChats : ", this.roomList[0]);
-    // console.log("roomList[1] in subChats : ", this.roomList[1]);
   };
 
   @action
