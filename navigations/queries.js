@@ -138,7 +138,7 @@ export const ALL_USER_PHONE = gql`
 `;
 
 export const GET_ROOM = gql`
-  query getRoom($id: String!) {
+  mutation getRoom($id: String!) {
     getRoom(id: $id) {
       id
       participants {
@@ -151,6 +151,7 @@ export const GET_ROOM = gql`
         profileImgLocation
       }
       messages {
+        id
         text
         from {
           id

@@ -29,64 +29,26 @@ const MatchPageList = props => {
     newOne,
   } = props;
 
-  // useEffect(() => {
-  //   console.log("useEffect in matchPageList!!!");
-  // }, [roomList]);
-
-  // const { data, loading } = useSubscription(NEW_ROOM, {
-  //   variables: { id: myId },
-  //   fetchPolicy: "no-cache",
-  // });
-
-  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
-  // const handleNewRoom = () => {
-  //   // console.log("handle newroom invoked!");
-  //   // console.log("data in handle newroom : ", loading, data);
-  //   if (!loading) {
-  //     console.log("loading passed!");
-  //     if (data.newRoom !== null) {
-  //       // const { newRoom } = data;
-  //       console.log("newRoom.participants in huntPage : ", data.newRoom.participants);
-  //       // Alert.alert("Match!!!");
-  //       subMsgs(data.newRoom);
-  //     } else {
-  //       console.log("roomData in matchPageList.js is undefined!");
-  //     }
-  //   }
-  // };
-
-  // // data값을 지켜보며 변경이 있을 때만 실행됨 - subscription
-  // useEffect(() => {
-  //   handleNewRoom();
-  //   console.log("useEffect invoked!");
-  // }, [data]);
-
-  // useEffect(() => {
-  //   if (newOne !== null) {
-  //     refreshRoomList(newOne);
-  //     console.log("useEffect invoked in refresh!!!!!");
-  //   }
-  // }, []);
-
-  // useQuery - getRoom : login.js/matchPageList에서는 에러발생
-
   console.log("myId : ", myId);
-  const { loading, data } = useQuery(GET_ROOM, {
-    variables: { id: "myId : ", myId },
-    fetchPolicy: "network-only",
-  });
-  console.log(data);
+
+  const [getRoomMethod, { data }] = useMutation(GET_ROOM);
+  console.log("'matchPageList body'에서 겟룸 데이터  : ", data);
+
+  const handleGetRoom = async () => {
+    const roomDataHGR = await getRoomMethod({
+      variables: { id: myId },
+    });
+    await console.log("roomDataHGR : ", roomDataHGR);
+    return roomDataHGR;
+  };
 
   useEffect(() => {
+    const roomdataUE = handleGetRoom();
     console.log("useEffect invoked");
-    if (!loading) {
-      console.log("useEffect for getRoomMethod", data);
-      // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
-      if (data !== undefined && data !== null) {
-        console.log("data 있을때");
-        console.log(data);
-        refreshRoomList(data.getRoom);
-      } // mobx roomlist에 저장
+    if (roomdataUE !== undefined) {
+      console.log("'useEffect 안' 겟룸메소드 결과 : ", roomdataUE);
+      refreshRoomList(roomdataUE.data.getRoom);
+      // mobx roomlist에 저장
     }
   }, []);
 
@@ -120,7 +82,7 @@ const MatchPageList = props => {
       >
         <View style={styles.container}>
           <ScrollView style={styles.list}>
-            {roomList.length !== 0 ? (
+            {roomList !== undefined && roomList.length !== 0 ? (
               roomList.map((room, i) => {
                 return <RoomItem room={room} key={i} navigation={navigation} />;
               })
