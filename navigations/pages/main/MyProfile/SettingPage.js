@@ -71,9 +71,7 @@ function SettingPage(props) {
           text: "OK",
           onPress: async () => {
             console.log("OK Pressed"), console.log(deleteUser);
-            deleteUser({ variables: { id: id } }),
-              console.log("ID에 뭐가 뜨긴 뜨나?", id),
-              _secession();
+            deleteUser({ variables: { id: "1" } }), _secession();
           },
         },
       ],

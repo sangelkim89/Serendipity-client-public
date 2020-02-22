@@ -58,6 +58,18 @@ function Login(props) {
     // const fontAssets = cacheFonts([FontAwesome.font]);
     await Promise.all([...imgAssets]);
   }
+
+  async function getLogInfo() {
+    // 현재 로그아웃 기능이 없어서 무조건 로그아웃 되게 만들었으니 참고!
+    await AsyncStorage.setItem("isLoggedIn", "false");
+    const logInfo = await AsyncStorage.getItem("isLoggedIn");
+  }
+
+  // useEffect
+  useEffect(() => {
+    getLogInfo();
+  }, []);
+
   // 로그인 메소드
   async function _doLogin() {
     try {
