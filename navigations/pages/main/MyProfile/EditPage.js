@@ -357,8 +357,8 @@ function EditPageFunction(props) {
                     style={styles.map}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
-                      latitude: 37.485403,
-                      longitude: 126.982203,
+                      latitude: myProfileStore.marker.lat,
+                      longitude: myProfileStore.marker.lon,
                       latitudeDelta: 0.01,
                       longitudeDelta: 0.01,
                     }}
