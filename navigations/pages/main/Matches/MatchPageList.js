@@ -9,7 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { observer, inject } from "mobx-react";
-import { useSubscription, useQuery } from "@apollo/react-hooks";
+import { useSubscription, useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -29,9 +29,9 @@ const MatchPageList = props => {
     newOne,
   } = props;
 
-  useEffect(() => {
-    console.log("useEffect in matchPageList!!!");
-  }, [roomList]);
+  // useEffect(() => {
+  //   console.log("useEffect in matchPageList!!!");
+  // }, [roomList]);
 
   // const { data, loading } = useSubscription(NEW_ROOM, {
   //   variables: { id: myId },
@@ -67,6 +67,34 @@ const MatchPageList = props => {
   //     console.log("useEffect invoked in refresh!!!!!");
   //   }
   // }, []);
+
+  // useQuery - getRoom : login.js/matchPageList에서는 에러발생
+
+  console.log("myId : ", myId);
+  const { loading, data } = useQuery(GET_ROOM, {
+    variables: { id: "myId : ", myId },
+    fetchPolicy: "network-only",
+  });
+  console.log(data);
+
+  useEffect(() => {
+    console.log("useEffect invoked");
+    if (!loading) {
+      console.log("useEffect for getRoomMethod", data);
+      // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
+      if (data !== undefined && data !== null) {
+        console.log("data 있을때");
+        console.log(data);
+        refreshRoomList(data.getRoom);
+      } // mobx roomlist에 저장
+    }
+  }, []);
+
+  // // 최초렌더
+  // if (initRoomData !== undefined && initRoomData !== null) {
+  //   console.log("useEffect 바깥 initRoomData있을때!!!");
+  //   refreshRoomList(initRoomData.getRoom);
+  // } // mobx roomlist에 저장
 
   const moveHunt = () => {
     navigation.navigate("HuntPage");

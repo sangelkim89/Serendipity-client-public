@@ -8,13 +8,11 @@ import { ROOM_DELETE } from "../../../queries";
 const RoomItem = props => {
   console.log("ROOMITEM RENDERED!!!");
   const { room, navigation, myId, delRoomView, roomList } = props;
-
-  console.log("room in roomItem : ", room);
-
+  console.log("room : ", room);
   const moveChatRoom = () => {
     navigation.navigate("ChatPage", {
       id: room.id,
-      messages: room.message,
+      messages: room.messages,
       participants: room.participants,
     });
   };
@@ -51,9 +49,8 @@ const RoomItem = props => {
   // console.log("opponent in roomitem : ", opponent);
   // console.log("message array from roomitem: ", room.messages);
 
-  if (room.message.length !== 0) {
-    console.log("room 내용 있는 루트 인");
-    const lastChatRaw = room.message[room.message.length - 1]["text"];
+  if (room.messages.length !== 0) {
+    const lastChatRaw = room.messages[room.messages.length - 1]["text"];
     const lastChat = lastChatRaw.length > 15 ? lastChatRaw.substring(0, 15) + "..." : lastChatRaw;
     return (
       <TouchableOpacity onPress={moveChatRoom} style={styles.touch} onLongPress={onDelRoom}>

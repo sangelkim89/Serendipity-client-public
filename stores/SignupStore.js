@@ -201,6 +201,13 @@ class SignupStore {
     // console.log("패스워드", this.loginPW);
   };
   @observable loginPW = "";
+
+  @action
+  emptyLoginInfo = () => {
+    this.loginId = "";
+    this.loginPW = "";
+  };
+
   //==================================================================
   // 이미지는 사인업에서 넘어온다.
 

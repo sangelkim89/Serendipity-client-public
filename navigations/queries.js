@@ -138,7 +138,7 @@ export const ALL_USER_PHONE = gql`
 `;
 
 export const GET_ROOM = gql`
-  mutation getRoom($id: String!) {
+  query getRoom($id: String!) {
     getRoom(id: $id) {
       id
       participants {
