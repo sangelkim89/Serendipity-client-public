@@ -58,6 +58,7 @@ function HuntPage(props) {
     console.log("useEffect for handleNewRoom");
   }, [data]);
 
+
   // Func = unLike & Like
   const likedFunc = item => {
     console.log("likefunc실행!");

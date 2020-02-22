@@ -7,7 +7,7 @@ import { ApolloLink } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
 import { concat, Operation, split } from "apollo-link";
 import { SERVER_ENDPOINT, WEBSOCKET_ENDPOINT } from "react-native-dotenv";
-console.log("SERVER_ENDPOINT in apollo : ", SERVER_ENDPOINT);
+
 const httpLink = new HttpLink({
   uri: `${SERVER_ENDPOINT}`,
   options: {},

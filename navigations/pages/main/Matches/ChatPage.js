@@ -58,16 +58,8 @@ function ChatPage(props) {
     if (!loadingMsg) {
       if (roomWithNewMSG !== undefined) {
         const { newMessage } = roomWithNewMSG;
-        // console.log("newMessage in chatPage.js : ", newMessage);
         subChats(newMessage); // 새로운 메세지가 포함된 룸 하나로 전체 룸리스트 업데이트
-        // console.log("messages from props : ", messages);
-        // messages.push(newMessage)
-        // subChats(newMessage); // 받아온 messages
-        // console.log("새로보낸메세지", newMessage.room.messages);
-        // console.log("새로보낸메세지인덱스", newMessage.room.messages.length);
-        // console.log("새로보낸메세지인덱스", newMessage.room.messages[32]);
         const extractedData = newMessage.room.messages[newMessage.room.messages.length - 1];
-        // console.log("extractedData : ", extractedData);
         combinedMSGs.push(extractedData);
         console.log("combinedMSGs in handleNewMsg : ", combinedMSGs[combinedMSGs.length - 1]);
       }
@@ -79,6 +71,11 @@ function ChatPage(props) {
     console.log("useEffect in chatpage.js invoked!!!");
     handleNewMessage();
   }, [roomWithNewMSG]);
+
+  const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
+    variables: { id: myId },
+    fetchPolicy: "no-cache",
+  });
 
   // message를 가져다가 mutation 날리는 메소드
   const onSubmit = async () => {
@@ -92,7 +89,6 @@ function ChatPage(props) {
       } = await sendMessageMethod({
         variables: { roomId: id, message: message, toId: opponent.id },
       });
-      // console.log("sendMessage sent by method : ", sendMessage);
       setMessage("");
     } catch (e) {
       console.log("onsubmit error in chatpage : ", e);
@@ -131,6 +127,21 @@ function ChatPage(props) {
           <View>
             {/* 오렌지 박스 시작 */}
             <View style={styles.container}>
+              <TouchableOpacity
+                style={{
+                  marginLeft: 10,
+                  marginTop: 30,
+                  position: "absolute",
+                  flex: 1,
+                  zIndex: 100,
+                }}
+                onPress={() => {
+                  props.navigation.navigate("MatchPageList");
+                }}
+              >
+                <FontAwesome name="arrow-circle-left" style={styles.backText} />
+              </TouchableOpacity>
+
               <View style={styles.profile}>
                 <TouchableOpacity onPress={moveProfile}>
                   <Image
@@ -147,10 +158,10 @@ function ChatPage(props) {
             <View style={styles.container2}>
               <ScrollView
                 style={{ height: "70%" }}
-                // ref={ref => (this.scrollView = ref)}
-                // onContentSizeChange={() => {
-                //   this.scrollView.scrollToEnd({ animated: false });
-                // }}
+                ref={ref => (this.scrollView = ref)}
+                onContentSizeChange={() => {
+                  this.scrollView.scrollToEnd({ animated: false });
+                }}
               >
                 {combinedMSGs.map((msg, i) => {
                   function timeStamp() {

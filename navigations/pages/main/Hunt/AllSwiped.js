@@ -10,13 +10,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { observer, inject } from "mobx-react";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { iOSColors, webWeights } from "react-native-typography";
 
 import { GET_LIST } from "../../../queries";
-
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const AllSwiped = props => {
   const { navigation, getCardList } = props;

@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 class Intro extends React.Component {
   render() {

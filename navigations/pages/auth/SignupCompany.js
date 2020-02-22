@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  KeyboardAvoidingView,
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  ImageBackground,
-} from "react-native";
+import { KeyboardAvoidingView, View, Text, StyleSheet, ImageBackground } from "react-native";
 import { observer, inject } from "mobx-react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";

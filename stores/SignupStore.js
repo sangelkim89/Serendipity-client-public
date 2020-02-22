@@ -262,7 +262,6 @@ class SignupStore {
 
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
-    console.log("SERVER_ENDPOINT : ", endPoint);
     const endPoint = `${SERVER_ENDPOINT}/api/upload`;
 
     // fetch(endPoint, {

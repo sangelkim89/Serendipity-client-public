@@ -8,9 +8,6 @@ import { ROOM_DELETE } from "../../../queries";
 const RoomItem = props => {
   console.log("ROOMITEM RENDERED!!!");
   const { room, navigation, myId, delRoomView, roomList } = props;
-  // console.log("room.participants in RoomItem : ", room.participants);
-  // console.log("전달된 room 참가자1 : ", room.participants[0].name);
-  // console.log("전달된 room 참가자2 : ", room.participants[1].name);
   const moveChatRoom = () => {
     navigation.navigate("ChatPage", {
       id: room.id,
@@ -47,9 +44,6 @@ const RoomItem = props => {
   };
 
   const opponent = room.participants[0].id === myId ? room.participants[1] : room.participants[0];
-  // console.log("myId in roomitem : ", myId);
-  // console.log("opponent in roomitem : ", opponent);
-  // console.log("message array from roomitem: ", room.messages);
 
   if (room.messages.length !== 0) {
     const lastChatRaw = room.messages[room.messages.length - 1]["text"];

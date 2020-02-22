@@ -11,10 +11,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { observer, inject } from "mobx-react";
-import { Button, Input } from "react-native-elements";
+import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const { width, height } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
 function SignupTag(props) {
   const { Tag, tagDATA, tags } = props;
@@ -44,42 +44,39 @@ function SignupTag(props) {
           </View>
         </View>
 
-        <View style={styles.buttonArea}>
-          <ScrollView style={styles.scroll}>
-            <View style={styles.buttonArea}>
-              {tagDATA.map((tag, f) => {
-                return (
-                  <TouchableOpacity
-                    key={f}
-                    tag={tag}
-                    onPress={() => {
-                      Tag(f);
-                    }}
+        <ScrollView style={styles.scroll}>
+          <View style={styles.buttonArea}>
+            {tagDATA.map((tag, f) => {
+              return (
+                <TouchableOpacity
+                  key={f}
+                  tag={tag}
+                  onPress={() => {
+                    Tag(f);
+                  }}
+                  style={[
+                    styles.tagColor,
+                    {
+                      backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                      borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                    },
+                  ]}
+                >
+                  <Text
                     style={[
-                      styles.tagColor,
                       {
-                        backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
-                        borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                        fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                        fontSize: tags.indexOf(tag) === -1 ? 13 : 14,
                       },
                     ]}
                   >
-                    <Text
-                      style={[
-                        styles.tagText,
-                        {
-                          fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
-                          fontSize: tags.indexOf(tag) === -1 ? 15 : 16,
-                        },
-                      ]}
-                    >
-                      {tag}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </ScrollView>
-        </View>
+                    {tag}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </ScrollView>
 
         {tags.length > 0 ? (
           <Button
@@ -140,7 +137,7 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   titleTag: {
-    fontSize: 12,
+    fontSize: 16,
     // marginTop: 10,
     margin: 5,
     borderColor: "#70a1ff",
@@ -161,14 +158,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // alignItems: "center",
   },
-  tagText: {},
   tagColor: {
     alignItems: "center",
     justifyContent: "center",
     padding: 4,
     margin: 10,
-    width: "30%",
-    height: 50,
+    width: "28%",
+    height: 45,
     borderColor: "#70a1ff",
     borderWidth: 3,
     borderRadius: 20,

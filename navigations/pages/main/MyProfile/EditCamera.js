@@ -31,7 +31,7 @@ class EditCamera extends Component {
       console.log("camera image : ", photo.uri);
       console.log("route? : ", this.props.navigation.state.params.from);
       if (this.props.navigation.state.params.from === "idcard") {
-        console.log("pickImg result : ", photo);
+        console.log("pickImg result 야 어디야: ", photo);
         this.props.myProfileStore.imgIdCard = photo;
         this.props.myProfileStore.imgIdCardName = photo.uri.substr(-10);
         this.props.myProfileStore.imgIdCardUri = photo.uri;
@@ -46,7 +46,7 @@ class EditCamera extends Component {
         );
       }
       if (this.props.navigation.state.params.from === "pic") {
-        console.log("pickImg result : ", photo);
+        console.log("여기엔 뭐가 뜨는거니 pickImg result 디질래: ", photo);
         this.props.myProfileStore.imgProfile = photo;
         this.props.myProfileStore.imgProfileName = photo.uri.substr(-10);
         this.props.myProfileStore.imgProfileUri = photo.uri;
@@ -68,35 +68,28 @@ class EditCamera extends Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
     console.log("pick image : ", result);
-    if (this.props.navigation.state.params.from === "idcard") {
-      console.log("pickImg result : ", result);
+
+    if (result.cancelled === false) {
       this.props.myProfileStore.imgIdCard = result;
       this.props.myProfileStore.imgIdCardName = result.uri.substr(-10);
       this.props.myProfileStore.imgIdCardUri = result.uri;
+
       if (result.uri.substr(-4)[0] === ".") {
         this.props.myProfileStore.imgIdCardType = result.uri.substr(-3);
       } else {
         this.props.myProfileStore.imgIdCardUri = result.uri.substr(-4);
       }
+
       console.log(
-        "this.props.myProfileStore.imgIdCardUri : ",
+        "this.props.myProfileStore.imgIdCardUri 바꿨을때 : ",
         this.props.myProfileStore.imgIdCardUri,
       );
       this.props.navigation.navigate("EditPage");
-    }
-    if (this.props.navigation.state.params.from === "pic") {
-      console.log("pickImg result : ", result);
-      this.props.myProfileStore.imgProfile = result;
-      this.props.myProfileStore.imgProfileName = result.uri.substr(-10);
-      this.props.myProfileStore.imgProfileUri = result.uri;
-      if (result.uri.substr(-4)[0] === ".") {
-        this.props.myProfileStore.imgProfileType = result.uri.substr(-3);
-      } else {
-        this.props.myProfileStore.imgProfileUri = result.uri.substr(-4);
-      }
+    } else if (result.cancelled === true) {
+      this.props.myProfileStore.imgIdCardUri = this.props.myProfileStore.myProfile.data.getMe.profileImgLocation;
       console.log(
-        "this.props.myProfileStore.imgProfileUri : ",
-        this.props.myProfileStore.imgProfileUri,
+        "this.props.myProfileStore.imgIdCardUri 안바꿨을때 : ",
+        this.props.myProfileStore.imgIdCardUri,
       );
       this.props.navigation.navigate("EditPage");
     }
@@ -164,7 +157,7 @@ class EditCamera extends Component {
 const styles = StyleSheet.create({
   cam: {
     flex: 1,
-    justifyContent: "flex-end",
+    flexDirection: "column-reverse",
   },
 });
 

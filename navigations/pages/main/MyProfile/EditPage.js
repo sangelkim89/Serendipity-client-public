@@ -175,16 +175,30 @@ function EditPageFunction(props) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
-    console.log("pickImg result : ", result);
-    props.myProfileStore.imgIdCard = result;
-    props.myProfileStore.imgIdCardName = result.uri.substr(-10);
-    props.myProfileStore.imgIdCardUri = result.uri;
-    if (result.uri.substr(-4)[0] === ".") {
-      props.myProfileStore.imgIdCardType = result.uri.substr(-3);
-    } else {
-      props.myProfileStore.imgIdCardUri = result.uri.substr(-4);
+    console.log("pickImg result 여기겠구나: ", result);
+    console.log("비밀이 밝혀지는 순간이다: ", result.cancelled);
+    if (result.cancelled === false) {
+      props.myProfileStore.imgIdCard = result;
+      props.myProfileStore.imgIdCardName = result.uri.substr(-10);
+      props.myProfileStore.imgIdCardUri = result.uri;
+
+      if (result.uri.substr(-4)[0] === ".") {
+        props.myProfileStore.imgIdCardType = result.uri.substr(-3);
+      } else {
+        props.myProfileStore.imgIdCardUri = result.uri.substr(-4);
+      }
+
+      console.log(
+        "this.props.myProfileStore.imgIdCardUri 바꿨을때 : ",
+        props.myProfileStore.imgIdCardUri,
+      );
+    } else if (result.cancelled === true) {
+      props.myProfileStore.imgIdCardUri = myProfile.profileImgLocation;
+      console.log(
+        "this.props.myProfileStore.imgIdCardUri 안바꿨을때 : ",
+        props.myProfileStore.imgIdCardUri,
+      );
     }
-    console.log("this.props.myProfileStore.imgIdCardUri : ", props.myProfileStore.imgProfileUri);
   }
 
   return (
@@ -306,60 +320,64 @@ function EditPageFunction(props) {
                 </View>
 
                 {/* 태그 테스트========================================================= */}
-                <View style={styles.buttonArea}>
-                  {tagDATA.map((tag, f) => {
-                    return (
-                      <TouchableOpacity
-                        key={f}
-                        tag={tag}
-                        onPress={() => {
-                          Tag(f);
-                        }}
-                        style={[
-                          styles.tagColor,
-                          {
-                            backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
-                            borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
-                          },
-                        ]}
-                      >
-                        <Text
-                          style={{
-                            fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
-                            fontSize: tags.indexOf(tag) === -1 ? 10 : 12,
+                <View style={{ alignItems: "center" }}>
+                  <View style={styles.buttonArea}>
+                    {tagDATA.map((tag, f) => {
+                      return (
+                        <TouchableOpacity
+                          key={f}
+                          tag={tag}
+                          onPress={() => {
+                            Tag(f);
                           }}
+                          style={[
+                            styles.tagColor,
+                            {
+                              backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                              borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                            },
+                          ]}
                         >
-                          {tag}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
+                          <Text
+                            style={{
+                              fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                              fontSize: tags.indexOf(tag) === -1 ? 10 : 12,
+                            }}
+                          >
+                            {tag}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
                 </View>
                 {/* 지도=============================================================== */}
-                <MapView
-                  style={styles.map}
-                  provider={PROVIDER_GOOGLE}
-                  initialRegion={{
-                    latitude: 37.485403,
-                    longitude: 126.982203,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                  }}
-                  onPress={e => myProfileStore.markerClick(e.nativeEvent.coordinate)}
-                >
-                  {myProfileStore.marker.lat && myProfileStore.marker.lon ? (
-                    <Marker
-                      coordinate={{
-                        latitude: myProfileStore.marker.lat, // 변수
-                        longitude: myProfileStore.marker.lon, // 변수
-                      }}
-                      onPress={e => console.log(e)}
-                    />
-                  ) : null}
-                </MapView>
-                <Text>
+                <View style={styles.mapbox}>
+                  <MapView
+                    style={styles.map}
+                    provider={PROVIDER_GOOGLE}
+                    initialRegion={{
+                      latitude: 37.485403,
+                      longitude: 126.982203,
+                      latitudeDelta: 0.01,
+                      longitudeDelta: 0.01,
+                    }}
+                    onPress={e => myProfileStore.markerClick(e.nativeEvent.coordinate)}
+                  >
+                    {myProfileStore.marker.lat && myProfileStore.marker.lon ? (
+                      <Marker
+                        coordinate={{
+                          latitude: myProfileStore.marker.lat, // 변수
+                          longitude: myProfileStore.marker.lon, // 변수
+                        }}
+                        onPress={e => console.log("ㅋㅋ숨어있었네", e)}
+                      />
+                    ) : null}
+                  </MapView>
+                </View>
+                {/* <Text>
                   {myProfileStore.marker.lat} && {myProfileStore.marker.lon}
-                </Text>
+                </Text> */}
                 {/* 뭐지 여기는? ================================================================================== */}
                 <View
                   style={{
@@ -419,13 +437,16 @@ function EditPageFunction(props) {
 }
 
 const styles = StyleSheet.create({
-  map: {
+  mapbox: {
     flex: 3,
     borderRadius: 20,
-
     margin: 30,
-    borderWidth: 5,
+    borderWidth: 3,
     borderColor: "#7a42f4",
+  },
+  map: {
+    borderRadius: 20,
+    flex: 1,
   },
   pinkbox: {
     width: 400,
@@ -434,6 +455,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   picContainer: {
+    borderWidth: 3,
+    borderColor: "#7a42f4",
     width: 350,
     height: 400,
     borderRadius: 20,

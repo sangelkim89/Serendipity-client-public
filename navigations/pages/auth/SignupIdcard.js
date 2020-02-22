@@ -18,7 +18,6 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 

@@ -31,7 +31,7 @@ class TakeCamera extends Component {
       console.log("camera image : ", photo.uri);
       console.log("route? : ", this.props.navigation.state.params.from);
       if (this.props.navigation.state.params.from === "idcard") {
-        console.log("pickImg result : ", photo);
+        console.log("pickImg result 흠흠: ", photo);
         this.props.signupStore.imgIdCard = photo;
         this.props.signupStore.imgIdCardName = photo.uri.substr(-10);
         this.props.signupStore.imgIdCardUri = photo.uri;
@@ -43,7 +43,7 @@ class TakeCamera extends Component {
         console.log("this.props.signupStore.imgIdCardUri : ", this.props.signupStore.imgIdCardUri);
       }
       if (this.props.navigation.state.params.from === "pic") {
-        console.log("pickImg result : ", photo);
+        console.log("pickImg result 하하: ", photo);
         this.props.signupStore.imgProfile = photo;
         this.props.signupStore.imgProfileName = photo.uri.substr(-10);
         this.props.signupStore.imgProfileUri = photo.uri;
@@ -66,7 +66,7 @@ class TakeCamera extends Component {
     });
     console.log("pick image : ", result);
     if (this.props.navigation.state.params.from === "idcard") {
-      console.log("pickImg result : ", result);
+      console.log("pickImg result 호호: ", result);
       this.props.signupStore.imgIdCard = result;
       this.props.signupStore.imgIdCardName = result.uri.substr(-10);
       this.props.signupStore.imgIdCardUri = result.uri;
@@ -79,7 +79,7 @@ class TakeCamera extends Component {
       this.props.navigation.navigate("SignupIdcard");
     }
     if (this.props.navigation.state.params.from === "pic") {
-      console.log("pickImg result : ", result);
+      console.log("pickImg result ㅋㅋ: ", result);
       this.props.signupStore.imgProfile = result;
       this.props.signupStore.imgProfileName = result.uri.substr(-10);
       this.props.signupStore.imgProfileUri = result.uri;

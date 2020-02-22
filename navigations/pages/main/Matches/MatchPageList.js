@@ -9,6 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { observer, inject } from "mobx-react";
+
 import { useSubscription, useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -71,11 +72,6 @@ const MatchPageList = props => {
     handleUpdateRoom();
   }, [updatedRM]);
 
-  // // 최초렌더
-  // if (initRoomData !== undefined && initRoomData !== null) {
-  //   console.log("useEffect 바깥 initRoomData있을때!!!");
-  //   refreshRoomList(initRoomData.getRoom);
-  // } // mobx roomlist에 저장
 
   const moveHunt = () => {
     navigation.navigate("HuntPage");

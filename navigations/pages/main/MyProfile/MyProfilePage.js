@@ -78,6 +78,7 @@ function MyProfilePage(props) {
             })}
           </View>
         </View>
+
         <View
           style={{
             flex: 1,
@@ -111,6 +112,8 @@ const styles = StyleSheet.create({
     height: 400,
     justifyContent: "flex-end",
     borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "#7a42f4",
   },
   imgContainer: {
     padding: 30,

@@ -216,6 +216,12 @@ export const ROOM_DELETE = gql`
   }
 `;
 
+export const DELETE_USER = gql`
+  mutation deleteUser($id: String!) {
+    deleteUser(id: $id)
+  }
+`;
+
 export const UPDATE_ROOMS = gql`
   subscription updateRooms($id: String!) {
     updateRooms(id: $id) {
