@@ -32,7 +32,7 @@ function ChatPage(props) {
   // console.log("messages in chatPage : ", messages);
   // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
   const [message, setMessage] = useState("");
-
+  const combinedMSGs = messages;
   // 채팅 페이지
   const onChangeText = e => {
     setMessage(e);
@@ -47,19 +47,52 @@ function ChatPage(props) {
   // 메세지 서버 송부
   const [sendMessageMethod, { data }] = useMutation(SEND_MESSAGE);
 
+  // // data에 구독한 데이터 할당
+  const { data: roomWithNewMSG, loading: loadingMsg } = useSubscription(NEW_MESSAGE, {
+    variables: { roomId: id },
+  });
+
+  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  const handleNewMessage = () => {
+    console.log("HANDLE_NEW_MSG_ACT");
+    if (!loadingMsg) {
+      if (roomWithNewMSG !== undefined) {
+        const { newMessage } = roomWithNewMSG;
+        // console.log("newMessage in chatPage.js : ", newMessage);
+        subChats(newMessage); // 새로운 메세지가 포함된 룸 하나로 전체 룸리스트 업데이트
+        // console.log("messages from props : ", messages);
+        // messages.push(newMessage)
+        // subChats(newMessage); // 받아온 messages
+        // console.log("새로보낸메세지", newMessage.room.messages);
+        // console.log("새로보낸메세지인덱스", newMessage.room.messages.length);
+        // console.log("새로보낸메세지인덱스", newMessage.room.messages[32]);
+        const extractedData = newMessage.room.messages[newMessage.room.messages.length - 1];
+        // console.log("extractedData : ", extractedData);
+        combinedMSGs.push(extractedData);
+        console.log("combinedMSGs in handleNewMsg : ", combinedMSGs[combinedMSGs.length - 1]);
+      }
+    }
+  };
+
+  // data값을 지켜보며 변경이 있을 때만 실행됨
+  useEffect(() => {
+    console.log("useEffect in chatpage.js invoked!!!");
+    handleNewMessage();
+  }, [roomWithNewMSG]);
+
   // message를 가져다가 mutation 날리는 메소드
   const onSubmit = async () => {
     if (message === "") {
       return;
     }
     try {
-      console.log("message before send : ", message);
+      // console.log("message before send : ", message);
       const {
         data: { sendMessage },
       } = await sendMessageMethod({
         variables: { roomId: id, message: message, toId: opponent.id },
       });
-      console.log("sendMessage sent by method : ", sendMessage);
+      // console.log("sendMessage sent by method : ", sendMessage);
       setMessage("");
     } catch (e) {
       console.log("onsubmit error in chatpage : ", e);
@@ -119,7 +152,7 @@ function ChatPage(props) {
                 //   this.scrollView.scrollToEnd({ animated: false });
                 // }}
               >
-                {messages.map((msg, i) => {
+                {combinedMSGs.map((msg, i) => {
                   function timeStamp() {
                     let timeArr = msg.createdAt.substring(11, 16).split(":");
                     let hour = Number(timeArr[0]) + 9;
@@ -132,6 +165,7 @@ function ChatPage(props) {
                       return `${hour.toString()}:${timeArr[1]}`;
                     }
                   }
+
                   return msg.from.id === myId ? (
                     <View key={i} style={styles.meChat}>
                       <Text>{msg.text}</Text>

@@ -6,14 +6,22 @@ import { useMutation, useQuery, useSubscription } from "@apollo/react-hooks";
 import { observer, inject } from "mobx-react";
 import { AppLoading } from "expo";
 
-import { UN_LIKE, LIKE, GET_ROOM, NEW_ROOM } from "../../../queries";
+import { UN_LIKE, LIKE, GET_ROOM, NEW_ROOM, NEW_MESSAGE } from "../../../queries";
 import Card from "./Card";
 import OverlayLabel from "./OverlayLabel";
 import IconButton from "./IconBtn";
 
 function HuntPage(props) {
   console.log("HUNTPAGE RENDERED!!!");
-  const { recommendUser, navigation, myId, refreshRoomList, addLikeRoomId, subMsgs } = props;
+  const {
+    recommendUser,
+    navigation,
+    myId,
+    refreshRoomList,
+    addLikeRoomId,
+    subMsgs,
+    subChats,
+  } = props;
 
   // SWIPTE METHODS
   const useSwiper = useRef(null).current;
@@ -49,31 +57,6 @@ function HuntPage(props) {
     handleNewRoom();
     console.log("useEffect for handleNewRoom");
   }, [data]);
-
-  // // data에 구독한 데이터 할당
-  // const { data: roomWithNewMSG, loading:loadingMsg } = useSubscription(NEW_MESSAGE, {
-  //   variables: { roomId: id },
-  // });
-
-  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
-  // const handleNewMessage = () => {
-  //   console.log("HANDLE_NEW_MSG_ACT");
-  //   if (!loadingMsg) {
-  //     if (roomWithNewMSG !== undefined) {
-  //       const { newMessage } = roomWithNewMSG;
-  //       console.log("newMessage in chatPage.js : ", newMessage);
-  //       subChats(newMessage); // 새로운 메세지가 포함된 룸 하나?
-  //       console.log("새로보낸메세지", newMessage.room.messages);
-  //       // messages.push(newMessage.room.messages[newMessage.room.messages.legnth-1])
-  //     }
-  //   }
-  // };
-
-  // // data값을 지켜보며 변경이 있을 때만 실행됨
-  // useEffect(() => {
-  //   console.log("useEffect in chatpage.js invoked!!!");
-  //   handleNewMessage();
-  // }, [roomWithNewMSG]);
 
   // Func = unLike & Like
   const likedFunc = item => {
@@ -208,4 +191,5 @@ export default inject(({ huntStore, myProfileStore, matchStore }) => ({
   refreshRoomList: matchStore.refreshRoomList,
   addLikeRoomId: matchStore.addLikeRoomId,
   subMsgs: matchStore.subMsgs,
+  subChats: matchStore.subChats,
 }))(observer(HuntPage));

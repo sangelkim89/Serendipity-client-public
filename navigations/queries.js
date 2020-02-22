@@ -215,3 +215,29 @@ export const ROOM_DELETE = gql`
     roomDelete(roomId: $roomId)
   }
 `;
+
+export const UPDATE_ROOMS = gql`
+  subscription updateRooms($id: String!) {
+    updateRooms(id: $id) {
+      id
+      participants {
+        id
+        name
+        birth
+        companyName
+        companyRole
+        tags
+        profileImgLocation
+      }
+      messages {
+        id
+        text
+        from {
+          id
+        }
+        createdAt
+      }
+      createdAt
+    }
+  }
+`;
