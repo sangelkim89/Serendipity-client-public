@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-
     <list default="true" id="2eed525d-eb50-4c0e-b5b3-b112dd888a0e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigations/pages/main/Hunt/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigations/pages/main/Hunt/Card.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/HuntStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/stores/HuntStore.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +17,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="481" />
-    <option name="y" value="45" />
+    <option name="x" value="230" />
+    <option name="y" value="142" />
     <option name="width" value="960" />
     <option name="height" value="877" />
   </component>
@@ -30,19 +27,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Serendipity-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Serendipity-client" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -93,10 +80,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="481" y="45" width="960" height="877" extended-state="0" />
+    <frame x="230" y="142" width="960" height="877" extended-state="1" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.27582535" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.32903227" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />

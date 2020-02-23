@@ -124,7 +124,7 @@ function Login(props) {
     }
   }
   _doSignUp = () => {
-    props.navigation.navigate("SignupBasic");
+    props.navigation.navigate("SignUpInfo");
   };
   // 렌더되는 부분
   if (!isReady) {

@@ -25,10 +25,9 @@ const Card = ({ recommendUser }) => {
       >
         <View style={styles.info}>
           <Text style={styles.text}>{recommendUser.name}</Text>
-          <Text style={styles.text}>
-            {"    "}
-            {age}
-          </Text>
+          <Text style={styles.text2}>{age}</Text>
+          <Text style={styles.text2}>{recommendUser.companyName}</Text>
+          <Text style={styles.text2}>{recommendUser.companyRole}</Text>
         </View>
       </ImageBackground>
     </View>
@@ -51,12 +50,21 @@ const styles = StyleSheet.create({
     marginTop: 410,
   },
   text: {
-    fontSize: 40,
+    fontSize: 25,
     color: "white",
     textShadowColor: "black",
     fontWeight: "bold",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
+  },
+  text2: {
+    fontSize: 25,
+    color: "white",
+    textShadowColor: "black",
+    fontWeight: "bold",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 1,
+    marginLeft: 15,
   },
 });
 

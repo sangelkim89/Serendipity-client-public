@@ -29,7 +29,6 @@ class SignupCompany extends React.Component {
             <View style={styles.mapContainer}>
               <MapView
                 style={styles.map}
-                provider={PROVIDER_GOOGLE}
                 initialRegion={{
                   latitude: 37.485403,
                   longitude: 126.982203,
