@@ -63,7 +63,7 @@ function MyProfilePage(props) {
             <Text style={styles.textCompany}>{myProfile.companyRole}</Text>
           </View>
 
-          <View style={styles.etcText}>
+          <View style={styles.etcText2}>
             <Text style={styles.textCompany}>{myProfile.email}</Text>
             <Text style={styles.textCompany}>{myProfile.phone}</Text>
           </View>
@@ -127,6 +127,10 @@ const styles = StyleSheet.create({
   etcText: {
     flexDirection: "row",
   },
+  etcText2: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
   tagContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -142,6 +146,7 @@ const styles = StyleSheet.create({
   textCompany: {
     color: "black",
     marginTop: -10,
+    marginBottom: 10,
     margin: 10,
     fontSize: 25,
   },

@@ -23,11 +23,15 @@ const Card = ({ recommendUser }) => {
         source={{ uri: recommendUser.profileImgLocation }}
         resizeMode="cover"
       >
-        <View style={styles.info}>
-          <Text style={styles.text}>{recommendUser.name}</Text>
-          <Text style={styles.text2}>{age}</Text>
-          <Text style={styles.text2}>{recommendUser.companyName}</Text>
-          <Text style={styles.text2}>{recommendUser.companyRole}</Text>
+        <View style={styles.infoContainer}>
+          <View style={styles.info}>
+            <Text style={styles.text}>{recommendUser.name}</Text>
+            <Text style={styles.text2}>{age}</Text>
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.text2}>{recommendUser.companyName}</Text>
+            <Text style={styles.text2}>{recommendUser.companyRole}</Text>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -43,11 +47,19 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT - 190,
     marginLeft: 6,
   },
+  infoContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    // backgroundColor: "gray",
+  },
   info: {
+    // flex: 1,
+    // backgroundColor: "white",
     marginLeft: 20,
     zIndex: 100,
     flexDirection: "row",
-    marginTop: 410,
+    flexWrap: "wrap",
+    marginTop: 10,
   },
   text: {
     fontSize: 25,
@@ -56,6 +68,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
+    marginRight: 15,
   },
   text2: {
     fontSize: 25,
@@ -64,7 +77,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
-    marginLeft: 15,
+    marginRight: 15,
   },
 });
 

@@ -19,7 +19,9 @@ export function SignUpInfo(props) {
     >
       <SafeAreaView style={styles.container}>
         <View style={styles.info}>
-          <Image style={{ height: "80%" }} source={require("../../../assets/background2.jpg")} />
+          <View style={styles.imgContainer}>
+            <Image style={styles.image} source={require("../../../assets/info.gif")} />
+          </View>
           <Text style={styles.text}>거리와 관심사를 기반으로 매칭이 됩니다!</Text>
           <Text style={styles.text}>근처에 있는 사람과 식사를 해보아요!</Text>
         </View>
@@ -61,6 +63,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     margin: 10,
+  },
+  imgContainer: {
+    flex: 1,
+    margin: 20,
+    borderWidth: 10,
+    borderRadius: 35,
+    borderColor: "#201E21",
+  },
+  image: {
+    flex: 1,
+    // maxHeight: 380,
+    maxWidth: 210,
   },
 });
 

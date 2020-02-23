@@ -305,6 +305,7 @@ function EditPageFunction(props) {
                       onChangeText={e => {
                         inputCompanyName(e);
                       }}
+                      style={styles.input}
                     >
                       <Text style={styles.textCompany}> {myProfile.companyName} </Text>
                     </TextInput>
@@ -312,6 +313,7 @@ function EditPageFunction(props) {
                       onChangeText={e => {
                         inputCompanyRole(e);
                       }}
+                      style={styles.input}
                     >
                       <Text style={styles.textCompany}> {myProfile.companyRole} </Text>
                     </TextInput>
@@ -351,6 +353,7 @@ function EditPageFunction(props) {
                   </View>
                 </View>
                 {/* 지도=============================================================== */}
+                <Text style={styles.mapText}>지도에서 회사 위치를 수정해주세요!</Text>
                 <View style={styles.mapbox}>
                   <MapView
                     style={styles.map}
@@ -374,6 +377,7 @@ function EditPageFunction(props) {
                     ) : null}
                   </MapView>
                 </View>
+
                 {/* <Text>
                   {myProfileStore.marker.lat} && {myProfileStore.marker.lon}
                 </Text> */}
@@ -438,8 +442,11 @@ function EditPageFunction(props) {
 const styles = StyleSheet.create({
   mapbox: {
     flex: 3,
-    borderRadius: 20,
-    margin: 30,
+    borderRadius: 5,
+    marginTop: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    marginBottom: 30,
     borderWidth: 3,
     borderColor: "#7a42f4",
   },
@@ -472,6 +479,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     padding: 5,
+    paddingBottom: 20,
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
@@ -506,6 +514,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
+    textDecorationLine: "underline",
   },
   textContainer: {
     padding: 15,
@@ -513,6 +522,15 @@ const styles = StyleSheet.create({
   },
   etcText: {
     flexDirection: "row",
+  },
+  mapText: {
+    fontSize: 20,
+    paddingBottom: 5,
+    alignSelf: "center",
+  },
+  input: {
+    marginLeft: 5,
+    marginRight: 5,
   },
 });
 

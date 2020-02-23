@@ -18,6 +18,8 @@ const RoomItem = props => {
 
   const [roomDelMethod, { data }] = useMutation(ROOM_DELETE);
 
+  const opponent = room.participants[0].id === myId ? room.participants[1] : room.participants[0];
+  console.log("opponent : ", opponent);
   const onDelRoom = () => {
     Alert.alert(
       "채팅방을 삭제하시겠습니까?",
@@ -33,7 +35,7 @@ const RoomItem = props => {
           onPress: () => {
             console.log("OK Pressed");
             console.log(room.id);
-            roomDelMethod({ variables: { roomId: room.id } });
+            roomDelMethod({ variables: { roomId: room.id, selectedId: opponent.id } });
             // 뷰 삭제 - 스토어에서 해당 뷰에서 룸 삭제
             delRoomView(room.id);
           },
@@ -42,8 +44,6 @@ const RoomItem = props => {
       { cancelable: true },
     );
   };
-
-  const opponent = room.participants[0].id === myId ? room.participants[1] : room.participants[0];
 
   if (room.messages.length !== 0) {
     const lastChatRaw = room.messages[room.messages.length - 1]["text"];
