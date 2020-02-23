@@ -211,8 +211,8 @@ export const CREATE_REPORT = gql`
 
 // 수정 필요
 export const ROOM_DELETE = gql`
-  mutation roomDelete($roomId: String!) {
-    roomDelete(roomId: $roomId)
+  mutation roomDelete($roomId: String!, $selectedId: String!) {
+    roomDelete(roomId: $roomId, selectedId: $selectedId)
   }
 `;
 

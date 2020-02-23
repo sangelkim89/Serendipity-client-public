@@ -11,26 +11,22 @@ import {
   KeyboardAvoidingView,
   ImageBackground,
 } from "react-native";
-import { useMutation, useApolloClient, useQuery, useSubscription } from "@apollo/react-hooks";
+import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 import { inject, observer } from "mobx-react";
-import { Button, Input } from "react-native-elements";
+import { Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE, GET_ROOM } from "../../../queries";
+import { SEND_MESSAGE, NEW_MESSAGE, GET_ROOM } from "../../../queries";
 
 function ChatPage(props) {
   console.log("CHATPAGE RENDERED!!!");
   const { navigation, myId, refreshRoomList, subChats, addNewOne, newOne, refreshChat } = props;
   const { id, messages, participants } = navigation.state.params;
   console.log("ROOM_ID", id);
-  // console.log("props.navigation.state.params : ", props.navigation.state.params);
-  // console.log("messages in chatPage.js : ", messages);
+
   const opponent = participants[0].id === myId ? participants[1] : participants[0];
-  // console.log("myId in chatpage : ", myId);
-  // console.log("opponent : ", opponent);
-  // console.log("messages in chatPage : ", messages);
-  // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
+
   const [message, setMessage] = useState("");
   const combinedMSGs = messages;
   // 채팅 페이지
@@ -47,7 +43,7 @@ function ChatPage(props) {
   // 메세지 서버 송부
   const [sendMessageMethod, { data }] = useMutation(SEND_MESSAGE);
 
-  // // data에 구독한 데이터 할당
+  // data에 구독한 데이터 할당
   const { data: roomWithNewMSG, loading: loadingMsg } = useSubscription(NEW_MESSAGE, {
     variables: { roomId: id },
   });
@@ -158,10 +154,10 @@ function ChatPage(props) {
             <View style={styles.container2}>
               <ScrollView
                 style={{ height: "70%" }}
-                // ref={ref => (this.scrollView = ref)}
-                // onContentSizeChange={() => {
-                //   this.scrollView.scrollToEnd({ animated: false });
-                // }}
+                ref={ref => (this.scrollView = ref)}
+                onContentSizeChange={() => {
+                  this.scrollView.scrollToEnd({ animated: false });
+                }}
               >
                 {combinedMSGs.map((msg, i) => {
                   function timeStamp() {
