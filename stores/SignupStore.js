@@ -49,9 +49,10 @@ class SignupStore {
       this.emailBoolean = false;
       alert("이메일 인증에 실패하였습니다.");
     }
+
     console.log("인증완료", this.emailBoolean);
   };
-  @observable emailBoolean = true;
+  @observable emailBoolean = "";
 
   //==================================================================
   // 받아온 이메일키를 스토어에 저장
@@ -301,7 +302,7 @@ class SignupStore {
     this.password = "";
     this.emailSecretKey = "";
     this.resEmailSecretKey = "";
-    this.emailBoolean = true;
+    this.emailBoolean = false;
     this.phone = "";
     this.phoneVerifyKey = "";
     this.resMobileSecretKey = "";
