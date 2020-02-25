@@ -27,7 +27,7 @@
 - Intro
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/32e322cd-5bbc-40e2-847f-ac71a3c16ee0/final1.gif" />
+<img width="200" src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/32e322cd-5bbc-40e2-847f-ac71a3c16ee0/final1.gif" />
 </div>
 
 - Signup1
