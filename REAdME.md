@@ -14,73 +14,102 @@
 
 ## 2. Project
 
----
-
 회사 출퇴근 하면서 '저 사람 되게 괜찮아 보인다. 한 번 만나보고 싶다'는 생각을 가지고 있었는데 직장인들을 위한 만남 주선 어플을 만들어보면 어떨까 하는 생각으로 만든 프로젝트입니다.
 
 ### 서비스 시연 영상
 
-[https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b61618f-5b12-4d4d-8c31-6445a6c794f9/Team_Serengeti_Final_Project\_\_\_.mp4](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b61618f-5b12-4d4d-8c31-6445a6c794f9/Team_Serengeti_Final_Project___.mp4)
+<div>
+<video src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b61618f-5b12-4d4d-8c31-6445a6c794f9/Team_Serengeti_Final_Project\_\_\_.mp4" autoplay controls></video>
+</div>
 
 ### 서비스 시연 GIF 모음
 
 - Intro
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/32e322cd-5bbc-40e2-847f-ac71a3c16ee0/final1.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/32e322cd-5bbc-40e2-847f-ac71a3c16ee0/final1.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/32e322cd-5bbc-40e2-847f-ac71a3c16ee0/final1.gif" />
+</div>
 
 - Signup1
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7afe7208-249d-443a-97ca-99084e3b5dcf/final2.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7afe7208-249d-443a-97ca-99084e3b5dcf/final2.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7afe7208-249d-443a-97ca-99084e3b5dcf/final2.gif" />
+</div>
 
 - Signup2
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ac06eeb-cb86-4e55-b941-3a7cdaafd55f/final3.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ac06eeb-cb86-4e55-b941-3a7cdaafd55f/final3.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ac06eeb-cb86-4e55-b941-3a7cdaafd55f/final3.gif" />
+</div>
 
 - Signup3
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ba405f77-f23d-4eee-af3b-7165866cc522/4.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ba405f77-f23d-4eee-af3b-7165866cc522/4.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ba405f77-f23d-4eee-af3b-7165866cc522/4.gif" />
+</div>
 
 - Signup4
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef242323-0e63-4a68-9b08-b25e13e6b09f/5.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef242323-0e63-4a68-9b08-b25e13e6b09f/5.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef242323-0e63-4a68-9b08-b25e13e6b09f/5.gif" />
+</div>
 
 - Signup5
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/78cd25c7-d7c2-44aa-92b2-1726b0d12207/6.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/78cd25c7-d7c2-44aa-92b2-1726b0d12207/6.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/78cd25c7-d7c2-44aa-92b2-1726b0d12207/6.gif" />
+</div>
 
 - Login
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/576ff67e-ed0f-4291-ab4a-3ccbe4fe0482/ezgif.com-video-to-gif.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/576ff67e-ed0f-4291-ab4a-3ccbe4fe0482/ezgif.com-video-to-gif.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/576ff67e-ed0f-4291-ab4a-3ccbe4fe0482/ezgif.com-video-to-gif.gif" />
+</div>
 
 - Card Pick
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86930f0e-8fcb-4b65-a3b4-b98f4fa643b0/ezgif.com-video-to-gif_(2).gif](<https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86930f0e-8fcb-4b65-a3b4-b98f4fa643b0/ezgif.com-video-to-gif_(2).gif>)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86930f0e-8fcb-4b65-a3b4-b98f4fa643b0/ezgif.com-video-to-gif_(2).gif" />
+</div>
 
 - Chat!
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9aa99d8a-9e4c-44c5-bc69-fbb76570a8c3/Final10.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9aa99d8a-9e4c-44c5-bc69-fbb76570a8c3/Final10.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9aa99d8a-9e4c-44c5-bc69-fbb76570a8c3/Final10.gif" />
+</div>
 
 - 112
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e76dfda7-3e0e-4478-81d2-57e9765c1d6b/Final11.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e76dfda7-3e0e-4478-81d2-57e9765c1d6b/Final11.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9aa99d8a-9e4c-44c5-bc69-fbb76570a8c3/Final10.gif" />
+</div>
 
 - My Profile & Edit
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5cbc80ff-d2e8-421b-bb55-f6e777ba771a/ezgif.com-video-to-gif_(1).gif](<https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5cbc80ff-d2e8-421b-bb55-f6e777ba771a/ezgif.com-video-to-gif_(1).gif>)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5cbc80ff-d2e8-421b-bb55-f6e777ba771a/ezgif.com-video-to-gif_(1).gif" />
+</div>
 
 - Logout& withdrawal
 
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/710669ea-7800-45b7-82f8-ceddbdb89379/ezgif.com-video-to-gif.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/710669ea-7800-45b7-82f8-ceddbdb89379/ezgif.com-video-to-gif.gif)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/710669ea-7800-45b7-82f8-ceddbdb89379/ezgif.com-video-to-gif.gif" />
+</div>
 
 ### STACK ARCHITECTURE
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6a47b723-9f44-4dbb-b194-e397f6a86572/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6a47b723-9f44-4dbb-b194-e397f6a86572/Untitled.png)
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ebb77e65-e301-49f3-b720-b01aa4ad41d9/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ebb77e65-e301-49f3-b720-b01aa4ad41d9/Untitled.png)
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52c24f5c-f1e0-4feb-b8c8-cb0cb63c5407/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52c24f5c-f1e0-4feb-b8c8-cb0cb63c5407/Untitled.png)
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4863974-784b-49b2-9db5-76ef220f0962/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4863974-784b-49b2-9db5-76ef220f0962/Untitled.png)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6a47b723-9f44-4dbb-b194-e397f6a86572/Untitled.png" />
+</div>
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ebb77e65-e301-49f3-b720-b01aa4ad41d9/Untitled.png" />
+</div>
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52c24f5c-f1e0-4feb-b8c8-cb0cb63c5407/Untitled.png" />
+</div>
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4863974-784b-49b2-9db5-76ef220f0962/Untitled.png" />
+</div>
 
 ## 3. Members
 
@@ -90,7 +119,9 @@
 
 ---
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f99d6294-5fbf-4cb3-8f98-c58d6d0510fc/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f99d6294-5fbf-4cb3-8f98-c58d6d0510fc/Untitled.png)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f99d6294-5fbf-4cb3-8f98-c58d6d0510fc/Untitled.png" />
+</div>
 
 - Role : Team Leader
 - Position : Front-end
@@ -103,13 +134,13 @@
   5. CSS : layout + styling for some pages
 - Tech-Presentation Topic : Apollo 사용기
 
-  [https://s3-us-west-2.amazonaws.com/secure.notion-static.com/57ecc22d-7d8b-4a3f-b8f5-15c038d79ee2/zoom_0.mp4](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/57ecc22d-7d8b-4a3f-b8f5-15c038d79ee2/zoom_0.mp4)
-
 ### 팀원 : 김상훈
 
 ---
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/707949c6-1534-420e-b04a-28663de2bd15/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/707949c6-1534-420e-b04a-28663de2bd15/Untitled.png)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/707949c6-1534-420e-b04a-28663de2bd15/Untitled.png" />
+</div>
 
 - Role : Team Member
 - Position : Back-end
@@ -144,13 +175,13 @@
 
 - Tech-Presentation Topic : Error Handling While Creating APK Through Expo
 
-[https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0306eadf-d398-4e95-af25-06bcfc56eb8d/zoom_0.mp4](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0306eadf-d398-4e95-af25-06bcfc56eb8d/zoom_0.mp4)
-
 ### 팀원 : 노시관
 
 ---
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8de2facd-8f1e-4d33-9721-cdb11024170f/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8de2facd-8f1e-4d33-9721-cdb11024170f/Untitled.png)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8de2facd-8f1e-4d33-9721-cdb11024170f/Untitled.png" />
+</div>
 
 - Role : Team Member
 - Position : Back-end
@@ -170,13 +201,13 @@
 
 - Tech-Presentation Topic : graphql로 개발을 진행할 때 문제점을 graphql+prisma로 해결.
 
-[https://s3-us-west-2.amazonaws.com/secure.notion-static.com/eca4f660-ffa5-46e2-bb55-0f26fdaacc2c/zoom_0.mp4](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/eca4f660-ffa5-46e2-bb55-0f26fdaacc2c/zoom_0.mp4)
-
 ### 팀원 : 엄준식
 
 ---
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2c7115ce-2b41-4a37-bae6-dc644fc988e6/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2c7115ce-2b41-4a37-bae6-dc644fc988e6/Untitled.png)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2c7115ce-2b41-4a37-bae6-dc644fc988e6/Untitled.png" />
+</div>
 
 - Role : Team Member
 - Position : Front-end
@@ -188,13 +219,13 @@
   4. Store에 저장되어 있는 정보를 View로 출력
 - Tech-Presentation Topic : 개인정보수정 페이지에서 발생한 서버문제 / 해결방법 / 아쉬운 점
 
-[https://s3-us-west-2.amazonaws.com/secure.notion-static.com/06cd5d0e-a3c0-4861-99c4-56c621c9e5e8/Final*Project*.mp4](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/06cd5d0e-a3c0-4861-99c4-56c621c9e5e8/Final_Project_.mp4)
-
 ### 팀원 : 이재협
 
 ---
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fb561088-507b-4d32-945a-26e3724fb0a5/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fb561088-507b-4d32-945a-26e3724fb0a5/Untitled.png)
+<div>
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fb561088-507b-4d32-945a-26e3724fb0a5/Untitled.png" />
+</div>
 
 - Role : Team Member
 - Position : Front-end
@@ -207,8 +238,6 @@
   5. Create a chat room and implement chat using a subscription
   6. App Styling (CSS)
 - Tech-Presentation Topic : react-hooks와 apollo-react-hooks의 만남
-
-[https://s3-us-west-2.amazonaws.com/secure.notion-static.com/302909cb-4baf-4569-a213-5a7f1494b989/0224_1830.mp4](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/302909cb-4baf-4569-a213-5a7f1494b989/0224_1830.mp4)
 
 ## 4. ETC
 
