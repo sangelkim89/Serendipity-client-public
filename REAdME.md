@@ -1,6 +1,32 @@
 # Eat, Pray, Love(Dating app for Employee)
 
+## 0. Quickstart
+
+## ​
+
 ​
+First, fork this repo and 'git clone' in your local stroage.
+​
+And then,
+​
+
+#### Install
+
+​
+
+```
+$ npm(yarn) install
+```
+
+​
+
+#### Start
+
+​
+
+```
+$ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
+```
 
 ## 1. Intro
 
@@ -19,7 +45,7 @@
 ### 서비스 시연 영상
 
 <div>
-<video width="200" src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b61618f-5b12-4d4d-8c31-6445a6c794f9/Team_Serengeti_Final_Project\_\_\_.mp4" autoplay controls></video>
+<video src="./assets/readme/Team_Serengeti_Final_Project___.mp4" autoplay controls></video>
 </div>
 
 ### 서비스 시연 GIF 모음
@@ -27,88 +53,88 @@
 - Intro
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/32e322cd-5bbc-40e2-847f-ac71a3c16ee0/final1.gif" />
+<img src="./assets/readme/final1.gif" />
 </div>
 
 - Signup1
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7afe7208-249d-443a-97ca-99084e3b5dcf/final2.gif" />
+<img src="./assets/readme/final2.gif" />
 </div>
 
 - Signup2
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ac06eeb-cb86-4e55-b941-3a7cdaafd55f/final3.gif" />
+<img src="./assets/readme/final3.gif" />
 </div>
 
 - Signup3
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ba405f77-f23d-4eee-af3b-7165866cc522/4.gif" />
+<img src="./assets/readme/4.gif" />
 </div>
 
 - Signup4
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef242323-0e63-4a68-9b08-b25e13e6b09f/5.gif" />
+<img src="./assets/readme/5.gif" />
 </div>
 
 - Signup5
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/78cd25c7-d7c2-44aa-92b2-1726b0d12207/6.gif" />
+<img src="./assets/readme/6.gif" />
 </div>
 
 - Login
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/576ff67e-ed0f-4291-ab4a-3ccbe4fe0482/ezgif.com-video-to-gif.gif" />
+<img src="./assets/readme/ezgif.com-video-to-gif.gif" />
 </div>
 
 - Card Pick
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86930f0e-8fcb-4b65-a3b4-b98f4fa643b0/ezgif.com-video-to-gif_(2).gif" />
+<img src="./assets/readme/ezgif.com-video-to-gif_(2).gif" />
 </div>
 
 - Chat!
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9aa99d8a-9e4c-44c5-bc69-fbb76570a8c3/Final10.gif" />
+<img src="./assets/readme/Final10.gif" />
 </div>
 
 - 112
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9aa99d8a-9e4c-44c5-bc69-fbb76570a8c3/Final10.gif" />
+<img src="./assets/readme/Final10.gif" />
 </div>
 
 - My Profile & Edit
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5cbc80ff-d2e8-421b-bb55-f6e777ba771a/ezgif.com-video-to-gif_(1).gif" />
+<img src="./assets/readme/ezgif.com-video-to-gif_(1).gif" />
 </div>
 
 - Logout& withdrawal
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/710669ea-7800-45b7-82f8-ceddbdb89379/ezgif.com-video-to-gif.gif" />
+<img src="./assets/readme/ezgif.com-video-to-gif.gif" />
 </div>
 
 ### STACK ARCHITECTURE
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6a47b723-9f44-4dbb-b194-e397f6a86572/Untitled.png" />
+<img src="./assets/readme/Untitled.png" />
 </div>
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ebb77e65-e301-49f3-b720-b01aa4ad41d9/Untitled.png" />
+<img src="./assets/readme/backend.png" />
 </div>
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52c24f5c-f1e0-4feb-b8c8-cb0cb63c5407/Untitled.png" />
+<img src="./assets/readme/frontend.png" />
 </div>
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4863974-784b-49b2-9db5-76ef220f0962/Untitled.png" />
+<img src="./assets/readme/stackarchi.png" />
 </div>
 
 ## 3. Members
@@ -120,7 +146,7 @@
 ---
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f99d6294-5fbf-4cb3-8f98-c58d6d0510fc/Untitled.png" />
+<img src="./assets/sangwook.png" />
 </div>
 
 - Role : Team Leader
@@ -139,7 +165,7 @@
 ---
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/707949c6-1534-420e-b04a-28663de2bd15/Untitled.png" />
+<img src="./assets/sang.png" />
 </div>
 
 - Role : Team Member
@@ -180,7 +206,7 @@
 ---
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8de2facd-8f1e-4d33-9721-cdb11024170f/Untitled.png" />
+<img src="./assets/kwan.png" />
 </div>
 
 - Role : Team Member
@@ -206,7 +232,7 @@
 ---
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2c7115ce-2b41-4a37-bae6-dc644fc988e6/Untitled.png" />
+<img src="./assets/um.png" />
 </div>
 
 - Role : Team Member
@@ -224,7 +250,7 @@
 ---
 
 <div>
-<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fb561088-507b-4d32-945a-26e3724fb0a5/Untitled.png" />
+<img src="./assets/hyobi.png" />
 </div>
 
 - Role : Team Member
@@ -261,3 +287,66 @@ Please add content for \*\*\* below.
   "name": "serendipity_client"
 }
 ```
+
+​
+​
+​
+
+## Quickstart
+
+## ​
+
+​
+First, fork this repo and 'git clone' in your local stroage.
+​
+And then,
+​
+
+#### Install
+
+​
+
+```
+$ npm(yarn) install
+```
+
+​
+
+#### Start
+
+​
+
+```
+$ npm(yarn) start
+```
+
+​
+​
+​
+
+## Stack
+
+## ​
+
+​
+We basically, used 'Node.js' for Server and 'React' for Client.
+​
+**Client**
+​
+React / Socekt.io / antd / css / jwt / react-router-dom / hooks
+​
+**Server**
+​
+Node.js / express / jwt / Socket.io / MySQL / nodemailer
+​
+**Deploy**
+​
+AWS - S3, EC2, RDS
+​
+
+## License
+
+## ​
+
+​
+diSlack is a private domain work for Codestates colleagues. Because this is a copy of Slack. If you are in Codestates, feel free to do whatever you want with it!
