@@ -20,7 +20,15 @@
     "ios": {
       "supportsTablet": true
     },
-    "entryPoint": "node_modules/expo/AppEntry.js"
+    "entryPoint": "node_modules/expo/AppEntry.js",
+    "android": {
+      "package": "",
+      "config": {
+        "googleMaps": {
+          "apiKey": ""
+        }
+      }
+    }
   },
   "displayName": "serendipity_client",
   "name": "serendipity_client"
