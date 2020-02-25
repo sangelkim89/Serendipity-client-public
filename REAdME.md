@@ -1,30 +1,16 @@
 # Eat, Pray, Love(Dating app for Employee)
 
 ## 0. Quickstart
-
-## ​
-
-​
 First, fork this repo and 'git clone' in your local stroage.
-​
 And then,
-​
 
 #### Install
-
-​
-
-```
+```js
 $ npm(yarn) install
 ```
 
-​
-
 #### Start
-
-​
-
-```
+```js
 $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 ```
 
@@ -42,99 +28,90 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 
 회사 출퇴근 하면서 '저 사람 되게 괜찮아 보인다. 한 번 만나보고 싶다'는 생각을 가지고 있었는데 직장인들을 위한 만남 주선 어플을 만들어보면 어떨까 하는 생각으로 만든 프로젝트입니다.
 
-### 서비스 시연 영상
-
-<div>
-<video src="./assets/readme/Team_Serengeti_Final_Project___.mp4" autoplay controls></video>
-</div>
 
 ### 서비스 시연 GIF 모음
 
 - Intro
 
 <div>
-<img src="./assets/readme/final1.gif" />
+<img width="150" src="./assets/readme/final1.gif" />
 </div>
 
 - Signup1
 
 <div>
-<img src="./assets/readme/final2.gif" />
+<img width="150" src="./assets/readme/final2.gif" />
 </div>
 
 - Signup2
 
 <div>
-<img src="./assets/readme/final3.gif" />
+<img width="150" src="./assets/readme/final3.gif" />
 </div>
 
 - Signup3
 
 <div>
-<img src="./assets/readme/4.gif" />
+<img width="100" src="./assets/readme/4.gif" />
 </div>
 
 - Signup4
 
 <div>
-<img src="./assets/readme/5.gif" />
+<img width="150" src="./assets/readme/5.gif" />
 </div>
 
 - Signup5
 
 <div>
-<img src="./assets/readme/6.gif" />
+<img width="150" src="./assets/readme/6.gif" />
 </div>
 
 - Login
 
 <div>
-<img src="./assets/readme/ezgif.com-video-to-gif.gif" />
+<img width="150" src="./assets/readme/ezgif.com-video-to-gif.gif" />
 </div>
 
 - Card Pick
 
 <div>
-<img src="./assets/readme/ezgif.com-video-to-gif_(2).gif" />
+<img width="150" src="./assets/readme/ezgif.com-video-to-gif_(2).gif" />
 </div>
 
 - Chat!
 
 <div>
-<img src="./assets/readme/Final10.gif" />
+<img width="150" src="./assets/readme/Final10.gif" />
 </div>
 
 - 112
 
 <div>
-<img src="./assets/readme/Final10.gif" />
+<img width="150" src="./assets/readme/Final10.gif" />
 </div>
 
 - My Profile & Edit
 
 <div>
-<img src="./assets/readme/ezgif.com-video-to-gif_(1).gif" />
+<img width="150" src="./assets/readme/ezgif.com-video-to-gif_(1).gif" />
 </div>
 
 - Logout& withdrawal
 
 <div>
-<img src="./assets/readme/ezgif.com-video-to-gif.gif" />
+<img width="150" src="./assets/readme/ezgif.com-video-to-gif.gif" />
 </div>
 
 ### STACK ARCHITECTURE
 
 <div>
-<img src="./assets/readme/Untitled.png" />
+<img width="200" src="./assets/readme/Untitled.png" />
+<img width="200" src="./assets/readme/backend.png" />
 </div>
 <div>
-<img src="./assets/readme/backend.png" />
-</div>
-<div>
-<img src="./assets/readme/frontend.png" />
-</div>
-<div>
-<img src="./assets/readme/stackarchi.png" />
+<img width="200" src="./assets/readme/frontend.png" />
+<img width="200" src="./assets/readme/stackarchi.png" />
 </div>
 
 ## 3. Members
@@ -146,7 +123,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 ---
 
 <div>
-<img src="./assets/sangwook.png" />
+<img src="./assets/readme/sangwook.png" />
 </div>
 
 - Role : Team Leader
@@ -165,7 +142,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 ---
 
 <div>
-<img src="./assets/sang.png" />
+<img src="./assets/readme/sang.png" />
 </div>
 
 - Role : Team Member
@@ -206,7 +183,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 ---
 
 <div>
-<img src="./assets/kwan.png" />
+<img src="./assets/readme/kwan.png" />
 </div>
 
 - Role : Team Member
@@ -232,7 +209,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 ---
 
 <div>
-<img src="./assets/um.png" />
+<img src="./assets/readme/um.png" />
 </div>
 
 - Role : Team Member
@@ -250,7 +227,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 ---
 
 <div>
-<img src="./assets/hyobi.png" />
+<img src="./assets/readme/hyobi.png" />
 </div>
 
 - Role : Team Member
@@ -288,65 +265,10 @@ Please add content for \*\*\* below.
 }
 ```
 
-​
-​
-​
-
-## Quickstart
-
-## ​
-
-​
-First, fork this repo and 'git clone' in your local stroage.
-​
-And then,
-​
-
-#### Install
-
-​
-
-```
-$ npm(yarn) install
-```
-
-​
-
-#### Start
-
-​
-
-```
-$ npm(yarn) start
-```
-
-​
-​
-​
-
-## Stack
-
-## ​
-
-​
-We basically, used 'Node.js' for Server and 'React' for Client.
-​
-**Client**
-​
-React / Socekt.io / antd / css / jwt / react-router-dom / hooks
-​
-**Server**
-​
-Node.js / express / jwt / Socket.io / MySQL / nodemailer
-​
-**Deploy**
-​
-AWS - S3, EC2, RDS
-​
 
 ## License
 
 ## ​
 
 ​
-diSlack is a private domain work for Codestates colleagues. Because this is a copy of Slack. If you are in Codestates, feel free to do whatever you want with it!
+Serendipity is a private domain work for Codestates colleagues. If you are in Codestates, feel free to do whatever you want with it!
