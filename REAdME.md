@@ -19,7 +19,7 @@
 ### 서비스 시연 영상
 
 <div>
-<video src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b61618f-5b12-4d4d-8c31-6445a6c794f9/Team_Serengeti_Final_Project\_\_\_.mp4" autoplay controls></video>
+<video width="200" src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b61618f-5b12-4d4d-8c31-6445a6c794f9/Team_Serengeti_Final_Project\_\_\_.mp4" autoplay controls></video>
 </div>
 
 ### 서비스 시연 GIF 모음
