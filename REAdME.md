@@ -1,15 +1,18 @@
 # Eat, Pray, Love(Dating app for Employee)
 
 ## 0. Quickstart
+
 First, fork this repo and 'git clone' in your local stroage.
 And then,
 
 #### Install
+
 ```js
 $ npm(yarn) install
 ```
 
 #### Start
+
 ```js
 $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 ```
@@ -105,7 +108,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 - Logout& withdrawal
 
 <div>
-<img width="150" src="./assets/readme/ezgif.com-video-to-gif.gif" />
+<img width="150" src="./assets/readme/13.gif" />
 </div>
 
 ### STACK ARCHITECTURE
@@ -270,10 +273,6 @@ Please add content for \*\*\* below.
 }
 ```
 
-
 ## License
 
-## ​
-
-​
 Serendipity is a private domain work for Codestates colleagues. If you are in Codestates, feel free to do whatever you want with it!
