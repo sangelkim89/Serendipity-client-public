@@ -43,7 +43,9 @@ const ProfilePage = props => {
           >
             <FontAwesome name="arrow-circle-left" style={styles.backText} />
           </TouchableOpacity>
-          <Image source={{ uri: profileImgLocation }} style={styles.image}></Image>
+          <View style={{ alignItems: "center" }}>
+            <Image source={{ uri: profileImgLocation }} style={styles.image}></Image>
+          </View>
           <View style={styles.textContainer}>
             <View style={styles.etcText}>
               <Text style={styles.textId}>{name}</Text>
@@ -80,8 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: "100%",
+    borderWidth: 3,
+    borderColor: "#7a42f4",
+    width: 350,
     height: 400,
+    borderRadius: 20,
     justifyContent: "flex-end",
   },
   textContainer: {

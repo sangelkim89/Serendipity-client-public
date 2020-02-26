@@ -129,7 +129,6 @@ function EditPageFunction(props) {
   function _gotoSettingPage() {
     props.navigation.navigate("SettingPage");
   }
-
   async function _gotoMyProfilePage() {
     props.navigation.navigate("MyProfilePage");
     console.log("두 번째 순서입니다. 현재 서버에 새로 저장된 데이터를 스토어로 저장할 겁니다. 2");
@@ -175,16 +174,30 @@ function EditPageFunction(props) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
-    console.log("pickImg result : ", result);
-    props.myProfileStore.imgIdCard = result;
-    props.myProfileStore.imgIdCardName = result.uri.substr(-10);
-    props.myProfileStore.imgIdCardUri = result.uri;
-    if (result.uri.substr(-4)[0] === ".") {
-      props.myProfileStore.imgIdCardType = result.uri.substr(-3);
-    } else {
-      props.myProfileStore.imgIdCardUri = result.uri.substr(-4);
+    console.log("pickImg result 여기겠구나: ", result);
+    console.log("비밀이 밝혀지는 순간이다: ", result.cancelled);
+    if (result.cancelled === false) {
+      props.myProfileStore.imgIdCard = result;
+      props.myProfileStore.imgIdCardName = result.uri.substr(-10);
+      props.myProfileStore.imgIdCardUri = result.uri;
+
+      if (result.uri.substr(-4)[0] === ".") {
+        props.myProfileStore.imgIdCardType = result.uri.substr(-3);
+      } else {
+        props.myProfileStore.imgIdCardUri = result.uri.substr(-4);
+      }
+
+      console.log(
+        "this.props.myProfileStore.imgIdCardUri 바꿨을때 : ",
+        props.myProfileStore.imgIdCardUri,
+      );
+    } else if (result.cancelled === true) {
+      props.myProfileStore.imgIdCardUri = myProfile.profileImgLocation;
+      console.log(
+        "this.props.myProfileStore.imgIdCardUri 안바꿨을때 : ",
+        props.myProfileStore.imgIdCardUri,
+      );
     }
-    console.log("this.props.myProfileStore.imgIdCardUri : ", props.myProfileStore.imgProfileUri);
   }
 
   return (
@@ -213,12 +226,12 @@ function EditPageFunction(props) {
               }}
             >
               <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
-                <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+                <FontAwesome name="id-card" style={{ color: "#4A148C", fontSize: 25 }} />
                 <Text>프로필</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoSettingPage}>
-                <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+                <FontAwesome name="cogs" style={{ color: "#4A148C", fontSize: 25 }} />
                 <Text>설정</Text>
               </TouchableOpacity>
             </View>
@@ -253,23 +266,31 @@ function EditPageFunction(props) {
                     flexDirection: "row",
                     justifyContent: "space-around",
                     alignItems: "center",
-                    backgroundColor: "rgba(255, 255, 255, 0.5)",
+                    padding: 5,
+
+                    // backgroundColor: "rgba(255, 255, 255, 0.5)",
                     // backgroundColor: "#f7d794",
                   }}
                 >
                   <TouchableOpacity
                     onPress={permitCamera}
-                    style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", alignItems: "center" }}
+                    style={{
+                      // backgroundColor: "rgba(255, 255, 255, 0.5)",
+                      alignItems: "center",
+                    }}
                   >
-                    <FontAwesome name="camera" style={{ color: "black", fontSize: 25 }} />
+                    <FontAwesome name="camera" style={{ color: "#4A148C", fontSize: 25 }} />
                     <Text style={styles.text}>Camera</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={permitGallery}
-                    style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", alignItems: "center" }}
+                    style={{
+                      //  backgroundColor: "rgba(255, 255, 255, 0.5)",
+                      alignItems: "center",
+                    }}
                   >
-                    <FontAwesome name="image" style={{ color: "black", fontSize: 25 }} />
+                    <FontAwesome name="image" style={{ color: "#4A148C", fontSize: 25 }} />
                     <Text style={styles.text}>Gallery</Text>
                   </TouchableOpacity>
                 </View>
@@ -284,6 +305,7 @@ function EditPageFunction(props) {
                       onChangeText={e => {
                         inputCompanyName(e);
                       }}
+                      style={styles.input}
                     >
                       <Text style={styles.textCompany}> {myProfile.companyName} </Text>
                     </TextInput>
@@ -291,6 +313,7 @@ function EditPageFunction(props) {
                       onChangeText={e => {
                         inputCompanyRole(e);
                       }}
+                      style={styles.input}
                     >
                       <Text style={styles.textCompany}> {myProfile.companyRole} </Text>
                     </TextInput>
@@ -298,60 +321,66 @@ function EditPageFunction(props) {
                 </View>
 
                 {/* 태그 테스트========================================================= */}
-                <View style={styles.buttonArea}>
-                  {tagDATA.map((tag, f) => {
-                    return (
-                      <TouchableOpacity
-                        key={f}
-                        tag={tag}
-                        onPress={() => {
-                          Tag(f);
-                        }}
-                        style={[
-                          styles.tagColor,
-                          {
-                            backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
-                            borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
-                          },
-                        ]}
-                      >
-                        <Text
-                          style={{
-                            fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
-                            fontSize: tags.indexOf(tag) === -1 ? 10 : 12,
+                <View style={{ alignItems: "center" }}>
+                  <View style={styles.buttonArea}>
+                    {tagDATA.map((tag, f) => {
+                      return (
+                        <TouchableOpacity
+                          key={f}
+                          tag={tag}
+                          onPress={() => {
+                            Tag(f);
                           }}
+                          style={[
+                            styles.tagColor,
+                            {
+                              backgroundColor: tags.indexOf(tag) === -1 ? "transparent" : "pink",
+                              borderColor: tags.indexOf(tag) === -1 ? "#70a1ff" : "#ff6348",
+                            },
+                          ]}
                         >
-                          {tag}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
+                          <Text
+                            style={{
+                              fontWeight: tags.indexOf(tag) === -1 ? "100" : "bold",
+                              fontSize: tags.indexOf(tag) === -1 ? 10 : 12,
+                            }}
+                          >
+                            {tag}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
                 </View>
                 {/* 지도=============================================================== */}
-                <MapView
-                  style={styles.map}
-                  provider={PROVIDER_GOOGLE}
-                  initialRegion={{
-                    latitude: 37.485403,
-                    longitude: 126.982203,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                  }}
-                  onPress={e => myProfileStore.markerClick(e.nativeEvent.coordinate)}
-                >
-                  {myProfileStore.marker.lat && myProfileStore.marker.lon ? (
-                    <Marker
-                      coordinate={{
-                        latitude: myProfileStore.marker.lat, // 변수
-                        longitude: myProfileStore.marker.lon, // 변수
-                      }}
-                      onPress={e => console.log(e)}
-                    />
-                  ) : null}
-                </MapView>
-                <Text>
+                <Text style={styles.mapText}>지도에서 회사 위치를 수정해주세요!</Text>
+                <View style={styles.mapbox}>
+                  <MapView
+                    style={styles.map}
+                    provider={PROVIDER_GOOGLE}
+                    initialRegion={{
+                      latitude: myProfileStore.marker.lat,
+                      longitude: myProfileStore.marker.lon,
+                      latitudeDelta: 0.01,
+                      longitudeDelta: 0.01,
+                    }}
+                    onPress={e => myProfileStore.markerClick(e.nativeEvent.coordinate)}
+                  >
+                    {myProfileStore.marker.lat && myProfileStore.marker.lon ? (
+                      <Marker
+                        coordinate={{
+                          latitude: myProfileStore.marker.lat, // 변수
+                          longitude: myProfileStore.marker.lon, // 변수
+                        }}
+                        onPress={e => console.log("ㅋㅋ숨어있었네", e)}
+                      />
+                    ) : null}
+                  </MapView>
+                </View>
+
+                {/* <Text>
                   {myProfileStore.marker.lat} && {myProfileStore.marker.lon}
-                </Text>
+                </Text> */}
                 {/* 뭐지 여기는? ================================================================================== */}
                 <View
                   style={{
@@ -370,7 +399,7 @@ function EditPageFunction(props) {
                     }
                   >
                     <TouchableOpacity style={{ alignItems: "center" }} onPress={_submit}>
-                      <FontAwesome name="thumbs-up" style={{ color: "grey", fontSize: 25 }} />
+                      <FontAwesome name="thumbs-up" style={{ color: "#4A148C", fontSize: 25 }} />
                       <Text>수정 확정</Text>
                     </TouchableOpacity>
                   </View>
@@ -392,12 +421,12 @@ function EditPageFunction(props) {
             }}
           >
             <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoMyProfilePage}>
-              <FontAwesome name="id-card" style={{ color: "grey", fontSize: 25 }} />
+              <FontAwesome name="id-card" style={{ color: "#4A148C", fontSize: 25 }} />
               <Text>프로필</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={{ alignItems: "center" }} onPress={_gotoSettingPage}>
-              <FontAwesome name="cogs" style={{ color: "grey", fontSize: 25 }} />
+              <FontAwesome name="cogs" style={{ color: "#4A148C", fontSize: 25 }} />
               <Text>설정</Text>
             </TouchableOpacity>
           </View>
@@ -411,13 +440,19 @@ function EditPageFunction(props) {
 }
 
 const styles = StyleSheet.create({
-  map: {
+  mapbox: {
     flex: 3,
-    borderRadius: 20,
-
-    margin: 30,
-    borderWidth: 5,
+    borderRadius: 5,
+    marginTop: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    marginBottom: 30,
+    borderWidth: 3,
     borderColor: "#7a42f4",
+  },
+  map: {
+    borderRadius: 20,
+    flex: 1,
   },
   pinkbox: {
     width: 400,
@@ -426,6 +461,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   picContainer: {
+    borderWidth: 3,
+    borderColor: "#7a42f4",
     width: 350,
     height: 400,
     borderRadius: 20,
@@ -442,6 +479,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     padding: 5,
+    paddingBottom: 20,
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
@@ -476,6 +514,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
+    textDecorationLine: "underline",
   },
   textContainer: {
     padding: 15,
@@ -483,6 +522,15 @@ const styles = StyleSheet.create({
   },
   etcText: {
     flexDirection: "row",
+  },
+  mapText: {
+    fontSize: 20,
+    paddingBottom: 5,
+    alignSelf: "center",
+  },
+  input: {
+    marginLeft: 5,
+    marginRight: 5,
   },
 });
 

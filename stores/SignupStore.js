@@ -49,9 +49,10 @@ class SignupStore {
       this.emailBoolean = false;
       alert("이메일 인증에 실패하였습니다.");
     }
+
     console.log("인증완료", this.emailBoolean);
   };
-  @observable emailBoolean = true;
+  @observable emailBoolean = "";
 
   //==================================================================
   // 받아온 이메일키를 스토어에 저장
@@ -201,6 +202,13 @@ class SignupStore {
     // console.log("패스워드", this.loginPW);
   };
   @observable loginPW = "";
+
+  @action
+  emptyLoginInfo = () => {
+    this.loginId = "";
+    this.loginPW = "";
+  };
+
   //==================================================================
   // 이미지는 사인업에서 넘어온다.
 
@@ -256,7 +264,6 @@ class SignupStore {
     // 생성된 폼데이터 확인
     console.log("formdata not send yet : ", signupData);
     const endPoint = `${SERVER_ENDPOINT}/api/upload`;
-    console.log("SERVER_ENDPOINT : ", endPoint);
 
     // fetch(endPoint, {
     //   method: "POST",
@@ -295,7 +302,7 @@ class SignupStore {
     this.password = "";
     this.emailSecretKey = "";
     this.resEmailSecretKey = "";
-    this.emailBoolean = true;
+    this.emailBoolean = false;
     this.phone = "";
     this.phoneVerifyKey = "";
     this.resMobileSecretKey = "";

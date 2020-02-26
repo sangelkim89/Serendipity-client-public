@@ -76,14 +76,11 @@ function SignupBasic(props) {
           email: email,
         },
       });
-      // setSecretKey(secretSend.data.confirmEmail);
       const secretMail = secretSend.data.confirmEmail;
+      setSecretKey(secretSend.data.confirmEmail);
       if (secretMail === "Email already exists!") {
         console.log("SECRET_KEY", secretMail);
         Alert.alert("이미 존재하는 메일입니다!");
-        // } else if (secretMail === "") {
-        //   console.log("SECRET_KEY", secretMail);
-        //   Alert.alert("이메일 형식에 맞지 않습니다!");
       } else {
         console.log("SECRET_KEY", secretMail);
         Alert.alert("인증메일이 전송되었습니다!");
@@ -125,18 +122,25 @@ function SignupBasic(props) {
       name: userId,
     },
   });
+
+  const [boolNick, setNick] = useState(false);
+
   async function sendNickName() {
     try {
       if (!loading) {
         if (checkNickName.checkUniqueID === false) {
+          setNick(false);
           Alert.alert("이미 사용중인 닉네임입니다.");
         } else {
+          setNick(true);
           Alert.alert("사용하셔도 좋습니다.");
         }
       } else {
+        setNick(false);
         Alert.alert("다시 인증해주세요.");
       }
     } catch (err) {
+      setNick(false);
       console.log("CHECK_NICKNAME_ERR", err);
     }
   }
@@ -186,7 +190,14 @@ function SignupBasic(props) {
                   />
                   <Button
                     buttonStyle={styles.btn}
-                    icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                    icon={
+                      <Icon
+                        name="share-square"
+                        size={15}
+                        color="white"
+                        style={{ marginRight: 5 }}
+                      />
+                    }
                     titleStyle={styles.btnTitle}
                     title="이메일전송"
                     onPress={() => {
@@ -211,8 +222,15 @@ function SignupBasic(props) {
                 />
 
                 <Button
-                  buttonStyle={styles.btn}
-                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  buttonStyle={emailBoolean !== true ? styles.falseBtn : styles.btn}
+                  icon={
+                    <Icon
+                      name={emailBoolean !== true ? "times-circle" : "check-circle"}
+                      size={15}
+                      color={emailBoolean !== true ? "red" : "white"}
+                      style={{ marginRight: 5 }}
+                    />
+                  }
                   titleStyle={styles.btnTitle}
                   title="이메일인증"
                   onPress={() => {
@@ -241,7 +259,9 @@ function SignupBasic(props) {
                 />
                 <Button
                   buttonStyle={styles.btn}
-                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  icon={
+                    <Icon name="share-square" size={15} color="white" style={{ marginRight: 5 }} />
+                  }
                   titleStyle={styles.btnTitle}
                   title="핸드폰전송"
                   onPress={() => {
@@ -267,8 +287,15 @@ function SignupBasic(props) {
                 />
 
                 <Button
-                  buttonStyle={styles.btn}
-                  icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                  buttonStyle={phoneBoolean !== true ? styles.falseBtn : styles.btn}
+                  icon={
+                    <Icon
+                      name={phoneBoolean !== true ? "times-circle" : "check-circle"}
+                      size={15}
+                      color={phoneBoolean !== true ? "red" : "white"}
+                      style={{ marginRight: 5 }}
+                    />
+                  }
                   titleStyle={styles.btnTitle}
                   title="핸드폰인증"
                   onPress={() => {
@@ -293,8 +320,15 @@ function SignupBasic(props) {
                   />
 
                   <Button
-                    buttonStyle={styles.btn}
-                    icon={<Icon name="check" size={15} color="white" style={{ marginRight: 5 }} />}
+                    buttonStyle={boolNick !== true ? styles.falseBtn : styles.btn}
+                    icon={
+                      <Icon
+                        name={boolNick !== true ? "times-circle" : "check-circle"}
+                        size={15}
+                        color={boolNick !== true ? "red" : "white"}
+                        style={{ marginRight: 5 }}
+                      />
+                    }
                     titleStyle={styles.btnTitle}
                     title="닉네임중복"
                     onPress={() => {
@@ -347,8 +381,14 @@ function SignupBasic(props) {
             </KeyboardAvoidingView>
           </View>
 
-          {email && password && phone && userId && password.length > 8 ? (
-
+          {email &&
+          emailBoolean === true &&
+          password &&
+          phone &&
+          phoneBoolean === true &&
+          userId &&
+          password.length > 0 &&
+          boolNick === true ? (
             <Button
               buttonStyle={{
                 width: "80%",
@@ -435,6 +475,17 @@ const styles = StyleSheet.create({
     width: 100,
     height: 40,
     borderRadius: 50,
+  },
+  falseBtn: {
+    margin: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 40,
+    borderRadius: 50,
+    backgroundColor: "transparent",
+    borderColor: "grey",
+    borderWidth: 3,
   },
   btnTitle: {
     fontSize: 13,

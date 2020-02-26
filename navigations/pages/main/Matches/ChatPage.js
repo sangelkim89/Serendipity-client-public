@@ -11,27 +11,24 @@ import {
   KeyboardAvoidingView,
   ImageBackground,
 } from "react-native";
-import { useMutation, useApolloClient, useQuery, useSubscription } from "@apollo/react-hooks";
+import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 import { inject, observer } from "mobx-react";
-import { Button, Input } from "react-native-elements";
+import { Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import { GET_MESSAGE, SEND_MESSAGE, NEW_MESSAGE, GET_ROOM } from "../../../queries";
+import { SEND_MESSAGE, NEW_MESSAGE, GET_ROOM } from "../../../queries";
 
 function ChatPage(props) {
   console.log("CHATPAGE RENDERED!!!");
-  const { navigation, myId, refreshRoomList, subChats, addNewOne } = props;
+  const { navigation, myId, refreshRoomList, subChats, addNewOne, newOne, refreshChat } = props;
   const { id, messages, participants } = navigation.state.params;
-  // console.log("props.navigation.state.params : ", props.navigation.state.params);
-  // console.log("messages in chatPage.js : ", messages);
-  const opponent = participants[0].id === myId ? participants[1] : participants[0];
-  // console.log("myId in chatpage : ", myId);
-  // console.log("opponent : ", opponent);
-  // console.log("messages in chatPage : ", messages);
-  // 채팅인풋메세지 - 각 방의 독립성을 위해 store에서 useState로 옮김
-  const [message, setMessage] = useState("");
+  console.log("ROOM_ID", id);
 
+  const opponent = participants[0].id === myId ? participants[1] : participants[0];
+
+  const [message, setMessage] = useState("");
+  const combinedMSGs = messages;
   // 채팅 페이지
   const onChangeText = e => {
     setMessage(e);
@@ -47,27 +44,29 @@ function ChatPage(props) {
   const [sendMessageMethod, { data }] = useMutation(SEND_MESSAGE);
 
   // data에 구독한 데이터 할당
-  const { data: newMsgData, loading } = useSubscription(NEW_MESSAGE, {
+  const { data: roomWithNewMSG, loading: loadingMsg } = useSubscription(NEW_MESSAGE, {
     variables: { roomId: id },
-    fetchPolicy: "network-only",
   });
 
-  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
+  // // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewMessage = () => {
-    if (!loading) {
-      if (newMsgData !== undefined) {
-        const { newMessage } = newMsgData;
-        console.log("newMessage in chatPage.js : ", newMessage);
-        subChats(id, opponent.id, newMessage);
+    console.log("HANDLE_NEW_MSG_ACT");
+    if (!loadingMsg) {
+      if (roomWithNewMSG !== undefined) {
+        const { newMessage } = roomWithNewMSG;
+        subChats(newMessage); // 새로운 메세지가 포함된 룸 하나로 전체 룸리스트 업데이트
+        const extractedData = newMessage.room.messages[newMessage.room.messages.length - 1];
+        combinedMSGs.push(extractedData);
+        console.log("combinedMSGs in handleNewMsg : ", combinedMSGs[combinedMSGs.length - 1]);
       }
     }
   };
 
-  // data값을 지켜보며 변경이 있을 때만 실행됨(useEffect === componentDidMount + componentDidUpdate)
+  // data값을 지켜보며 변경이 있을 때만 실행됨
   useEffect(() => {
     console.log("useEffect in chatpage.js invoked!!!");
     handleNewMessage();
-  }, [newMsgData]);
+  }, [roomWithNewMSG]);
 
   const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
     variables: { id: myId },
@@ -80,21 +79,12 @@ function ChatPage(props) {
       return;
     }
     try {
-      console.log("message before send : ", message);
+      // console.log("message before send : ", message);
       const {
         data: { sendMessage },
       } = await sendMessageMethod({
         variables: { roomId: id, message: message, toId: opponent.id },
       });
-      console.log("sendMessage sent by method : ", sendMessage);
-      const newOne = await getRoomMethod();
-      console.log("newOne outside in chatPage - refreshRoomList 작동 arg : ", newOne);
-      console.log("initRoomData outside in chatPage - refreshRoomList 작동 arg : ", initRoomData);
-      if (newOne !== undefined) {
-        console.log("newOne in chatPage - refreshRoomList 작동 arg : ", newOne);
-        // refreshRoomList(newOne.data.getRoom);
-        addNewOne(newOne.data.getRoom);
-      }
       setMessage("");
     } catch (e) {
       console.log("onsubmit error in chatpage : ", e);
@@ -102,17 +92,18 @@ function ChatPage(props) {
   };
 
   // scroll bottom
+  const [scrollView, downScroll] = useState(null);
   function scrollToEnd() {
     this.scrollView.scrollToEnd();
   }
 
-  const [scrollView, downScroll] = useState(null);
-
   return (
     <ImageBackground
       source={require("../../../../assets/gradient2.jpg")}
-      style={{ width: "100%", height: "100%", backgroundColor: "black" }}
+      style={{ width: "100%", height: "100%" }}
     >
+      {/* <KeyboardAvoidingView enabled behavior="padding"> */}
+
       <Suspense
         fallback={
           <View
@@ -126,97 +117,126 @@ function ChatPage(props) {
           </View>
         }
       >
-        <View style={styles.container}>
-          <TouchableOpacity
-            style={{ marginLeft: 10, marginTop: 30, position: "absolute", flex: 1, zIndex: 100 }}
-            onPress={() => {
-              props.navigation.navigate("MatchPageList");
-            }}
-          >
-            <FontAwesome name="arrow-circle-left" style={styles.backText} />
-          </TouchableOpacity>
-          <View style={styles.profile}>
-            <TouchableOpacity onPress={moveProfile}>
-              <Image
-                source={{
-                  uri: opponent.profileImgLocation,
-                }}
-                style={styles.image}
-              />
-              <Text style={styles.name}>{opponent.name}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ heigth: 470 }}>
-            <ScrollView
-              style={{ height: "80%" }}
-              // ref={ref => (this.scrollView = ref)}
-              // onContentSizeChange={() => {
-              //   this.scrollView.scrollToEnd({ animated: false });
-              // }}
-            >
-              {messages.map((msg, i) => {
-                function timeStamp() {
-                  let timeArr = msg.createdAt.substring(11, 16).split(":");
-                  let hour = Number(timeArr[0]) + 9;
+        <Text style={{ fontSize: 18 }}>{"     "}</Text>
 
-                  if (hour > 24) {
-                    if ((hour - 24).toString().length < 2) {
-                      return `0${hour.toString()}:${timeArr[1]}`;
+        <KeyboardAvoidingView behavior="position">
+          <View>
+            {/* 오렌지 박스 시작 */}
+            <View style={styles.container}>
+              <TouchableOpacity
+                style={{
+                  marginLeft: 10,
+                  marginTop: 30,
+                  position: "absolute",
+                  flex: 1,
+                  zIndex: 100,
+                }}
+                onPress={() => {
+                  props.navigation.navigate("MatchPageList");
+                }}
+              >
+                <FontAwesome name="arrow-circle-left" style={styles.backText} />
+              </TouchableOpacity>
+
+              <View style={styles.profile}>
+                <TouchableOpacity onPress={moveProfile}>
+                  <Image
+                    source={{
+                      uri: opponent.profileImgLocation,
+                    }}
+                    style={styles.image}
+                  />
+                  <Text style={styles.name}>{opponent.name}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* 스크롤뷰 시작 */}
+            <View style={styles.container2}>
+              <ScrollView
+                style={{ height: "70%" }}
+                ref={ref => (this.scrollView = ref)}
+                onContentSizeChange={() => {
+                  this.scrollView.scrollToEnd({ animated: false });
+                }}
+              >
+                {combinedMSGs.map((msg, i) => {
+                  function timeStamp() {
+                    let timeArr = msg.createdAt.substring(11, 16).split(":");
+                    let hour = Number(timeArr[0]) + 9;
+
+                    if (hour > 24) {
+                      if ((hour - 24).toString().length < 2) {
+                        console.log("시간1", hour);
+                        return `0${(hour - 24).toString()}:${timeArr[1]}`;
+                      }
+                    } else {
+                      if (hour > 24) {
+                        console.log("시간2", hour - 24);
+                        return `${(hour - 24).toString()}:${timeArr[1]}`;
+                      } else {
+                        console.log("시간3", hour);
+                        return `${hour.toString()}:${timeArr[1]}`;
+                      }
                     }
-                  } else {
-                    return `${hour.toString()}:${timeArr[1]}`;
                   }
-                }
-                return msg.from.id === myId ? (
-                  <View key={i} style={styles.meChat}>
-                    <Text>{msg.text}</Text>
-                    <Text style={styles.timeStamp}>{timeStamp()}</Text>
-                  </View>
-                ) : (
-                  <View key={i} style={styles.otherChat}>
-                    <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
-                    <View style={styles.otherChatText}>
+
+                  return msg.from.id === myId ? (
+                    <View key={i} style={styles.meChat}>
                       <Text>{msg.text}</Text>
                       <Text style={styles.timeStamp}>{timeStamp()}</Text>
                     </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
+                  ) : (
+                    <View key={i} style={styles.otherChat}>
+                      <Image source={{ uri: opponent.profileImgLocation }} style={styles.image} />
+                      <View style={styles.otherChatText}>
+                        <Text>{msg.text}</Text>
+                        <Text style={styles.timeStamp}>{timeStamp()}</Text>
+                      </View>
+                    </View>
+                  );
+                })}
+              </ScrollView>
+            </View>
+            <View style={styles.container}>
+              <View style={styles.chatInput}>
+                <Input
+                  onChangeText={onChangeText}
+                  value={message}
+                  inputContainerStyle={{ borderColor: "#6c5ce7" }}
+                  style={{
+                    position: "fixed",
+                    bottom: 0,
+                    widht: "80%",
+                  }}
+                  rightIcon={
+                    <TouchableOpacity onPress={onSubmit} style={{ marginRight: 10 }}>
+                      <Icon
+                        name="paper-plane"
+                        size={25}
+                        color="#6c5ce7"
+                        style={{ marginRight: 10 }}
+                      />
+                    </TouchableOpacity>
+                  }
+                />
+              </View>
+            </View>
           </View>
-          <View style={styles.chatInput}>
-            {/* <KeyboardAvoidingView enabled behavior="padding"> */}
-
-            <Input
-              onChangeText={onChangeText}
-              value={message}
-              inputContainerStyle={{ borderColor: "#6c5ce7" }}
-              style={{
-                position: "fixed",
-                bottom: 0,
-                widht: "80%",
-              }}
-              rightIcon={
-                <TouchableOpacity onPress={onSubmit} style={{ marginRight: 10 }}>
-                  <Icon name="paper-plane" size={25} color="#6c5ce7" style={{ marginRight: 10 }} />
-                </TouchableOpacity>
-              }
-            />
-            {/* </KeyboardAvoidingView> */}
-          </View>
-        </View>
+        </KeyboardAvoidingView>
       </Suspense>
+      {/* </KeyboardAvoidingView> */}
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 15,
-    paddingBottom: 60,
-    margin: 10,
+    paddingBottom: 10,
   },
+  container2: {
+    paddingBottom: 10,
+  },
+
   profile: {
     marginTop: 10,
     alignItems: "center",
@@ -270,6 +290,8 @@ export default inject(({ myProfileStore, matchStore }) => ({
   refreshRoomList: matchStore.refreshRoomList,
   subChats: matchStore.subChats,
   addNewOne: matchStore.addNewOne,
+  newOne: matchStore.newOne,
+  refreshChat: matchStore.refreshChat,
 }))(observer(ChatPage));
 
 // message의 createdAt 제공 요청

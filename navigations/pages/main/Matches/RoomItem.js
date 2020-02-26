@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, Image, StyleSheet, ImageBackground, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
@@ -7,18 +7,19 @@ import { ROOM_DELETE } from "../../../queries";
 
 const RoomItem = props => {
   console.log("ROOMITEM RENDERED!!!");
-  const { room, navigation, myId, delRoomView } = props;
-
+  const { room, navigation, myId, delRoomView, roomList } = props;
   const moveChatRoom = () => {
     navigation.navigate("ChatPage", {
       id: room.id,
-      messages: room.message,
+      messages: room.messages,
       participants: room.participants,
     });
   };
 
   const [roomDelMethod, { data }] = useMutation(ROOM_DELETE);
 
+  const opponent = room.participants[0].id === myId ? room.participants[1] : room.participants[0];
+  console.log("opponent : ", opponent);
   const onDelRoom = () => {
     Alert.alert(
       "채팅방을 삭제하시겠습니까?",
@@ -34,7 +35,7 @@ const RoomItem = props => {
           onPress: () => {
             console.log("OK Pressed");
             console.log(room.id);
-            roomDelMethod({ variables: { roomId: room.id } });
+            roomDelMethod({ variables: { roomId: room.id, selectedId: opponent.id } });
             // 뷰 삭제 - 스토어에서 해당 뷰에서 룸 삭제
             delRoomView(room.id);
           },
@@ -44,14 +45,8 @@ const RoomItem = props => {
     );
   };
 
-  const opponent = room.participants[0].id === myId ? room.participants[1] : room.participants[0];
-  // console.log("myId in roomitem : ", myId);
-  // console.log("opponent in roomitem : ", opponent);
-  // console.log("message array from roomitem: ", room.messages);
-
-  if (room.message.length !== 0) {
-    console.log("room 내용 있는 루트 인");
-    const lastChatRaw = room.message[room.message.length - 1]["text"];
+  if (room.messages.length !== 0) {
+    const lastChatRaw = room.messages[room.messages.length - 1]["text"];
     const lastChat = lastChatRaw.length > 15 ? lastChatRaw.substring(0, 15) + "..." : lastChatRaw;
     return (
       <TouchableOpacity onPress={moveChatRoom} style={styles.touch} onLongPress={onDelRoom}>
@@ -138,4 +133,5 @@ const styles = StyleSheet.create({
 export default inject(({ myProfileStore, matchStore }) => ({
   myId: myProfileStore.id,
   delRoomView: matchStore.delRoomView,
+  roomList: matchStore.roomList,
 }))(observer(RoomItem));

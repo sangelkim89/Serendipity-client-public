@@ -7,19 +7,15 @@ import {
   TouchableOpacity,
   Alert,
   AsyncStorage,
-  ImageBackground,
   Image,
   Dimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
-import Animated, { Easing } from "react-native-reanimated";
-import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { observer, inject } from "mobx-react";
 import { useMutation } from "@apollo/react-hooks";
 import { LOG_IN, GET_LIST, GET_ME } from "../../queries";
-import MyProfileStore from "../../../stores/MyProfileStore";
 const { width, height } = Dimensions.get("window");
 // 이미지 불러오는 함수
 function cacheImages(img) {
@@ -35,6 +31,7 @@ function cacheImages(img) {
 function Login(props) {
   console.log("LOGIN RENDERED!!!");
   // Store 비할당구조
+
   const {
     ID,
     PW,
@@ -45,20 +42,9 @@ function Login(props) {
     saveMyProfile,
     addUserId,
     myId,
-    id,
+    emptyLoginInfo,
   } = props;
-  // useEffect
-  useEffect(() => {
-    async function getLogInfo() {
-      // 현재 로그아웃 기능이 없어서 무조건 로그아웃 되게 만들었으니 참고!
-      await AsyncStorage.setItem("isLoggedIn", "false");
-      const logInfo = await AsyncStorage.getItem("isLoggedIn");
-      console.log("LOGIN_useEffect_LOCAL_isLoggedIn : ", logInfo);
-    }
-    getLogInfo();
-  }, []);
-  // useState
-  const [isLoggedIn, doLogin] = useState("false");
+
   const [isReady, doReady] = useState(false);
   // useMutate - Login
   const [logInRes, { data }] = useMutation(LOG_IN);
@@ -72,6 +58,18 @@ function Login(props) {
     // const fontAssets = cacheFonts([FontAwesome.font]);
     await Promise.all([...imgAssets]);
   }
+
+  async function getLogInfo() {
+    // 현재 로그아웃 기능이 없어서 무조건 로그아웃 되게 만들었으니 참고!
+    await AsyncStorage.setItem("isLoggedIn", "false");
+    const logInfo = await AsyncStorage.getItem("isLoggedIn");
+  }
+
+  // useEffect
+  useEffect(() => {
+    getLogInfo();
+  }, []);
+
   // 로그인 메소드
   async function _doLogin() {
     try {
@@ -83,9 +81,10 @@ function Login(props) {
           password: loginPW,
         },
       });
+      emptyLoginInfo();
       console.log("GRAPHQL_LOGIN", signIn);
       if (signIn) {
-        doLogin("true");
+        // doLogin("true");
         const signInData = JSON.parse(signIn);
         await AsyncStorage.setItem("jwt", signInData.token);
         // 로그인시 DB의 유저아이디를 가져오는 코드 - 서버도 변경 필요. myprofile작업내용에 따라 결정될 예정
@@ -93,8 +92,9 @@ function Login(props) {
         await addUserId(signInData.id); // mobx store에 id 저장
         await AsyncStorage.setItem("isLoggedIn", "true");
         await console.log("로그인됐니_성공?", await AsyncStorage.getItem("jwt"));
+        await console.log("myId in try dologin", myId);
       } else {
-        doLogin("false");
+        // doLogin("false");
         const jwt = await AsyncStorage.getItem("jwt");
         const ili = await AsyncStorage.getItem("isLoggedIn");
         console.log("로그인됐니_실패?", ili, jwt);
@@ -107,11 +107,11 @@ function Login(props) {
       if (asyncIsLoggedIn === "true") {
         props.navigation.navigate("TabNav");
         const getCard = await getMutateHuntList();
-        getCardList(getCard);
-        console.log("getCard:", getCard);
+        await getCardList(getCard);
+        await console.log("getCard await 함 :", getCard);
         //=======================================================================
         const getMyProfile = await getMeRES({
-          variables: { id: id },
+          variables: { id: myId },
         });
         console.log("MyProfile Store에 저장: ", getMyProfile.data.getMe);
         saveMyProfile(getMyProfile);
@@ -124,7 +124,7 @@ function Login(props) {
     }
   }
   _doSignUp = () => {
-    props.navigation.navigate("SignupBasic");
+    props.navigation.navigate("SignUpInfo");
   };
   // 렌더되는 부분
   if (!isReady) {
@@ -147,11 +147,7 @@ function Login(props) {
           source={require("../../../assets/gradient2.jpg")}
         />
       </View>
-      <Image
-        style={styles.mainPic}
-        source={require("../../../assets/eatplaylove.png")}
-        // resizeMode=""
-      ></Image>
+      <Image style={styles.mainPic} source={require("../../../assets/eatplaylove.png")}></Image>
       <View style={{ height: height / 2, justifyContent: "center", alignItems: "center" }}>
         <View style={styles.formArea}>
           <TextInput
@@ -209,8 +205,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   mainPic: {
-    // borderWidth: 1,
-    // borderColor: "red",
     flex: 1,
     margin: 30,
     marginLeft: -0.5,
@@ -219,11 +213,11 @@ const styles = StyleSheet.create({
   },
 });
 export default inject(({ signupStore, huntStore, myProfileStore }) => ({
-  id: myProfileStore.id,
   ID: signupStore.inputId,
   PW: signupStore.inputPW,
   loginId: signupStore.loginId,
   loginPW: signupStore.loginPW,
+  emptyLoginInfo: signupStore.emptyLoginInfo,
   recommendUser: huntStore.recommendUser,
   getCardList: huntStore.getCardList,
   saveMyProfile: myProfileStore.saveMyProfile,

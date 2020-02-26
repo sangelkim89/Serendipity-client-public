@@ -6,37 +6,29 @@ import { useMutation, useQuery, useSubscription } from "@apollo/react-hooks";
 import { observer, inject } from "mobx-react";
 import { AppLoading } from "expo";
 
-import { UN_LIKE, LIKE, GET_ROOM, NEW_ROOM } from "../../../queries";
+import { UN_LIKE, LIKE, GET_ROOM, NEW_ROOM, NEW_MESSAGE } from "../../../queries";
 import Card from "./Card";
 import OverlayLabel from "./OverlayLabel";
 import IconButton from "./IconBtn";
 
 function HuntPage(props) {
   console.log("HUNTPAGE RENDERED!!!");
-  const { recommendUser, navigation, myId, refreshRoomList, addLikeRoomId, subMsgs } = props;
+  const {
+    recommendUser,
+    navigation,
+    myId,
+    refreshRoomList,
+    addLikeRoomId,
+    subMsgs,
+    subChats,
+  } = props;
 
   // SWIPTE METHODS
   const useSwiper = useRef(null).current;
-  const handleOnSwipedLeft = async item => {
-    console.log("왼쪽버튼", item);
-  };
-  const handleOnSwipedTop = item => {
-    console.log("위쪽버튼", item);
-  };
-  const handleOnSwipedRight = item => {
-    console.log("오른쪽버튼", item);
-  };
 
   // useMutate - unLike & like
   const [unLikeYou, { unlikeData }] = useMutation(UN_LIKE);
   const [likeYou, { likeData }] = useMutation(LIKE);
-
-  // useQuery - getRoom : login.js/matchPageList에서는 에러발생
-  console.log("myId in huntPage.js : ", myId);
-  const [getRoomMethod, { data: initRoomData }] = useMutation(GET_ROOM, {
-    variables: { id: myId },
-    fetchPolicy: "no-cache",
-  });
 
   const { data, loading } = useSubscription(NEW_ROOM, {
     variables: { id: myId },
@@ -44,17 +36,18 @@ function HuntPage(props) {
 
   // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
   const handleNewRoom = () => {
+    console.log("핸들뉴룸 인보크드!!!");
     // console.log("handle newroom invoked!");
     // console.log("data in handle newroom : ", loading, data);
     if (!loading) {
       console.log("loading passed!");
       if (data.newRoom !== null) {
         // const { newRoom } = data;
-        console.log("newRoom.participants in huntPage : ", data.newRoom.participants);
+        console.log("섭스크립션 내용있다!");
         // Alert.alert("Match!!!");
         subMsgs(data.newRoom);
       } else {
-        console.log("roomData in matchPageList.js is undefined!");
+        console.log("섭스크립션 내용없다!");
       }
     }
   };
@@ -65,34 +58,24 @@ function HuntPage(props) {
     console.log("useEffect for handleNewRoom");
   }, [data]);
 
-  useEffect(() => {
-    console.log("useEffect for getRoomMethod");
-    getRoomMethod();
-  }, []);
-
-  // 왜 useEffect 안으로 들어가면 채팅방이 보이지 않는가???
-  if (initRoomData !== undefined) {
-    console.log("initRoomData - refreshRoomList 작동 arg : ", initRoomData);
-    refreshRoomList(initRoomData.getRoom);
-  } // mobx roomlist에 저장
 
   // Func = unLike & Like
   const likedFunc = item => {
-    console.log("RIGHT_SWIPE", recommendUser, item);
-    console.log("RIGHT", recommendUser[item].id);
+    console.log("likefunc실행!");
     likeYou({
       variables: {
         selectedId: recommendUser[item].id,
       },
     })
       .then(res => {
-        console.log("HUNTPAGE_LIKE_RES", res);
+        console.log("likefunc 회신옴");
         // 생성된 roomId를 매치스토어에 저장
         if (
           res.data.likeUser &&
           res.data.likeUser !== "The request has been successfully processed." &&
           res.data.likeUser !== "you already like each other!"
         ) {
+          console.log("likefunc 회신오고 두 명 좋아요 했을때");
           // 라이크로 신규 생성된 채팅방 아이디 추가 메소드
           addLikeRoomId(res.data.likeUser);
         }
@@ -209,4 +192,5 @@ export default inject(({ huntStore, myProfileStore, matchStore }) => ({
   refreshRoomList: matchStore.refreshRoomList,
   addLikeRoomId: matchStore.addLikeRoomId,
   subMsgs: matchStore.subMsgs,
+  subChats: matchStore.subChats,
 }))(observer(HuntPage));

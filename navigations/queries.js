@@ -27,15 +27,27 @@ export const SEND_MESSAGE = gql`
 export const NEW_MESSAGE = gql`
   subscription newMessage($roomId: String!) {
     newMessage(roomId: $roomId) {
-      id
-      text
-      from {
+      room {
         id
+        participants {
+          id
+          name
+          birth
+          companyName
+          companyRole
+          tags
+          profileImgLocation
+        }
+        messages {
+          id
+          text
+          from {
+            id
+          }
+          createdAt
+        }
+        createdAt
       }
-      to {
-        id
-      }
-      createdAt
     }
   }
 `;
@@ -143,6 +155,7 @@ export const GET_ROOM = gql`
         profileImgLocation
       }
       messages {
+        id
         text
         from {
           id
@@ -168,6 +181,7 @@ export const NEW_ROOM = gql`
         profileImgLocation
       }
       messages {
+        id
         text
         from {
           id
@@ -197,7 +211,39 @@ export const CREATE_REPORT = gql`
 
 // 수정 필요
 export const ROOM_DELETE = gql`
-  mutation roomDelete($roomId: String!) {
-    roomDelete(roomId: $roomId)
+  mutation roomDelete($roomId: String!, $selectedId: String!) {
+    roomDelete(roomId: $roomId, selectedId: $selectedId)
+  }
+`;
+
+export const DELETE_USER = gql`
+  mutation deleteUser($id: String!) {
+    deleteUser(id: $id)
+  }
+`;
+
+export const UPDATE_ROOMS = gql`
+  subscription updateRooms($id: String!) {
+    updateRooms(id: $id) {
+      id
+      participants {
+        id
+        name
+        birth
+        companyName
+        companyRole
+        tags
+        profileImgLocation
+      }
+      messages {
+        id
+        text
+        from {
+          id
+        }
+        createdAt
+      }
+      createdAt
+    }
   }
 `;

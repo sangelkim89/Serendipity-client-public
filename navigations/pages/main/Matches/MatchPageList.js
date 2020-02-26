@@ -9,67 +9,69 @@ import {
   ImageBackground,
 } from "react-native";
 import { observer, inject } from "mobx-react";
-import { useSubscription, useQuery } from "@apollo/react-hooks";
+
+import { useSubscription, useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import RoomItem from "./RoomItem";
-import { NEW_ROOM, GET_ROOM } from "../../../queries";
+import { NEW_ROOM, GET_ROOM, UPDATE_ROOMS } from "../../../queries";
 
 const MatchPageList = props => {
   console.log("MATCHPAGE RENDERED!!!");
   const {
     roomList,
-    messages,
-    matchExer1,
     navigation,
     myId,
     refreshRoomList,
     likeRoomId,
     subMsgs,
     newOne,
+    subRoomByNewMsg,
   } = props;
-  // console.log("messages in matchPage.js : ", messages);
-  // useQuery - getRoom : huntPage.js로 옮김. login.js/matchPageList에서는 에러발생
-  // console.log("myId in matchPageList.js : ", myId);
-  // const { data: roomData } = useQuery(GET_ROOM, { variables: { id: myId } });
-  // console.log("roomData in matchPageList.js : ", roomData);
-  // refreshRoomList(roomData.getRoom); // mobx roomlist에 저장
 
-  const { data, loading } = useSubscription(NEW_ROOM, {
+  console.log("myId : ", myId);
+
+  const [getRoomMethod, { data }] = useMutation(GET_ROOM);
+  // console.log("'matchPageList body'에서 겟룸 데이터  : ", data);
+
+  const handleGetRoom = async () => {
+    const roomDataHGR = await getRoomMethod({
+      variables: { id: myId },
+    });
+    refreshRoomList(roomDataHGR.data.getRoom);
+  };
+
+  useEffect(() => {
+    handleGetRoom();
+  }, []);
+
+  const { data: updatedRM, loading } = useSubscription(UPDATE_ROOMS, {
     variables: { id: myId },
-    fetchPolicy: "no-cache",
   });
 
-  // 구독-할당한 data에 내용이 있으면 기존 message배열에 추가
-  const handleNewRoom = () => {
-    // console.log("handle newroom invoked!");
-    // console.log("data in handle newroom : ", loading, data);
+  console.log("updatedRM : ", loading, updatedRM);
+
+  const handleUpdateRoom = () => {
     if (!loading) {
       console.log("loading passed!");
-      if (data.newRoom !== null) {
+      if (updatedRM !== undefined) {
         // const { newRoom } = data;
-        console.log("newRoom.participants in huntPage : ", data.newRoom.participants);
+        console.log("섭스크립션 내용있다!");
         // Alert.alert("Match!!!");
-        subMsgs(data.newRoom);
+        subRoomByNewMsg(updatedRM.updateRooms);
       } else {
-        console.log("roomData in matchPageList.js is undefined!");
+        console.log("섭스크립션 내용없다!");
       }
     }
   };
 
-  // data값을 지켜보며 변경이 있을 때만 실행됨 - subscription
+  // data가 업데이트 된 룸이니까 아래서 룸을 맵핑할때 합쳐서 맵핑
   useEffect(() => {
-    handleNewRoom();
-    console.log("useEffect invoked!");
-  }, [data]);
+    console.log("useEffect is invoked for matchPageList subscription");
+    handleUpdateRoom();
+  }, [updatedRM]);
 
-  useEffect(() => {
-    if (newOne !== null) {
-      refreshRoomList(newOne);
-      console.log("useEffect invoked in refresh!!!!!");
-    }
-  }, []);
 
   const moveHunt = () => {
     navigation.navigate("HuntPage");
@@ -95,8 +97,8 @@ const MatchPageList = props => {
       >
         <View style={styles.container}>
           <ScrollView style={styles.list}>
-            {messages.length !== 0 ? (
-              messages.map((room, i) => {
+            {roomList.length !== 0 ? (
+              roomList.map((room, i) => {
                 return <RoomItem room={room} key={i} navigation={navigation} />;
               })
             ) : (
@@ -137,11 +139,11 @@ const styles = StyleSheet.create({
 
 export default inject(({ matchStore, myProfileStore }) => ({
   roomList: matchStore.roomList,
-  messages: matchStore.messages,
   matchExer1: matchStore.matchExer1,
   refreshRoomList: matchStore.refreshRoomList,
   myId: myProfileStore.id,
   likeRoomId: myProfileStore.likeRoomId,
   subMsgs: matchStore.subMsgs,
   newOne: matchStore.newOne,
+  subRoomByNewMsg: matchStore.subRoomByNewMsg,
 }))(observer(MatchPageList));

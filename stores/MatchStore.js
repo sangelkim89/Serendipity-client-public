@@ -10,8 +10,8 @@ class MatchStore {
   // @observable roomList = []; // 채팅방
 
   @observable likeRoomId = ""; // 라이크로 신규 생성된 채팅방 아이디
-  @observable messages = []; // 기존 생성된 채팅방 정보
-  @observable newOne = null;
+  @observable roomList = []; // 채팅방 정보
+  @observable newOne = [];
 
   @action
   addNewOne = target => {
@@ -28,64 +28,53 @@ class MatchStore {
   @action
   refreshRoomList = target => {
     console.log("refreshRoomList 작동!");
-    console.log("target : ", target);
-    this.messages = []; // 룸 정보 메세지스 초기화
-    // console.log("this.messages after initialization : ", this.messages);
-    target.map(room => {
-      console.log("room in matchStore : ", room);
-      this.messages.unshift({
-        id: room.id,
-        message: room.messages,
-        participants: room.participants,
-        createdAt: room.createdAt,
-      });
-      console.log("this.messages in matchStore : ", this.messages);
+    this.roomList = []; // 룸 정보 메세지스 초기화
+    // console.log("this.roomList after initialization : ", this.roomList);
+    this.roomList = target;
+    // console.log("this.messages in matchStore : ", this.roomList);
+  };
+
+  @action
+  subRoomByNewMsg = target => {
+    const filtered = this.roomList.filter(room => {
+      return room.id !== target.id;
     });
+    this.roomList = [target, ...filtered];
   };
 
   @action
   subMsgs = target => {
-    console.log("룸 추가 루트 진입!");
-    this.messages.unshift({
-      id: target.id,
-      message: target.messages,
-      participants: target.participants,
-    });
+    console.log("subMsgs 룸 추가 루트 진입!");
+    this.roomList = [target, ...this.roomList];
     alert("You are matched!!!");
   };
 
   @action
-  subChats = (roomId, toId, chat) => {
-    this.messages.forEach(msg => {
-      if (msg.id === roomId) {
-        console.log("push invoked!", msg);
-        console.log("this.messages.indexOf(msg) : ", this.messages.indexOf(msg));
-        const combindedMsg = {
-          id: chat.id,
-          text: chat.text,
-          from: { id: chat.from.id },
-          to: { id: toId },
-          createdAt: chat.createdAt,
-        };
-        msg.message.push(combindedMsg);
-      }
+  refreshChat = chat => {
+    console.log("REFRESSH_CHATS", chat); // room Object?
+  };
+
+  @action
+  subChats = roomFromDB => {
+    console.log("roomFromDB in subChats : ", roomFromDB);
+    const spreader = this.roomList.filter(room => {
+      console.log("SPREADER_ROOM_MAP", room.id);
+      console.log("SPREADER_ROOM_MAP", roomFromDB.room.id);
+      return room.id !== roomFromDB.room.id;
     });
-    // if (msgAddedRoom) {
-    //   msgAddedRoom[0].text.push(target);
-    // }
-    // const targetIndex = this.messages.indexOf(msgAddedRoom);
-    // this.messages.splice(targetIndex, 1);
-    // this.messages = [msgAddedRoom[0], ...this.messages];
+    console.log("spreader in subChats : ", spreader);
+    this.roomList = [];
+    this.roomList = [roomFromDB.room, ...spreader];
   };
 
   @action
   delRoomView = roomId => {
-    const newRoomView = this.messages.filter(msg => {
+    const newRoomView = this.roomList.filter(msg => {
       return msg.id !== roomId;
     });
     console.log("newRoomView in delRoomView : ", newRoomView);
-    console.log("this.messages in delRoomView : ", this.messages);
-    this.messages = newRoomView;
+    console.log("this.roomList in delRoomView : ", this.roomList);
+    this.roomList = newRoomView;
   };
 
   //asdf

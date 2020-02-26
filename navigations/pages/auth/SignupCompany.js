@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  KeyboardAvoidingView,
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  ImageBackground,
-} from "react-native";
+import { KeyboardAvoidingView, View, Text, StyleSheet, ImageBackground } from "react-native";
 import { observer, inject } from "mobx-react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
@@ -37,7 +29,6 @@ class SignupCompany extends React.Component {
             <View style={styles.mapContainer}>
               <MapView
                 style={styles.map}
-                provider={PROVIDER_GOOGLE}
                 initialRegion={{
                   latitude: 37.485403,
                   longitude: 126.982203,

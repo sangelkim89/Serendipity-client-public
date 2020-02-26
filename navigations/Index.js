@@ -11,12 +11,15 @@ import SignupPic from "./pages/auth/SignupPic";
 import TakeCamera from "./pages/auth/TakeCamera";
 import SignupTag from "./pages/auth/SignupTag";
 import TabNav from "./pages/main/Main";
-import App from "../App";
+import SignUpInfo from "./pages/auth/SignUpInfo";
 
 const AuthStack = createStackNavigator(
   {
     Login: {
       screen: Login,
+    },
+    SignUpInfo: {
+      screen: SignUpInfo,
     },
     SignupBasic: {
       screen: SignupBasic,
