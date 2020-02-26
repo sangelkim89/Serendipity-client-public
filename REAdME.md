@@ -275,7 +275,4 @@ Please add content for \*\*\* below.
 
 ## License
 
-## ​
-
-​
 Serendipity is a private domain work for Codestates colleagues. If you are in Codestates, feel free to do whatever you want with it!
