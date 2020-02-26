@@ -108,7 +108,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 - Logout& withdrawal
 
 <div>
-<img width="150" src="./assets/readme/ezgif.com-video-to-gif.gif" />
+<img width="150" src="./assets/readme/13.gif" />
 </div>
 
 ### STACK ARCHITECTURE
