@@ -28,6 +28,11 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 
 회사 출퇴근 하면서 '저 사람 되게 괜찮아 보인다. 한 번 만나보고 싶다'는 생각을 가지고 있었는데 직장인들을 위한 만남 주선 어플을 만들어보면 어떨까 하는 생각으로 만든 프로젝트입니다.
 
+### 서비스 시연 영상
+
+<div>
+<iframe width="560" height="315" src="./assets/readme/Team_Serengeti_Final_Project___.mp4" frameborder="0" allowfullscreen></iframe>
+</div>
 
 ### 서비스 시연 GIF 모음
 
@@ -52,7 +57,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 - Signup3
 
 <div>
-<img width="100" src="./assets/readme/4.gif" />
+<img width="150" src="./assets/readme/4.gif" />
 </div>
 
 - Signup4
@@ -88,7 +93,7 @@ $ npm(yarn) expo start || npm(yarn) expo start -c (delete cache)
 - 112
 
 <div>
-<img width="150" src="./assets/readme/Final10.gif" />
+<img width="150" src="./assets/readme/Final11.gif" />
 </div>
 
 - My Profile & Edit
